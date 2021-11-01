@@ -1,0 +1,150 @@
+<html>
+<body>
+<pre>
+<h1>Build Log</h1>
+<h3>
+--------------------Configuration: dbtreegrid - Win32 Static ANSI Release Multilib Static--------------------
+</h3>
+<h3>Command Lines</h3>
+warning: unresolved Environment Variable  "$(WXWIN)"
+warning: unresolved Environment Variable  "$(WXWIN)"
+warning: unresolved Environment Variable  "$(WXWIN)"
+warning: unresolved Environment Variable  "$(WXWIN)"
+warning: unresolved Environment Variable  "$(WXWIN)"
+warning: unresolved Environment Variable  "$(WXWIN)"
+Creating temporary file "C:\Users\User\AppData\Local\Temp\RSP5180.tmp" with contents
+[
+/nologo /MD /W4 /GR /O2 /I "\lib\vc_lib\msw" /I "\include" /I "..\include" /D "WIN32" /D "_LIB" /D "__WXMSW__" /Fo"vcmsw\dbtreegrid/" /Fd"..\lib\vc_lib\wxcode_msw28_dbtreegrid.pdb" /FD /EHsc /c 
+"Z:\wxCode\components\dbtreegrid\src\db.cpp"
+"Z:\wxCode\components\dbtreegrid\src\dbstruct.cpp"
+"Z:\wxCode\components\dbtreegrid\src\dbtreegrid.cpp"
+]
+Creating command line "cl.exe @C:\Users\User\AppData\Local\Temp\RSP5180.tmp" 
+Creating temporary file "C:\Users\User\AppData\Local\Temp\RSP5181.tmp" with contents
+[
+/nologo /out:"..\lib\vc_lib\wxcode_msw28_dbtreegrid.lib" 
+.\vcmsw\dbtreegrid\customlovdialog.obj
+.\vcmsw\dbtreegrid\customlovdialog_init.obj
+.\vcmsw\dbtreegrid\db.obj
+.\vcmsw\dbtreegrid\dbcheckfield.obj
+.\vcmsw\dbtreegrid\dbdatefield.obj
+.\vcmsw\dbtreegrid\dbdispatcher.obj
+.\vcmsw\dbtreegrid\dbedittextdialog.obj
+.\vcmsw\dbtreegrid\dbfield.obj
+.\vcmsw\dbtreegrid\dblistfield.obj
+.\vcmsw\dbtreegrid\dblovdialog.obj
+.\vcmsw\dbtreegrid\dblovdialog_init.obj
+.\vcmsw\dbtreegrid\dbpopupmenu.obj
+.\vcmsw\dbtreegrid\dbquerydialog.obj
+.\vcmsw\dbtreegrid\dbquerydialog_init.obj
+.\vcmsw\dbtreegrid\dbradioboxfield.obj
+.\vcmsw\dbtreegrid\dbstruct.obj
+.\vcmsw\dbtreegrid\dbtextfield.obj
+.\vcmsw\dbtreegrid\dbtreegrid.obj
+.\vcmsw\dbtreegrid\editctrl.obj
+.\vcmsw\dbtreegrid\t02.obj
+.\vcmsw\dbtreegrid\validator.obj
+]
+Creating command line "link.exe -lib @C:\Users\User\AppData\Local\Temp\RSP5181.tmp"
+<h3>Output Window</h3>
+Compiling...
+db.cpp
+C:\WXWIDGETS-2.8.12\INCLUDE\wx/wxchar.h(1019) : warning C4091: '' : ignored on left of 'int' when no variable is declared
+Z:\wxCode\components\dbtreegrid\src\../include/../../databaselayer/include/DatabaseResultSet.h(25) : warning C4284: return type for 'MetaDataHashSet_wxImplementation_HashTable::iterator::operator ->' is 'class ResultSetMetaData ** ' (ie; not a UDT or reference to a UDT.  Will produce errors if applied using infix notation)
+Z:\wxCode\components\dbtreegrid\src\../include/../../databaselayer/include/DatabaseResultSet.h(25) : warning C4284: return type for 'MetaDataHashSet_wxImplementation_HashTable::const_iterator::operator ->' is 'class ResultSetMetaData *const * ' (ie; not a UDT or reference to a UDT.  Will produce errors if applied using infix notation)
+Z:\wxCode\components\dbtreegrid\src\../include/../../databaselayer/include/PreparedStatement.h(23) : warning C4284: return type for 'StatementResultSetHashSet_wxImplementation_HashTable::iterator::operator ->' is 'class DatabaseResultSet ** ' (ie; not a UDT or reference to a UDT.  Will produce errors if applied using infix notation)
+Z:\wxCode\components\dbtreegrid\src\../include/../../databaselayer/include/PreparedStatement.h(23) : warning C4284: return type for 'StatementResultSetHashSet_wxImplementation_HashTable::const_iterator::operator ->' is 'class DatabaseResultSet *const * ' (ie; not a UDT or reference to a UDT.  Will produce errors if applied using infix notation)
+Z:\wxCode\components\dbtreegrid\src\../include/../../databaselayer/include/DatabaseLayer.h(25) : warning C4284: return type for 'DatabaseResultSetHashSet_wxImplementation_HashTable::iterator::operator ->' is 'class DatabaseResultSet ** ' (ie; not a UDT or reference to a UDT.  Will produce errors if applied using infix notation)
+Z:\wxCode\components\dbtreegrid\src\../include/../../databaselayer/include/DatabaseLayer.h(25) : warning C4284: return type for 'DatabaseResultSetHashSet_wxImplementation_HashTable::const_iterator::operator ->' is 'class DatabaseResultSet *const * ' (ie; not a UDT or reference to a UDT.  Will produce errors if applied using infix notation)
+Z:\wxCode\components\dbtreegrid\src\../include/../../databaselayer/include/DatabaseLayer.h(26) : warning C4284: return type for 'DatabaseStatementHashSet_wxImplementation_HashTable::iterator::operator ->' is 'class PreparedStatement ** ' (ie; not a UDT or reference to a UDT.  Will produce errors if applied using infix notation)
+Z:\wxCode\components\dbtreegrid\src\../include/../../databaselayer/include/DatabaseLayer.h(26) : warning C4284: return type for 'DatabaseStatementHashSet_wxImplementation_HashTable::const_iterator::operator ->' is 'class PreparedStatement *const * ' (ie; not a UDT or reference to a UDT.  Will produce errors if applied using infix notation)
+Z:\wxCode\components\dbtreegrid\src\db.cpp(25) : warning C4129: '%' : unrecognized character escape sequence
+Z:\wxCode\components\dbtreegrid\src\db.cpp(16) : warning C4100: 'len' : unreferenced formal parameter
+dbstruct.cpp
+C:\WXWIDGETS-2.8.12\INCLUDE\wx/wxchar.h(1019) : warning C4091: '' : ignored on left of 'int' when no variable is declared
+Z:\wxCode\components\dbtreegrid\src\../include/../../databaselayer/include/DatabaseResultSet.h(25) : warning C4284: return type for 'MetaDataHashSet_wxImplementation_HashTable::iterator::operator ->' is 'class ResultSetMetaData ** ' (ie; not a UDT or reference to a UDT.  Will produce errors if applied using infix notation)
+Z:\wxCode\components\dbtreegrid\src\../include/../../databaselayer/include/DatabaseResultSet.h(25) : warning C4284: return type for 'MetaDataHashSet_wxImplementation_HashTable::const_iterator::operator ->' is 'class ResultSetMetaData *const * ' (ie; not a UDT or reference to a UDT.  Will produce errors if applied using infix notation)
+Z:\wxCode\components\dbtreegrid\src\../include/../../databaselayer/include/PreparedStatement.h(23) : warning C4284: return type for 'StatementResultSetHashSet_wxImplementation_HashTable::iterator::operator ->' is 'class DatabaseResultSet ** ' (ie; not a UDT or reference to a UDT.  Will produce errors if applied using infix notation)
+Z:\wxCode\components\dbtreegrid\src\../include/../../databaselayer/include/PreparedStatement.h(23) : warning C4284: return type for 'StatementResultSetHashSet_wxImplementation_HashTable::const_iterator::operator ->' is 'class DatabaseResultSet *const * ' (ie; not a UDT or reference to a UDT.  Will produce errors if applied using infix notation)
+Z:\wxCode\components\dbtreegrid\src\../include/../../databaselayer/include/DatabaseLayer.h(25) : warning C4284: return type for 'DatabaseResultSetHashSet_wxImplementation_HashTable::iterator::operator ->' is 'class DatabaseResultSet ** ' (ie; not a UDT or reference to a UDT.  Will produce errors if applied using infix notation)
+Z:\wxCode\components\dbtreegrid\src\../include/../../databaselayer/include/DatabaseLayer.h(25) : warning C4284: return type for 'DatabaseResultSetHashSet_wxImplementation_HashTable::const_iterator::operator ->' is 'class DatabaseResultSet *const * ' (ie; not a UDT or reference to a UDT.  Will produce errors if applied using infix notation)
+Z:\wxCode\components\dbtreegrid\src\../include/../../databaselayer/include/DatabaseLayer.h(26) : warning C4284: return type for 'DatabaseStatementHashSet_wxImplementation_HashTable::iterator::operator ->' is 'class PreparedStatement ** ' (ie; not a UDT or reference to a UDT.  Will produce errors if applied using infix notation)
+Z:\wxCode\components\dbtreegrid\src\../include/../../databaselayer/include/DatabaseLayer.h(26) : warning C4284: return type for 'DatabaseStatementHashSet_wxImplementation_HashTable::const_iterator::operator ->' is 'class PreparedStatement *const * ' (ie; not a UDT or reference to a UDT.  Will produce errors if applied using infix notation)
+Z:\wxCode\components\dbtreegrid\src\../include/dbstruct.h(39) : warning C4100: 'pName' : unreferenced formal parameter
+Z:\wxCode\components\dbtreegrid\src\../include/dbstruct.h(39) : warning C4100: 'ar' : unreferenced formal parameter
+Z:\wxCode\components\dbtreegrid\src\../include/dbstruct.h(41) : warning C4100: 'pName' : unreferenced formal parameter
+Z:\wxCode\components\dbtreegrid\src\../include/dbstruct.h(41) : warning C4100: 'ar' : unreferenced formal parameter
+Z:\wxCode\components\dbtreegrid\src\../include/dbstruct.h(637) : warning C4100: 'as' : unreferenced formal parameter
+Z:\wxCode\components\dbtreegrid\src\../include/dbstruct.h(653) : warning C4100: 'ar' : unreferenced formal parameter
+Z:\wxCode\components\dbtreegrid\src\../include/dbstruct.h(657) : warning C4100: 'nf' : unreferenced formal parameter
+Z:\wxCode\components\dbtreegrid\src\../include/dbstruct.h(657) : warning C4100: 'f' : unreferenced formal parameter
+Z:\wxCode\components\dbtreegrid\src\../include/dbstruct.h(673) : warning C4100: 'pName' : unreferenced formal parameter
+Z:\wxCode\components\dbtreegrid\src\../include/dbstruct.h(673) : warning C4100: 'ar' : unreferenced formal parameter
+Z:\wxCode\components\dbtreegrid\src\../include/dbstruct.h(675) : warning C4100: 'pName' : unreferenced formal parameter
+Z:\wxCode\components\dbtreegrid\src\../include/dbstruct.h(675) : warning C4100: 'ar' : unreferenced formal parameter
+Z:\wxCode\components\dbtreegrid\src\../include/dbstruct.h(700) : warning C4100: 'val' : unreferenced formal parameter
+Z:\wxCode\components\dbtreegrid\src\dbstruct.cpp(20) : warning C4100: 'presition' : unreferenced formal parameter
+Z:\wxCode\components\dbtreegrid\src\dbstruct.cpp(20) : warning C4100: 'fname' : unreferenced formal parameter
+Z:\wxCode\components\dbtreegrid\src\dbstruct.cpp(113) : warning C4129: '%' : unrecognized character escape sequence
+Z:\wxCode\components\dbtreegrid\src\dbstruct.cpp(767) : warning C4800: 'unsigned long' : forcing value to bool 'true' or 'false' (performance warning)
+Z:\wxCode\components\dbtreegrid\src\dbstruct.cpp(870) : warning C4800: 'unsigned long' : forcing value to bool 'true' or 'false' (performance warning)
+dbtreegrid.cpp
+C:\WXWIDGETS-2.8.12\INCLUDE\wx/wxchar.h(1019) : warning C4091: '' : ignored on left of 'int' when no variable is declared
+Z:\wxCode\components\dbtreegrid\src\../include/../../databaselayer/include/DatabaseResultSet.h(25) : warning C4284: return type for 'MetaDataHashSet_wxImplementation_HashTable::iterator::operator ->' is 'class ResultSetMetaData ** ' (ie; not a UDT or reference to a UDT.  Will produce errors if applied using infix notation)
+Z:\wxCode\components\dbtreegrid\src\../include/../../databaselayer/include/DatabaseResultSet.h(25) : warning C4284: return type for 'MetaDataHashSet_wxImplementation_HashTable::const_iterator::operator ->' is 'class ResultSetMetaData *const * ' (ie; not a UDT or reference to a UDT.  Will produce errors if applied using infix notation)
+Z:\wxCode\components\dbtreegrid\src\../include/../../databaselayer/include/PreparedStatement.h(23) : warning C4284: return type for 'StatementResultSetHashSet_wxImplementation_HashTable::iterator::operator ->' is 'class DatabaseResultSet ** ' (ie; not a UDT or reference to a UDT.  Will produce errors if applied using infix notation)
+Z:\wxCode\components\dbtreegrid\src\../include/../../databaselayer/include/PreparedStatement.h(23) : warning C4284: return type for 'StatementResultSetHashSet_wxImplementation_HashTable::const_iterator::operator ->' is 'class DatabaseResultSet *const * ' (ie; not a UDT or reference to a UDT.  Will produce errors if applied using infix notation)
+Z:\wxCode\components\dbtreegrid\src\../include/../../databaselayer/include/DatabaseLayer.h(25) : warning C4284: return type for 'DatabaseResultSetHashSet_wxImplementation_HashTable::iterator::operator ->' is 'class DatabaseResultSet ** ' (ie; not a UDT or reference to a UDT.  Will produce errors if applied using infix notation)
+Z:\wxCode\components\dbtreegrid\src\../include/../../databaselayer/include/DatabaseLayer.h(25) : warning C4284: return type for 'DatabaseResultSetHashSet_wxImplementation_HashTable::const_iterator::operator ->' is 'class DatabaseResultSet *const * ' (ie; not a UDT or reference to a UDT.  Will produce errors if applied using infix notation)
+Z:\wxCode\components\dbtreegrid\src\../include/../../databaselayer/include/DatabaseLayer.h(26) : warning C4284: return type for 'DatabaseStatementHashSet_wxImplementation_HashTable::iterator::operator ->' is 'class PreparedStatement ** ' (ie; not a UDT or reference to a UDT.  Will produce errors if applied using infix notation)
+Z:\wxCode\components\dbtreegrid\src\../include/../../databaselayer/include/DatabaseLayer.h(26) : warning C4284: return type for 'DatabaseStatementHashSet_wxImplementation_HashTable::const_iterator::operator ->' is 'class PreparedStatement *const * ' (ie; not a UDT or reference to a UDT.  Will produce errors if applied using infix notation)
+Z:\wxCode\components\dbtreegrid\src\../include/dbstruct.h(39) : warning C4100: 'pName' : unreferenced formal parameter
+Z:\wxCode\components\dbtreegrid\src\../include/dbstruct.h(39) : warning C4100: 'ar' : unreferenced formal parameter
+Z:\wxCode\components\dbtreegrid\src\../include/dbstruct.h(41) : warning C4100: 'pName' : unreferenced formal parameter
+Z:\wxCode\components\dbtreegrid\src\../include/dbstruct.h(41) : warning C4100: 'ar' : unreferenced formal parameter
+Z:\wxCode\components\dbtreegrid\src\../include/dbstruct.h(637) : warning C4100: 'as' : unreferenced formal parameter
+Z:\wxCode\components\dbtreegrid\src\../include/dbstruct.h(653) : warning C4100: 'ar' : unreferenced formal parameter
+Z:\wxCode\components\dbtreegrid\src\../include/dbstruct.h(657) : warning C4100: 'nf' : unreferenced formal parameter
+Z:\wxCode\components\dbtreegrid\src\../include/dbstruct.h(657) : warning C4100: 'f' : unreferenced formal parameter
+Z:\wxCode\components\dbtreegrid\src\../include/dbstruct.h(673) : warning C4100: 'pName' : unreferenced formal parameter
+Z:\wxCode\components\dbtreegrid\src\../include/dbstruct.h(673) : warning C4100: 'ar' : unreferenced formal parameter
+Z:\wxCode\components\dbtreegrid\src\../include/dbstruct.h(675) : warning C4100: 'pName' : unreferenced formal parameter
+Z:\wxCode\components\dbtreegrid\src\../include/dbstruct.h(675) : warning C4100: 'ar' : unreferenced formal parameter
+Z:\wxCode\components\dbtreegrid\src\../include/dbstruct.h(700) : warning C4100: 'val' : unreferenced formal parameter
+Z:\wxCode\components\dbtreegrid\src\../include/editctrl.h(25) : warning C4100: 'isCancelled' : unreferenced formal parameter
+Z:\wxCode\components\dbtreegrid\src\../include/editctrl.h(26) : warning C4100: 'owner' : unreferenced formal parameter
+Z:\wxCode\components\dbtreegrid\src\dbtreegrid.cpp(219) : warning C4100: 'event' : unreferenced formal parameter
+Z:\wxCode\components\dbtreegrid\src\dbtreegrid.cpp(247) : warning C4100: 'event' : unreferenced formal parameter
+Z:\wxCode\components\dbtreegrid\src\dbtreegrid.cpp(555) : warning C4100: 'event' : unreferenced formal parameter
+Z:\wxCode\components\dbtreegrid\src\dbtreegrid.cpp(604) : warning C4100: 'event' : unreferenced formal parameter
+Z:\wxCode\components\dbtreegrid\src\dbtreegrid.cpp(892) : warning C4100: 'event' : unreferenced formal parameter
+Z:\wxCode\components\dbtreegrid\src\dbtreegrid.cpp(921) : warning C4100: 'col' : unreferenced formal parameter
+Z:\wxCode\components\dbtreegrid\src\dbtreegrid.cpp(921) : warning C4100: 'id' : unreferenced formal parameter
+Z:\wxCode\components\dbtreegrid\src\dbtreegrid.cpp(1283) : warning C4100: 'event' : unreferenced formal parameter
+Z:\wxCode\components\dbtreegrid\src\dbtreegrid.cpp(1320) : warning C4100: 'event' : unreferenced formal parameter
+Z:\wxCode\components\dbtreegrid\src\dbtreegrid.cpp(1362) : warning C4100: 'event' : unreferenced formal parameter
+Z:\wxCode\components\dbtreegrid\src\dbtreegrid.cpp(1483) : warning C4100: 'event' : unreferenced formal parameter
+Z:\wxCode\components\dbtreegrid\src\dbtreegrid.cpp(1488) : warning C4100: 'event' : unreferenced formal parameter
+Z:\wxCode\components\dbtreegrid\src\dbtreegrid.cpp(1571) : warning C4100: 'id' : unreferenced formal parameter
+Z:\wxCode\components\dbtreegrid\src\dbtreegrid.cpp(1610) : warning C4100: 'event' : unreferenced formal parameter
+Z:\wxCode\components\dbtreegrid\src\dbtreegrid.cpp(1725) : warning C4100: 'event' : unreferenced formal parameter
+Z:\wxCode\components\dbtreegrid\src\dbtreegrid.cpp(1826) : warning C4100: 'col' : unreferenced formal parameter
+Z:\wxCode\components\dbtreegrid\src\dbtreegrid.cpp(1826) : warning C4100: 'id' : unreferenced formal parameter
+Z:\wxCode\components\dbtreegrid\src\dbtreegrid.cpp(2255) : warning C4189: 'res' : local variable is initialized but not referenced
+Z:\wxCode\components\dbtreegrid\src\dbtreegrid.cpp(2315) : warning C4100: 'event' : unreferenced formal parameter
+Z:\wxCode\components\dbtreegrid\src\dbtreegrid.cpp(2373) : warning C4100: 'event' : unreferenced formal parameter
+Generating Code...
+Z:\wxCode\components\dbtreegrid\src\dbtreegrid.cpp(632) : warning C4701: local variable 'v' may be used without having been initialized
+Z:\wxCode\components\dbtreegrid\src\dbtreegrid.cpp(1986) : warning C4701: local variable 'v' may be used without having been initialized
+Z:\wxCode\components\dbtreegrid\src\dbstruct.cpp(63) : warning C4701: local variable 'l' may be used without having been initialized
+Z:\wxCode\components\dbtreegrid\src\dbstruct.cpp(79) : warning C4701: local variable 'd' may be used without having been initialized
+Z:\wxCode\components\dbtreegrid\src\db.cpp(90) : warning C4701: local variable 'dbq' may be used without having been initialized
+Creating library...
+
+
+
+<h3>Results</h3>
+wxcode_msw28_dbtreegrid.lib - 0 error(s), 87 warning(s)
+</pre>
+</body>
+</html>

@@ -1,0 +1,727 @@
+{
+	"artifacts" : 
+	[
+		{
+			"path" : "Modules/AerisNOx/libAerisNOx.so"
+		}
+	],
+	"backtrace" : 1,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"add_library",
+			"install",
+			"link_directories",
+			"include",
+			"target_link_libraries",
+			"add_definitions",
+			"set_property",
+			"include_directories",
+			"INCLUDE_DIRECTORIES"
+		],
+		"files" : 
+		[
+			"Modules/AerisNOx/CMakeLists.txt",
+			"/usr/share/cmake-3.16/Modules/UsewxWidgets.cmake",
+			"Common.cmake",
+			"CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 27,
+				"parent" : 0
+			},
+			{
+				"command" : 1,
+				"file" : 0,
+				"line" : 37,
+				"parent" : 0
+			},
+			{
+				"file" : 3
+			},
+			{
+				"command" : 3,
+				"file" : 3,
+				"line" : 3,
+				"parent" : 3
+			},
+			{
+				"file" : 2,
+				"parent" : 4
+			},
+			{
+				"command" : 3,
+				"file" : 2,
+				"line" : 62,
+				"parent" : 5
+			},
+			{
+				"file" : 1,
+				"parent" : 6
+			},
+			{
+				"command" : 2,
+				"file" : 1,
+				"line" : 64,
+				"parent" : 7
+			},
+			{
+				"command" : 4,
+				"file" : 0,
+				"line" : 28,
+				"parent" : 0
+			},
+			{
+				"command" : 5,
+				"file" : 2,
+				"line" : 95,
+				"parent" : 5
+			},
+			{
+				"command" : 5,
+				"file" : 2,
+				"line" : 63,
+				"parent" : 5
+			},
+			{
+				"command" : 5,
+				"file" : 0,
+				"line" : 38,
+				"parent" : 0
+			},
+			{
+				"command" : 5,
+				"file" : 2,
+				"line" : 86,
+				"parent" : 5
+			},
+			{
+				"command" : 5,
+				"file" : 2,
+				"line" : 20,
+				"parent" : 5
+			},
+			{
+				"command" : 6,
+				"file" : 1,
+				"line" : 69,
+				"parent" : 7
+			},
+			{
+				"command" : 5,
+				"file" : 2,
+				"line" : 84,
+				"parent" : 5
+			},
+			{
+				"command" : 7,
+				"file" : 2,
+				"line" : 89,
+				"parent" : 5
+			},
+			{
+				"command" : 7,
+				"file" : 2,
+				"line" : 91,
+				"parent" : 5
+			},
+			{
+				"command" : 7,
+				"file" : 2,
+				"line" : 92,
+				"parent" : 5
+			},
+			{
+				"command" : 7,
+				"file" : 0,
+				"line" : 29,
+				"parent" : 0
+			},
+			{
+				"command" : 8,
+				"file" : 0,
+				"line" : 34,
+				"parent" : 0
+			},
+			{
+				"command" : 8,
+				"file" : 0,
+				"line" : 35,
+				"parent" : 0
+			},
+			{
+				"command" : 7,
+				"file" : 1,
+				"line" : 58,
+				"parent" : 7
+			}
+		]
+	},
+	"compileGroups" : 
+	[
+		{
+			"compileCommandFragments" : 
+			[
+				{
+					"fragment" : " -pthread -g -fPIC  "
+				},
+				{
+					"backtrace" : 9,
+					"fragment" : "-pthread"
+				},
+				{
+					"fragment" : "-std=gnu++17"
+				}
+			],
+			"defines" : 
+			[
+				{
+					"backtrace" : 10,
+					"define" : "AERIS_GUI_BUILD"
+				},
+				{
+					"define" : "AerisNOx_EXPORTS"
+				},
+				{
+					"backtrace" : 9,
+					"define" : "BOOST_ALL_NO_LIB"
+				},
+				{
+					"backtrace" : 9,
+					"define" : "BOOST_ATOMIC_DYN_LINK"
+				},
+				{
+					"backtrace" : 9,
+					"define" : "BOOST_PROGRAM_OPTIONS_DYN_LINK"
+				},
+				{
+					"backtrace" : 9,
+					"define" : "BOOST_SYSTEM_DYN_LINK"
+				},
+				{
+					"backtrace" : 9,
+					"define" : "BOOST_THREAD_DYN_LINK"
+				},
+				{
+					"backtrace" : 11,
+					"define" : "MYSQLPP_MYSQL_HEADERS_BURIED"
+				},
+				{
+					"backtrace" : 12,
+					"define" : "SIMULATE=1"
+				},
+				{
+					"backtrace" : 13,
+					"define" : "TRACE_ON"
+				},
+				{
+					"backtrace" : 14,
+					"define" : "TRAP_ENABLE"
+				},
+				{
+					"backtrace" : 10,
+					"define" : "USE_GUI"
+				},
+				{
+					"backtrace" : 15,
+					"define" : "WXUSINGDLL"
+				},
+				{
+					"backtrace" : 15,
+					"define" : "_FILE_OFFSET_BITS=64"
+				},
+				{
+					"backtrace" : 16,
+					"define" : "_UNIX"
+				},
+				{
+					"backtrace" : 15,
+					"define" : "__WXGTK__"
+				}
+			],
+			"includes" : 
+			[
+				{
+					"backtrace" : 17,
+					"path" : "/Development/Projects/MRL/OpcServant/OpcServant"
+				},
+				{
+					"backtrace" : 18,
+					"path" : "/usr/include/mysql"
+				},
+				{
+					"backtrace" : 19,
+					"path" : "/usr/local/include/open62541cpp"
+				},
+				{
+					"backtrace" : 20,
+					"path" : "/Development/Projects/MRL/OpcServant/OpcServant/Common"
+				},
+				{
+					"backtrace" : 21,
+					"path" : "/Development/Projects/WeCareForAir/Projects/Mainboard/include"
+				},
+				{
+					"backtrace" : 22,
+					"path" : "/Development/Projects/WeCareForAir/Projects/Mainboard/Firmware/NOxBoardServer.X"
+				},
+				{
+					"backtrace" : 23,
+					"isSystem" : true,
+					"path" : "/usr/local/lib/wx/include/gtk3-unicode-3.1"
+				},
+				{
+					"backtrace" : 23,
+					"isSystem" : true,
+					"path" : "/usr/local/include/wx-3.1"
+				}
+			],
+			"language" : "CXX",
+			"sourceIndexes" : 
+			[
+				0,
+				1,
+				2,
+				3,
+				4,
+				5,
+				6,
+				7,
+				8,
+				9,
+				10,
+				11,
+				12,
+				13,
+				14,
+				15,
+				16
+			]
+		}
+	],
+	"dependencies" : 
+	[
+		{
+			"backtrace" : 9,
+			"id" : "MrlLib::@daeeb9f30289e95cd39c"
+		},
+		{
+			"backtrace" : 9,
+			"id" : "Common::@13b50f4fff9a3833e1fc"
+		},
+		{
+			"backtrace" : 9,
+			"id" : "ReportDocument::@93fa68b2c4831a60120b"
+		}
+	],
+	"id" : "AerisNOx::@23f0985b9589d77cbd69",
+	"install" : 
+	{
+		"destinations" : 
+		[
+			{
+				"backtrace" : 2,
+				"path" : "modules"
+			},
+			{
+				"backtrace" : 2,
+				"path" : "modules"
+			}
+		],
+		"prefix" : 
+		{
+			"path" : "/usr/local/MRL5/OpcServant"
+		}
+	},
+	"link" : 
+	{
+		"commandFragments" : 
+		[
+			{
+				"fragment" : "",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "-L/usr/local/lib",
+				"role" : "libraryPath"
+			},
+			{
+				"fragment" : "-Wl,-rpath,/usr/local/lib:/Development/Projects/MRL/OpcServant/OpcServant/build/Common:/Development/Projects/MRL/OpcServant/OpcServant/build/MrlLib:/Development/Projects/MRL/OpcServant/OpcServant/build/reportdocument:",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-L/usr/local/lib",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-pthread",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lwx_gtk3u_html-3.1",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lwx_baseu_net-3.1",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lwx_gtk3u_core-3.1",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lwx_baseu-3.1",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lwx_gtk3u_xrc-3.1",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lwx_baseu_xml-3.1",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lwx_gtk3u_propgrid-3.1",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lwx_gtk3u_richtext-3.1",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lwt",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lwthttp",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 9,
+				"fragment" : "/usr/lib/x86_64-linux-gnu/libboost_system.so.1.71.0",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 9,
+				"fragment" : "/usr/lib/x86_64-linux-gnu/libboost_thread.so.1.71.0",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 9,
+				"fragment" : "/usr/lib/x86_64-linux-gnu/libboost_program_options.so.1.71.0",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lopen62541cpp",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lsqlite3",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lmysqlpp",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lmodbus",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lmosquittopp",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lsocket++",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-latomic",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lpthread",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lm",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lrt",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 9,
+				"fragment" : "../../Common/libCommon.so",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 9,
+				"fragment" : "../../MrlLib/libMrlLib.so",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "../../reportdocument/libReportDocument.so",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-L/usr/local/lib",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lwx_gtk3u_html-3.1",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lwx_baseu_net-3.1",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lwx_gtk3u_core-3.1",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lwx_baseu-3.1",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lwx_gtk3u_xrc-3.1",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lwx_baseu_xml-3.1",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lwx_gtk3u_propgrid-3.1",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lwx_gtk3u_richtext-3.1",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lwt",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lwthttp",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 9,
+				"fragment" : "/usr/lib/x86_64-linux-gnu/libboost_system.so.1.71.0",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 9,
+				"fragment" : "/usr/lib/x86_64-linux-gnu/libboost_thread.so.1.71.0",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "/usr/lib/x86_64-linux-gnu/libboost_atomic.so.1.71.0",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-pthread",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 9,
+				"fragment" : "/usr/lib/x86_64-linux-gnu/libboost_program_options.so.1.71.0",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lopen62541cpp",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lsqlite3",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lmysqlpp",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lmodbus",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lmosquittopp",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lsocket++",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-latomic",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lpthread",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lm",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lrt",
+				"role" : "libraries"
+			}
+		],
+		"language" : "CXX"
+	},
+	"name" : "AerisNOx",
+	"nameOnDisk" : "libAerisNOx.so",
+	"paths" : 
+	{
+		"build" : "Modules/AerisNOx",
+		"source" : "Modules/AerisNOx"
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "Source Files",
+			"sourceIndexes" : 
+			[
+				0,
+				1,
+				2,
+				3,
+				4,
+				5,
+				6,
+				7,
+				8,
+				9,
+				10,
+				11,
+				12,
+				13,
+				14,
+				15,
+				16
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "Modules/AerisNOx/aerisno2systemobjectmanager.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "Modules/AerisNOx/aerisplugin.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "Modules/AerisCommon/AerisCommon.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "Modules/AerisCommon/AerisCommon_aeriscommon_bitmaps.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "Modules/AerisCommon/ControlSetup.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "Modules/AerisCommon/controlsetupweb.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "Modules/AerisNOx/NOxConfigurationDialog.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "Modules/AerisNOx/NOxUI.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "Modules/AerisNOx/NOxUI_nitrogenoxides_bitmaps.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "Modules/AerisNOx/noxwebconfiguration.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "Modules/AerisCommon/aerismainboard.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "Modules/AerisNOx/aerisnoxrt.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "Modules/AerisNOx/aerisnoxtypeobject.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "Modules/AerisNOx/aerisnoxwebpanel.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "Modules/AerisNOx/AerisNOxPanel.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "Modules/AerisNOx/AerisNOxUIPanel.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "Modules/AerisCommon/aeriswebgraphpage.cpp",
+			"sourceGroupIndex" : 0
+		}
+	],
+	"type" : "SHARED_LIBRARY"
+}

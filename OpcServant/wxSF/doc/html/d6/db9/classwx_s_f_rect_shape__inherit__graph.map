@@ -1,0 +1,17 @@
+<map id="G" name="G">
+<area shape="rect" id="node7" href="$df/d4c/classwx_s_f_bitmap_shape.html" title="Class encapsulating the bitmap shape. The shape can display and control files stored in formats suppo..." alt="" coords="520,5,661,35"/>
+<area shape="rect" id="node9" href="$d0/d60/classwx_s_f_control_shape.html" title="Class encapsulates a special shape able to manage assigned GUI controls (widgets). The GUI control&#39;s position and size can by modified via parent control shape. User can also specify how events incoming from the managed GUI control are processed." alt="" coords="520,59,661,88"/>
+<area shape="rect" id="node11" href="$df/d3f/classwx_s_f_ellipse_shape.html" title="Class encapsulating the ellipse shape. It extends the basic rectangular shape." alt="" coords="524,112,657,141"/>
+<area shape="rect" id="node13" href="$dd/d32/classwx_s_f_grid_shape.html" title="Class encapsulates a rectangular shape derived from wxSFRectShape class which acts as a grid&#45;based co..." alt="" coords="531,165,651,195"/>
+<area shape="rect" id="node17" href="$d8/d71/classwx_s_f_multi_sel_rect.html" title="Auxiliary class encapsulating multiselection rectangle used in the shape canvas. The class shouldn&#39;t ..." alt="" coords="525,219,656,248"/>
+<area shape="rect" id="node19" href="$d9/dbd/classwx_s_f_polygon_shape.html" title="Class extends the wxSFRectShape and encapsulates general polygon shape defined by a set of its vertic..." alt="" coords="519,272,663,301"/>
+<area shape="rect" id="node23" href="$d2/d9a/classwx_s_f_round_rect_shape.html" title="Class ecapsulating rounded rectangle. It extends the basic rectangular shape." alt="" coords="511,325,671,355"/>
+<area shape="rect" id="node25" href="$d3/df7/classwx_s_f_square_shape.html" title="Class encapsulating the square shape. It extends the basic rectangular shape." alt="" coords="520,379,661,408"/>
+<area shape="rect" id="node29" href="$de/d95/classwx_s_f_text_shape.html" title="Class encapsulates basic non&#45;editable text shape which is suitable for displaying of various text inf..." alt="" coords="531,432,651,461"/>
+<area shape="rect" id="node2" href="$da/d88/classwx_s_f_shape_base.html" title="Base class for all shapes providing fundamental functionality and publishing set of virtual functions..." alt="" coords="164,219,289,248"/>
+<area shape="rect" id="node4" href="$de/d26/classxs_serializable.html" title="Base class encapsulating object which can be serialized/deserialized to/from XML file (disk file or a..." alt="" coords="5,219,115,248"/>
+<area shape="rect" id="node15" href="$dc/d15/classwx_s_f_flex_grid_shape.html" title="Class encapsulates a rectangular shape derived from wxSFGridShape class which acts as a flexible grid..." alt="" coords="724,165,871,195"/>
+<area shape="rect" id="node21" href="$d4/d6a/classwx_s_f_diamond_shape.html" title="Class encapsulating the diamond shape. It extends the basic polygon shape." alt="" coords="721,272,873,301"/>
+<area shape="rect" id="node27" href="$db/d30/classwx_s_f_circle_shape.html" title="Class encapsulating the circle shape." alt="" coords="732,379,863,408"/>
+<area shape="rect" id="node31" href="$db/d8d/classwx_s_f_edit_text_shape.html" title="Class encapsulating the editable text shape. It extends the basic text shape." alt="" coords="725,432,869,461"/>
+</map>

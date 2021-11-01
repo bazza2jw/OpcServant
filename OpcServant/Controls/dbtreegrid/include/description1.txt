@@ -1,0 +1,299 @@
+
+/**
+@page page2 Пример использования 2
+
+
+\image html sample2.gif
+
+@code
+///////////////////////////////////////////////////////////////////////////
+// C++ code generated with wxFormBuilder (version Sep  8 2010)
+// http://www.wxformbuilder.org/
+//
+// PLEASE DO "NOT" EDIT THIS FILE!
+///////////////////////////////////////////////////////////////////////////
+
+#ifndef __person__
+#define __person__
+
+#include <wx/gdicmn.h>
+#include <wx/font.h>
+#include <wx/colour.h>
+#include <wx/settings.h>
+#include <wx/string.h>
+#include <wx/sizer.h>
+#include <wx/dialog.h> 
+#include "dbtreegrid.h"
+#include "dbtextfield.h"
+///////////////////////////////////////////////////////////////////////////
+
+
+///////////////////////////////////////////////////////////////////////////////
+/// Class person
+///////////////////////////////////////////////////////////////////////////////
+class PersonDialog : public wxDialog 
+{
+	private:
+	
+	protected:
+		wxStaticText* m_staticText1;
+		wxStaticText* m_staticText2;
+	
+	public:
+		DbTreeGrid * tree;
+		DbTextField *srv;
+		DbTextField *app;		
+		PersonDialog( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("??????????"), const wxPoint& pos = wxDefaultPosition, const wxSize& size  = wxSize( 630,440 ), long style = wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER );
+		~PersonDialog();
+
+		DatabaseLayer* db;
+
+		///Дополнительная инициализация
+		bool Init();
+		///Обработчик закрытия
+		void OnClose(wxCloseEvent &event);
+		
+		DECLARE_EVENT_TABLE()
+};
+
+
+#endif //__person__
+
+///////////////////////////////////////////////////////////////////////////
+// C++ code generated with wxFormBuilder (version Sep  8 2010)
+// http://www.wxformbuilder.org/
+//
+// PLEASE DO "NOT" EDIT THIS FILE!
+///////////////////////////////////////////////////////////////////////////
+
+#include "person.h"
+
+///////////////////////////////////////////////////////////////////////////
+
+PersonDialog::PersonDialog( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxDialog( parent, id, title, pos, size, style )
+{
+	this->SetSizeHints( wxDefaultSize, wxDefaultSize );
+	
+	wxBoxSizer* bSizer1;
+	bSizer1 = new wxBoxSizer( wxVERTICAL );
+	
+	tree = new DbTreeGrid( this,wxID_ANY,
+	wxDefaultPosition,
+	wxSize(-1,-1),
+	wxTR_SINGLE |
+	wxTR_HAS_BUTTONS |
+	wxTR_FULL_ROW_HIGHLIGHT |
+	wxTR_HIDE_ROOT |
+	wxTR_ROW_LINES |
+	wxTR_COLUMN_LINES |
+	wxTR_EDIT_LABELS
+	);
+	
+	bSizer1->Add( tree, 1, wxALL|wxEXPAND, 5 );
+	
+	wxFlexGridSizer* fgSizer1;
+	fgSizer1 = new wxFlexGridSizer( 2, 2, 0, 0 );
+	fgSizer1->AddGrowableCol( 1 );
+	fgSizer1->SetFlexibleDirection( wxBOTH );
+	fgSizer1->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
+	
+	m_staticText1 = new wxStaticText( this, wxID_ANY, wxT("Служба"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText1->Wrap( -1 );
+	fgSizer1->Add( m_staticText1, 1, wxALL|wxEXPAND, 5 );
+	
+	srv = new DbTextField( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(-1,-1),0);
+	fgSizer1->Add( srv, 1, wxALL|wxEXPAND, 5 );
+	
+	m_staticText2 = new wxStaticText( this, wxID_ANY, wxT("Должность"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText2->Wrap( -1 );
+	fgSizer1->Add( m_staticText2, 0, wxALL, 5 );
+	
+	app = new DbTextField( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(-1,-1),0);
+	fgSizer1->Add( app, 0, wxALL|wxEXPAND, 5 );
+	
+	bSizer1->Add( fgSizer1, 0, wxEXPAND, 5 );
+	
+	this->SetSizer( bSizer1 );
+	this->Layout();
+	
+	this->Centre( wxBOTH );
+	
+	// Connect Events
+	this->Connect( wxEVT_CLOSE_WINDOW, wxCloseEventHandler( PersonDialog::OnClose ) );
+}
+
+PersonDialog::~PersonDialog()
+{
+	// Disconnect Events
+	this->Disconnect( wxEVT_CLOSE_WINDOW, wxCloseEventHandler( PersonDialog::OnClose ) );
+	
+}
+
+#include "person.h"
+#include "../main/dbdispatcher.h"
+#include "../main/setup.h"
+
+
+DbDispatcher * dispatcher=0;
+//Инициализация  и настройка грида
+bool PersonDialog::Init()
+{
+	wxString where;
+
+	if(dispatcher) return false;;
+	SetLabel(wxT("Сотрудники"));
+	
+	dispatcher = new DbDispatcher();
+
+	try{
+		db = dbase;//new FirebirdDatabaseLayer(DB_SERVER,DB_NAME,USER_NAME,USER_PASSWORD);
+
+	}
+	catch (DatabaseLayerException& e)
+	{
+		wxMessageBox(wxString::Format(_("Error (%d): %s"), e.GetErrorCode(), e.GetErrorMessage().c_str()));
+	}
+	
+	//Инициализация грида
+	tree->db=db;
+	tree->selectClause=wxT("select LastName,FirstName,Patronymic,cast( Id as varchar(18) ) id,cast( Person_Id as varchar(18) ) Person_id,cast( Service_Id as varchar(18)) Service_Id ,cast( Appointment_Id as varchar(18) ) Appointment_Id,sname,aname");
+	tree->fromClause=wxT("from v_person");
+	tree->orderClause=wxT("order by 1,2,3");
+
+	//Создание запроса
+	tree->CreateQuery();
+	//Определение полей из запроса
+	if(!tree->SetupField()) { delete dispatcher; dispatcher=0; return false;}
+	//Установка поля PK
+	tree->SetPkNumByName(wxT("id"));
+	//Установка поля связи в дереве
+	tree->SetTreeNumByName(wxT("person_id"));
+	//Установка таблицы куда записываются изменения
+	tree->dstName= wxT("person");
+
+	//Дополнительное описание св-в полей
+	ArrayDbGridFieldDesc* fd =tree->GetFieldDescription();
+	tree->ResetFieldPropertyByName( wxT("service_id"), DB_FIELD_VISIBLE);
+	tree->ResetFieldPropertyByName( wxT("Appointment_id"), DB_FIELD_VISIBLE);
+	tree->ResetFieldPropertyByName( wxT("id"), DB_FIELD_VISIBLE);
+	tree->ResetFieldPropertyByName( wxT("id"), DB_FIELD_VISIBLE);
+	tree->ResetFieldPropertyByName( wxT("person_id"), DB_FIELD_VISIBLE);
+	tree->ResetFieldPropertyByName( wxT("sname"), DB_FIELD_VISIBLE);
+	tree->ResetFieldPropertyByName( wxT("aname"), DB_FIELD_VISIBLE);
+
+
+	tree->SetFieldPropertyByName( wxT("lastName"), DB_FIELD_NOT_NULL); 
+	
+
+	tree->SetColumnNameByName( wxT("lastName"), wxT("Фамилия*") );
+	tree->SetColumnNameByName( wxT("firstName"), wxT("Имя") );
+	tree->SetColumnNameByName( wxT("Patronymic"), wxT("Отчество") );
+
+	tree->ResetFieldPropertyByName( wxT("sname"), DB_FIELD_DBASE);
+	tree->ResetFieldPropertyByName( wxT("aname"), DB_FIELD_DBASE);
+
+	//Создание списка значений получаемое из запроса
+	DbLOV lov;
+	lov.selectClause=wxT("select name as \"Название\", cast(id as varchar(18)) id ");
+	lov.fromClause=wxT("from service");
+	lov.orderClause=wxT("order by name");
+
+	//Настройка полей для списка значений
+	DbPair p;
+	p.i1=0;p.i2=7;p.w=200;p.fieldName=wxT("name");lov.pair.Add(p);
+	p.i1=1;p.i2=5;p.w=0;lov.pair.Add(p);
+	lov.size=wxSize(250,300);
+	DbLOV *l=tree->AddLOV(lov);
+	//Подключение списка значений к полю
+	tree->SetLOVByName(wxT("sname"), l );
+	
+
+	//Подключение связанного поля к гриду
+	tree->AddLinkFieldByName( wxT("sname"), srv);
+	
+	
+	//Создание списка значений получаемое из запроса
+	lov.pair.Clear();
+	lov.selectClause=wxT("select name as \"Название\", cast(id as varchar(18)) id ");
+	lov.fromClause=wxT("from appointment");
+	lov.orderClause=wxT("order by name");
+
+
+
+	p.i1=0;p.i2=8;p.w=200;p.fieldName=wxT("name");lov.pair.Add(p);
+	p.i1=1;p.i2=6;p.w=0;lov.pair.Add(p);
+	lov.size=wxSize(250,300);
+	l=tree->AddLOV(lov);
+	tree->SetLOVByName(wxT("aname"), l );
+	
+	//Подключение связанного поля к гриду
+	tree->AddLinkFieldByName( wxT("aname"), app);
+
+
+
+	//Настройка грида
+	tree->SetProperty(DB_GRID_IS_TREE);
+	tree->ResetProperty(DB_GRID_QUERY_ENABLE);
+	//Установка последоватнльности для генерации PK
+	tree->seqName=wxT("GlobalSequence");
+	//Создание колонок в гриде
+	tree->CreateField();
+	//Получение записей из БД
+	tree->GetAllRow();
+	//Выбор первой записи
+	tree->SelectFirstRecord();
+	//Добавляем грид в диспетчер
+	dispatcher->AddGrid((DbQueryObject*)tree);
+	//Устанавливаем размер колонок
+	tree->SetColumnWidth(0,200);
+	tree->SetColumnWidth(1,200);
+	tree->SetColumnWidth(2,200);
+	//Читаем размеры объектов интерфейса из файла настроек
+	SetName(wxT("PersonDialog"));
+	tree->SetName(wxT("PersonTree"));
+	
+	wxString ss;
+	ss=wxEmptyString;
+	Serializer::LoadWindowGUI(this,setupGUIArray,ss);
+	ss=GetName();
+	tree->LoadGUI(setupGUIArray,ss);
+	//Устанавливаем главное окно для проверки на изменения при закрытии
+	dispatcher->win = this;
+	return true;
+
+};
+
+void PersonDialog::OnClose(wxCloseEvent &event){
+	if(dispatcher->IsEdit())
+	{
+		
+			if (event.CanVeto())   {        event.Veto();  return ;}
+	};
+	if(dispatcher->IsChanged())
+	{
+		int answer=wxMessageBox("Есть изменеия, выйдти без сохранения?",wxEmptyString,wxOK|wxCANCEL) ;
+		if(! (wxOK == answer ))
+		{  
+			if (event.CanVeto())   {       event.Veto();  return ;}
+		}
+	}
+	wxString ss;
+	//Записываем размеры объектов интерфейса в файл
+	Serializer::SaveWindowGUI(this,setupGUIArray,ss);
+	ss=GetName();
+	tree->SaveGUI(setupGUIArray,ss);
+	delete dispatcher;
+	dispatcher=0;
+
+	Destroy();
+
+}
+
+BEGIN_EVENT_TABLE( PersonDialog, wxDialog )
+//	EVT_CLOSE(PersonDialog::OnClose) 
+END_EVENT_TABLE()
+
+
+@endcode
+
+*/

@@ -1,0 +1,118 @@
+<?xml version="1.0" ?>
+
+<!-- Created by: Francesco Montorsi <frm@users.sourceforge.net>     -->
+<!-- Creation date: 9/10/2004                                       -->
+<!-- RCS-ID: $Id: tags.bkl,v 1.10 2006/03/13 13:09:29 frm Exp $      -->
+
+<makefile>
+    <if cond="not isdefined('WXCODE_TAGS_INC')">
+    <set var="WXCODE_TAGS_INC">1</set>
+
+        <!--                                               -->
+        <!--                   NEW TAGS                    -->
+        <!--                                               -->
+
+        <!-- This defines a tag which includes headers on MSVC          -->
+        <!-- Note that $(value) is stuck in there by bakefile,          -->
+        <!-- and is the value between the beginning and end tag.        -->
+        <define-tag name="headers" rules="dll,lib,exe">
+            <if cond="FORMAT=='msvc6prj'">
+                <msvc-project-files>
+                    $(value)
+                </msvc-project-files>
+            </if>
+        </define-tag>
+
+        <!-- A shortcut for the INCLUDE and LIB-PATH tags. -->
+        <define-tag name="stdlib" rules="exe,dll,lib">
+            <include>$(value)$(DIRSEP)include</include>
+            <lib-path>$(value)$(DIRSEP)lib</lib-path>
+        </define-tag>
+
+        <!-- for cross-platform installations -->
+        <if cond="TARGETING_IDE=='0'">
+            <define-tag name="set-win32-extinstall-dir" rules="__any">
+                <set var="__extinstall_dir">$(value)</set>
+            </define-tag>
+        </if>
+        <if cond="TARGETING_IDE=='1'">
+            <define-tag name="set-win32-extinstall-dir" rules="lib,dll"/>
+        </if>
+        <define-tag name="extinstall-to" rules="lib,dll">
+            <if cond="TARGETING_WIN32=='1' and TARGETING_IDE=='0'">
+                <modify-target target="install">
+                    <command>copy /Y $(__targetdir)$(ref('__targetname',id)) $(value)</command>
+                </modify-target>
+            </if>
+            <if cond="TARGETING_WIN32=='0'">
+                <install-to>$(value)</install-to>
+            </if>
+        </define-tag>
+
+        <!-- misc -->
+        <define-tag name="run-tarball" rules="action">
+            <run>tar -cvzf ..$(DIRSEP)$(value) --exclude=*.pdb --exclude=*.log --exclude=*.o* *</run>
+        </define-tag>
+        <define-tag name="run-zip" rules="action">
+            <run>zip -r9 ..$(DIRSEP)$(value) *  -x *.pdb -x *.log -x *.o*</run>
+        </define-tag>
+
+
+
+        <!--  Localization stuff -->
+        <set var="MSGFMT">msgfmt --statistics</set>
+        <set var="MSGMERGE">msgmerge</set>
+        <set var="XGETTEXT">xgettext</set>
+        <set var="XARGS">xargs</set>
+        <set var="XGETTEXT_ARGS">--c++ -k_ -kwxPLURAL:1,2 -kwxTRANSLATE -s -j</set>
+
+        <define-tag name="create-pot" rules="action">
+            <command>
+                rm -f $(value)
+                touch $(value)
+                find $(COMP_BASEPATH)/include -name "*.h" | $(XARGS) $(XGETTEXT) $(XGETTEXT_ARGS) -o $(value)
+                find $(COMP_BASEPATH)/src -name "*.cpp" | $(XARGS) $(XGETTEXT) $(XGETTEXT_ARGS) -o $(value)
+                find $(COMP_BASEPATH)/src -name "*.xrc.extracted" | $(XARGS) $(XGETTEXT) $(XGETTEXT_ARGS) -o $(value)
+            </command>
+        </define-tag>
+        <define-tag name="update-po" rules="action">
+            <command>
+                $(MSGMERGE) $(value) $(POTFILE) > $(value).new &amp;&amp; mv $(value).new $(value)
+            </command>
+        </define-tag>
+        <define-tag name="compile-po" rules="action">
+            <command>
+                $(MSGFMT) -o $(value.replace('po', 'mo')) $(value)
+            </command>
+        </define-tag>
+
+        <define-tag name="update-and-compile-po" rules="action">
+            <update-po>$(value)</update-po>
+            <compile-po>$(value)</compile-po>
+        </define-tag>
+        <define-tag name="scanxrc" rules="action">
+            <!-- Extract translatable strings from XRC and put them in a fake file which will be scanned later -->
+            <command>wxrc $(value) -g -c -o $(value).extracted</command>
+        </define-tag>
+
+        <!-- E.g.:
+
+            <set var="POTFILE">locale/webupdater.pot</set>
+            <set var="XRCFILE">$(COMP_BASEPATH)/src/webupdatedlg.xrc</set>
+
+            <gettext-catalogs id="locale">
+                <srcdir>$(COMP_BASEPATH)/locale</srcdir>
+                <catalog-name>webupdater</catalog-name>
+                <linguas>it de</linguas>
+                <install-to>$(LOCALEDIR)</install-to>
+            </gettext-catalogs>
+            <action id="i18n" cond="TARGETING_WIN32=='0'">
+                <scanxrc>$(XRCFILE)</scanxrc>
+                <create-pot>$(POTFILE)</create-pot>
+                <update-and-compile-po>locale/it.po</update-and-compile-po>
+                <update-and-compile-po>locale/de.po</update-and-compile-po>
+            </action>
+        -->
+
+    </if>
+</makefile>

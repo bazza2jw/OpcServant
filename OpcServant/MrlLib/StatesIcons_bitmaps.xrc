@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resource xmlns="http://www.wxwidgets.org/wxxrc">
+  <!-- Handler Generation is ON -->
+  <object class="wxBitmap" name="Action">/home/barry/Work/Development/Projects/MRL/OpcServant/OpcServant/MrlLib/StatesIcons/Action.png</object>
+  <object class="wxBitmap" name="Alert">/home/barry/Work/Development/Projects/MRL/OpcServant/OpcServant/MrlLib/StatesIcons/Alert.png</object>
+  <object class="wxBitmap" name="Critical">/home/barry/Work/Development/Projects/MRL/OpcServant/OpcServant/MrlLib/StatesIcons/Critical.png</object>
+  <object class="wxBitmap" name="Debug">/home/barry/Work/Development/Projects/MRL/OpcServant/OpcServant/MrlLib/StatesIcons/Debug.png</object>
+  <object class="wxBitmap" name="Disabled">/home/barry/Work/Development/Projects/MRL/OpcServant/OpcServant/MrlLib/StatesIcons/Disabled.png</object>
+  <object class="wxBitmap" name="Error">/home/barry/Work/Development/Projects/MRL/OpcServant/OpcServant/MrlLib/StatesIcons/Error.png</object>
+  <object class="wxBitmap" name="Fatal">/home/barry/Work/Development/Projects/MRL/OpcServant/OpcServant/MrlLib/StatesIcons/Fatal.png</object>
+  <object class="wxBitmap" name="Fault">/home/barry/Work/Development/Projects/MRL/OpcServant/OpcServant/MrlLib/StatesIcons/Fault.png</object>
+  <object class="wxBitmap" name="Inactive">/home/barry/Work/Development/Projects/MRL/OpcServant/OpcServant/MrlLib/StatesIcons/Inactive.png</object>
+  <object class="wxBitmap" name="Info">/home/barry/Work/Development/Projects/MRL/OpcServant/OpcServant/MrlLib/StatesIcons/Info.png</object>
+  <object class="wxBitmap" name="Off">/home/barry/Work/Development/Projects/MRL/OpcServant/OpcServant/MrlLib/StatesIcons/Off.png</object>
+  <object class="wxBitmap" name="Ok">/home/barry/Work/Development/Projects/MRL/OpcServant/OpcServant/MrlLib/StatesIcons/Ok.png</object>
+  <object class="wxBitmap" name="On">/home/barry/Work/Development/Projects/MRL/OpcServant/OpcServant/MrlLib/StatesIcons/On.png</object>
+  <object class="wxBitmap" name="Stopped">/home/barry/Work/Development/Projects/MRL/OpcServant/OpcServant/MrlLib/StatesIcons/Stopped.png</object>
+  <object class="wxBitmap" name="Trace">/home/barry/Work/Development/Projects/MRL/OpcServant/OpcServant/MrlLib/StatesIcons/Trace.png</object>
+  <object class="wxBitmap" name="Unknown">/home/barry/Work/Development/Projects/MRL/OpcServant/OpcServant/MrlLib/StatesIcons/Unknown.png</object>
+  <object class="wxBitmap" name="Wait">/home/barry/Work/Development/Projects/MRL/OpcServant/OpcServant/MrlLib/StatesIcons/Wait.png</object>
+  <object class="wxBitmap" name="Warning">/home/barry/Work/Development/Projects/MRL/OpcServant/OpcServant/MrlLib/StatesIcons/Warning.png</object>
+  <object class="wxBitmap" name="Write">/home/barry/Work/Development/Projects/MRL/OpcServant/OpcServant/MrlLib/StatesIcons/Write.png</object>
+</resource>

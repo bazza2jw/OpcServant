@@ -1,0 +1,21 @@
+<?xml version="1.0" ?>
+
+<!-- Created by: Francesco Montorsi <frm@users.sourceforge.net>     -->
+<!-- Creation date: 9/10/2004                                       -->
+<!-- RCS-ID: $Id: wxcode.bkl,v 1.7 2005/09/14 10:42:30 frm Exp $    -->
+
+<makefile>
+    
+    <!-- Our variables -->
+    <include file="defaults.bkl"/>
+    
+    <!-- This is a set of some useful new tags -->
+    <include file="tags.bkl"/>
+
+    <!-- The wxCode templates -->
+    <include file="templates.bkl"/>
+
+    <!-- Some optional targets -->
+    <include file="targets.bkl"/>
+
+</makefile>

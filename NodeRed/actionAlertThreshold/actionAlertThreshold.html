@@ -1,0 +1,149 @@
+<script type="text/javascript">
+    RED.nodes.registerType('actionalertthreshold',{
+        category: 'function',
+        color: '#a6bbcf',
+        defaults: {
+            name: {value:""},
+            hihi: {value:10.0, validate:RED.validators.number()},
+            hihiEnable:{value:false},
+            hilo: {value:7.0, validate:RED.validators.number()},
+            hiloEnable:{value:false},
+            lohi: {value:5.0, validate:RED.validators.number()},
+            lohiEnable:{value:false},
+            lolo: {value:0.0, validate:RED.validators.number()},
+            loloEnable:{value:false},
+            //
+            okonvalue: {value: true, required:true, validate: (RED.validators.hasOwnProperty('typedInput')?RED.validators.typedInput('okonvalueType'):function(v) { return true})},
+            okonvalueType: {value: 'bool'},
+            okoffvalue: {value: false, required:true, validate: (RED.validators.hasOwnProperty('typedInput')?RED.validators.typedInput('okoffvalueType'):function(v) { return true})},
+            okoffvalueType: {value: 'bool'},
+            //
+            alertonvalue: {value: true, required:true, validate: (RED.validators.hasOwnProperty('typedInput')?RED.validators.typedInput('alertonvalueType'):function(v) { return true})},
+            alertonvalueType: {value: 'bool'},
+            alertoffvalue: {value: false, required:true, validate: (RED.validators.hasOwnProperty('typedInput')?RED.validators.typedInput('alertoffvalueType'):function(v) { return true})},
+            alertoffvalueType: {value: 'bool'},
+            //
+            actiononvalue: {value: true, required:true, validate: (RED.validators.hasOwnProperty('typedInput')?RED.validators.typedInput('actiononvalueType'):function(v) { return true})},
+            actiononvalueType: {value: 'bool'},
+            actionoffvalue: {value: false, required:true, validate: (RED.validators.hasOwnProperty('typedInput')?RED.validators.typedInput('actionoffvalueType'):function(v) { return true})},
+            actionoffvalueType: {value: 'bool'}
+            //    
+        },
+        inputs:1,
+        outputs:4,
+        outputLabels: ["value","ok","alert","action"],
+        icon: "file.png",
+        label: function() {
+            return this.name||"actionalertthreshold";
+        },
+        oneditprepare: function() {
+            $('#node-input-okonvalue').typedInput({
+                default: 'str',
+                typeField: $("#node-input-okonvalueType"),
+                types: ['str','num','bool','json','bin','date']
+            });
+
+            $('#node-input-okoffvalue').typedInput({
+                default: 'str',
+                typeField: $("#node-input-okoffvalueType"),
+                types: ['str','num','bool','json','bin','date']
+            });
+            $('#node-input-alertonvalue').typedInput({
+                default: 'str',
+                typeField: $("#node-input-alertonvalueType"),
+                types: ['str','num','bool','json','bin','date']
+            });
+
+            $('#node-input-alertoffvalue').typedInput({
+                default: 'str',
+                typeField: $("#node-input-alertoffvalueType"),
+                types: ['str','num','bool','json','bin','date']
+            });
+            $('#node-input-actiononvalue').typedInput({
+                default: 'str',
+                typeField: $("#node-input-actiononvalueType"),
+                types: ['str','num','bool','json','bin','date']
+            });
+
+            $('#node-input-actionoffvalue').typedInput({
+                default: 'str',
+                typeField: $("#node-input-actionoffvalueType"),
+                types: ['str','num','bool','json','bin','date']
+            });
+        }
+
+    });
+        
+</script>
+
+<script type="text/x-red" data-template-name="actionalertthreshold">
+    <div class="form-row">
+        <label for="node-input-name"><i class="icon-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-hihi"><i class="icon-tag"></i>HiHi</label>
+        <input type="text" id="node-input-hihi" placeholder="HiHi">
+        <label for="node-input-hihiEnable"><i class="icon-tag"></i>Enable</label>
+        <input type="checkbox" id="node-input-hihiEnable" placeholder="hihiEnable">
+    </div>
+    
+    <div class="form-row">
+        <label for="node-input-hilo"><i class="icon-tag"></i>HiLo</label>
+        <input type="text" id="node-input-hilo" placeholder="HiLo">
+        <label for="node-input-hiloEnable"><i class="icon-tag"></i>Enable</label>
+        <input type="checkbox" id="node-input-hiloEnable" placeholder="hiloEnable">
+    </div>
+    <div class="form-row">
+        <label for="node-input-hihi"><i class="icon-tag"></i>LoHi</label>
+        <input type="text" id="node-input-lohi" placeholder="LoHi">
+        <label for="node-input-lohiEnable"><i class="icon-tag"></i>Enable</label>
+        <input type="checkbox" id="node-input-lohiEnable" placeholder="lohiEnable">
+    </div>
+    
+    <div class="form-row">
+        <label for="node-input-lolo"><i class="icon-tag"></i>LoLo</label>
+        <input type="text" id="node-input-lolo" placeholder="LoLo">
+        <label for="node-input-loloEnable"><i class="icon-tag"></i>Enable</label>
+        <input type="checkbox" id="node-input-loloEnable" placeholder="loloEnable">
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-okonvalue" style="padding-left:25px; margin-right:-25px">Ok On Payload</label>
+        <input type="text" id="node-input-okonvalue" style="width:70%">
+        <input type="hidden" id="node-input-okonvalueType">
+    </div>
+    <div class="form-row">
+        <label for="node-input-okoffvalue" style="padding-left:25px; margin-right:-25px">Ok Off Payload</label>
+        <input type="text" id="node-input-okoffvalue" style="width:70%">
+        <input type="hidden" id="node-input-okoffvalueType">
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-alertonvalue" style="padding-left:25px; margin-right:-25px">Alert On Payload</label>
+        <input type="text" id="node-input-alertonvalue" style="width:70%">
+        <input type="hidden" id="node-input-alertonvalueType">
+    </div>
+    <div class="form-row">
+        <label for="node-input-alertoffvalue" style="padding-left:25px; margin-right:-25px">Alert Off Payload</label>
+        <input type="text" id="node-input-alertoffvalue" style="width:70%">
+        <input type="hidden" id="node-input-alertoffvalueType">
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-actiononvalue" style="padding-left:25px; margin-right:-25px">Action On Payload</label>
+        <input type="text" id="node-input-actiononvalue" style="width:70%">
+        <input type="hidden" id="node-input-actiononvalueType">
+    </div>
+    <div class="form-row">
+        <label for="node-input-actionoffvalue" style="padding-left:25px; margin-right:-25px">Action Off Payload</label>
+        <input type="text" id="node-input-actionoffvalue" style="width:70%">
+        <input type="hidden" id="node-input-actionoffvalueType">
+    </div>
+
+    
+</script>
+
+<script type="text/x-red" data-help-name="actionalertthreshold">
+    <p>Tests value against thresholds </p>
+</script>

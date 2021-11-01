@@ -1,0 +1,86 @@
+<?xml version="1.0" ?>
+
+<!-- Created by: Francesco Montorsi <frm@users.sourceforge.net>     -->
+<!-- Creation date: 29/10/2005                                      -->
+<!-- RCS-ID: $Id: wxhacks.bkl,v 1.1 2005/10/29 09:59:41 frm Exp $  -->
+
+<makefile>
+    <if cond="not isdefined('WXCODE_HACKS_INC')">
+    <set var="WXCODE_HACKS_INC">1</set>
+
+
+    <!--                                                 -->
+    <!--     WXPRESETS HACKS: required to make it        -->
+    <!--     possible to install components easily       -->
+    <!--     under Unix through the configure script     -->
+    <!--                                                 -->
+
+    <!-- This bakefile provides a lot of wxWidgets-specific settings -->
+    <if cond="not isdefined('__wx_included_impl')">     <!-- the '__wx_included_impl' variable is defined by presets/wx.bkl -->
+        <include file="presets/wx.bkl"/>
+    </if>
+    
+    <!--    A simple variable used to understand if we are          -->
+    <!--    creating a makefile for a Win32 target or a more        -->
+    <!--    generic linux/GNU-based system.                         -->
+    <set var="TARGETING_WIN32">
+        <if cond="FORMAT=='autoconf' or FORMAT=='gnu'">0</if>
+        <if cond="FORMAT!='autoconf' and FORMAT!='gnu'">1</if>
+    </set>
+    <set var="TARGETING_IDE">
+        <if cond="FORMAT=='msvc6prj' or FORMAT=='cbuilderx'">1</if>
+        <if cond="FORMAT!='msvc6prj' and FORMAT!='cbuilderx'">0</if>
+    </set>
+
+    <if cond="TARGETING_WIN32=='0'">
+        <set var="WX_SHAREDDEFINE"/>
+        <set var="WXLIBPOSTFIX"></set>
+        <set var="WX3RDPARTLIBPOSTFIX"></set>
+        
+        <!-- these options definitions are missing from wx_unix.bkl for all UNIX formats;
+          for more info about this see:
+
+             http://sourceforge.net/tracker/index.php?func=detail&aid=1254557&group_id=9863&atid=309863
+
+          wxCode bakefiles don't use its own options (BUILD,UNICODE,SHARED) and then sets WX_* options from
+          their values; since wxCode components are "wx addons" we will use directly the WX_* options.
+          Thus we need them also on Unix formats and thus we declare them here.
+          All these options are set (for 'autoconf' format) by the AM_WXPRESETS macro
+          (see wxpresets.m4 and wxcode.m4 macro files). -->
+        <option name="WX_DEBUG"/>
+        <option name="WX_UNICODE"/>
+        <option name="WX_SHARED"/>
+        <option name="WX_DIR"/>
+        <option name="WX_VERSION"/>
+        <option name="WX_PORT"/>
+    </if>
+        
+    <set var="WARNINGS">
+        <if cond="WX_DEBUG=='1'">max</if>
+        <if cond="WX_DEBUG=='0'">no</if>
+    </set>
+    <set var="DEBUGINFO">
+        <if cond="WX_DEBUG=='1'">on</if>
+        <if cond="WX_DEBUG=='0'">off</if>
+    </set>
+    <set var="DEBUGRUNTIME">
+        <if cond="WX_DEBUG=='1'">on</if>
+        <if cond="WX_DEBUG=='0'">off</if>
+    </set>
+    <set var="OPTIMIZEFLAG">
+        <if cond="WX_DEBUG=='1'">off</if>
+        <if cond="WX_DEBUG=='0'">speed</if>
+    </set>
+    <set var="WX_SHAREDDEFINE">
+        <if cond="WX_SHARED=='1'">WXUSINGDLL</if>
+    </set>
+
+    <if cond="TARGETING_WIN32=='1'">        
+        <set var="WX_PORT">$(WXPORT)</set>
+    </if>
+
+
+    
+    </if>       <!-- WXCODE_HACKS_INC -->
+    
+</makefile>

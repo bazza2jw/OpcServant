@@ -1,0 +1,312 @@
+
+/**
+@page page4 Пример использования 4
+
+
+\image html sample4.jpg
+
+@code
+
+///////////////////////////////////////////////////////////////////////////
+// C++ code generated with wxFormBuilder (version Sep  8 2010)
+// http://www.wxformbuilder.org/
+//
+// PLEASE DO "NOT" EDIT THIS FILE!
+///////////////////////////////////////////////////////////////////////////
+
+#ifndef __noname__
+#define __noname__
+
+#include <wx/gdicmn.h>
+#include <wx/font.h>
+#include <wx/colour.h>
+#include <wx/settings.h>
+#include <wx/string.h>
+#include <wx/stattext.h>
+#include <wx/textctrl.h>
+#include <wx/sizer.h>
+#include <wx/dialog.h>
+#include "dbstruct.h"
+#include "dbtextfield.h"
+#include <wx/textctrl.h>
+#include "dbtreegrid.h"
+#include <wx/datectrl.h>
+#include "dbdatefield.h"
+#include "dbcheckfield.h"
+#include "dblistfield.h"
+#include "dbradioboxfield.h"
+
+///////////////////////////////////////////////////////////////////////////
+
+
+///////////////////////////////////////////////////////////////////////////////
+/// Class TestFieldDialog
+///////////////////////////////////////////////////////////////////////////////
+class TestFieldDialog : public wxDialog 
+{
+	private:
+	
+	protected:
+		wxStaticText* m_staticText1;
+		wxStaticText* m_staticText2;
+				wxStaticText* m_staticText3;
+						wxStaticText* m_staticText4;
+
+						wxStaticText* m_staticText5;
+	
+	public:
+		DbTreeGrid * tree;
+		DbTextField *t1;
+		wxTextCtrl* t2;
+		DbDateField *d1;
+		DbCheckField *c;	
+		DbListField *l1;
+		DbRadioBoxField *r1;
+		TestFieldDialog( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxEmptyString, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 590,576 ), long style = wxDEFAULT_DIALOG_STYLE );
+		~TestFieldDialog();
+		bool Init();
+		DatabaseLayer* db;
+		///Обработчик закрытия
+		void OnClose(wxCloseEvent &event);
+		void OnSetFocus(wxFocusEvent &event);
+		DECLARE_EVENT_TABLE()
+		
+
+};
+
+#endif //__noname__
+
+///////////////////////////////////////////////////////////////////////////
+// C++ code generated with wxFormBuilder (version Feb 17 2010)
+// http://www.wxformbuilder.org/
+//
+// PLEASE DO "NOT" EDIT THIS FILE!
+///////////////////////////////////////////////////////////////////////////
+
+#include "testfielddialog.h"
+
+///////////////////////////////////////////////////////////////////////////
+
+TestFieldDialog::TestFieldDialog( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxDialog( parent, id, title, pos, size, style )
+{
+	this->SetSizeHints( wxDefaultSize, wxDefaultSize );
+	
+	wxBoxSizer* bSizer1;
+	bSizer1 = new wxBoxSizer( wxVERTICAL );
+	
+	tree = new DbTreeGrid( this,wxID_ANY,
+	wxDefaultPosition,
+	wxSize(-1,-1),
+	wxTR_SINGLE |
+	wxTR_HAS_BUTTONS |
+	wxTR_FULL_ROW_HIGHLIGHT |
+	wxTR_HIDE_ROOT |
+	wxTR_ROW_LINES |
+	wxTR_COLUMN_LINES |
+	wxTR_EDIT_LABELS
+	);
+	
+	bSizer1->Add( tree, 1, wxALL|wxEXPAND, 5 );
+	
+	wxFlexGridSizer* fgSizer1;
+	fgSizer1 = new wxFlexGridSizer( 2, 2, 0, 0 );
+	fgSizer1->AddGrowableCol( 1 );
+	fgSizer1->SetFlexibleDirection( wxBOTH );
+	fgSizer1->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
+	
+	m_staticText1 = new wxStaticText( this, wxID_ANY, wxT("MyLabel"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText1->Wrap( -1 );
+	fgSizer1->Add( m_staticText1, 0, wxALL, 5 );
+	
+	t1 = new DbTextField( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(-1,60), wxTE_MULTILINE|wxTE_WORDWRAP );
+	fgSizer1->Add( t1, 0, wxALL|wxEXPAND, 5 );
+	
+	m_staticText2 = new wxStaticText( this, wxID_ANY, wxT("MyLabel"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText2->Wrap( -1 );
+	fgSizer1->Add( m_staticText2, 0, wxALL, 5 );
+	
+	d1 = new DbDateField( this, wxID_ANY, wxDefaultDateTime, wxDefaultPosition, wxDefaultSize, wxDP_DEFAULT|wxDP_DROPDOWN );
+	fgSizer1->Add( d1, 0, wxALL, 5 );
+	
+	m_staticText3 = new wxStaticText( this, wxID_ANY, wxT("MyLabel"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText3->Wrap( -1 );
+	fgSizer1->Add( m_staticText3, 0, wxALL, 5 );
+	
+	c= new DbCheckField( this, wxID_ANY, wxT("Check Me!"), wxDefaultPosition, wxDefaultSize, 0 );
+	
+	fgSizer1->Add( c, 0, wxALL, 5 );
+	
+	m_staticText4 = new wxStaticText( this, wxID_ANY, wxT("MyLabel"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText4->Wrap( -1 );
+	fgSizer1->Add( m_staticText4, 0, wxALL, 5 );
+	
+	wxString m_choice1Choices[] = { wxT("One"), wxT("Two"), wxT("Three") };
+	int m_choice1NChoices = sizeof( m_choice1Choices ) / sizeof( wxString );
+	l1 = new DbListField( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, m_choice1NChoices, m_choice1Choices, 0 );
+	fgSizer1->Add( l1, 0, wxALL, 5 );
+	
+	m_staticText5 = new wxStaticText( this, wxID_ANY, wxT("MyLabel"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText5->Wrap( -1 );
+	fgSizer1->Add( m_staticText5, 0, wxALL, 5 );
+	
+	wxString m_radioBox1Choices[] = { wxT("one"), wxT("two"), wxT("three") };
+	int m_radioBox1NChoices = sizeof( m_radioBox1Choices ) / sizeof( wxString );
+	r1= new DbRadioBoxField( this, wxID_ANY, wxT("wxRadioBox"), wxDefaultPosition, wxDefaultSize, m_radioBox1NChoices, m_radioBox1Choices, 1, wxRA_SPECIFY_COLS );
+	
+	fgSizer1->Add( r1, 0, wxALL, 5 );
+	
+	bSizer1->Add( fgSizer1, 0, wxEXPAND, 5 );
+	
+	this->SetSizer( bSizer1 );
+	this->Layout();
+	
+	this->Centre( wxBOTH );
+}
+
+TestFieldDialog::~TestFieldDialog()
+{
+}
+
+#include "testfielddialog.h"
+#include "dbdispatcher.h"
+#include "setup.h"
+#include "validator.h"
+
+DbDispatcher * dispatcher5=0;
+
+bool TestFieldDialog::Init()
+{
+	
+	if(dispatcher5) return false;;
+	SetLabel(wxT("Сотрудники"));
+	
+	dispatcher5 = new DbDispatcher();
+	wxLogMessage("PersonDialog::Init");
+	try{
+		db = new FirebirdDatabaseLayer(DB_SERVER,DB_NAME,USER_NAME,USER_PASSWORD);
+
+	}
+	catch (DatabaseLayerException& e)
+	{
+		wxMessageBox(wxString::Format(_("Error (%d): %s"), e.GetErrorCode(), e.GetErrorMessage().c_str()));
+	}
+	
+
+	tree->db=db;
+	tree->selectClause=wxT("select LastName,FirstName,Patronymic,Id,Person_Id,Service_Id,Appointment_Id, d_birth,flag,list,radio ");
+	tree->fromClause=wxT("from v_tests");
+//	tree->orderClause=wxT("order by LastName");
+	tree->CreateQuery();
+	wxLogMessage("PersonDialog::Init 3");
+	if (!tree->SetupField()) return false;
+	
+	tree->dstName= wxT("tests");
+
+	ArrayDbGridFieldDesc* fd =tree->GetFieldDescription();
+	if(fd->Count()>=0){
+		tree->SetPkNum(3);
+	tree->SetTreeNum(4);
+	(*fd)[0].SetProperty(DB_FIELD_NOT_NULL);
+	(*fd)[5].ResetProperty(DB_FIELD_VISIBLE);
+	(*fd)[6].ResetProperty(DB_FIELD_VISIBLE);
+	(*fd)[3].ResetProperty(DB_FIELD_VISIBLE);
+	(*fd)[4].ResetProperty(DB_FIELD_VISIBLE);
+//	(*fd)[7].ResetProperty(DB_FIELD_EDITABLE);
+	(*fd)[0].columnName=wxT("Фамилия*");
+	(*fd)[1].columnName=wxT("Имя");
+	(*fd)[2].columnName=wxT("Отчество");
+	(*fd)[10].defValue=wxT("20");
+
+	tree->SetProperty(DB_GRID_IS_TREE);
+	//tree->ResetProperty(DB_GRID_QUERY_ENABLE);
+	tree->seqName=wxT("GlobalSequence");
+	(*fd)[7].valueType=DB_FIELD_DATETIME;
+	tree->CreateField();
+	tree->GetAllRow();
+	tree->AddLinkField(t1, 0);
+	tree->AddLinkField(d1, 7);
+	
+	tree->AddLinkField(c, 8);
+	tree->AddLinkField(l1, 9);
+	tree->AddLinkField(r1, 10);
+	(*fd)[7].validator=&dtvalidator;
+
+	}
+		wxLogMessage("PersonDialog::Init5");
+	DbLOV lov;
+	lov.selectClause=wxT("select lastname as \"Фамилия\",\
+					firstname as \"Имя\",\
+					patronymic as \"Отчество\",\
+					id,\
+					lastname||' '||firstname||' '||patronymic as fio\
+					from person");
+	lov.query=wxT("select lastname as \"Фамилия\",\
+					firstname as \"Имя\",\
+					patronymic as \"Отчество\",\
+					id,\
+					lastname||' '||firstname||' '||patronymic as fio\
+					from person");	
+	DbPair p;
+	p.i1=0;p.i2=0;p.w=200;p.fieldName=wxT("lastname");lov.pair.Add(p);
+	p.i1=1;p.i2=1;p.w=200;p.fieldName=wxT("firstname");lov.pair.Add(p);
+	p.i1=2;p.i2=2;p.w=200;p.fieldName=wxT("patronymic");lov.pair.Add(p);
+	p.i1=3;p.i2=-1;p.w=0;p.fieldName=wxT("id");lov.pair.Add(p);
+	p.i1=4;p.i2=-1;p.w=0;lov.pair.Add(p);
+	
+	lov.size=wxSize(700,300);
+	DbLOV *l=tree->AddLOV(lov);
+		wxLogMessage("PersonDialog::Init 6");
+	(*fd)[0].lov=l;
+	wxArrayString as;
+	as.Add("10");
+	as.Add("20");
+	as.Add("30");
+	l1->SetValues(as);
+	r1->SetValues(as);
+
+	tree->SelectFirstRecord();
+	dispatcher5->AddGrid((DbQueryObject*)tree);
+	tree->SetColumnWidth(0,200);
+	tree->SetColumnWidth(1,200);
+	tree->SetColumnWidth(2,200);
+
+//	d1->Disable();
+//	tree->Hide();
+	//Устанавливаем главное окно для проверки на изменения при закрытии
+	dispatcher5->win = this;
+	return true;
+
+};
+
+void TestFieldDialog::OnClose(wxCloseEvent &event){
+	
+	if(dispatcher5->IsChanged())
+	{
+		int answer=wxMessageBox("Есть изменеия, выйдти без сохранения?",wxEmptyString,wxOK|wxCANCEL) ;
+		if(! (wxOK == answer ))
+		{  
+			if (event.CanVeto())   {    wxLogMessage("IpAddrDialog::OnClose VETO ");      event.Veto();  return ;}
+		}
+	}
+	delete dispatcher5;
+	dispatcher5=0;
+	if(db){
+		db->RollBack(); if (db->IsOpen())db->Close();
+	}
+
+	Destroy();
+
+}
+void TestFieldDialog::OnSetFocus(wxFocusEvent &event)
+{
+	wxLogMessage("TestFieldDialog::OnSetFocus@@@");
+};
+
+BEGIN_EVENT_TABLE( TestFieldDialog, wxDialog )
+	EVT_CLOSE(TestFieldDialog::OnClose) 
+	EVT_SET_FOCUS(TestFieldDialog::OnSetFocus)
+END_EVENT_TABLE()
+
+@endcode
+
+*/

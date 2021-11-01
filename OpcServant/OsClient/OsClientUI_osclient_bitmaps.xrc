@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resource xmlns="http://www.wxwidgets.org/wxxrc">
+  <!-- Handler Generation is ON -->
+  <object class="wxBitmap" name="computer-laptop">Icons/computer-laptop.png</object>
+  <object class="wxBitmap" name="dispcalGUI-testchart-editor">Icons/dispcalGUI-testchart-editor.png</object>
+  <object class="wxBitmap" name="exit">Icons/exit.png</object>
+  <object class="wxBitmap" name="gear">Icons/gear.png</object>
+  <object class="wxBitmap" name="gtk-dialog-info">Icons/gtk-dialog-info.png</object>
+  <object class="wxBitmap" name="icon_map">Icons/icon_map.png</object>
+  <object class="wxBitmap" name="pcp-gui">Icons/pcp-gui.png</object>
+</resource>

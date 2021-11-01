@@ -1,0 +1,121 @@
+<script type="text/javascript">
+    RED.nodes.registerType('alarmgroup',{
+        category: 'function',
+        color: '#a6bbcf',
+        defaults: {
+            name: {value:""},
+            waitTime: {value:10, validate:RED.validators.number()},
+            //
+            okonvalue: {value: true, required:true, validate: (RED.validators.hasOwnProperty('typedInput')?RED.validators.typedInput('okonvalueType'):function(v) { return true})},
+            okonvalueType: {value: 'bool'},
+            okoffvalue: {value: false, required:true, validate: (RED.validators.hasOwnProperty('typedInput')?RED.validators.typedInput('okoffvalueType'):function(v) { return true})},
+            okoffvalueType: {value: 'bool'},
+            //
+            alertonvalue: {value: true, required:true, validate: (RED.validators.hasOwnProperty('typedInput')?RED.validators.typedInput('alertonvalueType'):function(v) { return true})},
+            alertonvalueType: {value: 'bool'},
+            alertoffvalue: {value: false, required:true, validate: (RED.validators.hasOwnProperty('typedInput')?RED.validators.typedInput('alertoffvalueType'):function(v) { return true})},
+            alertoffvalueType: {value: 'bool'},
+            //
+            actiononvalue: {value: true, required:true, validate: (RED.validators.hasOwnProperty('typedInput')?RED.validators.typedInput('actiononvalueType'):function(v) { return true})},
+            actiononvalueType: {value: 'bool'},
+            actionoffvalue: {value: false, required:true, validate: (RED.validators.hasOwnProperty('typedInput')?RED.validators.typedInput('actionoffvalueType'):function(v) { return true})},
+            actionoffvalueType: {value: 'bool'}
+            //    
+        },
+        inputs:1,
+        outputs:4,
+        outputLabels: ["state","ok","alert","action"],
+        icon: "file.png",
+        label: function() {
+            return this.name||"alarmgroup";
+        },
+        oneditprepare: function() {
+            $('#node-input-okonvalue').typedInput({
+                default: 'str',
+                typeField: $("#node-input-okonvalueType"),
+                types: ['str','num','bool','json','bin','date']
+            });
+
+            $('#node-input-okoffvalue').typedInput({
+                default: 'str',
+                typeField: $("#node-input-okoffvalueType"),
+                types: ['str','num','bool','json','bin','date']
+            });
+            $('#node-input-alertonvalue').typedInput({
+                default: 'str',
+                typeField: $("#node-input-alertonvalueType"),
+                types: ['str','num','bool','json','bin','date']
+            });
+
+            $('#node-input-alertoffvalue').typedInput({
+                default: 'str',
+                typeField: $("#node-input-alertoffvalueType"),
+                types: ['str','num','bool','json','bin','date']
+            });
+            $('#node-input-actiononvalue').typedInput({
+                default: 'str',
+                typeField: $("#node-input-actiononvalueType"),
+                types: ['str','num','bool','json','bin','date']
+            });
+
+            $('#node-input-actionoffvalue').typedInput({
+                default: 'str',
+                typeField: $("#node-input-actionoffvalueType"),
+                types: ['str','num','bool','json','bin','date']
+            });
+        }
+
+    });
+        
+</script>
+
+<script type="text/x-red" data-template-name="alarmgroup">
+    <div class="form-row">
+        <label for="node-input-name"><i class="icon-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-hihi"><i class="icon-tag"></i>Wait Time(s)</label>
+        <input type="text" id="node-input-waitTime" placeholder="WaitTime">
+    </div>
+    
+
+    <div class="form-row">
+        <label for="node-input-okonvalue" style="padding-left:25px; margin-right:-25px">Ok On Payload</label>
+        <input type="text" id="node-input-okonvalue" style="width:70%">
+        <input type="hidden" id="node-input-okonvalueType">
+    </div>
+    <div class="form-row">
+        <label for="node-input-okoffvalue" style="padding-left:25px; margin-right:-25px">Ok Off Payload</label>
+        <input type="text" id="node-input-okoffvalue" style="width:70%">
+        <input type="hidden" id="node-input-okoffvalueType">
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-alertonvalue" style="padding-left:25px; margin-right:-25px">Alert On Payload</label>
+        <input type="text" id="node-input-alertonvalue" style="width:70%">
+        <input type="hidden" id="node-input-alertonvalueType">
+    </div>
+    <div class="form-row">
+        <label for="node-input-alertoffvalue" style="padding-left:25px; margin-right:-25px">Alert Off Payload</label>
+        <input type="text" id="node-input-alertoffvalue" style="width:70%">
+        <input type="hidden" id="node-input-alertoffvalueType">
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-actiononvalue" style="padding-left:25px; margin-right:-25px">Action On Payload</label>
+        <input type="text" id="node-input-actiononvalue" style="width:70%">
+        <input type="hidden" id="node-input-actiononvalueType">
+    </div>
+    <div class="form-row">
+        <label for="node-input-actionoffvalue" style="padding-left:25px; margin-right:-25px">Action Off Payload</label>
+        <input type="text" id="node-input-actionoffvalue" style="width:70%">
+        <input type="hidden" id="node-input-actionoffvalueType">
+    </div>
+
+    
+</script>
+
+<script type="text/x-red" data-help-name="alarmgroup">
+    <p>Manages an alarm group writing to the status table UI control at the given interval  </p>
+</script>

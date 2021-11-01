@@ -1,0 +1,5 @@
+<map id="G" name="G">
+<area shape="rect" id="node2" href="$d2/d22/classwx_s_f_diagram_manager.html" title="Class encapsulating framework&#39;s data layer. Its functions are responsible for managing shape objects ..." alt="" coords="141,85,307,115"/>
+<area shape="rect" id="node6" href="$db/d44/classwx_s_f_shape_canvas.html" title="Class encapsulating a Shape canvas. The shape canvas is window control which extends the wxScrolledWi..." alt="" coords="219,181,360,211"/>
+<area shape="rect" id="node4" href="$df/dfd/classwx_xml_serializer.html" title="Class encapsulates a serializable objects&#39; manager which is responsible for handling stored serializa..." alt="" coords="164,5,284,35"/>
+</map>

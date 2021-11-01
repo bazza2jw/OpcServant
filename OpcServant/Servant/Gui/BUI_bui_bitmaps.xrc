@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resource xmlns="http://www.wxwidgets.org/wxxrc">
+  <!-- Handler Generation is ON -->
+  <object class="wxBitmap" name="configure">Icons/configure.png</object>
+  <object class="wxBitmap" name="emblem-system">Icons/emblem-system.png</object>
+  <object class="wxBitmap" name="key">Icons/key.png</object>
+  <object class="wxBitmap" name="ledlightblue">Icons/ledlightblue.png</object>
+  <object class="wxBitmap" name="newdifferential">Icons/newdifferential.png</object>
+  <object class="wxBitmap" name="newfunction">Icons/newfunction.png</object>
+  <object class="wxBitmap" name="vcs-update-required">Icons/vcs-update-required.png</object>
+</resource>

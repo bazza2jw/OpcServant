@@ -1,0 +1,18 @@
+error: failed to set variable 'WX_PORT' to value '$(WXPORT)': name 'WXPORT' is not defined
+    in <set> at C:\wxCode\build\bakefiles\wxhacks.bkl:79
+    included from C:\wxCode\build\bakefiles\defaults.bkl:87
+    included from C:\wxCode\build\bakefiles\all.bkl:16
+error: failed to set variable 'WX_PORT' to value '$(WXPORT)': name 'WXPORT' is not defined
+    in <set> at C:\wxCode\build\bakefiles\wxhacks.bkl:79
+    included from C:\wxCode\build\bakefiles\defaults.bkl:87
+    included from C:\wxCode\build\bakefiles\all.bkl:16
+error: failed to set variable 'WX_PORT' to value '$(WXPORT)': name 'WXPORT' is not defined
+    in <set> at C:\wxCode\build\bakefiles\wxhacks.bkl:79
+    included from C:\wxCode\build\bakefiles\defaults.bkl:87
+    included from C:\wxCode\build\bakefiles\all.bkl:16
+error: failed to set variable 'WX_PORT' to value '$(WXPORT)': name 'WXPORT' is not defined
+    in <set> at C:\wxCode\build\bakefiles\wxhacks.bkl:79
+    included from C:\wxCode\build\bakefiles\defaults.bkl:87
+    included from C:\wxCode\build\bakefiles\all.bkl:16
+file:///C:/wxCode/build/bakefiles/Bakefiles.bkgen:4: warning: missing namespace declaration, should be "http://www.bakefile.org/schema/bakefile-gen"
+[bakefile_gen] error: bakefile exited with error (1)

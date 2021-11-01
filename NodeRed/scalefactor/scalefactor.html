@@ -1,0 +1,47 @@
+<script type="text/javascript">
+    RED.nodes.registerType('scalefactor',{
+        category: 'function',
+        color: '#a6bbcf',
+        defaults: {
+            name: {value:""},
+            scale: {value:1.0, validate:RED.validators.number()},
+            offset: {value:0.0, validate:RED.validators.number()},
+            offsetThenScale: {value:false},
+            topic:{value:""}
+        },
+        inputs:1,
+        outputs:1,
+        icon: "file.png",
+        label: function() {
+            return this.name||"scalefactor";
+        }
+    });
+</script>
+
+<script type="text/x-red" data-template-name="scalefactor">
+    <div class="form-row">
+        <label for="node-input-name"><i class="icon-tag"></i>Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-scale"><i class="icon-tag"></i>Scale</label>
+        <input type="text" id="node-input-scale" placeholder="Scale">
+    </div>
+    <div class="form-row">
+        <label for="node-input-offset"><i class="icon-tag"></i>Offset</label>
+        <input type="text" id="node-input-offset" placeholder="Offset">
+    </div>
+    <div class="form-row">
+        <label for="node-input-name"><i class="icon-tag"></i>Offset Then Scale</label>
+        <input type="checkbox" id="node-input-offsetThenScale" placeholder="OffsetThenScale">
+    </div>
+    <div class="form-row">
+        <label for="node-input-topic"><i class="icon-tag"></i>Topic</label>
+        <input type="text" id="node-input-topic" placeholder="Topic">
+    </div>
+</script>
+
+<script type="text/x-red" data-help-name="scalefactor">
+    <p>Applies scale and offset to a number - converts from measured to physical units</p>
+    <p>If the topic field is set then the topic is changed</p>
+</script>

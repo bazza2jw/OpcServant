@@ -1,0 +1,10 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$db/ddd/classwx_s_f_arrow_base.html" title="Base class for a line arrows." alt="" coords="79,83,199,112"/>
+<area shape="rect" id="node9" href="$d6/d7a/classwx_s_f_canvas_settings.html" title="Auxiliary serializable class encapsulating the canvas properties." alt="" coords="223,83,377,112"/>
+<area shape="rect" id="node11" href="$d5/de9/classwx_s_f_connection_point.html" title="Class encapsulating fixed connection point assignable to shapes. The assigned fixed connection points..." alt="" coords="401,83,559,112"/>
+<area shape="rect" id="node13" href="$da/d88/classwx_s_f_shape_base.html" title="Base class for all shapes providing fundamental functionality and publishing set of virtual functions..." alt="" coords="583,83,708,112"/>
+<area shape="rect" id="node5" href="$d6/dab/classwx_s_f_open_arrow.html" title="Class extends the wxSFArrowBase class and encapsulates arrow shape consisting of single two lines lea..." alt="" coords="5,160,128,189"/>
+<area shape="rect" id="node7" href="$d7/d98/classwx_s_f_solid_arrow.html" title="Class extends the wxSFArrowBase class and encapsulates arrow shape consisting of a solid triangle poi..." alt="" coords="152,160,272,189"/>
+<area shape="rect" id="node15" href="$d7/d05/classwx_s_f_line_shape.html" title="Basic class encapsulating the multiline consisting of several line segments." alt="" coords="512,160,632,189"/>
+<area shape="rect" id="node17" href="$db/d0e/classwx_s_f_rect_shape.html" title="Class encapsulates basic rectangle shape which is used as a base class for many other shapes that can..." alt="" coords="656,160,779,189"/>
+</map>

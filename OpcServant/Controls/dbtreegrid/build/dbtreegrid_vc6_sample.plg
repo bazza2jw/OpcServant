@@ -1,0 +1,58 @@
+<html>
+<body>
+<pre>
+<h1>Build Log</h1>
+<h3>
+--------------------Configuration: sample - Win32 Static ANSI Release Multilib Static--------------------
+</h3>
+<h3>Command Lines</h3>
+warning: unresolved Environment Variable  "$(WXWIN)"
+warning: unresolved Environment Variable  "$(WXWIN)"
+Creating temporary file "C:\Users\User\AppData\Local\Temp\RSPD30C.tmp" with contents
+[
+/nologo /MD /W4 /GR /O2 /I "\lib\vc_lib\msw" /I "\include" /I "..\include" /D "WIN32" /D "__WXMSW__" /D "_WINDOWS" /Fo"vcmsw\sample/" /Fd"..\sample\sample.pdb" /FD /EHsc /c 
+"Z:\wxCode\components\dbtreegrid\sample\t02.cpp"
+]
+Creating command line "cl.exe @C:\Users\User\AppData\Local\Temp\RSPD30C.tmp" 
+warning: unresolved Environment Variable  "$(WXWIN)"
+Creating temporary file "C:\Users\User\AppData\Local\Temp\RSPD30D.tmp" with contents
+[
+..\lib\vc_lib\wxcode_msw28_dbtreegrid.lib wxcode_msw28_databaselayer_firebird.lib wxmsw28_adv.lib wxmsw28_core.lib wxbase28.lib wxtiff.lib wxjpeg.lib wxpng.lib wxzlib.lib wxregex.lib wxexpat.lib kernel32.lib user32.lib gdi32.lib comdlg32.lib winspool.lib winmm.lib shell32.lib comctl32.lib ole32.lib oleaut32.lib uuid.lib rpcrt4.lib advapi32.lib wsock32.lib odbc32.lib oleacc.lib /nologo /subsystem:windows /incremental:no /pdb:"..\sample/sample.pdb" /machine:I386 /out:"..\sample\sample.exe" /libpath:"\lib\vc_lib" /libpath:"..\lib\vc_lib" 
+.\vcmsw\sample\appointdialog.obj
+.\vcmsw\sample\appointdialog_init.obj
+.\vcmsw\sample\deptdialog.obj
+.\vcmsw\sample\deptdialog_init.obj
+.\vcmsw\sample\myframe.obj
+.\vcmsw\sample\myframe_init.obj
+.\vcmsw\sample\person.obj
+.\vcmsw\sample\person_init.obj
+.\vcmsw\sample\t02.obj
+.\vcmsw\sample\test.obj
+.\vcmsw\sample\test_init.obj
+.\vcmsw\sample\worker.obj
+.\vcmsw\sample\worker_init.obj
+\wxCode\components\dbtreegrid\lib\vc_lib\wxcode_msw28_dbtreegrid.lib
+]
+Creating command line "link.exe @C:\Users\User\AppData\Local\Temp\RSPD30D.tmp"
+<h3>Output Window</h3>
+Compiling...
+t02.cpp
+C:\WXWIDGETS-2.8.12\INCLUDE\wx/wxchar.h(1019) : warning C4091: '' : ignored on left of 'int' when no variable is declared
+Z:\wxCode\components\dbtreegrid\sample\../include/../../databaselayer/include/DatabaseResultSet.h(25) : warning C4284: return type for 'MetaDataHashSet_wxImplementation_HashTable::iterator::operator ->' is 'class ResultSetMetaData ** ' (ie; not a UDT or reference to a UDT.  Will produce errors if applied using infix notation)
+Z:\wxCode\components\dbtreegrid\sample\../include/../../databaselayer/include/DatabaseResultSet.h(25) : warning C4284: return type for 'MetaDataHashSet_wxImplementation_HashTable::const_iterator::operator ->' is 'class ResultSetMetaData *const * ' (ie; not a UDT or reference to a UDT.  Will produce errors if applied using infix notation)
+Z:\wxCode\components\dbtreegrid\sample\../include/../../databaselayer/include/PreparedStatement.h(23) : warning C4284: return type for 'StatementResultSetHashSet_wxImplementation_HashTable::iterator::operator ->' is 'class DatabaseResultSet ** ' (ie; not a UDT or reference to a UDT.  Will produce errors if applied using infix notation)
+Z:\wxCode\components\dbtreegrid\sample\../include/../../databaselayer/include/PreparedStatement.h(23) : warning C4284: return type for 'StatementResultSetHashSet_wxImplementation_HashTable::const_iterator::operator ->' is 'class DatabaseResultSet *const * ' (ie; not a UDT or reference to a UDT.  Will produce errors if applied using infix notation)
+Z:\wxCode\components\dbtreegrid\sample\../include/../../databaselayer/include/DatabaseLayer.h(25) : warning C4284: return type for 'DatabaseResultSetHashSet_wxImplementation_HashTable::iterator::operator ->' is 'class DatabaseResultSet ** ' (ie; not a UDT or reference to a UDT.  Will produce errors if applied using infix notation)
+Z:\wxCode\components\dbtreegrid\sample\../include/../../databaselayer/include/DatabaseLayer.h(25) : warning C4284: return type for 'DatabaseResultSetHashSet_wxImplementation_HashTable::const_iterator::operator ->' is 'class DatabaseResultSet *const * ' (ie; not a UDT or reference to a UDT.  Will produce errors if applied using infix notation)
+Z:\wxCode\components\dbtreegrid\sample\../include/../../databaselayer/include/DatabaseLayer.h(26) : warning C4284: return type for 'DatabaseStatementHashSet_wxImplementation_HashTable::iterator::operator ->' is 'class PreparedStatement ** ' (ie; not a UDT or reference to a UDT.  Will produce errors if applied using infix notation)
+Z:\wxCode\components\dbtreegrid\sample\../include/../../databaselayer/include/DatabaseLayer.h(26) : warning C4284: return type for 'DatabaseStatementHashSet_wxImplementation_HashTable::const_iterator::operator ->' is 'class PreparedStatement *const * ' (ie; not a UDT or reference to a UDT.  Will produce errors if applied using infix notation)
+Linking...
+LINK : warning LNK4089: all references to "OLEAUT32.dll" discarded by /OPT:REF
+
+
+
+<h3>Results</h3>
+sample.exe - 0 error(s), 10 warning(s)
+</pre>
+</body>
+</html>

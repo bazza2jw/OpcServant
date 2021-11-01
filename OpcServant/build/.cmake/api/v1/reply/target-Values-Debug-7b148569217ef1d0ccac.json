@@ -1,0 +1,654 @@
+{
+	"artifacts" : 
+	[
+		{
+			"path" : "Modules/Values/libValues.so"
+		}
+	],
+	"backtrace" : 1,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"add_library",
+			"install",
+			"link_directories",
+			"include",
+			"target_link_libraries",
+			"add_definitions",
+			"set_property",
+			"include_directories"
+		],
+		"files" : 
+		[
+			"Modules/Values/CMakeLists.txt",
+			"/usr/share/cmake-3.16/Modules/UsewxWidgets.cmake",
+			"Common.cmake",
+			"CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 23,
+				"parent" : 0
+			},
+			{
+				"command" : 1,
+				"file" : 0,
+				"line" : 25,
+				"parent" : 0
+			},
+			{
+				"file" : 3
+			},
+			{
+				"command" : 3,
+				"file" : 3,
+				"line" : 3,
+				"parent" : 3
+			},
+			{
+				"file" : 2,
+				"parent" : 4
+			},
+			{
+				"command" : 3,
+				"file" : 2,
+				"line" : 62,
+				"parent" : 5
+			},
+			{
+				"file" : 1,
+				"parent" : 6
+			},
+			{
+				"command" : 2,
+				"file" : 1,
+				"line" : 64,
+				"parent" : 7
+			},
+			{
+				"command" : 4,
+				"file" : 0,
+				"line" : 24,
+				"parent" : 0
+			},
+			{
+				"command" : 5,
+				"file" : 2,
+				"line" : 95,
+				"parent" : 5
+			},
+			{
+				"command" : 5,
+				"file" : 2,
+				"line" : 63,
+				"parent" : 5
+			},
+			{
+				"command" : 5,
+				"file" : 2,
+				"line" : 86,
+				"parent" : 5
+			},
+			{
+				"command" : 5,
+				"file" : 2,
+				"line" : 20,
+				"parent" : 5
+			},
+			{
+				"command" : 6,
+				"file" : 1,
+				"line" : 69,
+				"parent" : 7
+			},
+			{
+				"command" : 5,
+				"file" : 2,
+				"line" : 84,
+				"parent" : 5
+			},
+			{
+				"command" : 7,
+				"file" : 2,
+				"line" : 89,
+				"parent" : 5
+			},
+			{
+				"command" : 7,
+				"file" : 2,
+				"line" : 91,
+				"parent" : 5
+			},
+			{
+				"command" : 7,
+				"file" : 2,
+				"line" : 92,
+				"parent" : 5
+			},
+			{
+				"command" : 7,
+				"file" : 1,
+				"line" : 58,
+				"parent" : 7
+			}
+		]
+	},
+	"compileGroups" : 
+	[
+		{
+			"compileCommandFragments" : 
+			[
+				{
+					"fragment" : " -pthread -g -fPIC  "
+				},
+				{
+					"backtrace" : 9,
+					"fragment" : "-pthread"
+				},
+				{
+					"fragment" : "-std=gnu++17"
+				}
+			],
+			"defines" : 
+			[
+				{
+					"backtrace" : 10,
+					"define" : "AERIS_GUI_BUILD"
+				},
+				{
+					"backtrace" : 9,
+					"define" : "BOOST_ALL_NO_LIB"
+				},
+				{
+					"backtrace" : 9,
+					"define" : "BOOST_ATOMIC_DYN_LINK"
+				},
+				{
+					"backtrace" : 9,
+					"define" : "BOOST_PROGRAM_OPTIONS_DYN_LINK"
+				},
+				{
+					"backtrace" : 9,
+					"define" : "BOOST_SYSTEM_DYN_LINK"
+				},
+				{
+					"backtrace" : 9,
+					"define" : "BOOST_THREAD_DYN_LINK"
+				},
+				{
+					"backtrace" : 11,
+					"define" : "MYSQLPP_MYSQL_HEADERS_BURIED"
+				},
+				{
+					"backtrace" : 12,
+					"define" : "TRACE_ON"
+				},
+				{
+					"backtrace" : 13,
+					"define" : "TRAP_ENABLE"
+				},
+				{
+					"backtrace" : 10,
+					"define" : "USE_GUI"
+				},
+				{
+					"define" : "Values_EXPORTS"
+				},
+				{
+					"backtrace" : 14,
+					"define" : "WXUSINGDLL"
+				},
+				{
+					"backtrace" : 14,
+					"define" : "_FILE_OFFSET_BITS=64"
+				},
+				{
+					"backtrace" : 15,
+					"define" : "_UNIX"
+				},
+				{
+					"backtrace" : 14,
+					"define" : "__WXGTK__"
+				}
+			],
+			"includes" : 
+			[
+				{
+					"backtrace" : 16,
+					"path" : "/Development/Projects/MRL/OpcServant/OpcServant"
+				},
+				{
+					"backtrace" : 17,
+					"path" : "/usr/include/mysql"
+				},
+				{
+					"backtrace" : 18,
+					"path" : "/usr/local/include/open62541cpp"
+				},
+				{
+					"backtrace" : 19,
+					"isSystem" : true,
+					"path" : "/usr/local/lib/wx/include/gtk3-unicode-3.1"
+				},
+				{
+					"backtrace" : 19,
+					"isSystem" : true,
+					"path" : "/usr/local/include/wx-3.1"
+				}
+			],
+			"language" : "CXX",
+			"sourceIndexes" : 
+			[
+				0,
+				1,
+				2,
+				3,
+				4,
+				5,
+				6,
+				7,
+				8,
+				9,
+				10,
+				11,
+				12
+			]
+		}
+	],
+	"dependencies" : 
+	[
+		{
+			"backtrace" : 9,
+			"id" : "MrlLib::@daeeb9f30289e95cd39c"
+		},
+		{
+			"backtrace" : 9,
+			"id" : "Common::@13b50f4fff9a3833e1fc"
+		},
+		{
+			"backtrace" : 9,
+			"id" : "ReportDocument::@93fa68b2c4831a60120b"
+		}
+	],
+	"id" : "Values::@2b2cc884eb8237198a76",
+	"install" : 
+	{
+		"destinations" : 
+		[
+			{
+				"backtrace" : 2,
+				"path" : "modules"
+			},
+			{
+				"backtrace" : 2,
+				"path" : "modules"
+			}
+		],
+		"prefix" : 
+		{
+			"path" : "/usr/local/MRL5/OpcServant"
+		}
+	},
+	"link" : 
+	{
+		"commandFragments" : 
+		[
+			{
+				"fragment" : "",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "-L/usr/local/lib",
+				"role" : "libraryPath"
+			},
+			{
+				"fragment" : "-Wl,-rpath,/usr/local/lib:/Development/Projects/MRL/OpcServant/OpcServant/build/Common:/Development/Projects/MRL/OpcServant/OpcServant/build/MrlLib:/Development/Projects/MRL/OpcServant/OpcServant/build/reportdocument:",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-L/usr/local/lib",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-pthread",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lwx_gtk3u_html-3.1",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lwx_baseu_net-3.1",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lwx_gtk3u_core-3.1",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lwx_baseu-3.1",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lwx_gtk3u_xrc-3.1",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lwx_baseu_xml-3.1",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lwx_gtk3u_propgrid-3.1",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lwx_gtk3u_richtext-3.1",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lwt",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lwthttp",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 9,
+				"fragment" : "/usr/lib/x86_64-linux-gnu/libboost_system.so.1.71.0",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 9,
+				"fragment" : "/usr/lib/x86_64-linux-gnu/libboost_thread.so.1.71.0",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 9,
+				"fragment" : "/usr/lib/x86_64-linux-gnu/libboost_program_options.so.1.71.0",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lopen62541cpp",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lsqlite3",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lmysqlpp",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lmodbus",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lmosquittopp",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lsocket++",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-latomic",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lpthread",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lm",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lrt",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 9,
+				"fragment" : "../../Common/libCommon.so",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 9,
+				"fragment" : "../../MrlLib/libMrlLib.so",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "../../reportdocument/libReportDocument.so",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-L/usr/local/lib",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lwx_gtk3u_html-3.1",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lwx_baseu_net-3.1",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lwx_gtk3u_core-3.1",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lwx_baseu-3.1",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lwx_gtk3u_xrc-3.1",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lwx_baseu_xml-3.1",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lwx_gtk3u_propgrid-3.1",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lwx_gtk3u_richtext-3.1",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lwt",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lwthttp",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 9,
+				"fragment" : "/usr/lib/x86_64-linux-gnu/libboost_system.so.1.71.0",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 9,
+				"fragment" : "/usr/lib/x86_64-linux-gnu/libboost_thread.so.1.71.0",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "/usr/lib/x86_64-linux-gnu/libboost_atomic.so.1.71.0",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-pthread",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 9,
+				"fragment" : "/usr/lib/x86_64-linux-gnu/libboost_program_options.so.1.71.0",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lopen62541cpp",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lsqlite3",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lmysqlpp",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lmodbus",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lmosquittopp",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lsocket++",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-latomic",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lpthread",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lm",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lrt",
+				"role" : "libraries"
+			}
+		],
+		"language" : "CXX"
+	},
+	"name" : "Values",
+	"nameOnDisk" : "libValues.so",
+	"paths" : 
+	{
+		"build" : "Modules/Values",
+		"source" : "Modules/Values"
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "Source Files",
+			"sourceIndexes" : 
+			[
+				0,
+				1,
+				2,
+				3,
+				4,
+				5,
+				6,
+				7,
+				8,
+				9,
+				10,
+				11,
+				12
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "Modules/Values/values.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "Modules/Values/ValuesUI_values_bitmaps.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "Modules/Values/ValuesUI.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "Modules/Values/ValueConfigurationDialog.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "Modules/Values/valueobjectmanager.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "Modules/Values/valuert.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "Modules/Values/valuetypeobject.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "Modules/Values/valuesetupwebdialog.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "Modules/Values/ValueSelectAliasDialog.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "Modules/Values/ValueGroupConfigurationDialog.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "Modules/Values/valuegroupconfigurationwebdialog.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "Modules/Values/ValueGroupPanel.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "Modules/Values/valuegroupwebpanel.cpp",
+			"sourceGroupIndex" : 0
+		}
+	],
+	"type" : "SHARED_LIBRARY"
+}

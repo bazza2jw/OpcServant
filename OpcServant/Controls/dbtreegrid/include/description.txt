@@ -1,0 +1,347 @@
+/**
+@mainpage Проект - классы GUI для работы с данными СУБД  @n
+Использует библиотеки wxWidgets начиная с версии  2.8.12 и wxDatabaseLayer @n
+Использует переработанный класс wxTreeListCtrl, в проекте назван DbTreeListCtrl @n
+Содержит набор классов для создания интерфейса, позволяющего создавать 
+формы редактирования данных из СУБД @n
+Основной класс DbTreeGrid - представляет грид для редактирования и просмотра данных , в виде таблицы или в виде дерева@n
+Есть возможность объединять гриды для синхронной работы (главный и подчиненный), для синхронизации используется класс
+DbDispatcher @n
+Можно редактировать данные в отдельных полях , используются классы DbField и производные от него
+DbTextField DbDateField DbCheckField DbListField @n
+Для выбора значений полей из списка используется класс DbLOV @n
+В гриде поддерживаются различные виды полей: дата, фиксированный список, текст, двоичное поле. 
+Формат задается свойством поля или валидатором. Класс DbGridFieldDesc используется для описания формата поля.
+
+
+*/
+
+/**
+@page page1 Пример использования 1
+
+\image html sample1.gif
+
+@code
+
+// C++ code generated with wxFormBuilder (version Sep  8 2010)
+// http://www.wxformbuilder.org/
+//
+// PLEASE DO "NOT" EDIT THIS FILE!
+
+#include "dbtreegrid.h"
+#include "dbtextfield.h"
+#ifndef __enterpricedialog__
+#define __enterpricedialog__
+
+#include <wx/gdicmn.h>
+#include <wx/font.h>
+#include <wx/colour.h>
+#include <wx/settings.h>
+#include <wx/string.h>
+#include <wx/stattext.h>
+#include <wx/sizer.h>
+#include <wx/dialog.h>
+#include "dbdispatcher.h"
+///////////////////////////////////////////////////////////////////////////
+/**
+@class EnterpriceDialog
+Пример формы 
+*/
+///Пример формы 
+class EnterpriceDialog : public wxDialog 
+{
+	private:
+	
+	protected:
+		wxStaticText* m_staticText1;
+		
+		
+	
+	public:
+		DbTreeGrid * tree;
+		DbTextField *adr;
+		DbTreeGrid * tree1;
+		///Конструктор
+		EnterpriceDialog( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("???????????"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 590,576 ), long style = wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER );
+		~EnterpriceDialog();
+		bool Init();
+		DatabaseLayer* db;
+	private:
+		void OnClose(wxCloseEvent &event);
+
+};
+
+#endif //__enterpricedialog__
+
+// C++ code generated with wxFormBuilder (version Sep  8 2010)
+// http://www.wxformbuilder.org/
+//
+// PLEASE DO "NOT" EDIT THIS FILE!
+
+
+
+
+///////////////////////////////////////////////////////////////////////////
+
+EnterpriceDialog::EnterpriceDialog( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxDialog( parent, id, title, pos, size, style )
+{
+	this->SetSizeHints( wxDefaultSize, wxDefaultSize );
+	
+	wxBoxSizer* bSizer1;
+	bSizer1 = new wxBoxSizer( wxVERTICAL );
+	
+	wxStaticBoxSizer* sbSizer1;
+	sbSizer1 = new wxStaticBoxSizer( new wxStaticBox( this, wxID_ANY, wxT("Организации") ), wxVERTICAL );
+	
+	tree = new DbTreeGrid( this,wxID_ANY,
+	wxDefaultPosition,
+	wxSize(-1,-1),
+	wxTR_SINGLE |
+	wxTR_HAS_BUTTONS |
+	wxTR_FULL_ROW_HIGHLIGHT |
+	wxTR_HIDE_ROOT |
+	wxTR_ROW_LINES |
+	wxTR_COLUMN_LINES |
+	wxTR_EDIT_LABELS |
+	wxTR_NO_LINES
+	);
+	
+	sbSizer1->Add( tree, 1, wxALL|wxEXPAND, 5 );
+	
+	wxFlexGridSizer* fgSizer1;
+	fgSizer1 = new wxFlexGridSizer( 2, 2, 0, 0 );
+	fgSizer1->AddGrowableCol( 1 );
+	fgSizer1->SetFlexibleDirection( wxBOTH );
+	fgSizer1->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
+	
+	m_staticText1 = new wxStaticText( this, wxID_ANY, wxT("Адрес"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText1->Wrap( -1 );
+	fgSizer1->Add( m_staticText1, 0, wxALL, 5 );
+	
+	adr = new DbTextField( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(-1,60), wxTE_MULTILINE|wxTE_WORDWRAP );
+	fgSizer1->Add( adr, 0, wxALL|wxEXPAND, 5 );
+	
+	sbSizer1->Add( fgSizer1, 0, wxEXPAND, 5 );
+	
+	bSizer1->Add( sbSizer1, 1, wxEXPAND, 5 );
+	
+	wxStaticBoxSizer* sbSizer2;
+	sbSizer2 = new wxStaticBoxSizer( new wxStaticBox( this, wxID_ANY, wxT("Телефоны") ), wxVERTICAL );
+	
+	sbSizer2->SetMinSize( wxSize( -1,170 ) ); 
+	tree1 = new DbTreeGrid( this,wxID_ANY,
+	wxDefaultPosition,
+	wxSize(-1,-1),
+	wxTR_SINGLE |
+	wxTR_HAS_BUTTONS |
+	wxTR_FULL_ROW_HIGHLIGHT |
+	wxTR_HIDE_ROOT |
+	wxTR_ROW_LINES |
+	wxTR_COLUMN_LINES |
+	wxTR_EDIT_LABELS |
+	wxTR_NO_LINES
+	);
+	
+	sbSizer2->Add( tree1, 1, wxALL|wxEXPAND, 5 );
+	
+	bSizer1->Add( sbSizer2, 0, wxEXPAND, 5 );
+	
+	this->SetSizer( bSizer1 );
+	this->Layout();
+	
+	this->Centre( wxBOTH );
+	
+	// Connect Events
+	this->Connect( wxEVT_CLOSE_WINDOW, wxCloseEventHandler( EnterpriceDialog::OnClose ) );
+}
+
+EnterpriceDialog::~EnterpriceDialog()
+{
+	// Disconnect Events
+	this->Disconnect( wxEVT_CLOSE_WINDOW, wxCloseEventHandler( EnterpriceDialog::OnClose ) );
+	
+}
+
+
+DbDispatcher * dispatcher6=0;
+
+bool EnterpriceDialog::Init()
+{
+
+
+
+
+	if(dispatcher6) return false;;
+	SetLabel(wxT("Предприятия"));
+	//Создание диспетчера
+	dispatcher6 = new DbDispatcher();
+	//проверка есть ли соединение с БД
+	try{
+		db = dbase;//new FirebirdDatabaseLayer(DB_SERVER,DB_NAME,USER_NAME,USER_PASSWORD);
+
+	}
+	catch (DatabaseLayerException& e)
+	{
+		wxMessageBox(wxString::Format(_("Error (%d): %s"), e.GetErrorCode(), e.GetErrorMessage().c_str()));
+	}
+	
+	//Инициализайия грида
+	tree->db=db;
+	tree->ResetProperty(DB_GRID_READ_ONE);
+	tree->selectClause=wxT("select name,address,id ");
+	tree->fromClause=wxT("from enterprice");
+	tree->orderClause=wxT("order by name");
+	//Создание запроса 
+	tree->CreateQuery();
+	//Определение состава полей 
+	if(!tree->SetupField()){delete dispatcher6;dispatcher6=0;return false;}
+	//Установка поля PK
+	tree->SetPkNum(2);
+	//Установка таблицы куда записываем измененные данные
+	tree->dstName= wxT("enterprice");
+	//Дополнительная настройка полей
+	ArrayDbGridFieldDesc* fd =tree->GetFieldDescription();
+    (*fd)[2].ResetProperty(DB_FIELD_VISIBLE);
+	(*fd)[1].ResetProperty(DB_FIELD_VISIBLE);
+	(*fd)[0].SetProperty(DB_FIELD_NOT_NULL);
+	(*fd)[1].SetProperty(DB_FIELD_QUERY);
+	(*fd)[0].columnName=wxT("Название*");
+	(*fd)[1].columnName=wxT("Адрес");
+	//Установка последовательности для задания значения PK
+	tree->seqName=wxT("GlobalSequence");
+	//Создание колонок в гриде в соответствии с описанием
+	tree->CreateField();
+	//Получение данных из БД
+	tree->GetAllRow();
+	//Выбор первой записи
+	tree->SelectFirstRecord();
+	//Подключение внешнего поля редактирования
+	tree->AddLinkField(adr,1);
+	//Подключение к диспетчеру
+	dispatcher6->AddGrid((DbQueryObject*)tree);
+	tree->SetColumnWidth(0,500);
+	tree->SelectFirstRecord();
+
+	//Нстройка второго грида связанного  с первым
+	tree1->db=db;
+	tree1->ResetProperty(DB_GRID_READ_ONE);
+	tree1->selectClause=wxT("select pname,id,phone_nn,person_id,enterprice_id   ");
+	tree1->fromClause=wxT("from v_phone");
+	tree1->CreateQuery();
+	if(!tree1->SetupField()){delete dispatcher6;dispatcher6=0;return false;}
+	tree1->SetupField();
+	tree1->SetPkNum(1);
+	//Установка поля FK для связи двух гридов
+	tree1->SetFkNum(4);
+	tree1->dstName= wxT("phone");
+	tree1->parent=tree;
+	fd =tree1->GetFieldDescription();
+
+	(*fd)[0].columnName=wxT("Работник*");
+	(*fd)[2].columnName=wxT("Телефон*");
+	
+	
+	(*fd)[0].SetProperty(DB_FIELD_NOT_NULL);
+	(*fd)[2].SetProperty(DB_FIELD_NOT_NULL);
+
+	(*fd)[0].ResetProperty(DB_FIELD_QUERY);
+	(*fd)[2].ResetProperty(DB_FIELD_QUERY);
+	
+	(*fd)[0].ResetProperty(DB_FIELD_SEARCH);
+	(*fd)[2].ResetProperty(DB_FIELD_SEARCH);
+
+
+	(*fd)[1].ResetProperty(DB_FIELD_VISIBLE);
+	(*fd)[3].ResetProperty(DB_FIELD_VISIBLE);
+	(*fd)[4].ResetProperty(DB_FIELD_VISIBLE);
+
+	(*fd)[0].ResetProperty(DB_FIELD_DBASE);
+
+
+	tree1->seqName=wxT("GlobalSequence");
+
+	tree1->CreateField();
+
+	//Создание списка значений
+	DbLOV lov;
+	lov.selectClause=wxT("select lastname as \"Фамилия\",\
+					firstname as \"Имя\",\
+					patronymic as \"Отчество\",\
+					id,\
+					lastname||' '||firstname||' '||patronymic as fio");
+	lov.fromClause=wxT("from person");
+	DbPair p;
+	//Описание полей списка значений
+	p.i1=0;p.i2=-1;p.w=200;p.fieldName=wxT("lastname");lov.pair.Add(p);
+	p.i1=1;p.i2=-1;p.w=200;p.fieldName=wxT("firstname");lov.pair.Add(p);
+	p.i1=2;p.i2=-1;p.w=200;p.fieldName=wxT("patronymic");lov.pair.Add(p);
+	p.i1=3;p.i2=3;p.w=0;p.fieldName=wxT("id");lov.pair.Add(p);
+	p.i1=4;p.i2=0;p.w=0;lov.pair.Add(p);
+	
+	lov.size=wxSize(700,300);
+	//Связь списка значений с полями
+	DbLOV *l=tree1->AddLOV(lov);
+	
+	(*fd)[0].lov=l;
+
+
+	
+	
+
+	tree1->GetAllRow();
+	tree1->SelectFirstRecord();
+	dispatcher6->AddGrid((DbQueryObject*)tree1);
+
+
+
+
+
+	SetName(wxT("EnterpriseDialog"));
+	tree->SetName(wxT("EnterpriseTree"));
+	tree1->SetName(wxT("PhoneTree"));
+	//Читаем сохраненные настройки для GUI
+	wxString ss;
+	ss=wxEmptyString;
+	Serializer::LoadWindowGUI(this,setupGUIArray,ss);
+	ss=GetName();
+	tree->LoadGUI(setupGUIArray,ss);
+	//Устанавливаем главное окно для проверки на изменения при закрытии
+	dispatcher6->win = this;
+
+	return true;
+};
+
+void EnterpriceDialog::OnClose(wxCloseEvent &event){
+	if(dispatcher6->IsEdit())
+	{
+		
+			if (event.CanVeto())   {        event.Veto();  return ;}
+	};
+	
+	if(dispatcher6->IsChanged())
+	{
+		int answer=wxMessageBox("Есть изменеия, выйдти без сохранения?",wxEmptyString,wxOK|wxCANCEL) ;
+		if(! (wxOK == answer ))
+		{  
+			if (event.CanVeto())   {    wxLogMessage("EnterpriceDialog::OnClose VETO ");      event.Veto();  return ;}
+		}
+	}
+	wxString ss;
+	Serializer::SaveWindowGUI(this,setupGUIArray,ss);
+	ss=GetName();
+	tree->SaveGUI(setupGUIArray,ss);
+	tree1->SaveGUI(setupGUIArray,ss);
+	delete dispatcher6;
+	dispatcher6=0;
+	//if(db){
+	//	db->RollBack(); if (db->IsOpen())db->Close();
+	//}
+
+	Destroy();
+
+}
+
+@endcode
+
+*/
+

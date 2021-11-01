@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resource xmlns="http://www.wxwidgets.org/wxxrc">
+  <!-- Handler Generation is ON -->
+  <object class="wxBitmap" name="m_off">/home/barry/Work/Development/Projects/MRL/OpcServant/OpcServant/Common/Icons/Off.png</object>
+  <object class="wxBitmap" name="m_on">/home/barry/Work/Development/Projects/MRL/OpcServant/OpcServant/Common/Icons/Ok.png</object>
+</resource>

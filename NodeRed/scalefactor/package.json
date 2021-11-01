@@ -1,0 +1,21 @@
+{
+  "name": "node-red-contrib-example-scalefactor",
+  "version": "1.0.0",
+  "description": "Linear scale and offset",
+  "main": "scalefactor.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "Scale",
+    "offset",
+    "calculation"
+  ],
+  "author": "BJH",
+  "license": "ISC",
+  "node-red" : {
+        "nodes": {
+            "scalefactor": "scalefactor.js"
+        }
+    }
+}

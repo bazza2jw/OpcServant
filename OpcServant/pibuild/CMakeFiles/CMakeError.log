@@ -1,0 +1,40 @@
+Performing C SOURCE FILE Test CMAKE_HAVE_LIBC_PTHREAD failed with the following output:
+Change Dir: /Development/Projects/MRL/OpcServant/OpcServant/pibuild/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_81c70/fast && /usr/bin/make -f CMakeFiles/cmTC_81c70.dir/build.make CMakeFiles/cmTC_81c70.dir/build
+make[1]: Entering directory '/Development/Projects/MRL/OpcServant/OpcServant/pibuild/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_81c70.dir/src.c.o
+/usr/bin/arm-linux-gnueabihf-gcc-8 --sysroot=/Development/sysroot  -I/Development/sysroot/usr/local/include  -march=armv8-a -mtune=cortex-a53 -mfpu=crypto-neon-fp-armv8 -march=armv8-a -mtune=cortex-a53 -mfpu=crypto-neon-fp-armv8    -DCMAKE_HAVE_LIBC_PTHREAD   -o CMakeFiles/cmTC_81c70.dir/src.c.o   -c /Development/Projects/MRL/OpcServant/OpcServant/pibuild/CMakeFiles/CMakeTmp/src.c
+Linking C executable cmTC_81c70
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_81c70.dir/link.txt --verbose=1
+/usr/bin/arm-linux-gnueabihf-gcc-8 --sysroot=/Development/sysroot -march=armv8-a -mtune=cortex-a53 -mfpu=crypto-neon-fp-armv8 -march=armv8-a -mtune=cortex-a53 -mfpu=crypto-neon-fp-armv8    -DCMAKE_HAVE_LIBC_PTHREAD    CMakeFiles/cmTC_81c70.dir/src.c.o  -o cmTC_81c70 
+/usr/lib/gcc-cross/arm-linux-gnueabihf/8/../../../../arm-linux-gnueabihf/bin/ld: CMakeFiles/cmTC_81c70.dir/src.c.o: in function `main':
+src.c:(.text+0x32): undefined reference to `pthread_create'
+/usr/lib/gcc-cross/arm-linux-gnueabihf/8/../../../../arm-linux-gnueabihf/bin/ld: src.c:(.text+0x3a): undefined reference to `pthread_detach'
+/usr/lib/gcc-cross/arm-linux-gnueabihf/8/../../../../arm-linux-gnueabihf/bin/ld: src.c:(.text+0x44): undefined reference to `pthread_join'
+collect2: error: ld returned 1 exit status
+make[1]: *** [CMakeFiles/cmTC_81c70.dir/build.make:87: cmTC_81c70] Error 1
+make[1]: Leaving directory '/Development/Projects/MRL/OpcServant/OpcServant/pibuild/CMakeFiles/CMakeTmp'
+make: *** [Makefile:121: cmTC_81c70/fast] Error 2
+
+
+Source file was:
+#include <pthread.h>
+
+void* test_func(void* data)
+{
+  return data;
+}
+
+int main(void)
+{
+  pthread_t thread;
+  pthread_create(&thread, NULL, test_func, NULL);
+  pthread_detach(thread);
+  pthread_join(thread, NULL);
+  pthread_atfork(NULL, NULL, NULL);
+  pthread_exit(NULL);
+
+  return 0;
+}
+

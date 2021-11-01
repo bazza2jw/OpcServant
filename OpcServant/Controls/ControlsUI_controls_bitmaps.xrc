@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resource xmlns="http://www.wxwidgets.org/wxxrc">
+  <!-- Handler Generation is ON -->
+  <object class="wxBitmap" name="file-zoom-in">Icons/file-zoom-in.png</object>
+  <object class="wxBitmap" name="file-zoom-out">Icons/file-zoom-out.png</object>
+</resource>

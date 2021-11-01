@@ -1,0 +1,21 @@
+{
+  "name": "alarmgroup",
+  "version": "1.0.0",
+  "description": "Alarm group manager",
+  "main": "alarmGroup.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "Alarm",
+    "Group",
+    "SCADA"
+  ],
+  "author": "BJH",
+  "license": "ISC",
+  "node-red" : {
+        "nodes": {
+            "alarmGroup": "alarmGroup.js"
+        }
+    }
+}

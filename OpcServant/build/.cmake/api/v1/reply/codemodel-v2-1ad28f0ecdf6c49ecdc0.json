@@ -1,0 +1,654 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"childIndexes" : 
+					[
+						1,
+						2,
+						3,
+						16,
+						17
+					],
+					"hasInstallRule" : true,
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.5"
+					},
+					"projectIndex" : 0,
+					"source" : "."
+				},
+				{
+					"build" : "MrlLib",
+					"hasInstallRule" : true,
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.10"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 1,
+					"source" : "MrlLib",
+					"targetIndexes" : 
+					[
+						8
+					]
+				},
+				{
+					"build" : "Common",
+					"hasInstallRule" : true,
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.10"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 2,
+					"source" : "Common",
+					"targetIndexes" : 
+					[
+						3
+					]
+				},
+				{
+					"build" : "Modules",
+					"childIndexes" : 
+					[
+						4,
+						5,
+						6,
+						7,
+						8,
+						9,
+						10,
+						11,
+						12,
+						13,
+						14,
+						15
+					],
+					"hasInstallRule" : true,
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.10"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 3,
+					"source" : "Modules"
+				},
+				{
+					"build" : "Modules/Simulator",
+					"hasInstallRule" : true,
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.10"
+					},
+					"parentIndex" : 3,
+					"projectIndex" : 4,
+					"source" : "Modules/Simulator",
+					"targetIndexes" : 
+					[
+						14
+					]
+				},
+				{
+					"build" : "Modules/MariaDbPublisher",
+					"hasInstallRule" : true,
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.10"
+					},
+					"parentIndex" : 3,
+					"projectIndex" : 5,
+					"source" : "Modules/MariaDbPublisher",
+					"targetIndexes" : 
+					[
+						7
+					]
+				},
+				{
+					"build" : "Modules/ICPCON",
+					"hasInstallRule" : true,
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.10"
+					},
+					"parentIndex" : 3,
+					"projectIndex" : 6,
+					"source" : "Modules/ICPCON",
+					"targetIndexes" : 
+					[
+						4
+					]
+				},
+				{
+					"build" : "Modules/Values",
+					"hasInstallRule" : true,
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.10"
+					},
+					"parentIndex" : 3,
+					"projectIndex" : 7,
+					"source" : "Modules/Values",
+					"targetIndexes" : 
+					[
+						15
+					]
+				},
+				{
+					"build" : "Modules/Alarms",
+					"hasInstallRule" : true,
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.10"
+					},
+					"parentIndex" : 3,
+					"projectIndex" : 8,
+					"source" : "Modules/Alarms",
+					"targetIndexes" : 
+					[
+						1
+					]
+				},
+				{
+					"build" : "Modules/MQTT",
+					"hasInstallRule" : true,
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.10"
+					},
+					"parentIndex" : 3,
+					"projectIndex" : 9,
+					"source" : "Modules/MQTT",
+					"targetIndexes" : 
+					[
+						6
+					]
+				},
+				{
+					"build" : "Modules/SbcSupport",
+					"hasInstallRule" : true,
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.10"
+					},
+					"parentIndex" : 3,
+					"projectIndex" : 10,
+					"source" : "Modules/SbcSupport",
+					"targetIndexes" : 
+					[
+						12
+					]
+				},
+				{
+					"build" : "Modules/AerisNOx",
+					"hasInstallRule" : true,
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.10"
+					},
+					"parentIndex" : 3,
+					"projectIndex" : 11,
+					"source" : "Modules/AerisNOx",
+					"targetIndexes" : 
+					[
+						0
+					]
+				},
+				{
+					"build" : "Modules/LwsApex",
+					"hasInstallRule" : true,
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.10"
+					},
+					"parentIndex" : 3,
+					"projectIndex" : 12,
+					"source" : "Modules/LwsApex",
+					"targetIndexes" : 
+					[
+						5
+					]
+				},
+				{
+					"build" : "Modules/OPCN3",
+					"hasInstallRule" : true,
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.10"
+					},
+					"parentIndex" : 3,
+					"projectIndex" : 13,
+					"source" : "Modules/OPCN3",
+					"targetIndexes" : 
+					[
+						9
+					]
+				},
+				{
+					"build" : "Modules/BME280",
+					"hasInstallRule" : true,
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.10"
+					},
+					"parentIndex" : 3,
+					"projectIndex" : 14,
+					"source" : "Modules/BME280",
+					"targetIndexes" : 
+					[
+						2
+					]
+				},
+				{
+					"build" : "Modules/SPS30",
+					"hasInstallRule" : true,
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.10"
+					},
+					"parentIndex" : 3,
+					"projectIndex" : 15,
+					"source" : "Modules/SPS30",
+					"targetIndexes" : 
+					[
+						11
+					]
+				},
+				{
+					"build" : "Servant",
+					"hasInstallRule" : true,
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.10"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 16,
+					"source" : "Servant",
+					"targetIndexes" : 
+					[
+						13
+					]
+				},
+				{
+					"build" : "reportdocument",
+					"hasInstallRule" : true,
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.10"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 17,
+					"source" : "reportdocument",
+					"targetIndexes" : 
+					[
+						10
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"childIndexes" : 
+					[
+						1,
+						2,
+						3,
+						16,
+						17
+					],
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "OpcServant"
+				},
+				{
+					"directoryIndexes" : 
+					[
+						1
+					],
+					"name" : "MrlLib",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						8
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						2
+					],
+					"name" : "Common",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						3
+					]
+				},
+				{
+					"childIndexes" : 
+					[
+						4,
+						5,
+						6,
+						7,
+						8,
+						9,
+						10,
+						11,
+						12,
+						13,
+						14,
+						15
+					],
+					"directoryIndexes" : 
+					[
+						3
+					],
+					"name" : "Modules",
+					"parentIndex" : 0
+				},
+				{
+					"directoryIndexes" : 
+					[
+						4
+					],
+					"name" : "Simulator",
+					"parentIndex" : 3,
+					"targetIndexes" : 
+					[
+						14
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						5
+					],
+					"name" : "MariaDbPublisher",
+					"parentIndex" : 3,
+					"targetIndexes" : 
+					[
+						7
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						6
+					],
+					"name" : "ICPCON",
+					"parentIndex" : 3,
+					"targetIndexes" : 
+					[
+						4
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						7
+					],
+					"name" : "Values",
+					"parentIndex" : 3,
+					"targetIndexes" : 
+					[
+						15
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						8
+					],
+					"name" : "Alarm",
+					"parentIndex" : 3,
+					"targetIndexes" : 
+					[
+						1
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						9
+					],
+					"name" : "MQTT",
+					"parentIndex" : 3,
+					"targetIndexes" : 
+					[
+						6
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						10
+					],
+					"name" : "SbcSupport",
+					"parentIndex" : 3,
+					"targetIndexes" : 
+					[
+						12
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						11
+					],
+					"name" : "AerisNOx",
+					"parentIndex" : 3,
+					"targetIndexes" : 
+					[
+						0
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						12
+					],
+					"name" : "LwsApex",
+					"parentIndex" : 3,
+					"targetIndexes" : 
+					[
+						5
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						13
+					],
+					"name" : "OPCN3",
+					"parentIndex" : 3,
+					"targetIndexes" : 
+					[
+						9
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						14
+					],
+					"name" : "BME280",
+					"parentIndex" : 3,
+					"targetIndexes" : 
+					[
+						2
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						15
+					],
+					"name" : "SPS30",
+					"parentIndex" : 3,
+					"targetIndexes" : 
+					[
+						11
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						16
+					],
+					"name" : "Servant",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						13
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						17
+					],
+					"name" : "ReportDocument",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						10
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 11,
+					"id" : "AerisNOx::@23f0985b9589d77cbd69",
+					"jsonFile" : "target-AerisNOx-Debug-ef338c8ac73c5d88adf3.json",
+					"name" : "AerisNOx",
+					"projectIndex" : 11
+				},
+				{
+					"directoryIndex" : 8,
+					"id" : "Alarm::@7b89de831a67386c65bb",
+					"jsonFile" : "target-Alarm-Debug-a1f6b1f356a57375baed.json",
+					"name" : "Alarm",
+					"projectIndex" : 8
+				},
+				{
+					"directoryIndex" : 14,
+					"id" : "BME280::@ac022046c176e6138b59",
+					"jsonFile" : "target-BME280-Debug-e7cc78ffde990185706e.json",
+					"name" : "BME280",
+					"projectIndex" : 14
+				},
+				{
+					"directoryIndex" : 2,
+					"id" : "Common::@13b50f4fff9a3833e1fc",
+					"jsonFile" : "target-Common-Debug-a3f4110f069548574765.json",
+					"name" : "Common",
+					"projectIndex" : 2
+				},
+				{
+					"directoryIndex" : 6,
+					"id" : "ICPCON::@858f14a1cab59e230fb5",
+					"jsonFile" : "target-ICPCON-Debug-b37cacef97ddff2a7426.json",
+					"name" : "ICPCON",
+					"projectIndex" : 6
+				},
+				{
+					"directoryIndex" : 12,
+					"id" : "LwsApex::@cfbd04660fcaf0616e98",
+					"jsonFile" : "target-LwsApex-Debug-045bc0957e297f8447c0.json",
+					"name" : "LwsApex",
+					"projectIndex" : 12
+				},
+				{
+					"directoryIndex" : 9,
+					"id" : "MQTT::@ca24b93999e9a18ffd5a",
+					"jsonFile" : "target-MQTT-Debug-9c76e2db2232561a23d0.json",
+					"name" : "MQTT",
+					"projectIndex" : 9
+				},
+				{
+					"directoryIndex" : 5,
+					"id" : "MariaDbPublisher::@45909d2f8ba22d74d25e",
+					"jsonFile" : "target-MariaDbPublisher-Debug-4e6fd04bc5a9e8c7e260.json",
+					"name" : "MariaDbPublisher",
+					"projectIndex" : 5
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "MrlLib::@daeeb9f30289e95cd39c",
+					"jsonFile" : "target-MrlLib-Debug-c1cfd59cefa2675c1385.json",
+					"name" : "MrlLib",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 13,
+					"id" : "OPCN3::@941a74856a01fe7bb689",
+					"jsonFile" : "target-OPCN3-Debug-f218f99fd328aff7a4d4.json",
+					"name" : "OPCN3",
+					"projectIndex" : 13
+				},
+				{
+					"directoryIndex" : 17,
+					"id" : "ReportDocument::@93fa68b2c4831a60120b",
+					"jsonFile" : "target-ReportDocument-Debug-960c33ce392ba8844a9d.json",
+					"name" : "ReportDocument",
+					"projectIndex" : 17
+				},
+				{
+					"directoryIndex" : 15,
+					"id" : "SPS30::@355241b3dba5066b01c9",
+					"jsonFile" : "target-SPS30-Debug-83827a147709ef8888e1.json",
+					"name" : "SPS30",
+					"projectIndex" : 15
+				},
+				{
+					"directoryIndex" : 10,
+					"id" : "SbcSupport::@51236020cc91f389f67c",
+					"jsonFile" : "target-SbcSupport-Debug-e4aee34cb31bb4acf3ff.json",
+					"name" : "SbcSupport",
+					"projectIndex" : 10
+				},
+				{
+					"directoryIndex" : 16,
+					"id" : "Servant::@e980ceba4731ac1c2e6e",
+					"jsonFile" : "target-Servant-Debug-f432e7ce3eba0a6e86dc.json",
+					"name" : "Servant",
+					"projectIndex" : 16
+				},
+				{
+					"directoryIndex" : 4,
+					"id" : "Simulator::@7818c58186e40481d488",
+					"jsonFile" : "target-Simulator-Debug-15fcc6cb52f6391ecf22.json",
+					"name" : "Simulator",
+					"projectIndex" : 4
+				},
+				{
+					"directoryIndex" : 7,
+					"id" : "Values::@2b2cc884eb8237198a76",
+					"jsonFile" : "target-Values-Debug-7b148569217ef1d0ccac.json",
+					"name" : "Values",
+					"projectIndex" : 7
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "/Development/Projects/MRL/OpcServant/OpcServant/build",
+		"source" : "/Development/Projects/MRL/OpcServant/OpcServant"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 0
+	}
+}

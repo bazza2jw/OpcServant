@@ -1,0 +1,96 @@
+<?xml version="1.0" ?>
+
+<!-- Created by: Francesco Montorsi <frm@users.sourceforge.net>     -->
+<!-- Creation date: 9/10/2004                                       -->
+<!-- RCS-ID: $Id: defaults.bkl,v 1.16 2005/12/18 16:45:37 jrl1 Exp $  -->
+
+<makefile>
+    <if cond="not isdefined('WXCODE_DEFAULTS_INC')">
+    <set var="WXCODE_DEFAULTS_INC">1</set>
+
+
+    <!--                                               -->
+    <!--     DEFAULT VARIABLES (can be overridden)     -->
+    <!--                                               -->
+
+    <if cond="FORMAT!='autoconf'">
+        <set var="COMP_BASEPATH">..</set>
+    </if>
+    <if cond="FORMAT=='autoconf'">
+        <set var="COMP_BASEPATH">.</set>        <!-- Makefile.in is not placed in the build/ folder anymore -->
+    </if>
+
+    <!-- you need to change the value of this var if your component uses the
+         'sample' folder instead of 'samples' folder -->
+    <set var="COMP_SAMPLE_DIR">$(COMP_BASEPATH)$(DIRSEP)samples</set>
+    <set var="COMP_SAMPLE_DIR2">$(COMP_BASEPATH)$(DIRSEP)samples</set>
+    <set var="COMP_SAMPLE_DIR3">$(COMP_BASEPATH)$(DIRSEP)samples</set>
+    <set var="COMP_SAMPLE_DIR4">$(COMP_BASEPATH)$(DIRSEP)samples</set>
+
+    <!-- with autoconf, the object files must be put in the default directory -->
+    <if cond="FORMAT!='autoconf'">
+        <set var="BUILDDIR">$(FORMAT)</set>
+    </if>
+
+    <!-- we won't set the SRCDIR since typically we have more than a single target (i.e. complib + compsample) in the
+            same bakefile and thus we have different SRC folders; in fact SRCDIR is a *global* variable -->
+    <!-- <set var="SRCDIR">..$(DIRSEP)src</set> -->
+    <set var="COMP_SRC_DIR">$(COMP_BASEPATH)$(DIRSEP)src</set>
+    <set var="COMP_HDR_DIR">$(COMP_BASEPATH)$(DIRSEP)include</set>
+
+    <!-- these can be omitted in component bakefiles if there's no samples -->
+    <set var="COMP_SAMPLE_HDR"  overwrite="0"/>
+    <set var="COMP_SAMPLE_SRC"  overwrite="0"/>
+    <set var="COMP_SAMPLE_HDR2" overwrite="0"/>
+    <set var="COMP_SAMPLE_SRC2" overwrite="0"/>
+    <set var="COMP_SAMPLE_HDR3" overwrite="0"/>
+    <set var="COMP_SAMPLE_SRC3" overwrite="0"/>
+    <set var="COMP_SAMPLE_HDR4" overwrite="0"/>
+    <set var="COMP_SAMPLE_SRC4" overwrite="0"/>
+
+    <!-- COMP_WANT_XXXX targets -->
+
+    <set var="COMP_WANT_TARBALL_TARGET">1</set>
+    <set var="COMP_WANT_ZIP_TARGET">1</set>
+    <set var="COMP_WANT_CLEANALL_TARGET">1</set>
+    <set var="COMP_WANT_INSTALL_TARGET">1</set>     <!-- this works with autoconf only -->
+    <set var="COMP_WANT_UNINSTALL_TARGET">1</set>       <!-- this works with autoconf only -->
+
+    <!-- this works only when COMP_WANT_INSTALL_TARGET==1 and you have a
+         subfolder "wx" in the "include" folder of your component -->
+    <set var="COMP_WANT_INSTALL_WXHEADERS_TARGET">1</set>
+    <set var="COMP_WANT_UNINSTALL_WXHEADERS_TARGET">1</set>
+
+    <!-- this works only when COMP_WANT_INSTALL_TARGET==1 and you have
+         some header file in the "include" folder of your component -->
+    <set var="COMP_WANT_INSTALL_NONWXHEADERS_TARGET">0</set>
+
+    <set var="COMP_WANT_DOXYGEN_DOCS_TARGET">1</set>
+    <set var="COMP_WANT_DOXYGEN_CLEANDOCS_TARGET">1</set>
+
+    <!-- old wx presets have 25 as default version... -->
+    <set var="WX_VERSION_DEFAULT">26</set>
+
+
+
+
+
+
+    <!--                                                 -->
+    <!--                      VARIOUS                    -->
+    <!--                                                 -->
+
+    <!-- an utility bakefile -->
+    <include file="utils.bkl"/>
+
+    <!-- This bakefile provides a lot of wxWidgets-specific settings -->
+    <include file="wxhacks.bkl"/>
+
+    <!-- the default installation folder on win32 -->
+    <if cond="TARGETING_WIN32=='1'">
+        <set var="LIBDIR">$(WX_DIR)$(WXLIBPATH)</set>
+    </if>
+
+    </if>       <!-- WXCODE_DEFAULTS_INC -->
+
+</makefile>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root Type="string">
+  <NODE Name="System" Type="int">
+    <NODE Name="SitePassword" Type="string">password</NODE>
+    <NODE Name="SiteName" Type="string">BarryLinux</NODE>
+    <NODE Name="OpcUsername" Type="string">user</NODE>
+    <NODE Name="OpcPort" Type="string">4840</NODE>
+    <NODE Name="OpcPassword" Type="string">password</NODE>
+    <NODE Name="OpcNamespace" Type="string">urn:servant</NODE>
+    <NODE Name="MainTab" Type="string"></NODE>
+    <NODE Name="LoginRequired" Type="bool">true</NODE>
+    <NODE Name="EnableWeb" Type="bool">true</NODE>
+    <NODE Name="EnableVK" Type="bool">false</NODE>
+    <NODE Name="EnableOpc" Type="bool">true</NODE>
+    <NODE Name="EnableGui" Type="bool">true</NODE>0</NODE>Unknown</root>

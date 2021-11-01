@@ -1,0 +1,1 @@
+.objsud/StarShape.o .objsud/wx_pch.o .objsud/wxSFSample3Main.o .objsud/wxSFSample3App.o

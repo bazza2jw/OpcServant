@@ -1,0 +1,21 @@
+{
+  "name": "spc",
+  "version": "1.0.0",
+  "description": "SPC",
+  "main": "spc.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "SCADA",
+    "SPC",
+    "Alert"
+  ],
+  "author": "BJH",
+  "license": "ISC",
+  "node-red" : {
+        "nodes": {
+            "spc": "spc.js"
+        }
+    }
+}

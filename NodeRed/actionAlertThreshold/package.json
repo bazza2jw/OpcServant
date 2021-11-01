@@ -1,0 +1,21 @@
+{
+  "name": "actionalertthreshold",
+  "version": "1.0.0",
+  "description": "Action Alert OK threshold test for number value - use for SCADA alarm / warning processing",
+  "main": "actionAlertThreshold.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "SCADA",
+    "Action",
+    "Alert"
+  ],
+  "author": "BJH",
+  "license": "ISC",
+  "node-red" : {
+        "nodes": {
+            "actionalertthreshold": "actionAlertThreshold.js"
+        }
+    }
+}

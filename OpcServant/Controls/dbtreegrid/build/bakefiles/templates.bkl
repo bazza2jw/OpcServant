@@ -1,0 +1,151 @@
+<?xml version="1.0" ?>
+
+<!-- Created by: Francesco Montorsi <frm@users.sourceforge.net>     -->
+<!-- Creation date: 9/10/2004                                       -->
+<!-- RCS-ID: $Id: templates.bkl,v 1.21 2005/12/18 16:45:38 jrl1 Exp $ -->
+
+<makefile>
+    <if cond="not isdefined('WXCODE_TEMPLATES_INC')">
+    <set var="WXCODE_TEMPLATES_INC">1</set>
+
+    <!--                                               -->
+    <!--                    TEMPLATES                  -->
+    <!--                                               -->
+
+    <template id="basic">
+        <!-- <if cond="TARGETING_WIN32=='1'">!-->
+            <warnings>$(WARNINGS)</warnings>
+            <optimize>$(OPTIMIZEFLAG)</optimize>
+            <debug-info>$(DEBUGINFO)</debug-info>
+            <debug-runtime-libs>$(DEBUGRUNTIME)</debug-runtime-libs>
+            <threading>multi</threading>
+        <!-- </if> -->
+
+        <!-- This is a non-empty variable only when using wxWidgets as a DLL -->
+        <define>$(WX_SHAREDDEFINE)</define>
+    </template>
+
+
+    <!-- be sure that the component bakefiles defines at least the COMP_HDR and COMP_SRC variables ! -->
+    <if cond="not isdefined('COMP_SRC') or not isdefined('COMP_HDR')">
+        <error>You should set the COMP_SRC and COMP_HDR variables before including this bakefile !</error>
+    </if>
+
+    <!-- adjust the headers variables (P stays for 'prefixed') -->
+    <set var="PCOMP_HDR">$(''.join([(COMP_HDR_DIR + DIRSEP + '%s ') % (x) for x in COMP_HDR.split()]))</set>
+    <set var="PCOMP_SAMPLE_HDR">$(''.join([(COMP_SAMPLE_DIR + DIRSEP + '%s ') % (x) for x in COMP_SAMPLE_HDR.split()]))</set>
+    <set var="PCOMP_SAMPLE_HDR2">$(''.join([(COMP_SAMPLE_DIR2 + DIRSEP + '%s ') % (x) for x in COMP_SAMPLE_HDR2.split()]))</set>
+    <set var="PCOMP_SAMPLE_HDR3">$(''.join([(COMP_SAMPLE_DIR3 + DIRSEP + '%s ') % (x) for x in COMP_SAMPLE_HDR3.split()]))</set>
+    <set var="PCOMP_SAMPLE_HDR4">$(''.join([(COMP_SAMPLE_DIR4 + DIRSEP + '%s ') % (x) for x in COMP_SAMPLE_HDR4.split()]))</set>
+
+    <!-- adjust the source variables (P stays for 'prefixed') -->
+    <set var="PCOMP_SRC">$(''.join([(COMP_SRC_DIR + DIRSEP + '%s ') % (x) for x in COMP_SRC.split()]))</set>
+    <set var="PCOMP_SAMPLE_SRC">$(''.join([(COMP_SAMPLE_DIR + DIRSEP + '%s ') % (x) for x in COMP_SAMPLE_SRC.split()]))</set>
+    <set var="PCOMP_SAMPLE_SRC2">$(''.join([(COMP_SAMPLE_DIR2 + DIRSEP + '%s ') % (x) for x in COMP_SAMPLE_SRC2.split()]))</set>
+    <set var="PCOMP_SAMPLE_SRC3">$(''.join([(COMP_SAMPLE_DIR3 + DIRSEP + '%s ') % (x) for x in COMP_SAMPLE_SRC3.split()]))</set>
+    <set var="PCOMP_SAMPLE_SRC4">$(''.join([(COMP_SAMPLE_DIR4 + DIRSEP + '%s ') % (x) for x in COMP_SAMPLE_SRC4.split()]))</set>
+
+    <!-- A wxWidgets-based library which needs to include the headers put
+         in the INCLUDE component's folder and which is put in the
+         LIB componen'ts folder -->
+    <template id="wxcode-basic">
+        <!-- Some settings component-specific -->
+        <dirname>$(COMP_BASEPATH)$(DIRSEP)lib</dirname>
+        <include>$(COMP_BASEPATH)$(DIRSEP)include</include>
+        <lib-path>$(COMP_BASEPATH)$(DIRSEP)lib</lib-path>
+    </template>
+
+    <!-- these templates merge together all other required templates -->
+    <template id="complib" template="basic,wx-lib,wxcode-basic">
+        <extinstall-to>$(LIBDIR)</extinstall-to>
+
+        <libname>$(COMP_NAME)$(WXLIBPOSTFIX)</libname>
+        <sources>$(PCOMP_SRC)</sources>
+        <headers>$(PCOMP_HDR)</headers>
+    </template>
+    <template id="compdll" template="basic,wx,wxcode-basic">
+        <extinstall-to>$(LIBDIR)</extinstall-to>
+        <libname>$(COMP_NAME)$(WXLIBPOSTFIX)</libname>
+        <dllname>$(COMP_NAME)$(WXLIBPOSTFIX)</dllname>
+        <version>1.0</version>
+        <so_version>0.0.0</so_version>
+
+        <!-- the mac_version tag is used to add the "-compatibility_version -current_version" options.
+             For more info about these options, look at Darwin linker man page:
+                           http://www.hmug.org/man/1/ld.php
+
+             NOTE: setting it we disable the compatibility checks done on Darwin
+        -->
+        <!-- <mac_version>1</mac_version> -->
+
+        <define>WXMAKINGDLL_$(COMP_NAME.upper())</define>
+        <sources>$(PCOMP_SRC)</sources>
+        <headers>$(PCOMP_HDR)</headers>
+    </template>
+
+    <template id="compsamplebasic" template="basic,wx,wxcode-basic"/>
+
+    <template id="compexe" template="basic,wx,wxcode-basic">
+        <dirname>$(COMP_BASEPATH)$(DIRSEP)src</dirname>
+        <include>$(COMP_BASEPATH)$(DIRSEP)include</include>
+        <sources>$(PCOMP_SRC)</sources>
+        <headers>$(PCOMP_HDR)</headers>
+    </template>
+
+    <!-- A GUI exe (use the app-type tag to ovverride this) which needs
+         to be linked with something placed in the LIB component's folder
+         (which is added to the linker path) and which is put in the
+         COMP_SAMPLE_DIR after build is complete -->
+    <!-- NOTE: this template cannot derive from COMPLIB template since
+         the sources of the library will be different from the sources
+         of the sample -->
+    <template id="compsample" template="compsamplebasic">
+        <app-type>gui</app-type>
+        <headers>$(PCOMP_SAMPLE_HDR)</headers>
+        <sources>$(PCOMP_SAMPLE_SRC)</sources>
+        <dirname>$(COMP_SAMPLE_DIR)</dirname>
+        <res-include>$(COMP_SAMPLE_DIR)</res-include>
+
+        <!-- this template needs to be completed by the "library" tag
+        which cannot be placed here since we don't know the name of
+        the lib target for this component -->
+    </template>
+
+    <template id="compsample2" template="compsamplebasic">
+        <app-type>gui</app-type>
+        <headers>$(PCOMP_SAMPLE_HDR2)</headers>
+        <sources>$(PCOMP_SAMPLE_SRC2)</sources>
+        <dirname>$(COMP_SAMPLE_DIR2)</dirname>
+        <res-include>$(COMP_SAMPLE_DIR2)</res-include>
+
+        <!-- this template needs to be completed by the "library" tag
+        which cannot be placed here since we don't know the name of
+        the lib target for this component -->
+    </template>
+
+    <template id="compsample3" template="compsamplebasic">
+        <app-type>gui</app-type>
+        <headers>$(PCOMP_SAMPLE_HDR3)</headers>
+        <sources>$(PCOMP_SAMPLE_SRC3)</sources>
+        <dirname>$(COMP_SAMPLE_DIR3)</dirname>
+        <res-include>$(COMP_SAMPLE_DIR3)</res-include>
+
+        <!-- this template needs to be completed by the "library" tag
+        which cannot be placed here since we don't know the name of
+        the lib target for this component -->
+    </template>
+
+    <template id="compsample4" template="compsamplebasic">
+        <app-type>gui</app-type>
+        <headers>$(PCOMP_SAMPLE_HDR4)</headers>
+        <sources>$(PCOMP_SAMPLE_SRC4)</sources>
+        <dirname>$(COMP_SAMPLE_DIR4)</dirname>
+        <res-include>$(COMP_SAMPLE_DIR4)</res-include>
+
+        <!-- this template needs to be completed by the "library" tag
+        which cannot be placed here since we don't know the name of
+        the lib target for this component -->
+    </template>
+
+    </if>
+</makefile>

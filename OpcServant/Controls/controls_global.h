@@ -1,0 +1,12 @@
+#ifndef CONTROLS_GLOBAL_H
+#define CONTROLS_GLOBAL_H
+
+
+
+//#if defined(CONTROLS_LIBRARY)
+#  define CONTROLSSHARED_EXPORT //Q_DECL_EXPORT
+//#else
+//#  define CONTROLSSHARED_EXPORT Q_DECL_IMPORT
+//#endif
+
+#endif // CONTROLS_GLOBAL_H

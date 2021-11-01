@@ -1,0 +1,168 @@
+<script type="text/javascript">
+    RED.nodes.registerType('spc',{
+        category: 'function',
+        color: '#a6bbcf',
+        defaults: {
+            name: {value:""},
+            upperLimit: {value:10.0, validate:RED.validators.number()},
+            upperLimitEnable:{value:false},
+            lowerLimit: {value:0.0, validate:RED.validators.number()},
+            lowerLimitEnable:{value:false},
+            limitTriggerCount:{value:0, validate:RED.validators.number()},
+            //
+            meanCrowdingLimit: {value:0, validate:RED.validators.number()},
+            trendCountLimit: {value:0, validate:RED.validators.number()},
+            trendEnable:{value:false},
+            meanCrowdingEnable:{value:false},
+            //
+            limitonvalue: {value: true, required:true, validate: (RED.validators.hasOwnProperty('typedInput')?RED.validators.typedInput('limitonvalueType'):function(v) { return true})},
+            limitonvalueType: {value: 'bool'},
+            limitoffvalue: {value: false, required:true, validate: (RED.validators.hasOwnProperty('typedInput')?RED.validators.typedInput('limitoffvalueType'):function(v) { return true})},
+            limitoffvalueType: {value: 'bool'},
+            //
+            trendonvalue: {value: true, required:true, validate: (RED.validators.hasOwnProperty('typedInput')?RED.validators.typedInput('trendonvalueType'):function(v) { return true})},
+            trendonvalueType: {value: 'bool'},
+            trendoffvalue: {value: false, required:true, validate: (RED.validators.hasOwnProperty('typedInput')?RED.validators.typedInput('trendoffvalueType'):function(v) { return true})},
+            trendoffvalueType: {value: 'bool'},
+            //
+            meanCrowdingonvalue: {value: true, required:true, validate: (RED.validators.hasOwnProperty('typedInput')?RED.validators.typedInput('meanCrowdingonvalueType'):function(v) { return true})},
+            meanCrowdingonvalueType: {value: 'bool'},
+            meanCrowdingoffvalue: {value: false, required:true, validate: (RED.validators.hasOwnProperty('typedInput')?RED.validators.typedInput('meanCrowdingoffvalueType'):function(v) { return true})},
+            meanCrowdingoffvalueType: {value: 'bool'}
+            //    
+        },
+        inputs:1,
+        outputs:4,
+        outputLabels: ["value","limit","trend","meanCrowding"],
+        icon: "file.png",
+        label: function() {
+            return this.name||"spc";
+        },
+        oneditprepare: function() {
+            $('#node-input-limitonvalue').typedInput({
+                default: 'str',
+                typeField: $("#node-input-limitonvalueType"),
+                types: ['str','num','bool','json','bin','date']
+            });
+
+            $('#node-input-limitoffvalue').typedInput({
+                default: 'str',
+                typeField: $("#node-input-limitoffvalueType"),
+                types: ['str','num','bool','json','bin','date']
+            });
+            $('#node-input-trendonvalue').typedInput({
+                default: 'str',
+                typeField: $("#node-input-trendonvalueType"),
+                types: ['str','num','bool','json','bin','date']
+            });
+
+            $('#node-input-trendoffvalue').typedInput({
+                default: 'str',
+                typeField: $("#node-input-trendoffvalueType"),
+                types: ['str','num','bool','json','bin','date']
+            });
+            $('#node-input-meanCrowdingonvalue').typedInput({
+                default: 'str',
+                typeField: $("#node-input-meanCrowdingonvalueType"),
+                types: ['str','num','bool','json','bin','date']
+            });
+
+            $('#node-input-meanCrowdingoffvalue').typedInput({
+                default: 'str',
+                typeField: $("#node-input-meanCrowdingoffvalueType"),
+                types: ['str','num','bool','json','bin','date']
+            });
+        }
+
+    });
+        
+</script>
+
+<script type="text/x-red" data-template-name="spc">
+    <div class="form-row">
+        <label for="node-input-name"><i class="icon-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-upperLimit"><i class="icon-tag"></i>Upper Limit</label>
+        <input type="text" id="node-input-upperLimit" placeholder="UpperLimit">
+    </div>    
+    <div class="form-row">
+        <label for="node-input-upperLimitEnable"><i class="icon-tag"></i>Upper Limit Enable</label>
+        <input type="checkbox" id="node-input-upperLimitEnable" placeholder="UpperLimitEnable">
+    </div>
+    <div class="form-row">
+        <label for="node-input-lowerLimit"><i class="icon-tag"></i>Lower Limit</label>
+        <input type="text" id="node-input-lowerLimit" placeholder="LowerLimit">
+    </div>
+    <div class="form-row">
+        <label for="node-input-lowerLimitEnable"><i class="icon-tag"></i>Lower Limit Enable</label>
+        <input type="checkbox" id="node-input-lowerLimitEnable" placeholder="LowerLimitEnable">
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-limitTriggerCount"><i class="icon-tag"></i>Limit Trigger Count</label>
+        <input type="text" id="node-input-limitTriggerCount" placeholder="LimitTriggerCount">
+    </div>    
+
+    
+    <div class="form-row">
+        <label for="node-input-trendCountLimit"><i class="icon-tag"></i>Trend Limit</label>
+        <input type="text" id="node-input-trendCountLimit" placeholder="TrendLimit">
+    </div>    
+
+    <div class="form-row">
+        <label for="node-input-trendEnable"><i class="icon-tag"></i>Trend Enable</label>
+        <input type="checkbox" id="node-input-trendEnable" placeholder="TrendEnable">
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-meanCrowdingLimit"><i class="icon-tag"></i>Mean Crowding Limit</label>
+        <input type="text" id="node-input-meanCrowdingLimit" placeholder="MeanCrowdingLimit">
+    </div>
+    <div class="form-row">
+        <label for="node-inpput-meanCrowdingEnable"><i class="icon-tag"></i>Mean Crowding Enable</label>
+        <input type="checkbox" id="node-input-meanCrowdingEnable" placeholder="MeanCrowdingEnable">
+    </div>
+
+
+
+    <div class="form-row">
+        <label for="node-input-limitonvalue" style="padding-left:25px; margin-right:-25px">Limit On Payload</label>
+        <input type="text" id="node-input-limitonvalue" style="width:70%">
+        <input type="hidden" id="node-input-limitonvalueType">
+    </div>
+    <div class="form-row">
+        <label for="node-input-limitoffvalue" style="padding-left:25px; margin-right:-25px">Limit Off Payload</label>
+        <input type="text" id="node-input-limitoffvalue" style="width:70%">
+        <input type="hidden" id="node-input-limitoffvalueType">
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-trendonvalue" style="padding-left:25px; margin-right:-25px">Trend On Payload</label>
+        <input type="text" id="node-input-trendonvalue" style="width:70%">
+        <input type="hidden" id="node-input-trendonvalueType">
+    </div>
+    <div class="form-row">
+        <label for="node-input-trendoffvalue" style="padding-left:25px; margin-right:-25px">Trend Off Payload</label>
+        <input type="text" id="node-input-trendoffvalue" style="width:70%">
+        <input type="hidden" id="node-input-trendoffvalueType">
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-meanCrowdingonvalue" style="padding-left:25px; margin-right:-25px">Mean Crowding On Payload</label>
+        <input type="text" id="node-input-meanCrowdingonvalue" style="width:70%">
+        <input type="hidden" id="node-input-meanCrowdingonvalueType">
+    </div>
+    <div class="form-row">
+        <label for="node-input-meanCrowdingoffvalue" style="padding-left:25px; margin-right:-25px">Mean Crowding Off Payload</label>
+        <input type="text" id="node-input-meanCrowdingoffvalue" style="width:70%">
+        <input type="hidden" id="node-input-meanCrowdingoffvalueType">
+    </div>
+
+    
+</script>
+
+<script type="text/x-red" data-help-name="spc">
+    <p>SPC Alarm Handling</p>
+</script>

@@ -1,0 +1,1 @@
+.objsud/SampleCanvas.o .objsud/wx_pch.o .objsud/wxSFSample2Main.o .objsud/SampleShape.o .objsud/wxSFSample2App.o

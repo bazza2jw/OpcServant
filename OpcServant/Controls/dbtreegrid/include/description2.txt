@@ -1,0 +1,635 @@
+
+/**
+@page page3 Пример использования 3
+
+
+\image html sample3.gif
+
+@code
+
+///////////////////////////////////////////////////////////////////////////
+// C++ code generated with wxFormBuilder (version Sep  8 2010)
+// http://www.wxformbuilder.org/
+//
+// PLEASE DO "NOT" EDIT THIS FILE!
+///////////////////////////////////////////////////////////////////////////
+#include "dbtreegrid.h"
+#include "dbtextfield.h"
+#ifndef __objectdialog__
+#define __objectdialog__
+
+#include <wx/gdicmn.h>
+#include <wx/font.h>
+#include <wx/colour.h>
+#include <wx/settings.h>
+#include <wx/string.h>
+#include <wx/stattext.h>
+#include <wx/sizer.h>
+#include <wx/dialog.h>
+
+///////////////////////////////////////////////////////////////////////////
+
+
+///////////////////////////////////////////////////////////////////////////////
+/// Class ObjectDialog
+///////////////////////////////////////////////////////////////////////////////
+class ObjectDialog : public wxDialog 
+{
+	private:
+	
+	protected:
+
+		wxStaticText* m_staticText3;
+		wxStaticText* m_staticText1;
+		wxStaticText* m_staticText2;
+		wxStaticText* m_staticText4;
+	
+		
+		
+	
+	public:
+		
+
+		DbTreeGrid * tree;
+		DbTextField *group;
+		DbTextField *city;
+		DbTextField *street;
+		DbTreeGrid * tree1;
+		DbTextField *ip;
+		DbTreeGrid * tree11;
+		
+		DbTreeGrid * tree111;
+		
+		
+		ObjectDialog( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("??????"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize(758,576 ), long style = wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER );
+		~ObjectDialog();
+		bool Init();
+		DatabaseLayer* db;
+		
+	private:
+		void OnClose(wxCloseEvent &event);
+		///Обработчики БД
+		void OnRecHandle(DbRecEvent &event);
+	public:
+		DECLARE_EVENT_TABLE()
+};
+
+#endif //__objectdialog__
+
+
+///////////////////////////////////////////////////////////////////////////
+// C++ code generated with wxFormBuilder (version Sep  8 2010)
+// http://www.wxformbuilder.org/
+//
+// PLEASE DO "NOT" EDIT THIS FILE!
+///////////////////////////////////////////////////////////////////////////
+
+#include "objectdialog.h"
+
+///////////////////////////////////////////////////////////////////////////
+
+ObjectDialog::ObjectDialog( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxDialog( parent, id, title, pos, size, style )
+{
+	this->SetSizeHints( wxDefaultSize, wxDefaultSize );
+	
+	wxBoxSizer* bSizer1;
+	bSizer1 = new wxBoxSizer( wxVERTICAL );
+	
+	wxStaticBoxSizer* sbSizer1;
+	sbSizer1 = new wxStaticBoxSizer( new wxStaticBox( this, wxID_ANY, wxT("Объекты") ), wxVERTICAL );
+	
+	tree = new DbTreeGrid( this,wxID_ANY,
+	wxDefaultPosition,
+	wxSize(-1,120),
+	wxTR_SINGLE |
+	wxTR_HAS_BUTTONS |
+	wxTR_FULL_ROW_HIGHLIGHT |
+	wxTR_HIDE_ROOT |
+	wxTR_ROW_LINES |
+	wxTR_COLUMN_LINES |
+	wxTR_EDIT_LABELS |
+	wxTR_NO_LINES
+	);
+	
+	tree->SetMinSize( wxSize( -1,150 ) );
+	
+	sbSizer1->Add( tree, 0, wxALL|wxEXPAND, 2 );
+	
+	wxFlexGridSizer* fgSizer1;
+	fgSizer1 = new wxFlexGridSizer( 2, 2, 0, 0 );
+	fgSizer1->AddGrowableCol( 1 );
+	fgSizer1->SetFlexibleDirection( wxBOTH );
+	fgSizer1->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
+	
+	m_staticText3 = new wxStaticText( this, wxID_ANY, wxT("Группа"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText3->Wrap( -1 );
+	fgSizer1->Add( m_staticText3, 0, wxALL, 2 );
+	
+	group= new DbTextField( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(-1,-1),0);
+	fgSizer1->Add( group, 0, wxALL|wxEXPAND, 2 );
+	
+	m_staticText1 = new wxStaticText( this, wxID_ANY, wxT("Город"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText1->Wrap( -1 );
+	fgSizer1->Add( m_staticText1, 0, wxALL, 2 );
+	
+	city = new DbTextField( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(-1,-1),0);
+	fgSizer1->Add( city, 0, wxALL|wxEXPAND, 2 );
+	
+	m_staticText2 = new wxStaticText( this, wxID_ANY, wxT("Улица"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText2->Wrap( -1 );
+	fgSizer1->Add( m_staticText2, 0, wxALL, 2 );
+	
+	street = new DbTextField( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(-1,-1),0);
+	fgSizer1->Add( street, 0, wxALL|wxEXPAND, 2 );
+	
+	sbSizer1->Add( fgSizer1, 0, wxEXPAND, 2 );
+	
+	bSizer1->Add( sbSizer1, 0, wxEXPAND, 2 );
+	
+	wxStaticBoxSizer* sbSizer2;
+	sbSizer2 = new wxStaticBoxSizer( new wxStaticBox( this, wxID_ANY, wxT("Шкафы") ), wxHORIZONTAL );
+	
+	wxBoxSizer* bSizer3;
+	bSizer3 = new wxBoxSizer( wxVERTICAL );
+	
+	tree1= new DbTreeGrid( this,wxID_ANY,
+	wxDefaultPosition,
+	wxSize(240,-1),
+	wxTR_SINGLE |
+	wxTR_HAS_BUTTONS |
+	wxTR_FULL_ROW_HIGHLIGHT |
+	wxTR_HIDE_ROOT |
+	wxTR_ROW_LINES |
+	wxTR_COLUMN_LINES |
+	wxTR_EDIT_LABELS  |
+	wxTR_NO_LINES
+	);
+	
+	tree1->SetMinSize( wxSize( 250,-1 ) );
+	
+	bSizer3->Add( tree1, 1, wxALL|wxEXPAND, 2 );
+	
+	m_staticText4 = new wxStaticText( this, wxID_ANY, wxT("Ip адрес"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText4->Wrap( -1 );
+	bSizer3->Add( m_staticText4, 0, wxALL, 2 );
+	
+	ip = new DbTextField( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(-1,-1),0);
+	bSizer3->Add( ip, 0, wxALL|wxEXPAND, 2 );
+	
+	sbSizer2->Add( bSizer3, 0, wxEXPAND, 2 );
+	
+	wxStaticBoxSizer* sbSizer3;
+	sbSizer3 = new wxStaticBoxSizer( new wxStaticBox( this, wxID_ANY, wxT("Комплектация") ), wxVERTICAL );
+	
+	tree11 = new DbTreeGrid( this,wxID_ANY,
+	wxDefaultPosition,
+	wxSize(-1,-1),
+	wxTR_SINGLE |
+	wxTR_HAS_BUTTONS |
+	wxTR_FULL_ROW_HIGHLIGHT |
+	wxTR_HIDE_ROOT |
+	wxTR_ROW_LINES |
+	wxTR_COLUMN_LINES |
+	wxTR_EDIT_LABELS
+	);
+	
+	sbSizer3->Add( tree11, 1, wxALL|wxEXPAND, 2 );
+	
+	wxStaticBoxSizer* sbSizer5;
+	sbSizer5 = new wxStaticBoxSizer( new wxStaticBox( this, wxID_ANY, wxT("Параметры") ), wxVERTICAL );
+	
+	tree111 = new DbTreeGrid( this,wxID_ANY,
+	wxDefaultPosition,
+	wxSize(-1,-1),
+	wxTR_SINGLE |
+	wxTR_HAS_BUTTONS |
+	wxTR_FULL_ROW_HIGHLIGHT |
+	wxTR_HIDE_ROOT |
+	wxTR_ROW_LINES |
+	wxTR_COLUMN_LINES |
+	wxTR_EDIT_LABELS |
+	wxTR_NO_LINES
+	);
+	
+	sbSizer5->Add( tree111, 1, wxALL|wxEXPAND, 2 );
+	
+	sbSizer3->Add( sbSizer5, 1, wxEXPAND, 2 );
+	
+	sbSizer2->Add( sbSizer3, 1, wxEXPAND, 2 );
+	
+	bSizer1->Add( sbSizer2, 1, wxEXPAND, 2 );
+	
+	this->SetSizer( bSizer1 );
+	this->Layout();
+	
+	this->Centre( wxBOTH );
+	
+	// Connect Events
+	this->Connect( wxEVT_CLOSE_WINDOW, wxCloseEventHandler( ObjectDialog::OnClose ) );
+}
+
+ObjectDialog::~ObjectDialog()
+{
+	// Disconnect Events
+	this->Disconnect( wxEVT_CLOSE_WINDOW, wxCloseEventHandler( ObjectDialog::OnClose ) );
+	
+}
+
+
+#include "objectdialog.h"
+#include "dbdispatcher.h"
+#include "setup.h"
+#include "validator.h"
+DbDispatcher * dispatcher7=0;
+
+bool ObjectDialog::Init()
+{
+
+
+
+
+	if(dispatcher7) return false;;
+	SetLabel(wxT("Объекты"));
+	
+	dispatcher7 = new DbDispatcher();
+	wxLogMessage("AccessDialog::Init");
+	try{
+		db=dbase;//db = new FirebirdDatabaseLayer(DB_SERVER,DB_NAME,USER_NAME,USER_PASSWORD);
+
+	}
+	catch (DatabaseLayerException& e)
+	{
+		wxMessageBox(wxString::Format(_("Error (%d): %s"), e.GetErrorCode(), e.GetErrorMessage().c_str()));
+	}
+	SetName(wxT("ObjectDialog"));
+	tree->SetName(wxT("ObjectTree"));
+	tree1->SetName(wxT("BoxTree"));
+	tree11->SetName(wxT("BundlingTree"));
+	tree111->SetName(wxT("UnitTree"));
+
+	wxString s;
+
+
+	tree->db=db;
+	tree->ResetProperty(DB_GRID_READ_ONE);
+	tree->selectClause=wxT("select ename,name,object_nn,gname,address_city,address_street,id,enterprice_id,object_table_group_id  ");
+	tree->fromClause=wxT("from v_object_table");
+	tree->orderClause=wxT("order by ename");
+	tree->CreateQuery();
+	if(!tree->SetupField())return false;
+	tree->SetPkNum(6);
+
+	tree->dstName= wxT("object_table");
+
+	ArrayDbGridFieldDesc* fd =tree->GetFieldDescription();
+    (*fd)[3].ResetProperty(DB_FIELD_VISIBLE);
+    (*fd)[4].ResetProperty(DB_FIELD_VISIBLE);
+    (*fd)[5].ResetProperty(DB_FIELD_VISIBLE);
+	(*fd)[6].ResetProperty(DB_FIELD_VISIBLE);
+	(*fd)[7].ResetProperty(DB_FIELD_VISIBLE);
+	(*fd)[8].ResetProperty(DB_FIELD_VISIBLE);
+
+	(*fd)[0].ResetProperty(DB_FIELD_DBASE);
+	(*fd)[3].ResetProperty(DB_FIELD_DBASE);
+
+	(*fd)[7].SetProperty(DB_FIELD_NOT_NULL);
+	(*fd)[1].SetProperty(DB_FIELD_NOT_NULL);
+	(*fd)[2].SetProperty(DB_FIELD_NOT_NULL);
+	(*fd)[8].SetProperty(DB_FIELD_NOT_NULL);
+
+	(*fd)[0].columnName=wxT("Предприятие*");
+	(*fd)[1].columnName=wxT("Название*");
+	(*fd)[2].columnName=wxT("№*");
+	(*fd)[3].columnName=wxT("Группа*");
+	(*fd)[4].columnName=wxT("Город");
+	(*fd)[5].columnName=wxT("Улица");
+
+
+	(*fd)[6].ResetProperty(DB_FIELD_QUERY);
+	(*fd)[7].ResetProperty(DB_FIELD_QUERY);
+	(*fd)[8].ResetProperty(DB_FIELD_QUERY);
+
+	(*fd)[6].ResetProperty(DB_FIELD_SEARCH);
+	(*fd)[7].ResetProperty(DB_FIELD_SEARCH);
+	(*fd)[8].ResetProperty(DB_FIELD_SEARCH);
+
+
+	tree->seqName=wxT("GlobalSequence");
+	tree->CreateField();
+
+
+	DbLOV lov;
+	lov.selectClause=wxT("select name as \"Название\", id ");
+	lov.fromClause=wxT("from enterprice");
+	lov.orderClause=wxT("order by name");
+
+
+	DbPair p;
+	p.i1=0;p.i2=0;p.w=200;p.fieldName=wxT("name");lov.pair.Add(p);
+	p.i1=1;p.i2=7;p.w=0;lov.pair.Add(p);
+	lov.size=wxSize(250,300);
+	DbLOV *l=tree->AddLOV(lov);
+	(*fd)[0].lov=l;
+
+	lov.pair.Clear();
+	lov.selectClause=wxT("select name as \"Название\", id ");
+	lov.fromClause=wxT("from object_group");
+	lov.orderClause=wxT("order by name");
+	p.i1=0;p.i2=3;p.w=200;p.fieldName=wxT("name");lov.pair.Add(p);
+	p.i1=1;p.i2=8;p.w=0;lov.pair.Add(p);
+	lov.size=wxSize(250,300);
+	l=tree->AddLOV(lov);
+	(*fd)[3].lov=l;
+
+	tree->AddLinkField(city, 4);
+	tree->AddLinkField(street, 5);
+	tree->AddLinkField(group, 3);
+
+	tree->GetAllRow();
+	tree->SelectFirstRecord();
+	dispatcher7->AddGrid((DbQueryObject*)tree);
+	tree->SetColumnWidth(0,200);
+	tree->SetColumnWidth(1,200);
+	tree->SetColumnWidth(2,100);
+	tree->SelectFirstRecord();
+
+	
+	/////////////////////
+	tree1->db=db;
+	s=tree->GetPkValue();
+
+
+	tree1->ResetProperty(DB_GRID_READ_ONE);
+	tree1->selectClause=wxT("select sn,nn,name,ip,object_table_id,serial_nn  ");
+	tree1->fromClause=wxT("from v_box");
+	tree1->orderClause=wxT("order by serial_nn");
+	tree1->CreateQuery();
+	tree1->AddWhere(wxT("object_table_id='")+s+wxT("'"));
+	if(!tree1->SetupField())return false;
+	tree1->SetPkNum(5);
+	tree1->SetFkNum(4);
+	tree1->dstName= wxT("box");
+	//tree1->preInsertHandler=0;
+
+	fd =tree1->GetFieldDescription();
+	tree1->parent=tree;
+	(*fd)[3].ResetProperty(DB_FIELD_VISIBLE);
+    (*fd)[4].ResetProperty(DB_FIELD_VISIBLE);
+	(*fd)[5].ResetProperty(DB_FIELD_VISIBLE);
+	
+	(*fd)[0].ResetProperty(DB_FIELD_DBASE);
+	(*fd)[1].ResetProperty(DB_FIELD_DBASE);
+
+
+	(*fd)[0].SetProperty(DB_FIELD_NOT_NULL);
+	(*fd)[1].SetProperty(DB_FIELD_NOT_NULL);
+
+
+	(*fd)[0].columnName=wxT("Серия*");
+	(*fd)[1].columnName=wxT("Номер*");
+	(*fd)[2].columnName=wxT("Название");
+
+	(*fd)[0].ResetProperty(DB_FIELD_QUERY);
+	(*fd)[1].ResetProperty(DB_FIELD_QUERY);
+	(*fd)[4].ResetProperty(DB_FIELD_QUERY);
+	(*fd)[5].ResetProperty(DB_FIELD_QUERY);
+	
+
+	(*fd)[0].ResetProperty(DB_FIELD_SEARCH);
+	(*fd)[1].ResetProperty(DB_FIELD_SEARCH);
+	(*fd)[4].ResetProperty(DB_FIELD_SEARCH);
+	(*fd)[5].ResetProperty(DB_FIELD_SEARCH);
+	
+
+	tree1->CreateField();
+	lov.pair.Clear();
+	lov.selectClause=wxT("select sn as \"Сер. №\", name as \"Название\" ");
+	lov.fromClause=wxT("from box_sn");
+	lov.orderClause=wxT("order by name");
+	p.i1=0;p.i2=0;p.w=50;p.fieldName=wxT("sn");lov.pair.Add(p);
+	p.i1=1;p.i2=-1;p.w=200;lov.pair.Add(p);
+	lov.size=wxSize(250,300);
+	l=tree->AddLOV(lov);
+	(*fd)[0].lov=l;
+
+
+
+	tree1->AddLinkField(ip, 3);
+	tree1->GetAllRow();
+	tree1->SelectFirstRecord();
+	dispatcher7->AddGrid((DbQueryObject*)tree1);
+	tree1->SetColumnWidth(0,100);
+	tree1->SetColumnWidth(1,100);
+	tree1->SetColumnWidth(2,150);
+	tree1->SelectFirstRecord();
+	tree1->preInsertHandler=this;
+	tree1->preRecordHandler=this;
+
+//////////////////
+	tree11->db=db;
+	tree11->ResetProperty(DB_GRID_READ_ONE);
+	s=tree1->GetPkValue();
+	tree11->selectClause=wxT("select    name,sn,nn_for_sort   ,box_serial_nn,unit_id,id  ");
+	tree11->fromClause=wxT("from v_unit ");
+	
+	tree11->CreateQuery();
+	tree11->AddWhere(wxT("box_serial_nn='")+s+wxT("'"));
+	if(!tree11->SetupField())return false;
+	tree11->SetPkNum(5);
+	tree11->SetFkNum(3);
+	tree11->SetTreeNum(4);
+	tree11->dstName= wxT("unit");
+	fd =tree11->GetFieldDescription();
+	tree11->parent=tree1;
+	(*fd)[3].ResetProperty(DB_FIELD_VISIBLE);
+    (*fd)[4].ResetProperty(DB_FIELD_VISIBLE);
+ 	(*fd)[5].ResetProperty(DB_FIELD_VISIBLE);
+   
+
+	(*fd)[0].SetProperty(DB_FIELD_NOT_NULL);
+	(*fd)[2].SetProperty(DB_FIELD_NOT_NULL);
+
+
+	(*fd)[0].columnName=wxT("Название*");
+	(*fd)[1].columnName=wxT("Серийный номер");
+	(*fd)[2].columnName=wxT("Сорт.№*");
+	(*fd)[1].validator=&snvalidator;
+
+//	(*fd)[1].validator=&dtvalidator;
+	
+
+
+
+	(*fd)[0].ResetProperty(DB_FIELD_SEARCH);
+	(*fd)[1].ResetProperty(DB_FIELD_SEARCH);
+
+
+	tree11->seqName=wxT("GlobalSequence");
+	tree11->SetProperty(DB_GRID_IS_TREE);
+	tree11->ResetProperty(DB_GRID_QUERY_ENABLE);
+
+	tree11->CreateField();
+
+	tree11->GetAllRow();
+	tree11->SelectFirstRecord();
+	dispatcher7->AddGrid((DbQueryObject*)tree11);
+	tree11->SetColumnWidth(0,200);
+	tree11->SetColumnWidth(1,150);
+	tree11->SetColumnWidth(2,150);
+	tree11->SelectFirstRecord();
+///////////////
+	tree111->db=db;
+	s=tree11->GetPkValue();
+	tree111->ResetProperty(DB_GRID_READ_ONE);
+	tree111->selectClause=wxT("select  name, nn, Measure,id,unit_id ");
+	tree111->fromClause=wxT("from params ");
+	tree111->orderClause=wxT("order by nn");
+	tree111->CreateQuery();
+	tree111->AddWhere(wxT("unit_id='")+s+wxT("'"));
+	if(!tree111->SetupField())return false;
+	tree111->SetPkNum(3);
+	tree111->SetFkNum(4);
+	tree111->dstName= wxT("params");
+	fd =tree111->GetFieldDescription();
+	tree111->parent=tree11;
+	(*fd)[3].ResetProperty(DB_FIELD_VISIBLE);
+    (*fd)[4].ResetProperty(DB_FIELD_VISIBLE);
+   
+
+	(*fd)[0].SetProperty(DB_FIELD_NOT_NULL);
+	(*fd)[1].SetProperty(DB_FIELD_NOT_NULL);
+
+
+
+	(*fd)[0].columnName=wxT("Название*");
+	(*fd)[1].columnName=wxT("Номер*");
+	(*fd)[2].columnName=wxT("Ед.изм.");
+
+
+
+
+
+	(*fd)[3].ResetProperty(DB_FIELD_SEARCH);
+	(*fd)[4].ResetProperty(DB_FIELD_SEARCH);
+
+	(*fd)[3].ResetProperty(DB_FIELD_QUERY);
+	(*fd)[4].ResetProperty(DB_FIELD_QUERY);
+
+	tree111->seqName=wxT("GlobalSequence");
+
+	tree111->CreateField();
+
+	tree111->GetAllRow();
+	tree111->SelectFirstRecord();
+	dispatcher7->AddGrid((DbQueryObject*)tree111);
+	tree111->SetColumnWidth(0,200);
+	tree111->SetColumnWidth(1,150);
+	tree111->SetColumnWidth(2,150);
+	tree111->SelectFirstRecord();
+
+
+
+
+	s=wxEmptyString;
+	wxLogMessage("ObjectDialog::Init $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+	Serializer::LoadWindowGUI(this,setupGUIArray,s);
+	s=GetName();
+	tree->LoadGUI(setupGUIArray,s);
+	tree1->LoadGUI(setupGUIArray,s);
+	tree11->LoadGUI(setupGUIArray,s);
+	tree111->LoadGUI(setupGUIArray,s);
+	//Устанавливаем главное окно для проверки на изменения при закрытии
+	dispatcher7->win = this;
+	return true;
+
+};
+
+void ObjectDialog::OnClose(wxCloseEvent &event){
+	
+	wxLogMessage("ObjectDialog::OnClose");
+	if(dispatcher7->IsEdit())
+	{
+			if (event.CanVeto())   {   /* wxMessageBox(wxT("Выйдти нельзя редактируется поле")) ;  */  event.Veto();  return ;}
+	};
+	if(dispatcher7->IsChanged())
+	{
+		int answer=wxMessageBox("Есть изменеия, выйдти без сохранения?",wxEmptyString,wxOK|wxCANCEL) ;
+		if(! (wxOK == answer ))
+		{  
+			if (event.CanVeto())   {    wxLogMessage("ObjectDialog::OnClose VETO ");      event.Veto();  return ;}
+		}
+	}
+	wxString s;
+	Serializer::SaveWindowGUI(this,setupGUIArray,s);
+	s=GetName();
+	tree->SaveGUI(setupGUIArray,s);
+	tree1->SaveGUI(setupGUIArray,s);
+	tree11->SaveGUI(setupGUIArray,s);
+	tree111->SaveGUI(setupGUIArray,s);
+
+	delete dispatcher7;
+	dispatcher7=0;
+//	if(db){
+//		db->RollBack(); if (db->IsOpen())db->Close();
+//	}
+
+	Destroy();
+
+}
+//Обработчики
+void ObjectDialog::OnRecHandle(DbRecEvent &event){
+wxLogMessage(wxT("ObjectDialog::OnRecHandle &&&&&&&&&&&&&&&&&&&&&&&&&&"));	
+	if (event.tp==DB_PRE_INSERT_HANDLE && event.objType ==	DB_OBJ_TYPE_TREE_GRID){
+		wxLogMessage(wxT("ObjectDialog::OnRecHandle"));
+		DbTreeGrid *g=(DbTreeGrid *)event.GetEventObject();
+		g->DoPreInsert((*event.as));
+	
+		wxString s1,s2;
+		
+		(*event.as)[5]=(*event.as)[0]+(*event.as)[1];
+		
+		
+
+	};
+	if ( event.tp==DB_PRE_RECORD_HANDLE && event.objType ==	DB_OBJ_TYPE_TREE_GRID)
+	{
+		DbTreeGrid *g=(DbTreeGrid *)event.GetEventObject();
+		if(g && g->dispatcher)
+		{
+			g->dispatcher->ProcessEvent(event);
+			if(event.veto) return;
+		}
+		//Запрещаем редактировать поля
+		int n=(*event.as).Count();
+		long l;
+		wxString s;
+		ArrayDbGridFieldDesc* fd =g->GetFieldDescription();
+		if(n>0)
+		{
+			s=(*event.as)[n-1];
+			s.ToLong(&l);
+			if(l&DB_INSERTED_RECORD)
+			{
+
+				(*fd)[0].SetProperty(DB_FIELD_EDITABLE);
+				(*fd)[1].SetProperty(DB_FIELD_EDITABLE);
+
+			}
+			else
+			{
+				(*fd)[0].ResetProperty(DB_FIELD_EDITABLE);
+				(*fd)[1].ResetProperty(DB_FIELD_EDITABLE);
+			};
+		};
+	}
+
+};
+
+BEGIN_EVENT_TABLE( ObjectDialog, wxDialog )
+	EVT_REC_HANDLE(wxID_ANY,ObjectDialog::OnRecHandle)
+END_EVENT_TABLE()
+
+@endcode
+
+*/
+

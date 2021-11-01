@@ -1,0 +1,20 @@
+
+PC114-2 (Client)	Thu Feb 09 09:07:06 2012
+	INET/inet_error: send errno = 10054
+
+
+PC114-2 (Client)	Fri Feb 10 15:05:18 2012
+	INET/inet_error: connect errno = 10060
+
+
+PC114-2 (Client)	Mon Feb 20 13:48:20 2012
+	INET/inet_error: read errno = 10054
+
+
+PC114-2 (Client)	Mon Feb 20 13:48:38 2012
+	INET/inet_error: connect errno = 10065
+
+
+PC114-2 (Client)	Mon Feb 20 13:48:40 2012
+	INET/inet_error: connect errno = 10065
+

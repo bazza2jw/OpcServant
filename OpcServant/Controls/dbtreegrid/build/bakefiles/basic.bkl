@@ -1,0 +1,81 @@
+<?xml version="1.0" ?>
+
+<!-- Author: Francesco Montorsi <frm@users.sourceforge.net>         -->
+<!-- Source: http://wiki.wxwidgets.org/wiki.pl?Bakefile_Basic       -->
+<!-- Creation date: 29/05/2005                                      -->
+<!-- Last revision: 21/08/2005                                      -->
+
+
+<!--                                                                -->
+<!--                        BASIC BAKEFILE                          -->
+<!-- This simple bakefile provides the BUILD=debug/release option.  -->
+<!--                                                                -->
+
+<makefile>  
+
+    <if cond="not isdefined('BASIC_INC')">
+    <set var="BASIC_INC">1</set>
+
+    <!-- BUILD determines whether or not we want to build           -->
+    <!-- in release or debug mode.  Note that in practice           -->
+    <!-- this means modifying the optimize tag, which by            -->
+    <!-- default is set to off.  In this case debug means           -->
+    <!-- off (no optimizations), and release means speed            -->
+    <!-- (fast with inlining).  There is also a size option         -->
+    <!-- that is not addressed in this example bakefile.            -->
+    <option name="BUILD">
+        <values>debug,release</values>
+        <values-description>Debug,Release</values-description>
+        <default-value>debug</default-value>
+        <description>Type of compiled binaries</description>
+    </option>
+    
+    <!--    Value we will use later on for the debug-info           -->
+    <!--    tag inside our templates.                               -->
+    <set var="DEBUGINFO">
+        <if cond="BUILD=='debug'">on</if>
+        <if cond="BUILD=='release'">off</if>
+    </set>
+
+    <!--    Value we will use later on for the debug-runtime        -->
+    <!--    tag inside our templates.                               -->
+    <set var="DEBUGRUNTIME">
+        <if cond="BUILD=='debug'">on</if>
+        <if cond="BUILD=='release'">off</if>
+    </set>
+
+    <!--    Value for optimize tag.                                 -->
+    <set var="OPTIMIZEFLAG">
+        <if cond="BUILD=='debug'">off</if>
+        <if cond="BUILD=='release'">speed</if>
+    </set>
+
+    <!-- Level of warnings.  Here we max it out in debug            -->
+    <!-- mode, and turn them off in release mode.                   -->
+    <set var="WARNINGS">
+        <if cond="BUILD=='debug'">max</if>
+        <if cond="BUILD=='release'">no</if>
+    </set>
+
+    <!-- Set WXCPPFLAGS as empty; maybe it will be filled later...  -->
+    <set var="ADDITIONAL_CPPFLAGS"></set>
+    <if cond="FORMAT=='mingw' or FORMAT=='autoconf'">
+  
+        <!-- With GCC, settings warnings to MAX would force         -->
+        <!-- Bakefile to call GCC with "-W -Wall" which generates   -->
+        <!-- a *lot* of warnings...                                 -->
+        <!-- this is why "-W -Wall" is here replaced by "-Wall".    -->
+        <set var="WARNINGS"><if cond="BUILD=='debug'">default</if></set>
+        <set var="ADDITIONAL_CPPFLAGS"><if cond="BUILD=='debug'">-Wall</if></set>        
+    </if>
+    
+    <template id="basic">        
+        <warnings>$(WARNINGS)</warnings>
+        <optimize>$(OPTIMIZEFLAG)</optimize>
+        <debug-info>$(DEBUGINFO)</debug-info>
+        <debug-runtime-libs>$(DEBUGRUNTIME)</debug-runtime-libs>        
+        <cxxflags>$(ADDITIONAL_CPPFLAGS)</cxxflags>
+    </template>
+    
+    </if>
+</makefile>
