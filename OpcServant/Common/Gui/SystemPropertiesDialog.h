@@ -21,6 +21,7 @@ public:
     SystemPropertiesDialog(wxWindow* parent);
     virtual ~SystemPropertiesDialog();
 protected:
+    virtual void onPurge(wxCommandEvent& event);
     virtual void onFactoryReset(wxCommandEvent& event);
     virtual void OnOK(wxCommandEvent& event);
 };

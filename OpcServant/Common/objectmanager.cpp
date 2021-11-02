@@ -28,7 +28,7 @@
 #include <Common/Web/configurationwebdialog.h>
 //
 
-static CommonImageList commonImages;
+static CommonImageList *commonImages;
 
 MRL::ObjectManager::MAP  MRL::ObjectManager::_map; // the lookup map
 MRL::ObjectManager::IDMAP  MRL::ObjectManager::_idmap; // the lookup map
@@ -57,12 +57,19 @@ MRL::ObjectManager::ObjectManager(const std::string &n) : _name(n) {
     }
     else
     {
-        _iconIndex = imageList().Add(commonImages.Bitmap("m_Default"));
+        _iconIndex = imageList().Add(commonImages->Bitmap("m_Default"));
     }
     #endif
     //
 }
 
+/*!
+ * \brief MRL::ObjectManager::initialise
+ */
+void MRL::ObjectManager::initialise()
+{
+    commonImages = new CommonImageList();
+}
 /*!
     \brief MRL::ObjectManager::create
     \param t

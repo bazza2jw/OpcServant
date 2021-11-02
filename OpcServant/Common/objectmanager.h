@@ -97,6 +97,8 @@ namespace MRL {
                 _idmap.erase(_type);
             }
 
+            static void initialise();
+
             std::string &webIconName()  {
                 return  _webIconName;
             }

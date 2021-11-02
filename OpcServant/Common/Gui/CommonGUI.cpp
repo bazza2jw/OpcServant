@@ -54,6 +54,9 @@ SystemPropertiesDialogBase::SystemPropertiesDialogBase(wxWindow* parent, wxWindo
     m_mainTab = m_properties->Append(  new wxStringProperty( _("Main Tab"), wxPG_LABEL, _("System")) );
     m_mainTab->SetHelpString(wxT(""));
     
+    m_autoPurge = m_properties->Append(  new wxBoolProperty( _("Auto Purge Database"), wxPG_LABEL, 1) );
+    m_autoPurge->SetHelpString(_("Enable 90 day purge"));
+    
     m_enableVK = m_properties->Append(  new wxBoolProperty( _("Enable VK"), wxPG_LABEL, 0) );
     m_enableVK->SetHelpString(wxT(""));
     m_enableVK->SetEditor( wxT("CheckBox") );
@@ -221,7 +224,7 @@ ReportGeneratorPanelBase::ReportGeneratorPanelBase(wxWindow* parent, wxWindowID 
     
     flexGridSizer199->Add(m_dateEnd, 0, wxALL, WXC_FROM_DIP(5));
     
-    gridSizer207 = new wxGridSizer(0, 6, 0, 0);
+    gridSizer207 = new wxGridSizer(0, 7, 0, 0);
     
     boxSizer197->Add(gridSizer207, 0, wxALL|wxEXPAND, WXC_FROM_DIP(5));
     
@@ -248,6 +251,10 @@ ReportGeneratorPanelBase::ReportGeneratorPanelBase(wxWindow* parent, wxWindowID 
     m_buttonPrint = new wxButton(m_panelSetup, wxID_ANY, _("Print ..."), wxDefaultPosition, wxDLG_UNIT(m_panelSetup, wxSize(-1,-1)), 0);
     
     gridSizer207->Add(m_buttonPrint, 0, wxALL, WXC_FROM_DIP(5));
+    
+    m_buttonExport = new wxButton(m_panelSetup, wxID_ANY, _("Export ..."), wxDefaultPosition, wxDLG_UNIT(m_panelSetup, wxSize(-1,-1)), 0);
+    
+    gridSizer207->Add(m_buttonExport, 0, wxALL, WXC_FROM_DIP(5));
     
     m_panelTable = new wxPanel(m_notebook, wxID_ANY, wxDefaultPosition, wxDLG_UNIT(m_notebook, wxSize(-1,-1)), wxTAB_TRAVERSAL);
     m_notebook->AddPage(m_panelTable, _("Table"), false);
@@ -331,6 +338,7 @@ ReportGeneratorPanelBase::ReportGeneratorPanelBase(wxWindow* parent, wxWindowID 
     m_buttonMake->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(ReportGeneratorPanelBase::onMakeReport), NULL, this);
     m_buttonNew->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(ReportGeneratorPanelBase::OnNew), NULL, this);
     m_buttonPrint->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(ReportGeneratorPanelBase::onPrint), NULL, this);
+    m_buttonExport->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(ReportGeneratorPanelBase::onExport), NULL, this);
     m_buttonRefreshValues->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(ReportGeneratorPanelBase::onRefreshValues), NULL, this);
     
 }
@@ -344,6 +352,7 @@ ReportGeneratorPanelBase::~ReportGeneratorPanelBase()
     m_buttonMake->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(ReportGeneratorPanelBase::onMakeReport), NULL, this);
     m_buttonNew->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(ReportGeneratorPanelBase::OnNew), NULL, this);
     m_buttonPrint->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(ReportGeneratorPanelBase::onPrint), NULL, this);
+    m_buttonExport->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(ReportGeneratorPanelBase::onExport), NULL, this);
     m_buttonRefreshValues->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(ReportGeneratorPanelBase::onRefreshValues), NULL, this);
     
 }

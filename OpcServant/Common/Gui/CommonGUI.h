@@ -62,6 +62,7 @@ protected:
     wxPGProperty* m_enableWeb;
     wxPGProperty* m_enableOpc;
     wxPGProperty* m_mainTab;
+    wxPGProperty* m_autoPurge;
     wxPGProperty* m_enableVK;
     wxPGProperty* m_pgProp87;
     wxPGProperty* m_opcPort;
@@ -114,6 +115,7 @@ protected:
     wxButton* m_buttonMake;
     wxButton* m_buttonNew;
     wxButton* m_buttonPrint;
+    wxButton* m_buttonExport;
     wxPanel* m_panelTable;
     wxBoxSizer* boxSizer233;
     wxNotebook* m_reportTables;
@@ -140,6 +142,7 @@ protected:
     virtual void onMakeReport(wxCommandEvent& event) { event.Skip(); }
     virtual void OnNew(wxCommandEvent& event) { event.Skip(); }
     virtual void onPrint(wxCommandEvent& event) { event.Skip(); }
+    virtual void onExport(wxCommandEvent& event) { event.Skip(); }
     virtual void onRefreshValues(wxCommandEvent& event) { event.Skip(); }
 
 public:
@@ -160,6 +163,7 @@ public:
     wxButton* GetButtonMake() { return m_buttonMake; }
     wxButton* GetButtonNew() { return m_buttonNew; }
     wxButton* GetButtonPrint() { return m_buttonPrint; }
+    wxButton* GetButtonExport() { return m_buttonExport; }
     wxPanel* GetPanelSetup() { return m_panelSetup; }
     wxNotebook* GetReportTables() { return m_reportTables; }
     wxPanel* GetPanelTable() { return m_panelTable; }

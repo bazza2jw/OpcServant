@@ -47,6 +47,7 @@ public:
     void addPages();
     void loadPages();
 protected:
+    virtual void onExport(wxCommandEvent& event);
     virtual void onPrint(wxCommandEvent& event);
     virtual void onRefreshValues(wxCommandEvent& event);
     virtual void OnNew(wxCommandEvent& event);

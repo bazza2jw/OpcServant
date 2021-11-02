@@ -86,6 +86,17 @@ public:
     bool createGraph( const std::string &item, Graph &w); // create graph with one data set
     bool createGraph(ReportGroup &rg, Graph &w); // plot all data on one graph
 
+    static void itemToFilename(std::string &i){
+        int n = i.find(":");
+        if(n != std::string::npos) i[n] = '_';
+        n = i.find("/");
+        while(n != std::string::npos)
+        {
+            i[n] = '_';
+            n = i.find("/");
+        }
+    }
+
     //
     bool toPDF(const std::string &name); // generate as a PDF
     bool pdfExists();

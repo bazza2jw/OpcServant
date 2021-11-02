@@ -127,28 +127,36 @@ void MRL::LocalDb::handleOneSecond(time_t t)
  */
 void MRL::LocalDb::purgeDiagnostic()
 {
+    _db->BeginTransaction();
     _db->Execute("DELETE FROM DIAGNOSTIC_TABLE WHERE F_TIMESTAMP < date('now','start of month','-3 month');");
+    _db->CommitTransaction();
 }
 /*!
  * \brief MRL::LocalDb::purgeMessage
  */
 void MRL::LocalDb::purgeMessage()
 {
+    _db->BeginTransaction();
     _db->Execute("DELETE FROM LOG_TABLE WHERE F_TIMESTAMP < date('now','start of month','-3 month');");
+    _db->CommitTransaction();
 }
 /*!
  * \brief MRL::LocalDb::purgeAudit
  */
 void MRL::LocalDb::purgeAudit()
 {
+    _db->BeginTransaction();
     _db->Execute("DELETE FROM PURGE_TABLE WHERE F_TIMESTAMP < date('now','start of month','-3 month');");
+    _db->CommitTransaction();
 }
 /*!
  * \brief MRL::LocalDb::purgeData
  */
 void MRL::LocalDb::purgeData()
 {
+    _db->BeginTransaction();
     _db->Execute("DELETE FROM DATA_TABLE WHERE F_TIMESTAMP < date('now','start of month','-3 month');");
+    _db->CommitTransaction();
 }
 /*!
  * \brief MRL::LocalDb::purgeAll

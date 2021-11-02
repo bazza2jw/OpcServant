@@ -85,6 +85,7 @@ bool MRL::Reporter::fetch( ReporterSet &st, ReportSpec &rs) // fetch a set of re
     {
         if(_db->OpenConnection(_file,_dir,10000))
         {
+            _db->BeginTransaction();
             _smt = std::make_unique<SqlLiteStatement>(_db.get());
             if(!_smt->prepare("SELECT F_TIMESTAMP,F_TYPE,F_STATE,F_VALUE,F_DOUBLEVALUE FROM DATA_TABLE WHERE F_SOURCE = ? AND F_TIMESTAMP BETWEEN ? AND ?;"))
             {
@@ -143,6 +144,7 @@ bool MRL::Reporter::fetch( ReporterSet &st, ReportSpec &rs) // fetch a set of re
             }
             //
             _rdb->db()->CommitTransaction();
+            _db->CommitTransaction();
             _db->CloseConnection();
         }
     }
@@ -459,7 +461,10 @@ bool MRL::Reporter::generateCsv(const std::string &item, std::ostream &os)
  */
 bool MRL::Reporter::createCsv(const std::string &item)
 {
-    std::string f = _outputDir + "/" + item + ".csv" ;
+    std::string i = item;
+    itemToFilename(i);
+    std::string f = _outputDir + "/" + i + ".csv" ;
+    // replace colons with underscores
     std::ofstream os(f,std::ios_base::out | std::ios_base::trunc);
     return generateCsv(item,os);
 }

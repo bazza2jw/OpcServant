@@ -42,7 +42,6 @@ class LocalDb : public MRL::BObject
     std::queue<WriteLog> _diagnostic;   // log queue
     std::queue<WriteRecord> _record;   // record queue
 
-
     /*!
      * \brief writeData
      * \param timestamp
@@ -110,6 +109,8 @@ public:
     //
     LocalDb(const std::string &dir, const std::string &name);
     ~LocalDb();
+
+
     /*!
      * \brief publishQueueItem
      * \param msg

@@ -113,7 +113,11 @@ void MRL::Daq::start() {
         //
         _now = 0; // one second ticks
         sw.Start();
-
+        //
+        MRL::PropertyPath p;
+        p.push_back("System");
+        setAutoPurgeDatabase(MRL::SETTINGS().getValue<bool>(p, "AutoPurge"));
+        //
     }
     CATCH_DEF
 }
@@ -135,6 +139,7 @@ void MRL::Daq::stop() {
         msg.data().add(PARAMETERID::ObjectId, STOCKOBJECTIDS::Daq);
         message().emit(msg);
         //
+        setAutoPurgeDatabase(false);
     }
     CATCH_DEF
 }
@@ -153,6 +158,14 @@ void MRL::Daq::process() {
                 //
                 if (!(_now % secondsPerMinute)) {
                     _oneMinuteTimer(_now);
+                    // hourly tasks
+                    if (!(_now % secondsPerHour)) {
+                        _oneHourTimer(_now);
+                        if(_autoPurgeDatabase) _localDb->purgeAll();
+                        if (!(_now % secondsPerHour)) { // daily tasks
+                            _oneDayTimer(_now);
+                        }
+                    }
                 }
             }
             _processTimer(_now); // drive any state machines
@@ -175,6 +188,11 @@ bool MRL::Daq::processQueueItem(const Message &msg) { //!< process an item in th
             // work out what to do with the message
             Message &m = const_cast<Message &>(msg);
             switch (m.id()) {
+            case MESSAGEID::Daq_Purge:
+            {
+                _localDb->purgeAll(); // purge the database
+            }
+            break;
             case MESSAGEID::IdleTimeout:
             case MESSAGEID::Update_Object:
             case MESSAGEID::CreateTopView:

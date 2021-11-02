@@ -49,6 +49,8 @@ bool MRL::Common::initialise(const std::string &dir, const std::string &fs )
         }
         _instance->_display = std::make_unique<DataItemTree>();
         //
+        MRL::ObjectManager::initialise();
+        //
         Common::setConfigFileName(dir + "/" + fs);
         if(settings().load(Common::configFileName()))
         {

@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Copyright (C) 2018 -  B. J. Hill
  *
  * This file is part of OpcServant. OpcServant C++ classes are free software: you can
@@ -28,7 +28,7 @@
  * \param parent
  */
 ReportGeneratorPanel::ReportGeneratorPanel(wxWindow* parent)
-    : ReportGeneratorPanelBase(parent) , _updateTrigger(this)
+    : ReportGeneratorPanelBase(parent), _updateTrigger(this)
 {
     std::string rd = MRL::Common::baseDir();
     rd +=  MRL::ReportConfig::reportDir;
@@ -46,7 +46,7 @@ ReportGeneratorPanel::ReportGeneratorPanel(wxWindow* parent)
     }
     if(GetListDataPoints()->GetCount() > 0) GetListDataPoints()->SetSelection(0);
     //
-     setValueList();
+    setValueList();
 }
 
 /*!
@@ -243,7 +243,7 @@ void ReportGeneratorPanel::onLoadReport(wxCommandEvent& /*event*/)
             }
             else
             {
-                 setValueList();
+                setValueList();
                 // populate the fields
                 MRL::PropertyPath p;
                 p.push_back("Report");
@@ -319,18 +319,18 @@ void ReportGeneratorPanel::onLoadReport(wxCommandEvent& /*event*/)
  */
 void ReportGeneratorPanel::addPages()
 {
-   //
-   // add the pages to the tables - pages scroll records in and out from the report (which is in the form of an SQLITE database)
-   if(_report)
-   {
-       for(int i = 0; i < _group._items.size(); i++)
-       {
-         ReportTablePage *p = new ReportTablePage(_report.get(), _group._items[i], GetReportTables());
-         p->SetHelpText(_group._items[i]);
-         GetReportTables()->AddPage(p,std::to_string(i+1)); // give an index number as the tab name - item names can be very long
-         _tablePages.push_back(p);
-       }
-   }
+    //
+    // add the pages to the tables - pages scroll records in and out from the report (which is in the form of an SQLITE database)
+    if(_report)
+    {
+        for(int i = 0; i < _group._items.size(); i++)
+        {
+            ReportTablePage *p = new ReportTablePage(_report.get(), _group._items[i], GetReportTables());
+            p->SetHelpText(_group._items[i]);
+            GetReportTables()->AddPage(p,std::to_string(i+1)); // give an index number as the tab name - item names can be very long
+            _tablePages.push_back(p);
+        }
+    }
 }
 
 /*!
@@ -338,7 +338,7 @@ void ReportGeneratorPanel::addPages()
  */
 void ReportGeneratorPanel::loadPages()
 {
-    for(auto ip = _tablePages.begin(); ip != _tablePages.end();ip++)
+    for(auto ip = _tablePages.begin(); ip != _tablePages.end(); ip++)
     {
         (*ip)->loadPage(0);
     }
@@ -372,7 +372,7 @@ void ReportGeneratorPanel::onMakeReport(wxCommandEvent& /*event*/)
                 {
                     // now populate the pages from the generated report
                     // Statistics
-                     GetStatsTable()->DeleteAllItems();
+                    GetStatsTable()->DeleteAllItems();
                     // build the stats table
                     wxVector<wxVariant> data;
                     for(int i = 0; i < _group._items.size(); i++)
@@ -394,6 +394,8 @@ void ReportGeneratorPanel::onMakeReport(wxCommandEvent& /*event*/)
                     bm.SaveFile(gf,wxBITMAP_TYPE_PNG);
                     //
                     GetButtonPrint()->Enable();
+                    //
+                    GetNotebook()->SetSelection(GetNotebook()->FindPage(m_panelGraph));
                 }
                 _updateTrigger.StartOnce(10); // allow for window creation before populating
             }
@@ -507,6 +509,53 @@ void ReportGeneratorPanel::onPrint(wxCommandEvent& /*event*/)
 
             MRL::Common::htmlPrinter()->PrintFile(tableFile);
             //
+        }
+    }
+}
+/*!
+ * \brief ReportGeneratorPanel::onExport
+ * \param event
+ */
+void ReportGeneratorPanel::onExport(wxCommandEvent& /*event*/)
+{
+    // export CSV
+    if(GetListDataPoints()->GetCount() > 0)
+    {
+        if(GetListDataPoints()->GetSelection() >= 0)
+        {
+            toConfig(); // load the current configuration - maybe modified from last loaded one
+            if(_config.toReportGroup(_group))
+            {
+                wxString rn = GetListDataPoints()->GetString(GetListDataPoints()->GetSelection());
+                std::string rd = MRL::Common::baseDir() + MRL::ReportConfig::reportDir + "/" + rn.ToStdString();
+                //
+                if(!wxDir::Exists(rd)) wxDir::Make(rd); // create the directory if necessary
+                //
+                _report.reset();
+                _report = std::make_unique<MRL::Reporter>(rn.ToStdString(), MRL::LocalDb::LOCAL_DB_DIR, MRL::LOCAL_DB_NAME);
+                _report->setOutputDir(rd);
+                //
+                if(_report->fetch(_group))// generate the tables and the stats to a SQLITE database
+                {
+                    //
+                    _report->createCsv(_group);
+                    wxString d = wxDirSelector( _("Select Destination Directory"));
+                    //
+                    if(!d.IsEmpty())
+                    {
+                        // do the file copy
+                        for(int i = 0; i < _group._items.size(); i++)
+                        {
+                            std::string it = _group._items[i];
+                            MRL::Reporter::itemToFilename(it);
+                            wxString f = wxString(it) + ".csv";
+                            wxString src = wxString(rd) + "/" + f;
+                            wxString dest = d + "/" + f;
+                            wxCopyFile( src, dest);
+                        }
+                    }
+                }
+            }
         }
     }
 }

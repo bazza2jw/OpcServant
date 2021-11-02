@@ -44,6 +44,7 @@ namespace MESSAGEID
         Daq_Stop, // request to stop
         Daq_Restart, // restart the DAQ process
         Daq_Running, // the DAQ thread has completed its start - hint for GUI and web to show
+        Daq_Purge, // purge the local database
         //
         // Define the stock OPC messages - messages to the OPC thread
         //

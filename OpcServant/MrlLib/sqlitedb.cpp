@@ -119,7 +119,7 @@ bool MRL::SQLiteDB::OpenConnection(std::string DatabaseName, std::string Databas
         }
         else
         {
-            sqlite3_busy_timeout(pSQLiteConn->pCon, 10);
+            sqlite3_busy_timeout(pSQLiteConn->pCon, 100);
             if(cache > 0)
             {
                 Execute("PRAGMA cache_size=" + std::to_string(cache));

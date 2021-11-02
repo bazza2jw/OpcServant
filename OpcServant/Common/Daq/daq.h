@@ -33,11 +33,16 @@ namespace MRL {
             SIGNAL1(oneSecondTimer, time_t)
             SIGNAL1(oneMinuteTimer, time_t)
             SIGNAL1(processTimer, time_t)
+            SIGNAL1(oneHourTimer, time_t)
+            SIGNAL1(oneDayTimer, time_t)
+
             //
             SIGNAL1(publishMessage,const Message &)
             //
             wxStopWatch sw;
             std::unique_ptr<LocalDb> _localDb;
+            //
+            bool _autoPurgeDatabase = false; // is the 90 day purge enabled
             //
         public:
             //
@@ -52,6 +57,19 @@ namespace MRL {
             void addObject(unsigned id);
             void removeObject(unsigned id);
             //
+            /*!
+             * \brief autoPurgeDatabase
+             * \return
+             */
+            bool autoPurgeDatabase() const { return _autoPurgeDatabase;}
+            /*!
+             * \brief SetAutoPurgeDatabase
+             * \param f
+             */
+            void setAutoPurgeDatabase(bool f)
+            {
+                _autoPurgeDatabase = f;
+            }
             // Accessors
             //
             static Daq *instance() {
@@ -89,6 +107,7 @@ namespace MRL {
 
     };
     constexpr time_t secondsPerDay = 3600 * 24;
+    constexpr time_t secondsPerHour = 3600;
     constexpr time_t secondsPerMinute = 60;
 }
 #endif // DAQ_H

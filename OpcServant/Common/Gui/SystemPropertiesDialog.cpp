@@ -13,6 +13,7 @@
 #include <Common/common.h>
 #include <Common/Daq/daq.h>
 #include <Common/Opc/opccommon.h>
+#include <Common/Daq/localdb.h>
 /*!
     \brief SystemPropertiesDialog::SystemPropertiesDialog
     \param parent
@@ -35,6 +36,8 @@ SystemPropertiesDialog::SystemPropertiesDialog(wxWindow *parent)
     m_loginRequired->SetValue(MRL::SETTINGS().getValue<bool>(p, "LoginRequired"));
     m_opcUsername->SetValue(MRL::SETTINGS().getValue<std::string>(p, "OpcUsername"));
     m_opcPassword->SetValue(MRL::SETTINGS().getValue<std::string>(p, "OpcPassword"));
+    m_autoPurge->SetValue(MRL::SETTINGS().getValue<bool>(p, "AutoPurge"));
+
     SetSize(0,0,500,400);
 
 }
@@ -58,6 +61,8 @@ void SystemPropertiesDialog::OnOK(wxCommandEvent & /*event*/) {
     MRL::SETTINGS().setValue(p, "EnableOpc", m_enableOpc->GetValue().GetBool());
     MRL::SETTINGS().setValue(p, "EnableWeb", m_enableWeb->GetValue().GetBool());
     MRL::SETTINGS().setValue(p, "EnableVK", m_enableVK->GetValue().GetBool());
+    MRL::SETTINGS().setValue(p, "AutoPurge", m_autoPurge->GetValue().GetBool());
+
 
     //
     MRL::SETTINGS().setValue(p, "MainTab", m_mainTab->GetValueAsString().ToStdString());
@@ -94,5 +99,13 @@ void SystemPropertiesDialog::onFactoryReset(wxCommandEvent &/* event*/) {
         wxMessageBox(_("Factory Reset Done - Exit and Restart Required"), _("FACTORY RESET"));
 
     }
+
+}
+/*!
+ * \brief SystemPropertiesDialog::onPurge
+ * \param event
+ */
+void SystemPropertiesDialog::onPurge(wxCommandEvent& /*event*/)
+{
 
 }
