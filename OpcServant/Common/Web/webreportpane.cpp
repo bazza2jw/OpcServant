@@ -47,7 +47,7 @@ MRL::WebReportPane::WebReportPane()
     grid->addWidget(std::make_unique<Wt::WText>(_TR("Report")), 0, 0);
     _reportList = grid->addWidget(std::make_unique<Wt::WComboBox>(),0,1);
     grid->addWidget(std::make_unique<Wt::WText>(_TR("Report Type")), 1, 0);
-    //
+//    //
     _reportType = grid->addWidget(std::make_unique<Wt::WComboBox>(),1,1);
     _reportType->addItem(_TR("Last Hour"));
     _reportType->addItem(_TR("Last Day"));
@@ -58,16 +58,19 @@ MRL::WebReportPane::WebReportPane()
     _startDate = grid->addWidget(std::make_unique<Wt::WDateEdit>(),2,1);
     grid->addWidget(std::make_unique<Wt::WText>(_TR("Start Time")), 3, 0);
     _startTime = grid->addWidget(std::make_unique<Wt::WTimeEdit>(),3,1);
+    _startTime->setTime(Wt::WTime::currentTime());
     grid->addWidget(std::make_unique<Wt::WText>(_TR("End Date")), 4, 0);
     _endDate = grid->addWidget(std::make_unique<Wt::WDateEdit>(),4,1);
     grid->addWidget(std::make_unique<Wt::WText>(_TR("End Time")), 5, 0);
     _endTime = grid->addWidget(std::make_unique<Wt::WTimeEdit>(),5,1);
-    // Values list
+    _endTime->setTime(Wt::WTime::currentTime());
+//    // Values list
     grid->addWidget(std::make_unique<Wt::WText>(_TR("Values")), 6, 0);
     _valueList = grid->addWidget(std::make_unique<Wt::WSelectionBox>(),6,1) ; // list of available values
     _valueList->setSelectionMode(Wt::SelectionMode::Extended);
     grid->setRowStretch(6,1); // this row can expand
-    //
+
+//    //
     grid->addWidget(std::make_unique<Wt::WText>(_TR("Alias")), 7, 0);
     _aliasList = grid->addWidget(std::make_unique<Wt::WSelectionBox>(),7,1) ; // list of available values
     _aliasList->setSelectionMode(Wt::SelectionMode::Extended);
@@ -75,10 +78,10 @@ MRL::WebReportPane::WebReportPane()
     //
 
     layout->addItem(std::move(grid));
-    //
-    // Populate as necessary from the report directory
-    //
-    // Set default values
+//    //
+//    // Populate as necessary from the report directory
+//    //
+//    // Set default values
     Wt::WDateTime et = Wt::WDateTime::currentDateTime();
     Wt::WDateTime st = et.addDays(-1);
 
@@ -132,7 +135,7 @@ void MRL::WebReportPane::updateReportList()
     MRL::StringMap &a = MRL::Common::aliasMap();
     for(auto i = a.begin(); i != a.end(); i++)
     {
-       _aliasList->addItem(i->first);
+        _aliasList->addItem(i->first);
     }
     //
     // get the report list
@@ -295,26 +298,30 @@ void MRL::WebReportPane::makeReport()
             //
             _report = std::make_unique<MRL::Reporter>(s.toUTF8(), MRL::LocalDb::LOCAL_DB_DIR,MRL::LOCAL_DB_NAME);
             _report->setOutputDir(rd);
-            //
-            if(_report->fetch(_group))// generate the tables and the stats to a SQLITE database
+            if(_report->lock()) // avoid contention with other threads
             {
                 //
-                std::string rg = rd + "/" +  _report->name() + "_Image.png";
-                //
-                MRL::Graph g;
-                _report->createGraph(_group, g);
-                wxBitmap bm;
-                g.plotToBitmap(bm,800,600);
-                //
-                bm.SaveFile(rg,wxBITMAP_TYPE_PNG);
-                // now generate the HTML
-                _report->setPageLayout(3,60);
-                _report->setAddPageBreaks(true);
-                if(_report->createReportHtml(_group, true, true, true)) // generate the report as HTML
+                if(_report->fetch(_group))// generate the tables and the stats to a SQLITE database
                 {
-                    _report->toPDF(s.toUTF8()); // convert to PDF
-                    viewReport();
+                    //
+                    std::string rg = rd + "/" +  _report->name() + "_Image.png";
+                    //
+                    MRL::Graph g;
+                    _report->createGraph(_group, g);
+                    wxBitmap bm;
+                    g.plotToBitmap(bm,800,600);
+                    //
+                    bm.SaveFile(rg,wxBITMAP_TYPE_PNG);
+                    // now generate the HTML
+                    _report->setPageLayout(3,60);
+                    _report->setAddPageBreaks(true);
+                    if(_report->createReportHtml(_group, true, true, true)) // generate the report as HTML
+                    {
+                        _report->toPDF(s.toUTF8()); // convert to PDF
+                        viewReport();
+                    }
                 }
+                _report->unlock();
             }
             _report.reset();
         }

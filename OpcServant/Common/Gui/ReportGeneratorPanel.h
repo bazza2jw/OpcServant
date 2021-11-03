@@ -46,6 +46,7 @@ public:
     void setValueList();
     void addPages();
     void loadPages();
+    void setReportList();
 protected:
     virtual void onExport(wxCommandEvent& event);
     virtual void onPrint(wxCommandEvent& event);

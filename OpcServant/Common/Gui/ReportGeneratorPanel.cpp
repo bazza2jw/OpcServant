@@ -30,11 +30,21 @@
 ReportGeneratorPanel::ReportGeneratorPanel(wxWindow* parent)
     : ReportGeneratorPanelBase(parent), _updateTrigger(this)
 {
+    setReportList();
+    setValueList();
+}
+
+/*!
+ * \brief ReportGeneratorPanel::setReportList
+ */
+void ReportGeneratorPanel::setReportList()
+{
     std::string rd = MRL::Common::baseDir();
     rd +=  MRL::ReportConfig::reportDir;
     //
     wxArrayString files;
     wxDir::GetAllFiles 	(rd,&files, "*.rpt");
+    GetListDataPoints()->Clear();
     if(files.Count() > 0)
     {
         for(int i = 0; i < files.Count(); i++)
@@ -45,9 +55,8 @@ ReportGeneratorPanel::ReportGeneratorPanel(wxWindow* parent)
         }
     }
     if(GetListDataPoints()->GetCount() > 0) GetListDataPoints()->SetSelection(0);
-    //
-    setValueList();
 }
+
 
 /*!
  * \brief ReportGeneratorPanel::setValueList
@@ -232,6 +241,7 @@ void ReportGeneratorPanel::toConfig()
  */
 void ReportGeneratorPanel::onLoadReport(wxCommandEvent& /*event*/)
 {
+
     if(GetListDataPoints()->GetCount() > 0)
     {
         if(GetListDataPoints()->GetSelection() >= 0)
@@ -367,37 +377,41 @@ void ReportGeneratorPanel::onMakeReport(wxCommandEvent& /*event*/)
                 _report.reset();
                 _report = std::make_unique<MRL::Reporter>(rn.ToStdString(), MRL::LocalDb::LOCAL_DB_DIR, MRL::LOCAL_DB_NAME);
                 _report->setOutputDir(rd);
-                //
-                if(_report->fetch(_group))// generate the tables and the stats to a SQLITE database
+                if(_report->lock()) // it is possible for multiple accesses to the same report - eg desktop and web or multiple web accesses
                 {
-                    // now populate the pages from the generated report
-                    // Statistics
-                    GetStatsTable()->DeleteAllItems();
-                    // build the stats table
-                    wxVector<wxVariant> data;
-                    for(int i = 0; i < _group._items.size(); i++)
+                    //
+                    if(_report->fetch(_group))// generate the tables and the stats to a SQLITE database
                     {
-                        _report->statsTowxVector(_group._items[i], data);
-                        GetStatsTable()->AppendItem(data);
+                        // now populate the pages from the generated report
+                        // Statistics
+                        GetStatsTable()->DeleteAllItems();
+                        // build the stats table
+                        wxVector<wxVariant> data;
+                        for(int i = 0; i < _group._items.size(); i++)
+                        {
+                            _report->statsTowxVector(_group._items[i], data);
+                            GetStatsTable()->AppendItem(data);
+                        }
+                        // tables
+                        addPages();
+                        //
+                        MRL::Graph g;
+                        _report->createGraph(_group, g);
+                        wxBitmap bm;
+                        g.plotToBitmap(bm,800,600);
+                        GetGraphBitmap()->SetBitmap(bm);
+                        //
+                        wxString gf;
+                        gf = wxString::Format("%s/%s_Image.png",rd.c_str(),rn); // save the bitmap for printing
+                        bm.SaveFile(gf,wxBITMAP_TYPE_PNG);
+                        //
+                        GetButtonPrint()->Enable();
+                        //
+                        GetNotebook()->SetSelection(GetNotebook()->FindPage(m_panelGraph));
                     }
-                    // tables
-                    addPages();
-                    //
-                    MRL::Graph g;
-                    _report->createGraph(_group, g);
-                    wxBitmap bm;
-                    g.plotToBitmap(bm,800,600);
-                    GetGraphBitmap()->SetBitmap(bm);
-                    //
-                    wxString gf;
-                    gf = wxString::Format("%s/%s_Image.png",rd.c_str(),rn); // save the bitmap for printing
-                    bm.SaveFile(gf,wxBITMAP_TYPE_PNG);
-                    //
-                    GetButtonPrint()->Enable();
-                    //
-                    GetNotebook()->SetSelection(GetNotebook()->FindPage(m_panelGraph));
+                    _updateTrigger.StartOnce(10); // allow for window creation before populating
+                    _report->unlock();
                 }
-                _updateTrigger.StartOnce(10); // allow for window creation before populating
             }
         }
     }
@@ -480,6 +494,7 @@ void ReportGeneratorPanel::OnNew(wxCommandEvent& /*event*/)
 void ReportGeneratorPanel::onRefreshValues(wxCommandEvent & )
 {
     setValueList();
+    setReportList();
 }
 /*!
  * \brief ReportGeneratorPanel::onPrint

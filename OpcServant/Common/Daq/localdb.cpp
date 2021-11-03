@@ -383,7 +383,8 @@ bool MRL::LocalDb::writeDiagnostic(time_t timestamp, const std::string &source,
 bool MRL::LocalDb::flush() {
     // write data in queue to database as a batch - this is more efficent - probably
     bool ret = false;
-    _db->OpenConnection(_name,_dir,1000);
+    WriteLock l(mutex());
+    _db->OpenConnection(_name,_dir,10000);
     if (_db->isConnected()) {
         try {
             _db->BeginTransaction();

@@ -26,7 +26,9 @@
 #include <Wt/WLink.h>
 
 namespace MRL {
-
+/*!
+ * \brief The WebReportCompleteDialog class
+ */
 class WebReportCompleteDialog : public Wt::WDialog
 {
     Wt::WLink _link;

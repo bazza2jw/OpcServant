@@ -103,6 +103,9 @@ class LocalDb : public MRL::BObject
      * \return
      */
     bool flush();
+
+    MRL::ReadWriteMutex _mutex;
+
 public:
     //
     constexpr static const char *LOCAL_DB_DIR = OPCSERVANT_DEF_APP_DIR "/data";
@@ -110,6 +113,7 @@ public:
     LocalDb(const std::string &dir, const std::string &name);
     ~LocalDb();
 
+    MRL::ReadWriteMutex & mutex() { return _mutex;}
 
     /*!
      * \brief publishQueueItem

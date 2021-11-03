@@ -57,6 +57,21 @@ class Reporter
 public:
     Reporter(const std::string &name, const std::string &dir, const std::string &file);
     virtual ~Reporter() {}
+    bool lock() // lock access - avoid contention
+    {
+        std::string l = "/REPORT_LOCK/" + _name;
+        if(MRL::RUNTIME().getBool(l))
+        {
+            return false;
+        }
+        MRL::RUNTIME().setBool(l,true);
+        return true;
+    }
+    void unlock() // unlock
+    {
+        std::string l = "/REPORT_LOCK/" + _name;
+        MRL::RUNTIME().setBool(l,false);
+    }
     bool fetch( ReporterSet &st, ReportSpec &rs); // fetch a set of results into a results database table
     bool fetch(ReportGroup &); // fetch a group of results with the same time frame
     //

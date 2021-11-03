@@ -20,6 +20,7 @@
 #include <wx/dir.h>
 #include <sstream>
 #include <Common/graph.hpp>
+#include <Common/Daq/daq.h>
 
 
 /*!
@@ -28,11 +29,14 @@
 MRL::Reporter::Reporter(const std::string &name, const std::string &dir, const std::string &file) : _name(name), _dir(dir), _file(file)
 {
     //
-    _db = std::make_unique<SQLiteDB>();
+    //_db = std::make_unique<SQLiteDB>();
     std::string d = MRL::Common::baseDir()  + ReportConfig::reportDir;
     _rdb = std::make_unique<ReportResultDatabase>(d, name); // where the results go
 }
-
+/*!
+ * \brief MRL::Reporter::getReportList
+ * \param l
+ */
 void MRL::Reporter::getReportList(MRL::StringList &l)
 {
     l.clear();
@@ -83,10 +87,11 @@ bool MRL::Reporter::fetch( ReporterSet &st, ReportSpec &rs) // fetch a set of re
 {
     try
     {
-        if(_db->OpenConnection(_file,_dir,10000))
+        std::unique_ptr<MRL::LocalDb> &db = MRL::Daq::instance()->localDb(); // get the database
+        WriteLock l(db->mutex()); // Watch out for SQLITE database locking problems
+        if(db->db()->OpenConnection(_file,_dir,10000))
         {
-            _db->BeginTransaction();
-            _smt = std::make_unique<SqlLiteStatement>(_db.get());
+            _smt = std::make_unique<SqlLiteStatement>(db->db().get());
             if(!_smt->prepare("SELECT F_TIMESTAMP,F_TYPE,F_STATE,F_VALUE,F_DOUBLEVALUE FROM DATA_TABLE WHERE F_SOURCE = ? AND F_TIMESTAMP BETWEEN ? AND ?;"))
             {
                 throw std::runtime_error( " Prepare Failed");
@@ -144,8 +149,7 @@ bool MRL::Reporter::fetch( ReporterSet &st, ReportSpec &rs) // fetch a set of re
             }
             //
             _rdb->db()->CommitTransaction();
-            _db->CommitTransaction();
-            _db->CloseConnection();
+            db->db()->CloseConnection();
         }
     }
     catch(...)
@@ -211,7 +215,6 @@ bool MRL::Reporter::generateHtml( std::ostream &os, std::string item, int page)
 
                 },
                 page *recordsPerRead(), (page +1)*recordsPerRead() -1 );
-
                 //
                 // close off table and HTML
                 os << "</tr>" << std::endl << "</table>" << std::endl;

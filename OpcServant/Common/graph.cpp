@@ -581,6 +581,8 @@ void MRL::Graph::plot(wxDC &DC, const wxRect &rect, bool greyBackground)
     DC.SetFont(*wxSMALL_FONT);
     wxFontMetrics m = DC.GetFontMetrics();
     //
+    scaleGraph();
+    //
     // Workout the legend space needed on the right
     //
     legendSize = DC.GetTextExtent("00000000");
