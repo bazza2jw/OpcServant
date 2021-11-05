@@ -17,12 +17,12 @@
 
 namespace MRL
 {
-
+    //
     typedef std::map<unsigned, RtObjectRef  >RtObjectMap;
     typedef std::map<std::string,SerialPacketRef> SerialPacketMap;
     typedef std::map<unsigned, wxWindow *> RtWindowMap; // open views - views must delete entry on close
     typedef std::map<unsigned, wxFrame *> RtFrameWindowMap; // open views - views must delete entry on close
-
+    //
 
     /*!
      * \brief The DaqCommon class
@@ -34,9 +34,6 @@ namespace MRL
         SerialPacketMap _serials;
         RtFrameWindowMap _topWindows;
         RtWindowMap _tabWindows;
-
-
-
     public:
         /*!
          * \brief DaqCommon

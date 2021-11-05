@@ -38,10 +38,6 @@ SystemPropertiesDialogBase::SystemPropertiesDialogBase(wxWindow* parent, wxWindo
     m_siteName = m_properties->Append(  new wxStringProperty( _("Site Name"), wxPG_LABEL, _("Bourbon")) );
     m_siteName->SetHelpString(wxT(""));
     
-    m_sitePassword = m_properties->Append(  new wxStringProperty( _("Site Password"), wxPG_LABEL, _("password")) );
-    m_sitePassword->SetHelpString(wxT(""));
-    m_sitePassword->SetEditor( wxT("TextCtrl") );
-    
     m_enableGui = m_properties->Append(  new wxBoolProperty( _("Enable GUI"), wxPG_LABEL, 1) );
     m_enableGui->SetHelpString(_("Enable GUI"));
     
@@ -60,6 +56,12 @@ SystemPropertiesDialogBase::SystemPropertiesDialogBase(wxWindow* parent, wxWindo
     m_enableVK = m_properties->Append(  new wxBoolProperty( _("Enable VK"), wxPG_LABEL, 0) );
     m_enableVK->SetHelpString(wxT(""));
     m_enableVK->SetEditor( wxT("CheckBox") );
+    
+    m_screenLock = m_properties->Append(  new wxBoolProperty( _("Screen Lock Enable"), wxPG_LABEL, 0) );
+    m_screenLock->SetHelpString(wxT(""));
+    
+    m_screenLockPin = m_properties->Append(  new wxStringProperty( _("Screen Lock PIN"), wxPG_LABEL, wxT("")) );
+    m_screenLockPin->SetHelpString(wxT(""));
     
     m_pgProp87 = m_properties->Append(  new wxPropertyCategory( _("OPC") ) );
     m_pgProp87->SetHelpString(wxT(""));
@@ -87,6 +89,10 @@ SystemPropertiesDialogBase::SystemPropertiesDialogBase(wxWindow* parent, wxWindo
     m_button163 = new wxButton(this, wxID_ANY, _("Factory Reset"), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), 0);
     
     gridSizer161->Add(m_button163, 0, wxALL, WXC_FROM_DIP(5));
+    
+    m_buttonUsers = new wxButton(this, wxID_ANY, _("Users ..."), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), 0);
+    
+    gridSizer161->Add(m_buttonUsers, 0, wxALL, WXC_FROM_DIP(5));
     
     m_stdBtnSizer57 = new wxStdDialogButtonSizer();
     
@@ -120,6 +126,7 @@ SystemPropertiesDialogBase::SystemPropertiesDialogBase(wxWindow* parent, wxWindo
 #endif
     // Connect events
     m_button163->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(SystemPropertiesDialogBase::onFactoryReset), NULL, this);
+    m_buttonUsers->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(SystemPropertiesDialogBase::onUsers), NULL, this);
     m_button59->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(SystemPropertiesDialogBase::OnOK), NULL, this);
     
 }
@@ -127,6 +134,7 @@ SystemPropertiesDialogBase::SystemPropertiesDialogBase(wxWindow* parent, wxWindo
 SystemPropertiesDialogBase::~SystemPropertiesDialogBase()
 {
     m_button163->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(SystemPropertiesDialogBase::onFactoryReset), NULL, this);
+    m_buttonUsers->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(SystemPropertiesDialogBase::onUsers), NULL, this);
     m_button59->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(SystemPropertiesDialogBase::OnOK), NULL, this);
     
 }
@@ -709,5 +717,249 @@ AddAliasDialogBase::~AddAliasDialogBase()
 {
     m_button467->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AddAliasDialogBase::onSelect), NULL, this);
     m_button457->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AddAliasDialogBase::onOK), NULL, this);
+    
+}
+
+UserConfigurationDialogBase::UserConfigurationDialogBase(wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style)
+    : wxDialog(parent, id, title, pos, size, style)
+{
+    if ( !bBitmapLoaded ) {
+        // We need to initialise the default bitmap handler
+        wxXmlResource::Get()->AddHandler(new wxBitmapXmlHandler);
+        wxCrafterCommonInitBitmapResources();
+        bBitmapLoaded = true;
+    }
+    
+    boxSizer515 = new wxBoxSizer(wxVERTICAL);
+    this->SetSizer(boxSizer515);
+    
+    m_panel517 = new wxPanel(this, wxID_ANY, wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), wxTAB_TRAVERSAL);
+    
+    boxSizer515->Add(m_panel517, 1, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    
+    boxSizer525 = new wxBoxSizer(wxHORIZONTAL);
+    m_panel517->SetSizer(boxSizer525);
+    
+    wxArrayString m_listUsersArr;
+    m_listUsers = new wxListBox(m_panel517, wxID_ANY, wxDefaultPosition, wxDLG_UNIT(m_panel517, wxSize(-1,-1)), m_listUsersArr, wxLB_SINGLE);
+    
+    boxSizer525->Add(m_listUsers, 1, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    
+    m_panel529 = new wxPanel(m_panel517, wxID_ANY, wxDefaultPosition, wxDLG_UNIT(m_panel517, wxSize(-1,-1)), wxTAB_TRAVERSAL);
+    
+    boxSizer525->Add(m_panel529, 3, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    
+    boxSizer533 = new wxBoxSizer(wxVERTICAL);
+    m_panel529->SetSizer(boxSizer533);
+    
+    flexGridSizer535 = new wxFlexGridSizer(0, 2, 0, 0);
+    flexGridSizer535->SetFlexibleDirection( wxBOTH );
+    flexGridSizer535->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
+    
+    boxSizer533->Add(flexGridSizer535, 1, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    
+    m_staticText545 = new wxStaticText(m_panel529, wxID_ANY, _("Password"), wxDefaultPosition, wxDLG_UNIT(m_panel529, wxSize(-1,-1)), 0);
+    
+    flexGridSizer535->Add(m_staticText545, 0, wxALL, WXC_FROM_DIP(5));
+    
+    m_password = new wxTextCtrl(m_panel529, wxID_ANY, wxT(""), wxDefaultPosition, wxDLG_UNIT(m_panel529, wxSize(-1,-1)), 0);
+    #if wxVERSION_NUMBER >= 3000
+    m_password->SetHint(wxT(""));
+    #endif
+    
+    flexGridSizer535->Add(m_password, 0, wxALL, WXC_FROM_DIP(5));
+    
+    m_Enabled = new wxCheckBox(m_panel529, wxID_ANY, _("Enabled"), wxDefaultPosition, wxDLG_UNIT(m_panel529, wxSize(-1,-1)), 0);
+    m_Enabled->SetValue(false);
+    
+    flexGridSizer535->Add(m_Enabled, 0, wxALL, WXC_FROM_DIP(5));
+    
+    m_Admin = new wxCheckBox(m_panel529, wxID_ANY, _("Admin"), wxDefaultPosition, wxDLG_UNIT(m_panel529, wxSize(-1,-1)), 0);
+    m_Admin->SetValue(false);
+    
+    flexGridSizer535->Add(m_Admin, 0, wxALL, WXC_FROM_DIP(5));
+    
+    gridSizer537 = new wxGridSizer(0, 3, 0, 0);
+    
+    boxSizer533->Add(gridSizer537, 0, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    
+    m_buttonNew = new wxButton(m_panel529, wxID_ANY, _("New ..."), wxDefaultPosition, wxDLG_UNIT(m_panel529, wxSize(-1,-1)), 0);
+    
+    gridSizer537->Add(m_buttonNew, 0, wxALL, WXC_FROM_DIP(5));
+    
+    m_buttonApply = new wxButton(m_panel529, wxID_ANY, _("Apply"), wxDefaultPosition, wxDLG_UNIT(m_panel529, wxSize(-1,-1)), 0);
+    
+    gridSizer537->Add(m_buttonApply, 0, wxALL, WXC_FROM_DIP(5));
+    
+    m_buttonDelete = new wxButton(m_panel529, wxID_ANY, _("Delete"), wxDefaultPosition, wxDLG_UNIT(m_panel529, wxSize(-1,-1)), 0);
+    
+    gridSizer537->Add(m_buttonDelete, 0, wxALL, WXC_FROM_DIP(5));
+    
+    m_stdBtnSizer519 = new wxStdDialogButtonSizer();
+    
+    boxSizer515->Add(m_stdBtnSizer519, 0, wxALL, WXC_FROM_DIP(5));
+    
+    m_button521 = new wxButton(this, wxID_CANCEL, wxT(""), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1, -1)), 0);
+    m_stdBtnSizer519->AddButton(m_button521);
+    
+    m_button523 = new wxButton(this, wxID_OK, wxT(""), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1, -1)), 0);
+    m_stdBtnSizer519->AddButton(m_button523);
+    m_stdBtnSizer519->Realize();
+    
+    SetName(wxT("UserConfigurationDialogBase"));
+    SetSize(wxDLG_UNIT(this, wxSize(800,500)));
+    if (GetSizer()) {
+         GetSizer()->Fit(this);
+    }
+    if(GetParent()) {
+        CentreOnParent(wxBOTH);
+    } else {
+        CentreOnScreen(wxBOTH);
+    }
+#if wxVERSION_NUMBER >= 2900
+    if(!wxPersistenceManager::Get().Find(this)) {
+        wxPersistenceManager::Get().RegisterAndRestore(this);
+    } else {
+        wxPersistenceManager::Get().Restore(this);
+    }
+#endif
+    // Connect events
+    m_listUsers->Connect(wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler(UserConfigurationDialogBase::onSelection), NULL, this);
+    m_buttonNew->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(UserConfigurationDialogBase::onNew), NULL, this);
+    m_buttonApply->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(UserConfigurationDialogBase::onApply), NULL, this);
+    m_buttonDelete->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(UserConfigurationDialogBase::onDelete), NULL, this);
+    m_button523->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(UserConfigurationDialogBase::onOk), NULL, this);
+    
+}
+
+UserConfigurationDialogBase::~UserConfigurationDialogBase()
+{
+    m_listUsers->Disconnect(wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler(UserConfigurationDialogBase::onSelection), NULL, this);
+    m_buttonNew->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(UserConfigurationDialogBase::onNew), NULL, this);
+    m_buttonApply->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(UserConfigurationDialogBase::onApply), NULL, this);
+    m_buttonDelete->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(UserConfigurationDialogBase::onDelete), NULL, this);
+    m_button523->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(UserConfigurationDialogBase::onOk), NULL, this);
+    
+}
+
+PinEntryDialogBase::PinEntryDialogBase(wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style)
+    : wxDialog(parent, id, title, pos, size, style)
+{
+    if ( !bBitmapLoaded ) {
+        // We need to initialise the default bitmap handler
+        wxXmlResource::Get()->AddHandler(new wxBitmapXmlHandler);
+        wxCrafterCommonInitBitmapResources();
+        bBitmapLoaded = true;
+    }
+    
+    boxSizer561 = new wxBoxSizer(wxVERTICAL);
+    this->SetSizer(boxSizer561);
+    
+    m_text = new wxTextCtrl(this, wxID_ANY, wxT(""), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), 0);
+    #if wxVERSION_NUMBER >= 3000
+    m_text->SetHint(wxT(""));
+    #endif
+    
+    boxSizer561->Add(m_text, 0, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    
+    gridSizer563 = new wxGridSizer(0, 3, 0, 0);
+    
+    boxSizer561->Add(gridSizer563, 1, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    
+    m_button567 = new wxButton(this, wxID_ANY, _("1"), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), 0);
+    
+    gridSizer563->Add(m_button567, 0, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    
+    m_button569 = new wxButton(this, wxID_ANY, _("2"), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), 0);
+    
+    gridSizer563->Add(m_button569, 0, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    
+    m_button571 = new wxButton(this, wxID_ANY, _("3"), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), 0);
+    
+    gridSizer563->Add(m_button571, 0, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    
+    m_button573 = new wxButton(this, wxID_ANY, _("4"), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), 0);
+    
+    gridSizer563->Add(m_button573, 0, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    
+    m_button575 = new wxButton(this, wxID_ANY, _("5"), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), 0);
+    
+    gridSizer563->Add(m_button575, 0, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    
+    m_button577 = new wxButton(this, wxID_ANY, _("6"), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), 0);
+    
+    gridSizer563->Add(m_button577, 0, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    
+    m_button579 = new wxButton(this, wxID_ANY, _("7"), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), 0);
+    
+    gridSizer563->Add(m_button579, 0, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    
+    m_button581 = new wxButton(this, wxID_ANY, _("8"), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), 0);
+    
+    gridSizer563->Add(m_button581, 0, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    
+    m_button583 = new wxButton(this, wxID_ANY, _("9"), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), 0);
+    
+    gridSizer563->Add(m_button583, 0, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    
+    m_button585 = new wxButton(this, wxID_ANY, _("DEL"), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), 0);
+    
+    gridSizer563->Add(m_button585, 0, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    
+    m_button587 = new wxButton(this, wxID_ANY, _("0"), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), 0);
+    
+    gridSizer563->Add(m_button587, 1, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    
+    m_button589 = new wxButton(this, wxID_ANY, _("OK"), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), 0);
+    
+    gridSizer563->Add(m_button589, 0, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    
+    SetName(wxT("PinEntryDialogBase"));
+    SetSize(wxDLG_UNIT(this, wxSize(500,500)));
+    if (GetSizer()) {
+         GetSizer()->Fit(this);
+    }
+    if(GetParent()) {
+        CentreOnParent(wxBOTH);
+    } else {
+        CentreOnScreen(wxBOTH);
+    }
+#if wxVERSION_NUMBER >= 2900
+    if(!wxPersistenceManager::Get().Find(this)) {
+        wxPersistenceManager::Get().RegisterAndRestore(this);
+    } else {
+        wxPersistenceManager::Get().Restore(this);
+    }
+#endif
+    // Connect events
+    m_button567->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(PinEntryDialogBase::on1), NULL, this);
+    m_button569->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(PinEntryDialogBase::on2), NULL, this);
+    m_button571->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(PinEntryDialogBase::on3), NULL, this);
+    m_button573->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(PinEntryDialogBase::on4), NULL, this);
+    m_button575->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(PinEntryDialogBase::on5), NULL, this);
+    m_button577->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(PinEntryDialogBase::on6), NULL, this);
+    m_button579->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(PinEntryDialogBase::on7), NULL, this);
+    m_button581->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(PinEntryDialogBase::on8), NULL, this);
+    m_button583->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(PinEntryDialogBase::on9), NULL, this);
+    m_button585->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(PinEntryDialogBase::onDP), NULL, this);
+    m_button587->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(PinEntryDialogBase::on0), NULL, this);
+    m_button589->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(PinEntryDialogBase::onOk), NULL, this);
+    
+}
+
+PinEntryDialogBase::~PinEntryDialogBase()
+{
+    m_button567->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(PinEntryDialogBase::on1), NULL, this);
+    m_button569->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(PinEntryDialogBase::on2), NULL, this);
+    m_button571->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(PinEntryDialogBase::on3), NULL, this);
+    m_button573->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(PinEntryDialogBase::on4), NULL, this);
+    m_button575->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(PinEntryDialogBase::on5), NULL, this);
+    m_button577->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(PinEntryDialogBase::on6), NULL, this);
+    m_button579->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(PinEntryDialogBase::on7), NULL, this);
+    m_button581->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(PinEntryDialogBase::on8), NULL, this);
+    m_button583->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(PinEntryDialogBase::on9), NULL, this);
+    m_button585->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(PinEntryDialogBase::onDP), NULL, this);
+    m_button587->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(PinEntryDialogBase::on0), NULL, this);
+    m_button589->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(PinEntryDialogBase::onOk), NULL, this);
     
 }

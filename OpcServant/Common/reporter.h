@@ -42,6 +42,7 @@ class Reporter
     std::unique_ptr<SQLiteDB>  _db; // connection to the local database - SQLITE will serialise access - no need for locking
     std::unique_ptr<ReportResultDatabase> _rdb;
     static const int PAGE_LEN=60;
+    static int _reportNo;
     int _pageLength = PAGE_LEN;
     int _numberCols = 1;
     int table_id = 1;
@@ -71,6 +72,7 @@ public:
     {
         std::string l = "/REPORT_LOCK/" + _name;
         MRL::RUNTIME().setBool(l,false);
+        _rdb->db()->CloseConnection();
     }
     bool fetch( ReporterSet &st, ReportSpec &rs); // fetch a set of results into a results database table
     bool fetch(ReportGroup &); // fetch a group of results with the same time frame

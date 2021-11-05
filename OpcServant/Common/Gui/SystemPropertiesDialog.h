@@ -12,17 +12,22 @@
 #ifndef SYSTEMPROPERTIESDIALOG_H
 #define SYSTEMPROPERTIESDIALOG_H
 #include "CommonGUI.h"
+#include <Common/common.h>
 /*!
  * \brief The SystemPropertiesDialog class
  */
 class SystemPropertiesDialog : public SystemPropertiesDialogBase
 {
+    MRL::VariantPropertyTree _settings;
+
 public:
     SystemPropertiesDialog(wxWindow* parent);
     virtual ~SystemPropertiesDialog();
 protected:
+    virtual void onUsers(wxCommandEvent& event);
     virtual void onPurge(wxCommandEvent& event);
     virtual void onFactoryReset(wxCommandEvent& event);
     virtual void OnOK(wxCommandEvent& event);
+    void setup();
 };
 #endif // SYSTEMPROPERTIESDIALOG_H

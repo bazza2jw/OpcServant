@@ -82,6 +82,9 @@ set(LIB_SOURCES
     Gui/NetworkConfigurePanel.cpp
     Gui/SerialConfigurePanel.cpp
     Gui/ScaleOffsetConfigurePanel.cpp
+    Web/weblogindialog.cpp
+    Gui/UserConfigurationDialog.cpp
+    Gui/PinEntryDialog.cpp
 
         )
 

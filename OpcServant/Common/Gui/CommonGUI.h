@@ -57,13 +57,14 @@ protected:
     wxBoxSizer* boxSizer55;
     wxPropertyGridManager* m_properties;
     wxPGProperty* m_siteName;
-    wxPGProperty* m_sitePassword;
     wxPGProperty* m_enableGui;
     wxPGProperty* m_enableWeb;
     wxPGProperty* m_enableOpc;
     wxPGProperty* m_mainTab;
     wxPGProperty* m_autoPurge;
     wxPGProperty* m_enableVK;
+    wxPGProperty* m_screenLock;
+    wxPGProperty* m_screenLockPin;
     wxPGProperty* m_pgProp87;
     wxPGProperty* m_opcPort;
     wxPGProperty* m_opcNamespace;
@@ -72,17 +73,20 @@ protected:
     wxPGProperty* m_opcPassword;
     wxGridSizer* gridSizer161;
     wxButton* m_button163;
+    wxButton* m_buttonUsers;
     wxStdDialogButtonSizer* m_stdBtnSizer57;
     wxButton* m_button59;
     wxButton* m_button61;
 
 protected:
     virtual void onFactoryReset(wxCommandEvent& event) { event.Skip(); }
+    virtual void onUsers(wxCommandEvent& event) { event.Skip(); }
     virtual void OnOK(wxCommandEvent& event) { event.Skip(); }
 
 public:
     wxPropertyGridManager* GetProperties() { return m_properties; }
     wxButton* GetButton163() { return m_button163; }
+    wxButton* GetButtonUsers() { return m_buttonUsers; }
     SystemPropertiesDialogBase(wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("System Properties"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize(500,450), long style = wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER|wxMAXIMIZE_BOX);
     virtual ~SystemPropertiesDialogBase();
 };
@@ -304,6 +308,103 @@ public:
     wxButton* GetButton467() { return m_button467; }
     AddAliasDialogBase(wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Add Alias"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize(500,300), long style = wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER);
     virtual ~AddAliasDialogBase();
+};
+
+
+class UserConfigurationDialogBase : public wxDialog
+{
+protected:
+    wxBoxSizer* boxSizer515;
+    wxPanel* m_panel517;
+    wxBoxSizer* boxSizer525;
+    wxListBox* m_listUsers;
+    wxPanel* m_panel529;
+    wxBoxSizer* boxSizer533;
+    wxFlexGridSizer* flexGridSizer535;
+    wxStaticText* m_staticText545;
+    wxTextCtrl* m_password;
+    wxCheckBox* m_Enabled;
+    wxCheckBox* m_Admin;
+    wxGridSizer* gridSizer537;
+    wxButton* m_buttonNew;
+    wxButton* m_buttonApply;
+    wxButton* m_buttonDelete;
+    wxStdDialogButtonSizer* m_stdBtnSizer519;
+    wxButton* m_button521;
+    wxButton* m_button523;
+
+protected:
+    virtual void onSelection(wxCommandEvent& event) { event.Skip(); }
+    virtual void onNew(wxCommandEvent& event) { event.Skip(); }
+    virtual void onApply(wxCommandEvent& event) { event.Skip(); }
+    virtual void onDelete(wxCommandEvent& event) { event.Skip(); }
+    virtual void onOk(wxCommandEvent& event) { event.Skip(); }
+
+public:
+    wxListBox* GetListUsers() { return m_listUsers; }
+    wxStaticText* GetStaticText545() { return m_staticText545; }
+    wxTextCtrl* GetPassword() { return m_password; }
+    wxCheckBox* GetEnabled() { return m_Enabled; }
+    wxCheckBox* GetAdmin() { return m_Admin; }
+    wxButton* GetButtonNew() { return m_buttonNew; }
+    wxButton* GetButtonApply() { return m_buttonApply; }
+    wxButton* GetButtonDelete() { return m_buttonDelete; }
+    wxPanel* GetPanel529() { return m_panel529; }
+    wxPanel* GetPanel517() { return m_panel517; }
+    UserConfigurationDialogBase(wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("User Configuration"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize(800,500), long style = wxDEFAULT_DIALOG_STYLE);
+    virtual ~UserConfigurationDialogBase();
+};
+
+
+class PinEntryDialogBase : public wxDialog
+{
+protected:
+    wxBoxSizer* boxSizer561;
+    wxTextCtrl* m_text;
+    wxGridSizer* gridSizer563;
+    wxButton* m_button567;
+    wxButton* m_button569;
+    wxButton* m_button571;
+    wxButton* m_button573;
+    wxButton* m_button575;
+    wxButton* m_button577;
+    wxButton* m_button579;
+    wxButton* m_button581;
+    wxButton* m_button583;
+    wxButton* m_button585;
+    wxButton* m_button587;
+    wxButton* m_button589;
+
+protected:
+    virtual void on1(wxCommandEvent& event) { event.Skip(); }
+    virtual void on2(wxCommandEvent& event) { event.Skip(); }
+    virtual void on3(wxCommandEvent& event) { event.Skip(); }
+    virtual void on4(wxCommandEvent& event) { event.Skip(); }
+    virtual void on5(wxCommandEvent& event) { event.Skip(); }
+    virtual void on6(wxCommandEvent& event) { event.Skip(); }
+    virtual void on7(wxCommandEvent& event) { event.Skip(); }
+    virtual void on8(wxCommandEvent& event) { event.Skip(); }
+    virtual void on9(wxCommandEvent& event) { event.Skip(); }
+    virtual void onDP(wxCommandEvent& event) { event.Skip(); }
+    virtual void on0(wxCommandEvent& event) { event.Skip(); }
+    virtual void onOk(wxCommandEvent& event) { event.Skip(); }
+
+public:
+    wxTextCtrl* GetText() { return m_text; }
+    wxButton* GetButton567() { return m_button567; }
+    wxButton* GetButton569() { return m_button569; }
+    wxButton* GetButton571() { return m_button571; }
+    wxButton* GetButton573() { return m_button573; }
+    wxButton* GetButton575() { return m_button575; }
+    wxButton* GetButton577() { return m_button577; }
+    wxButton* GetButton579() { return m_button579; }
+    wxButton* GetButton581() { return m_button581; }
+    wxButton* GetButton583() { return m_button583; }
+    wxButton* GetButton585() { return m_button585; }
+    wxButton* GetButton587() { return m_button587; }
+    wxButton* GetButton589() { return m_button589; }
+    PinEntryDialogBase(wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("PIN Entry"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize(500,500), long style = wxDEFAULT_DIALOG_STYLE);
+    virtual ~PinEntryDialogBase();
 };
 
 #endif

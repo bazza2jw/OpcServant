@@ -15,6 +15,8 @@
 #include <wx/propgrid/property.h>
 #include <wx/propgrid/advprops.h>
 
+
+
 /*!
  * \brief getTextWidth
  * \param f

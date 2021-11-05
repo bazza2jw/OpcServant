@@ -138,6 +138,9 @@ void MRL::OPCN3RT::onOneSecond(time_t t)
             {
                 _state = STATE_FAIL;
                 _ok = false;
+                _status = STATES::States::StateFault;
+                updateValue(_status,"Status",STATES::States::StateFault);
+                runtime().setString("StatusDesc","FAULT");
             }
         }
         break;

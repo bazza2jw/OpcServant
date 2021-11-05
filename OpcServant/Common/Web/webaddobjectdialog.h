@@ -31,7 +31,7 @@ namespace MRL {
             }
             void onOk() {
                 //
-                // dialog is model but not does not block the add item function
+                // dialog is modal but not does not block the add item function
                 // It is recommended way to use Wt dialogs
                 std::string n = name()->text().toUTF8();
                 std::string t = type()->currentText().toUTF8();

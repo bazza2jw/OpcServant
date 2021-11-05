@@ -23,6 +23,11 @@
 #include "serverobject.h"
 #include <Common/Daq/daq.h>
 #include <Common/Daq/daqcommon.h>
+//
+#include <Wt/Auth/AuthModel.h>
+#include <Wt/Auth/PasswordService.h>
+#include <Wt/Auth/RegistrationModel.h>
+
 
 /*!
     \brief OnInit
@@ -153,6 +158,9 @@ bool MRL::BuiApp::OnInit() {
                 //
                 // Set up the model for web interfaces
                 MRL::Plugin::initialiseAllWeb();
+                //
+
+                //
                 // initialise the model for the Wt model and link to the configuration and runtime
                 _webThread->start(); // start the server thread
             }

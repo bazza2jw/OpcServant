@@ -236,7 +236,7 @@ public:
     */
     int list(const P &path, wxArrayString  &l) {
         l.Clear();
-        auto i =  node(path);
+        auto i =  this->node(path);
         if (i) {
             for (auto j = i->children().begin(); j != i->children().end(); j++) {
                 l.Add(wxString(j->first));

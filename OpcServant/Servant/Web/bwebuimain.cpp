@@ -126,6 +126,7 @@ void MRL::BWebUiMain::onLogout() {
     Wt::StandardButton result = Wt::WMessageBox::show(_TR("Confirm"), _TR("Logout?"),  Wt::StandardButton::Ok | Wt::StandardButton::Cancel);
     if (result == Wt::StandardButton::Ok) {
         // Do logout
+        Wt::WApplication::instance()->quit();
     }
 }
 

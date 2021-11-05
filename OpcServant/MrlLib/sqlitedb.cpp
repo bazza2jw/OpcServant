@@ -100,31 +100,34 @@ bool   MRL::SQLiteDB::isConnected()
  */
 bool MRL::SQLiteDB::OpenConnection(std::string DatabaseName, std::string DatabaseDir, int cache)
 {
-    WriteLock m(pSQLiteConn->_mutex);
-    pSQLiteConn->SQLiteDatabaseName = DatabaseName;
-    pSQLiteConn->SQLiteDBPath	    = DatabaseDir;
-    m_bConnected = true;
-    std::string db=pSQLiteConn->SQLiteDatabaseName;
-    std::string dir=pSQLiteConn->SQLiteDBPath;
-    std::string path=dir + "/" + db;
-    //
+    int rc = -1;
     {
-        int rc = sqlite3_open(path.c_str(), &(pSQLiteConn->pCon));
+        WriteLock m(pSQLiteConn->_mutex);
+        pSQLiteConn->SQLiteDatabaseName = DatabaseName;
+        pSQLiteConn->SQLiteDBPath	    = DatabaseDir;
+        m_bConnected = true;
+        std::string db=pSQLiteConn->SQLiteDatabaseName;
+        std::string dir=pSQLiteConn->SQLiteDBPath;
+        std::string path=dir + "/" + db;
+        rc = sqlite3_open(path.c_str(), &(pSQLiteConn->pCon));
         m_strLastError = std::string(sqlite3_errmsg(pSQLiteConn->pCon));
-
+        //
         if(!rc)
         {
             if(m_strLastError.find("not an error") == std::string::npos)
+            {
                 m_bConnected = false;
+            }
         }
         else
         {
             sqlite3_busy_timeout(pSQLiteConn->pCon, 100);
-            if(cache > 0)
-            {
-                Execute("PRAGMA cache_size=" + std::to_string(cache));
-            }
         }
+    }
+    //
+    if((rc != 0) && (cache > 0))
+    {
+        Execute("PRAGMA cache_size=" + std::to_string(cache));
     }
     //
     return m_bConnected;
@@ -161,18 +164,18 @@ MRL::IResult*  MRL::SQLiteDB::ExecuteSelect(const std::string &Query)
     if(!isConnected())  return nullptr;
     WriteLock m(pSQLiteConn->_mutex);
     if(sqlite3_prepare_v2(pSQLiteConn->pCon,Query.c_str(),-1, &pSQLiteConn->pRes, NULL) != SQLITE_OK)
-        {
-            m_strLastError=sqlite3_errmsg(pSQLiteConn->pCon);
-            std::cerr << Query.c_str() << " " <<  sqlite3_errmsg(getConnection()) << std::endl;
-            sqlite3_finalize(pSQLiteConn->pRes);
-            return nullptr;
-        }
-        else
-        {
-            m_iColumnCount   =sqlite3_column_count(pSQLiteConn->pRes);
-            IResult *ires=this;
-            return ires;
-        }
+    {
+        m_strLastError=sqlite3_errmsg(pSQLiteConn->pCon);
+        std::cerr << Query.c_str() << " " <<  sqlite3_errmsg(getConnection()) << std::endl;
+        sqlite3_finalize(pSQLiteConn->pRes);
+        return nullptr;
+    }
+    else
+    {
+        m_iColumnCount   =sqlite3_column_count(pSQLiteConn->pRes);
+        IResult *ires=this;
+        return ires;
+    }
 }
 
 /*!
@@ -180,7 +183,8 @@ MRL::IResult*  MRL::SQLiteDB::ExecuteSelect(const std::string &Query)
  * \param Query
  */
 unsigned MRL::SQLiteDB::Execute(const std::string &Query)
-{  if(!isConnected())  return 0;
+{
+    if(!isConnected())  return 0;
     WriteLock m(pSQLiteConn->_mutex);
 
     m_strLastError="";

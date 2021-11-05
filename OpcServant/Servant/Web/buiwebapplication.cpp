@@ -19,11 +19,13 @@
 #include <Common/Web/reportselectweb.h>
 #include <Common/Daq/daqcommon.h>
 #include <Common/objectmanager.h>
+#include <Common/Web/weblogindialog.h>
+#include <Common/Web/weblogindialog.h>
 /*!
    * \brief MRL::BuiWebApplication::BuiWebApplication
    * \param env
    */
-MRL::BuiWebApplication::BuiWebApplication(UI_TYPE t, const Wt::WEnvironment& env) : Wt::WApplication(env)
+MRL::BuiWebApplication::BuiWebApplication(UI_TYPE t, const Wt::WEnvironment& env) : Wt::WApplication(env), _type(t)
 {
     setTitle(_TR("OPC Servant User Interface"));
     // Get the boot strap theme for the navigation bar
@@ -32,55 +34,79 @@ MRL::BuiWebApplication::BuiWebApplication(UI_TYPE t, const Wt::WEnvironment& env
     setTheme(_theme);
     //
     // Set up the model for the configuration
-    //
-    switch(t)
+    const std::string * u = env.getParameter("user");
+    const std::string * tok = env.getParameter("token");
+    if(u && tok)
     {
-    case UI_ADMIN:
-        _topContainer = root()->addWidget(std::make_unique<MRL::BWebUiMain>());
-        break;
-    case UI_USER:
-    {
-        const std::string * p = env.getParameter("id");
-        if(p)
+        MRL::PropertyPath p;
+        p.push_back("LOGIN");
+        p.push_back(*u);
+        if(RUNTIME().exists(p))
         {
-            // get the ID
-            unsigned id = stringToNumber<unsigned>(*p);
-            MRL::ObjectManager *o = MRL::ObjectManager::findByObjectId(id);
-            if(o)
+            std::string rt = MRL::RUNTIME().getValue<std::string>(p);
+            if(rt == *tok)
             {
-                _topContainer = o->createWebWindow(root(),id);
+                //
+                switch(_type)
+                {
+                case UI_ADMIN:
+                {
+                    _topContainer = root()->addWidget(std::make_unique<MRL::BWebUiMain>());
+                }
+                break;
+                case UI_USER:
+                {
+//                    const std::string * p = env.getParameter("id");
+//                    if(p)
+//                    {
+//                        // get the ID
+//                        unsigned id = stringToNumber<unsigned>(*p);
+//                        MRL::ObjectManager *o = MRL::ObjectManager::findByObjectId(id);
+//                        if(o)
+//                        {
+//                            _topContainer = o->createWebWindow(root(),id);
+//                        }
+//                    }
+//                    else
+//                    {
+                        // select and make report only
+                        _topContainer = root()->addWidget(std::make_unique<MRL::BuiWebUserPage>());
+//                    }
+                }
+                break;
+                case UI_REPORT:
+                {
+                    // get the parameter
+//                    const std::string * p = env.getParameter("admin");
+//                    if(p)
+//                    {
+                        _topContainer = root()->addWidget(std::make_unique<MRL::WebReportPane>());
+//                    }
+//                    else
+//                    {
+//                        // select and make report only
+//                        _topContainer = root()->addWidget(std::make_unique<MRL::ReportSelectWeb>());
+//                    }
+                }
+                break;
+                case UI_DIAGNOSTIC:
+                    break;
+                default:
+                    break;
+                }
+                //
+                Wt::WLength wd(100,Wt::LengthUnit::Percentage);
+                if(_topContainer) _topContainer->resize(wd,wd);
+                //
             }
         }
-        else
-        {
-            // select and make report only
-            _topContainer = root()->addWidget(std::make_unique<MRL::BuiWebUserPage>());
-        }
     }
-    break;
-    case UI_REPORT:
+    else
     {
-        // get the parameter
-        const std::string * p = env.getParameter("admin");
-        if(p)
-        {
-            _topContainer = root()->addWidget(std::make_unique<MRL::WebReportPane>());
-        }
-        else
-        {
-            // select and make report only
-            _topContainer = root()->addWidget(std::make_unique<MRL::ReportSelectWeb>());
-        }
+        Wt::WLength wd(30,Wt::LengthUnit::FontEm);
+        Wt::WLength hd(10,Wt::LengthUnit::FontEm);
+        MRL::WebLoginDialog * p = root()->addWidget(std::make_unique<MRL::WebLoginDialog>());
+        p->resize(wd,hd);
     }
-    break;
-    case UI_DIAGNOSTIC:
-        break;
-    default:
-        break;
-    }
-    //
-    Wt::WLength wd(100,Wt::LengthUnit::Percentage);
-    if(_topContainer) _topContainer->resize(wd,wd);
-    //
 }
 

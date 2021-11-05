@@ -411,6 +411,7 @@ void ReportGeneratorPanel::onMakeReport(wxCommandEvent& /*event*/)
                     }
                     _updateTrigger.StartOnce(10); // allow for window creation before populating
                     _report->unlock();
+
                 }
             }
         }

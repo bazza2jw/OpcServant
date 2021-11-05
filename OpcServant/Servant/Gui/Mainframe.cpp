@@ -20,6 +20,7 @@
 #include <Common/messageids.h>
 #include <Common/Gui/ReportGeneratorPanel.h>
 #include <Common/Gui/AliasConfigurationDialog.h>
+#include <Common/Gui/PinEntryDialog.h>
 
 /*!
     \brief Mainframe::Mainframe
@@ -236,6 +237,8 @@ void Mainframe::OnStartupTimer(wxTimerEvent & /*event*/) {
     p.push_back("System");
     _mainTab =  MRL::SETTINGS().getValue<std::string>(p, "MainTab");
     //
+    GetButtonSysProps()->Disable();
+    GetNavigation()->Disable();
     setMainTab();
 #ifdef RASPBERRY_PI_BUILD
     Maximize(true); // gives access to top menu on Pi
@@ -245,9 +248,24 @@ void Mainframe::OnStartupTimer(wxTimerEvent & /*event*/) {
     SetSize(10,10,640,480);
     //Maximize(true);
 #endif
+
+    if(MRL::SETTINGS().getValue<bool>(p,"ScreenLock"))
+    {
+        PinEntryDialog dlg(this);
+        while(true)
+        {
+            dlg.ShowModal();
+            std::string r = dlg.GetText()->GetValue().ToStdString();
+            std::string pw = MRL::SETTINGS().getValue<std::string>(p,"ScreenLockPin");
+            if(r == pw) break;
+        }
+    }
+
+
     if (MRL::SETTINGS().getValue<bool>(p, "EnableVK")) {
         VirtualKeypad::setKeypad(this);
     }
+
 
 }
 
@@ -292,7 +310,7 @@ void Mainframe::onProperties(wxCommandEvent &/*event*/) {
 
 }
 
-void Mainframe::onPeriodicTimer(wxTimerEvent &/*event*/) {
+void Mainframe::onPeriodicTimer(wxTimerEvent &event) {
     MRL::WriteLock l(_mutex);
     while (_msgBuffer.size() > 0) {
         GetMessages()->Append(_msgBuffer.front());
@@ -309,12 +327,9 @@ void Mainframe::onPeriodicTimer(wxTimerEvent &/*event*/) {
     // check the inactivity
     if (wxGetApp().inactvity()->IsInactiveFor(_autoLogoutTime)) {
         // disable the system panels
-        GetButtonSysProps()->Disable();
-        GetNavigation()->Disable();
-        setMainTab();
-        //
         MRL::Message m(MESSAGEID::IdleTimeout);
         BObject::sendMessage(MRL::Daq::instance(),m); // hint for idle timeout - UIs switch to default - close admin pages
+        OnStartupTimer(event);
     }
 }
 
@@ -526,10 +541,8 @@ void Mainframe::onUnlockNavigator(wxCommandEvent & /*event*/) {
         wxPasswordEntryDialog dlg(this, _("Admin Password"));
         //
         if (dlg.ShowModal() == wxID_OK) {
-            MRL::PropertyPath p;
-            p.push_back("System");
-            std::string pw = MRL::SETTINGS().getValue<std::string>(p, "SitePassword");
-            if (pw == dlg.GetValue().ToStdString()) {
+            std::string pw = dlg.GetValue().ToStdString();
+            if (MRL::Common::checkUser("Admin",pw)) {
                 GetNavigation()->Enable();
                 GetButtonSysProps()->Enable();
             }

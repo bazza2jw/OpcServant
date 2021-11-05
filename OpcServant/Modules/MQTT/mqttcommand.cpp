@@ -12,6 +12,7 @@
 #include "mqttcommand.h"
 #include <Common/Daq/rtobject.h>
 #include <Common/Daq/daqcommon.h>
+#include <Common/common.h>
 //
 // create static instances of each command handler
 //
@@ -27,9 +28,11 @@ public:
      */
     void action(MRL::MqttConnection &/*connection*/, const std::string &/*topic*/, Json::Value &payload)
     {
-        unsigned id = payload["objectId"].asUInt(); // get the object id
-        if(id > 0)
+        unsigned id = 0;
+        std::string path = payload["objectId"].asString(); // get the object id as the text path
+        if((id = MRL::Common::configuration().find(path)) > 0)
         {
+
             // get the output name
             std::string out = payload["output"].asString();
             bool state = payload["state"].asBool();

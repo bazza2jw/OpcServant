@@ -15,6 +15,8 @@
 #include <Wt/WApplication.h>
 #include <Wt/WEnvironment.h>
 #include <Wt/WBootstrapTheme.h>
+#include <Wt/Auth/AuthWidget.h>
+#include <Wt/Auth/Login.h>
 
 namespace Wt
 {
@@ -32,6 +34,7 @@ namespace MRL
 
     typedef enum
     {
+      UI_NONE,
       UI_ADMIN,
       UI_USER,
       UI_REPORT,
@@ -43,9 +46,10 @@ namespace MRL
     class BuiWebApplication : public Wt::WApplication
     {
         //
+        Wt::Auth::Login _login;
         Wt::WContainerWidget * _topContainer = nullptr;
         std::shared_ptr<Wt::WBootstrapTheme> _theme;
-        //
+        UI_TYPE _type = UI_NONE;
     public:
         BuiWebApplication(UI_TYPE t, const Wt::WEnvironment& env);
         ~BuiWebApplication()

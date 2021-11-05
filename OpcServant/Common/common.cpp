@@ -59,6 +59,15 @@ bool MRL::Common::initialise(const std::string &dir, const std::string &fs )
             Common::configuration().createDatabase();
             Common::configuration().loadFromDb();
             Common::configuration().listAlias(_aliasMap, _reverseAliasMap);
+            //
+            // Create the admin user if missing
+            //
+            if(!settings().exists("/Users/Admin"))
+            {
+                settings().setString("/Users/Admin/Password","password"); // to do encrypt password
+                settings().setBool("/Users/Admin/Enabled",true);
+                settings().setBool("/Users/Admin/Admin",true);
+            }
             return true;
         }
 
@@ -86,5 +95,47 @@ void MRL::Common::clear()
         }
     }
     CATCH_DEF
+}
+
+/*!
+ * \brief MRL::Common::checkUser
+ * \param u
+ * \param pw
+ * \return
+ */
+bool MRL::Common::checkUser(const std::string &u, const std::string &pw)
+{
+    // validate user name and password
+    MRL::PropertyPath p;
+    p.push_back("Users");
+    p.push_back(u);
+    if(SETTINGS().exists(p))
+    {
+        std::string s = SETTINGS().getValue<std::string>(p,"Password");
+        // TO DO encrypt passwords
+        if(pw == s)
+        {
+            return SETTINGS().getValue<bool>(p,"Enabled");
+        }
+    }
+    return false;
+}
+
+/*!
+ * \brief MRL::Common::checkUserAdmin
+ * \param u
+ * \return
+ */
+bool MRL::Common::checkUserAdmin(const std::string &u)
+{
+    // is the user an admin user
+    MRL::PropertyPath p;
+    p.push_back("Users");
+    p.push_back(u);
+    if(SETTINGS().exists(p))
+    {
+         return SETTINGS().getValue<bool>(p,"Enabled") && SETTINGS().getValue<bool>(p,"Admin");
+    }
+    return false;
 }
 

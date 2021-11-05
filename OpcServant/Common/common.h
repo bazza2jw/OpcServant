@@ -361,7 +361,10 @@ namespace MRL {
                 return std::string();
             }
 
+            static bool checkUser(const std::string &u, const std::string &pw);
 
+
+            static bool checkUserAdmin(const std::string &u);
     };
 
 
