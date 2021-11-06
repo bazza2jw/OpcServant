@@ -26,6 +26,7 @@
 #include <Common/messageids.h>
 #include <Wt/WFitLayout.h>
 #include <Common/Web/webaliasconfigurationdialog.h>
+#include <Common/Web/webuserconfigurationdialog.h>
 /*!
     \brief BWebUiMain::BWebUiMain
     \param parent
@@ -47,6 +48,7 @@ MRL::BWebUiMain::BWebUiMain() {
     _logout = m->addItem(_TR("Logout"));
     _properties = m->addItem(_TR("System Properties"));
     _alias = m->addItem(_TR("Alias Setup"));
+    _user = m->addItem(_TR("User Configuration"));
 
     _navigationBar->addMenu(std::move(m));
     //
@@ -86,6 +88,7 @@ MRL::BWebUiMain::BWebUiMain() {
     _restartButton->clicked().connect(this, &MRL::BWebUiMain::onRestart);
     _startButton->clicked().connect(this, &MRL::BWebUiMain::onStart);
     _stopButton->clicked().connect(this, &MRL::BWebUiMain::onStop);
+    _user->triggered().connect(this, &MRL::BWebUiMain::onUser);
     //
     setLayout(std::move(layout));
 }
@@ -145,3 +148,8 @@ void MRL::BWebUiMain::onEditItem() {
     _editItem->setFocus(false);
 }
 
+void MRL::BWebUiMain::onUser()
+{
+    WebDialogBase::showDialog<WebUserConfigurationDialog>(this);
+
+}

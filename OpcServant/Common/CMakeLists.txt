@@ -85,6 +85,7 @@ set(LIB_SOURCES
     Web/weblogindialog.cpp
     Gui/UserConfigurationDialog.cpp
     Gui/PinEntryDialog.cpp
+    Web/webuserconfigurationdialog.cpp
 
         )
 

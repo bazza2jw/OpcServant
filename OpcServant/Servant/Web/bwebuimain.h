@@ -40,6 +40,8 @@ namespace MRL {
             Wt::WMenuItem *_logout = nullptr;
             Wt::WMenuItem *_properties = nullptr;
             Wt::WMenuItem *_alias = nullptr;
+            Wt::WMenuItem *_user = nullptr;
+
 
             Wt::WPushButton *_editItem = nullptr;
             BWebNavigationTree *_tree = nullptr;
@@ -64,6 +66,7 @@ protected:
         void onStart();
         void onStop();
         void onAliasSetup();
+        void onUser();
     };
 }
 #endif // BWEBUIMAIN_H
