@@ -104,10 +104,11 @@ void MRL::RTObject::start() {
         Daq *p = Daq::instance();
         wxASSERT(p != nullptr);
         if (useProcessTimer())   p->processTimer().connect(this, &RTObject::handleProcess);
-        if (useOneSecondTimer()) {
-            p->oneSecondTimer().connect(this, &RTObject::handleOneSecond);
-        }
+        if (useOneSecondTimer()) p->oneSecondTimer().connect(this, &RTObject::handleOneSecond);
         if (useOneMinuteTimer()) p->oneMinuteTimer().connect(this, &RTObject::handleOneMinute);
+        if (useOneHourTimer()) p->oneHourTimer().connect(this, &RTObject::handleOneHour);
+        if (useOneDayTimer()) p->oneDayTimer().connect(this, &RTObject::handleOneDay);
+
     }
     //
     //
