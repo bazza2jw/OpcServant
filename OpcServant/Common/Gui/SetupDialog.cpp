@@ -1,5 +1,11 @@
 #include "SetupDialog.h"
 
+/*!
+ * \brief SetupDialog::SetupDialog
+ * \param parent
+ * \param path
+ * \param dataPath
+ */
 SetupDialog::SetupDialog(wxWindow* parent, const MRL::PropertyPath &path, const MRL::PropertyPath &dataPath)
     : SetupDialogBase(parent),_path(path),_dataPath(dataPath)
 {

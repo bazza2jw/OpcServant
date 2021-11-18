@@ -17,7 +17,7 @@
 
 #include "wxSFSample1App.h"
 // add wxShapeFramework include file
-#include "wx/wxsf/wxShapeFramework.h"
+#include "ShapeCanvas/wxShapeFramework.h"
 
 WX_DECLARE_HASH_MAP(wxEventType, wxString, wxIntegerHash, wxIntegerEqual, EventTypeMap);
 

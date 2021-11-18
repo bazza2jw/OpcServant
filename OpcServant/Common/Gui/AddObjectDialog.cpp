@@ -3,7 +3,7 @@
  *
  * This file is part of OpcServant. OpcServant C++ classes are free software: you can
  * redistribute it and/or modify it under the terms of the Mozilla Public
- * License v2.0 as stated in the LICENSE file provided with open62541.
+ * License v2.0 as stated in the LICENSE file .
  *
  * These classes are distributed in the hope that it will be useful, but WITHOUT ANY
  * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
@@ -13,6 +13,11 @@
 #include <Common/database.h>
 #include <Common/objectmanager.h>
 
+/*!
+ * \brief AddObjectDialog::AddObjectDialog
+ * \param parent
+ * \param path
+ */
 AddObjectDialog::AddObjectDialog(wxWindow* parent, const MRL::PropertyPath &path)
     : AddObjectDialogBase(parent),_path(path)
 {
@@ -43,11 +48,17 @@ AddObjectDialog::AddObjectDialog(wxWindow* parent, const MRL::PropertyPath &path
     m_buttonOk->Enable(false);
 }
 
+/*!
+ * \brief AddObjectDialog::~AddObjectDialog
+ */
 AddObjectDialog::~AddObjectDialog()
 {
 
 }
 
+/*!
+ * \brief AddObjectDialog::OnOk
+ */
 void AddObjectDialog::OnOk(wxCommandEvent& /*event*/)
 {
     EndModal(wxID_OK);

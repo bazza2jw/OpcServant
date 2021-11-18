@@ -3,7 +3,7 @@
  *
  * This file is part of OpcServant. OpcServant C++ classes are free software: you can
  * redistribute it and/or modify it under the terms of the Mozilla Public
- * License v2.0 as stated in the LICENSE file provided with open62541.
+ * License v2.0 as stated in the LICENSE file .
  *
  * These classes are distributed in the hope that it will be useful, but WITHOUT ANY
  * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
@@ -94,13 +94,23 @@ class Database : public Wt::WObject {
 
 
 public:
+    /*!
+     * \brief Database
+     * \param d
+     * \param f
+     */
     Database(const std::string &d = "", const std::string &f = "") :  _dir(d), _file(f)  {}
+    /*!
+     * \brief ~Database
+     */
     virtual ~Database() {
         _idMap.clear();
     }
+
     bool createDatabase(); // create database table, indices and triggers
 
     // Accessors
+
     SQLiteDB &db() {
         return _db;
     }
@@ -159,14 +169,14 @@ public:
     //
     // tree based access
     //
-    unsigned find(const PropertyPath &path);
+    unsigned find(const PropertyPath &path); // map from path to id
     unsigned find(const std::string &s) // helper
     {
         PropertyPath p;
         p.toList(s);
         return find(p);
     }
-    unsigned typeId(const PropertyPath &path);
+    unsigned typeId(const PropertyPath &path); // get the object type id
     unsigned typeId(const std::string &s) // helper
     {
         PropertyPath p;
@@ -183,12 +193,23 @@ public:
     bool remove(const PropertyPath &path); // remove from tree
     bool removeRecipe(const PropertyPath &path, const std::string &r); // remove a recipe
     //
+    /*!
+     * \brief updateData
+     * \param path
+     * \param data
+     * \return true on success
+     */
     bool updateData(const PropertyPath &path, Json::Value &data) { // create an object in the tree
         std::string d;
         jsonToString(data, d);
         return updateData(path, d);
     }
-
+    /*!
+     * \brief updateData
+     * \param id
+     * \param data
+     * \return true on success
+     */
     bool updateData(unsigned id, Json::Value &data)
     {
         std::string d;
@@ -196,7 +217,12 @@ public:
         return updateData(id, d);
     }
 
-
+    /*!
+     * \brief updateNotes
+     * \param path
+     * \param data
+     * \return true on success
+     */
     bool updateNotes(const PropertyPath &path, Json::Value &data) { // create an object in the tree
         std::string d;
         jsonToString(data, d);
@@ -209,7 +235,7 @@ public:
      * \param path
      * \param recipe
      * \param data
-     * \return
+     * \return true on success
      */
     bool updateRecipe(const PropertyPath &path, const std::string &recipe, Json::Value &data) {
         std::string d;
@@ -218,6 +244,12 @@ public:
 
     }
 
+    /*!
+     * \brief getData
+     * \param id
+     * \param data
+     * \return true on success
+     */
     bool getData(unsigned id, Json::Value &data) {
         try {
             std::string d;
@@ -235,7 +267,12 @@ public:
         return false;
     }
 
-
+    /*!
+     * \brief getData
+     * \param path
+     * \param data
+     * \return true on success
+     */
     bool getData(const PropertyPath &path, Json::Value &data) {
         try {
             std::string d;
@@ -255,7 +292,13 @@ public:
 
         return false;
     }
-
+    /*!
+     * \brief getRecipe
+     * \param path
+     * \param recipe
+     * \param data
+     * \return true on success
+     */
     bool getRecipe(const PropertyPath &path, const std::string &recipe, Json::Value &data) {
         std::string d;
         try {
@@ -272,7 +315,12 @@ public:
         }
         return false;
     }
-
+    /*!
+     * \brief getNotes
+     * \param path
+     * \param data
+     * \return true on success
+     */
     bool getNotes(const PropertyPath &path, Json::Value &data) {
         std::string d;
         if (getNotes(path, d)) {
@@ -370,7 +418,7 @@ public:
 
     /*!
         \brief saveToDb
-        \return
+        \return true on success
     */
     bool saveToDb() {
         bool ret = false;
@@ -386,7 +434,7 @@ public:
 
     /*!
         \brief loadFromDb
-        \return
+        \return true on success
     */
     bool loadFromDb() {
         try {
@@ -424,6 +472,9 @@ public:
         return false;
     }
 
+    /*!
+     * \brief resetDatabase
+     */
     void resetDatabase(); // factory reset - clear tables and set defaults
 
 };

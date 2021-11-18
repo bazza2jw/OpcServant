@@ -3,7 +3,7 @@
  *
  * This file is part of OpcServant. OpcServant C++ classes are free software: you can
  * redistribute it and/or modify it under the terms of the Mozilla Public
- * License v2.0 as stated in the LICENSE file provided with open62541.
+ * License v2.0 as stated in the LICENSE file .
  *
  * These classes are distributed in the hope that it will be useful, but WITHOUT ANY
  * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
@@ -37,12 +37,11 @@ template <typename S>  class Datastore
         //
         // Data store access
         //
-        //
         /*!
          * \brief addData
          * \param id
          * \param data
-         * \return
+         * \return true on success
          */
         bool addData(DatastoreIndex id, const S & data)
         {
@@ -53,7 +52,7 @@ template <typename S>  class Datastore
         /*!
          * \brief getData
          * \param id
-         * \return
+         * \return true on success
          */
         S & getData(DatastoreIndex id)
         {
@@ -65,7 +64,7 @@ template <typename S>  class Datastore
         /*!
          * \brief deleteData
          * \param id
-         * \return
+         * \return true on success
          */
         bool deleteData(DatastoreIndex id)
         {
@@ -77,7 +76,7 @@ template <typename S>  class Datastore
          * \brief updateData
          * \param path
          * \param data
-         * \return
+         * \return true on success
          */
         bool updateData(const PropertyPath &path, const S &data) // create an object in the tree
         {
@@ -93,7 +92,7 @@ template <typename S>  class Datastore
         /*!
          * \brief deleteData
          * \param path
-         * \return
+         * \return true on success
          */
         bool deleteData(const PropertyPath &path)
         {

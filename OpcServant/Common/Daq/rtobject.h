@@ -3,7 +3,7 @@
  *
  * This file is part of OpcServant. OpcServant C++ classes are free software: you can
  * redistribute it and/or modify it under the terms of the Mozilla Public
- * License v2.0 as stated in the LICENSE file provided with open62541.
+ * License v2.0 as stated in the LICENSE file .
  *
  * These classes are distributed in the hope that it will be useful, but WITHOUT ANY
  * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
@@ -104,33 +104,37 @@ namespace MRL {
             // timer flags - which timers are used
             /*!
              * \brief useProcessTimer
-             * \return
+             * \return true if process timer is used
              */
             virtual bool useProcessTimer() {
                 return false;   // used to drive state machines
             }
             /*!
              * \brief useOneSecondTimer
-             * \return
+             * \return true if one second timer is used
              */
             virtual bool useOneSecondTimer() {
                 return true;   // used to drive sampling
             }
             /*!
              * \brief useOneMinuteTimer
-             * \return
+             * \return true if use the one minute timer
              */
             virtual bool useOneMinuteTimer() {
                 return false;   // used to drive timeouts and house keeping
             }
             /*!
              * \brief useOneHourTimer
-             * \return
+             * \return true if use the one hour timer
              */
             virtual bool useOneHourTimer() {
                 return false;   // used to drive timeouts and house keeping
             }
 
+            /*!
+             * \brief useOneDayTimer
+             * \return true if use the one day timer
+             */
             virtual bool useOneDayTimer() {
                 return false;   // used to drive timeouts and house keeping
             }
@@ -151,14 +155,14 @@ namespace MRL {
 
             /*!
                 \brief configuration
-                \return
+                \return the configuration tree
             */
             VariantPropertyTree &configuration() {
                 return  _configuration;   // tree of configuration values
             }
             /*!
                 \brief runtime
-                \return
+                \return the runtime data tree
             */
             VariantPropertyTree &runtime() {
                 return _runtime;   // tree of configuration values
@@ -317,7 +321,7 @@ namespace MRL {
             /*!
              * \brief getInput
              * \param tag
-             * \return
+             * \return the input value
              */
             T getInput(const std::string &tag = VALUE_TAG)
             {
@@ -330,7 +334,7 @@ namespace MRL {
             /*!
              * \brief getStatus
              * \param tag
-             * \return
+             * \return return the status value
              */
             int getStatus(const std::string &tag = VALUE_TAG)
             {
@@ -372,6 +376,13 @@ namespace MRL {
 
 
             template <typename T>
+            /*!
+             * \brief publishValue
+             * \param path
+             * \param tag
+             * \param v
+             * \param state
+             */
             void publishValue( PropertyPath &path , const std::string &tag, const T& v,int state = STATES::States::StateOk)
             {
                 path.push_back(tag);
@@ -483,12 +494,12 @@ namespace MRL {
             virtual bool hasOutputs() const { return false;}
             /*!
              * \brief inputs
-             * \return
+             * \return array of input names
              */
             virtual StringVector & inputs() { return _emptyList;}
             /*!
              * \brief outputs
-             * \return
+             * \return array of outputs
              */
             virtual StringVector &outputs() { return _emptyList;}
 

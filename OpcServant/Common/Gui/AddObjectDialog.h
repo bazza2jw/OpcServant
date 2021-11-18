@@ -3,7 +3,7 @@
  *
  * This file is part of OpcServant. OpcServant C++ classes are free software: you can
  * redistribute it and/or modify it under the terms of the Mozilla Public
- * License v2.0 as stated in the LICENSE file provided with open62541.
+ * License v2.0 as stated in the LICENSE file .
  *
  * These classes are distributed in the hope that it will be useful, but WITHOUT ANY
  * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
@@ -14,9 +14,13 @@
 #include "BourbonCommonUI.h"
 #include <MrlLib/mrllib.h>
 #include <Common/common.h>
+/*!
+ * \brief The AddObjectDialog class
+ * Add an object to a configuration
+ */
 class AddObjectDialog : public AddObjectDialogBase
 {
-    MRL::PropertyPath _path;
+    MRL::PropertyPath _path; // path to add object to
 public:
     AddObjectDialog(wxWindow* parent, const MRL::PropertyPath &path);
     virtual ~AddObjectDialog();

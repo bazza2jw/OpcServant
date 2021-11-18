@@ -15,7 +15,7 @@
 #include <wx/dc.h>
 #include <math.h>
 #include <wx/dcclient.h>
-#include <wx/wxsf/Defs.h>
+#include <ShapeCanvas/Defs.h>
 
 #if wxVERSION_NUMBER < 2900
 

@@ -15,14 +15,14 @@
 #include <wx/dnd.h>
 #include <wx/hashmap.h>
 
-#include <wx/wxsf/ShapeBase.h>
-#include <wx/wxsf/DiagramManager.h>
-#include <wx/wxsf/MultiSelRect.h>
-#include <wx/wxsf/CanvasHistory.h>
-#include <wx/wxsf/LineShape.h>
-#include <wx/wxsf/EditTextShape.h>
-#include <wx/wxsf/Printout.h>
-#include <wx/wxsf/CommonFcn.h>
+#include <ShapeCanvas/ShapeBase.h>
+#include <ShapeCanvas/DiagramManager.h>
+#include <ShapeCanvas/MultiSelRect.h>
+#include <ShapeCanvas/CanvasHistory.h>
+#include <ShapeCanvas/LineShape.h>
+#include <ShapeCanvas/EditTextShape.h>
+#include <ShapeCanvas/Printout.h>
+#include <ShapeCanvas/CommonFcn.h>
 
 #ifdef __WXMAC__ 
 #include <wx/printdlg.h> 

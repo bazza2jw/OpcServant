@@ -1,7 +1,9 @@
 #ifndef PINENTRYDIALOG_H
 #define PINENTRYDIALOG_H
 #include "CommonGUI.h"
-
+/*!
+ * \brief The PinEntryDialog class
+ */
 class PinEntryDialog : public PinEntryDialogBase
 {
 public:

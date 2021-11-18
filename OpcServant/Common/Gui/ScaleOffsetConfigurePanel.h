@@ -4,6 +4,9 @@
 #include <Common/common.h>
 #include <MrlLib/scaleoffset.h>
 
+/*!
+ * \brief The ScaleOffsetConfigurePanel class
+ */
 class ScaleOffsetConfigurePanel : public ScaleOffsetConfigurePanelBase
 {
     MRL::ScaleOffsetMap _map;

@@ -3,7 +3,7 @@
  *
  * This file is part of OpcServant. OpcServant C++ classes are free software: you can
  * redistribute it and/or modify it under the terms of the Mozilla Public
- * License v2.0 as stated in the LICENSE file provided with open62541.
+ * License v2.0 as stated in the LICENSE file .
  *
  * These classes are distributed in the hope that it will be useful, but WITHOUT ANY
  * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
@@ -15,7 +15,9 @@
 #include <wx/stopwatch.h>
 
 namespace MRL {
-
+/*!
+     * \brief The SerialInterface class
+     */
     class SerialInterface {
             std::string _buffer;
             int _timeOut = 100; // 100 ms
@@ -36,7 +38,7 @@ namespace MRL {
             SerialInterface() {}
             /*!
                 \brief locked
-                \return
+                \return true if locked
             */
             bool locked() const {
                 return _locked;
@@ -54,7 +56,7 @@ namespace MRL {
             }
             /*!
                 \brief claim
-                \return
+                \return true if claim succeeds
             */
             bool claim() {
                 if (!locked()) {
@@ -79,7 +81,7 @@ namespace MRL {
             }
             /*!
                 \brief getChar
-                \return
+                \return charcter received or -1 if not
             */
             virtual int getChar() {
                 return  -1;
@@ -87,15 +89,19 @@ namespace MRL {
 
             /*!
                 \brief gotStart
-                \return
+                \return true if start character received
             */
             bool gotStart();
             /*!
                 \brief gotEnd
-                \return
+                \return true if end character received
             */
             bool gotEnd();
 
+            /*!
+             * \brief timedOut
+             * \return true if timed out
+             */
             bool timedOut() {
                 return _to.Time() > _timeOut;
             }
@@ -114,13 +120,13 @@ namespace MRL {
 
             /*!
                 \brief readLine
-                \return
+                \return received line
             */
             std::string &readLine();
             /*!
                 \brief doPacket
                 \param request
-                \return
+                \return revceived packet
             */
             std::string  doPacket(const std::string &request) {
                 // discrete packet transaction
@@ -137,7 +143,7 @@ namespace MRL {
 
             /*!
                 \brief buffer
-                \return
+                \return the buffer
             */
             std::string &buffer() {
                 return _buffer;
@@ -156,7 +162,7 @@ namespace MRL {
 
             /*!
                 \brief isOk
-                \return
+                \return true if ok
             */
             virtual bool isOk() {
                 return false;
@@ -174,7 +180,7 @@ namespace MRL {
 
             /*!
                 \brief packetDrive
-                \return
+                \return true if packet received
             */
             bool packetDrive();
 

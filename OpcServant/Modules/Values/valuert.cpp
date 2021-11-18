@@ -43,6 +43,7 @@ void MRL::ValueRT::start() {
     //
     _values.clear();
     _inputs.clear();
+    _inputs.push_back("GroupState"); // teh group state is useful for alarm enunciation
     //
     MRL::StringList l ;
     PropertyPath p;
@@ -101,6 +102,7 @@ void MRL::ValueRT::publish() {
             publishRecord(jv,v.state());
         }
     }
+    publishValue(_group_st, "GroupState", _group_st);
 }
 
 /*!

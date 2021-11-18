@@ -9,14 +9,16 @@
  #* WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
  #* A PARTICULAR PURPOSE.
 
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 3.10)
 project(OpcServant)
 include (Common.cmake)
+add_subdirectory(ShapeCanvas)
 add_subdirectory(reportdocument)
 add_subdirectory(MrlLib)
 add_subdirectory(Common)
 add_subdirectory(Modules)
 add_subdirectory(Servant)
+
 #
 
 

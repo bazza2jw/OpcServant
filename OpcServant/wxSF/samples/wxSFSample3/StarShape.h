@@ -2,7 +2,7 @@
 #define CSTARSHAPE_H
 
 // include main wxSF header file
-#include "wx/wxsf/wxShapeFramework.h"
+#include "ShapeCanvas/wxShapeFramework.h"
 
 
 class cStarShape : public wxSFPolygonShape

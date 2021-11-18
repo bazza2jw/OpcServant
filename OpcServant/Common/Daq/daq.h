@@ -3,7 +3,7 @@
  *
  * This file is part of OpcServant. OpcServant C++ classes are free software: you can
  * redistribute it and/or modify it under the terms of the Mozilla Public
- * License v2.0 as stated in the LICENSE file provided with open62541.
+ * License v2.0 as stated in the LICENSE file .
  *
  * These classes are distributed in the hope that it will be useful, but WITHOUT ANY
  * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
@@ -28,7 +28,7 @@ namespace MRL {
             static Daq *_instance;   //!< singleton for runtime
             time_t _now = 0;  // cache for loop
             //
-            // Signals
+            // Signals for timing events
             //
             SIGNAL1(oneSecondTimer, time_t)
             SIGNAL1(oneMinuteTimer, time_t)
@@ -36,11 +36,11 @@ namespace MRL {
             SIGNAL1(oneHourTimer, time_t)
             SIGNAL1(oneDayTimer, time_t)
 
-            //
+            // Signal for object publishing event
             SIGNAL1(publishMessage,const Message &)
             //
             wxStopWatch sw;
-            std::unique_ptr<LocalDb> _localDb;
+            std::unique_ptr<LocalDb> _localDb; // the local database
             //
             bool _autoPurgeDatabase = false; // is the 90 day purge enabled
             //
@@ -54,8 +54,8 @@ namespace MRL {
             void process(); //!< drive the data acquisiiton process objects
             bool processQueueItem(const Message &); //!< process an item in the queue
             //
-            void addObject(unsigned id);
-            void removeObject(unsigned id);
+            void addObject(unsigned id); // add an object to the data aquisition object
+            void removeObject(unsigned id); // remove an object from the data acquisition object
             //
             /*!
              * \brief autoPurgeDatabase

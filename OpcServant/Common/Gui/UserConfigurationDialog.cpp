@@ -18,6 +18,9 @@ UserConfigurationDialog::UserConfigurationDialog(wxWindow* parent,MRL::VariantPr
     setup();
 }
 
+/*!
+ * \brief UserConfigurationDialog::setup
+ */
 void UserConfigurationDialog::setup()
 {
 

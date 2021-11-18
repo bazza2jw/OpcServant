@@ -33,6 +33,10 @@ class WebReportCompleteDialog : public Wt::WDialog
 {
     Wt::WLink _link;
 public:
+    /*!
+     * \brief WebReportCompleteDialog
+     * \param url
+     */
     WebReportCompleteDialog( const std::string &url) : Wt::WDialog("View Report"), _link(url)
     {
         setClosable(true);

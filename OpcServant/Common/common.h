@@ -3,7 +3,7 @@
  *
  * This file is part of OpcServant. OpcServant C++ classes are free software: you can
  * redistribute it and/or modify it under the terms of the Mozilla Public
- * License v2.0 as stated in the LICENSE file provided with open62541.
+ * License v2.0 as stated in the LICENSE file .
  *
  * These classes are distributed in the hope that it will be useful, but WITHOUT ANY
  * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
@@ -23,6 +23,7 @@
 #include <wx/html/htmprint.h>
 
 #ifndef OPCSERVANT_DEF_APP_DIR
+//
 #define OPCSERVANT_DEF_APP_DIR "/usr/local/OpcServant"
 #endif
 
@@ -50,6 +51,7 @@ namespace MRL {
 
     /*!
      * \brief The Common class
+     * Singleton for global data
      */
     class Common : public Wt::WObject {
             //
@@ -72,9 +74,8 @@ namespace MRL {
             bool _enableGui = false; // which sub systems are enabled - No GUI if running as deamon
             bool _enableWeb = false; // Web application
             //
-            // could use a bimap
-            static StringMap _aliasMap;
-            static StringMap _reverseAliasMap;
+            static StringMap _aliasMap; // the alias-> path
+            static StringMap _reverseAliasMap;// path -> alias
             //
             bool _enableDiagnosticLog = false; // true if diagnostic messages are to be logged
             //
@@ -103,12 +104,16 @@ namespace MRL {
                                    const std::string &f = DEFAULT_SETTINGS_FILE);
 
 
+            /*!
+             * \brief htmlPrinter
+             * \return html printing object
+             */
             static wxHtmlEasyPrinting  * htmlPrinter()  { return   _htmlPrinter;}
 
 
             /*!
                 \brief display
-                \return
+                \return display data objects
             */
             static DataItemTree &display() {
                 return *(instance()->_display);
@@ -126,10 +131,19 @@ namespace MRL {
                 _enableDiagnosticLog = f;
             }
 
+            /*!
+             * \brief enableDiagnoticLog
+             * \return true is diagnostics enabled
+             */
             bool enableDiagnoticLog() const
             {
                 return _enableDiagnosticLog;
             }
+
+            /*!
+             * \brief runTime
+             * \return runtime data tree
+             */
 
             static VariantPropertyTree &runTime() {
                 return instance()->_runtime;
@@ -145,19 +159,23 @@ namespace MRL {
                 return d?d->data().type():0;
             }
 
+            /*!
+             * \brief settings
+             * \return settings configuration tree
+             */
             static VariantPropertyTree &settings() {
                 return  instance()->_settings;
             }
             /*!
                 \brief globals
-                \return
+                \return tree that can hold boost::any type
             */
             static AnyPropertyTree &globals() {
                 return  instance()->_globals;
             }
             /*!
                 \brief instance
-                \return
+                \return the common singleton
             */
             static Common *instance() {
                 wxASSERT(_instance);
@@ -165,7 +183,7 @@ namespace MRL {
             }
             /*!
                 \brief configFileName
-                \return
+                \return the name of the configuration file
             */
             static std::string configFileName() {
                 return instance()->_configFileName;
@@ -180,19 +198,23 @@ namespace MRL {
 
             /*!
                 \brief baseDir
-                \return
+                \return the installation base directory
             */
             static const std::string &baseDir() {
                 return instance()->_baseDir;
             }
             /*!
                 \brief configuration
-                \return
+                \return the configuration database
             */
             static Database &configuration() {
                 return instance()->_db;
             }
 
+            /*!
+             * \brief opc
+             * \return the OPC common singleton
+             */
             static OpcCommon &opc() {
                 return *(instance()->_opc);
             }
@@ -275,14 +297,14 @@ namespace MRL {
             }
             /*!
              * \brief enableGui
-             * \return
+             * \return true if GUI interface is enabled
              */
             bool enableGui() const {
                 return _enableGui;   // which sub systems are enabled - No GUI if running as deamon
             }
             /*!
              * \brief enableWeb
-             * \return
+             * \return true if the web interface is enabled
              */
             bool enableWeb() {
                 return _enableWeb;   // Web application
@@ -322,7 +344,7 @@ namespace MRL {
             }
             /*!
              * \brief aliasMap
-             * \return
+             * \return the alias map
              */
             static StringMap & aliasMap()
             {
@@ -332,7 +354,7 @@ namespace MRL {
             /*!
              * \brief findAlias
              * \param s
-             * \return
+             * \return the path maps to the alias, empty if none
              */
             static std::string findAlias(const std::string &s)
             {
@@ -345,13 +367,18 @@ namespace MRL {
 
             /*!
              * \brief reverseAliasMap
-             * \return
+             * \return the alias that maps to the path
              */
             static StringMap & reverseAliasMap()
             {
                 return  _reverseAliasMap;
             }
 
+            /*!
+             * \brief findReverseAlias
+             * \param s
+             * \return alias that maps to path, empty if none
+             */
             static std::string findReverseAlias(const std::string &s)
             {
                 if(_reverseAliasMap.find(s) != _reverseAliasMap.end())
@@ -361,24 +388,51 @@ namespace MRL {
                 return std::string();
             }
 
+
+            /*!
+             * \brief checkUser
+             * \param u
+             * \param pw
+             * \return true if user and password match
+             */
             static bool checkUser(const std::string &u, const std::string &pw);
 
-
+            /*!
+             * \brief checkUserAdmin
+             * \param u
+             * \return true if the user, password and is an admin
+             */
             static bool checkUserAdmin(const std::string &u);
     };
 
 
     // Easy access references
+    /*!
+     * \brief SETTINGS
+     * \return settings tree
+     */
     inline VariantPropertyTree &SETTINGS() {
         return Common::settings();
     }
+    /*!
+     * \brief GLOBALS
+     * \return globals tree
+     */
     inline AnyPropertyTree &GLOBALS() {
         return Common::globals();
     }
+    /*!
+     * \brief COMMON
+     * \return Common reference
+     */
     inline Common &COMMON() {
         return *Common::instance();
     }
 
+    /*!
+     * \brief RUNTIME
+     * \return runtime tree
+     */
     inline VariantPropertyTree &RUNTIME() {
         return Common::runTime();
     }

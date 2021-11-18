@@ -3,7 +3,7 @@
  *
  * This file is part of OpcServant. OpcServant C++ classes are free software: you can
  * redistribute it and/or modify it under the terms of the Mozilla Public
- * License v2.0 as stated in the LICENSE file provided with open62541.
+ * License v2.0 as stated in the LICENSE file .
  *
  * These classes are distributed in the hope that it will be useful, but WITHOUT ANY
  * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
@@ -122,7 +122,7 @@ public:
     bool createTables();
     /*!
         \brief open
-        \return
+        \return true on success
     */
     bool open() {
         try {
@@ -150,21 +150,21 @@ public:
 
     /*!
         \brief writeData
-        \return
+        \return true on success
     */
     bool writeData(time_t timestamp, const std::string &source, const std::string &type,
                    const std::string &state, const std::string &value, double doubleValue = 0.0);
 
     /*!
         \brief writeRecord
-        \return
+        \return true on success
     */
     bool writeRecord(time_t timestamp, const std::string &source, const std::string &type,
                      const std::string &state, const std::string &value);
 
     /*!
         \brief writeLog
-        \return
+        \return true on success
     */
     bool writeLog(time_t timestamp, const std::string &source,
                   const std::string &type, const std::string &message);
@@ -175,7 +175,7 @@ public:
      * \param source
      * \param type
      * \param message
-     * \return
+     * \return true on success
      */
     bool writeAudit(time_t timestamp, const std::string &source,
                   const std::string &type, const std::string &message);
@@ -186,7 +186,7 @@ public:
      * \param source
      * \param type
      * \param message
-     * \return
+     * \return true on success
      */
     bool writeDiagnostic(time_t timestamp, const std::string &source,
                   const std::string &type, const std::string &message);
@@ -209,6 +209,10 @@ public:
         _port = port;
     }
 
+    /*!
+     * \brief flush
+     * \return true on success
+     */
     bool flush();
 
 };

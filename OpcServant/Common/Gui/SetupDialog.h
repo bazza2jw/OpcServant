@@ -9,6 +9,7 @@
 
 /*!
  * \brief The SetupDialog class
+ * Standard configuration dialogues.
  */
 class SetupDialog : public SetupDialogBase
 {

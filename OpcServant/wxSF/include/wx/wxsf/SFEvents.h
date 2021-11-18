@@ -14,8 +14,8 @@
 #include <wx/event.h>
 #include <wx/dnd.h>
 
-#include <wx/wxsf/Defs.h>
-#include <wx/wxsf/ShapeBase.h>
+#include <ShapeCanvas/Defs.h>
+#include <ShapeCanvas/ShapeBase.h>
 
 class WXDLLIMPEXP_SF wxSFShapeEvent;
 class WXDLLIMPEXP_SF wxSFShapeTextEvent;

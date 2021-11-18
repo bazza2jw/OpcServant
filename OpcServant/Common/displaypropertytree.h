@@ -3,7 +3,7 @@
  *
  * This file is part of OpcServant. OpcServant C++ classes are free software: you can
  * redistribute it and/or modify it under the terms of the Mozilla Public
- * License v2.0 as stated in the LICENSE file provided with open62541.
+ * License v2.0 as stated in the LICENSE file .
  *
  * These classes are distributed in the hope that it will be useful, but WITHOUT ANY
  * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
@@ -32,8 +32,8 @@ namespace MRL {
             std::shared_ptr<WebDataModel> _webStore; // the web store
             DATAITEMTREE _tree;        // property tree to index models
             //
-            bool _syncRequest = false;
-            bool _syncWithDbRequest = false;
+            bool _syncRequest = false; // sync controls with tree
+            bool _syncWithDbRequest = false; // sync with config database
             //
 
         public:
@@ -45,7 +45,7 @@ namespace MRL {
             }
             /*!
                 \brief webStore
-                \return
+                \return the Wt model
             */
             std::shared_ptr<WebDataModel> &webStore() {
                 if (!_webStore) {
@@ -72,7 +72,7 @@ namespace MRL {
 
             /*!
                 \brief root
-                \return
+                \return the root object
             */
             DataPropertyItem &root() {
                 return _root;
@@ -81,7 +81,7 @@ namespace MRL {
 
             /*!
                 \brief store
-                \return
+                \return the GUI control
             */
             const wxDataViewTreeCtrl *guiStore() const {
                 return _guiStore;
@@ -148,7 +148,7 @@ namespace MRL {
                 \brief findDataItemPath
                 \param i
                 \param path
-                \return
+                \return true if path is found
             */
             bool findDataItemPath(const wxDataViewItem &i, MRL::PropertyPath &path);
             #endif
@@ -156,7 +156,7 @@ namespace MRL {
                 \brief findDataWebItemPath
                 \param i
                 \param path
-                \return
+                \return true if path found for model item
             */
             bool findDataItemPath(const Wt::WStandardItem *i, MRL::PropertyPath &path);
 
@@ -205,6 +205,7 @@ namespace MRL {
 
             /*!
                 \brief syncRemoveMissing
+
             */
             void syncRemoveMissing(DataTree::PropertyNode *src, DATAITEMTREE::PropertyNode *dest);
 
@@ -230,6 +231,9 @@ namespace MRL {
             void removeWeb(DATAITEMTREE::PropertyNode *n);
             void updateWeb(DATAITEMTREE::PropertyNode *n);
             //
+            /*!
+             * \brief resetGui
+             */
             void resetGui() {
                 #ifdef USE_GUI
                 if (_guiStore) {
@@ -239,6 +243,9 @@ namespace MRL {
                 }
                 #endif
             }
+            /*!
+             * \brief resetWeb
+             */
             void resetWeb() {
                 if (_webStore) {
                     const_cast<Wt::WStandardItem *>(_root.webItem())->removeRows(0, _root.webItem()->rowCount());

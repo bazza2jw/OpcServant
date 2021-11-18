@@ -3,7 +3,7 @@
  *
  * This file is part of OpcServant. OpcServant C++ classes are free software: you can
  * redistribute it and/or modify it under the terms of the Mozilla Public
- * License v2.0 as stated in the LICENSE file provided with open62541.
+ * License v2.0 as stated in the LICENSE file .
  *
  * These classes are distributed in the hope that it will be useful, but WITHOUT ANY
  * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
@@ -756,7 +756,11 @@ int  MRL::SerialConnect::write(const void *pSrc,int nSrcLen)
 	};
 	return nSrcWrite;
 }
-
+/*!
+ * \brief MRL::SerialConnect::sendBreak
+ * \param duration
+ * \return  0 on success
+ */
 int MRL::SerialConnect::sendBreak(int duration)
 {
   #ifdef _UNIX

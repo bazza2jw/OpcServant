@@ -13,7 +13,10 @@
 #include <Wt/WSpinBox.h>
 
 namespace MRL {
-
+/*!
+ * \brief The ConfigureI2cWebDialog
+ * configuration I2C using web interface
+ */
 class ConfigureI2cWebDialog : public WebDialogBase
 {
     MRL::VariantPropertyTree &_configuration; // tree of configuration values

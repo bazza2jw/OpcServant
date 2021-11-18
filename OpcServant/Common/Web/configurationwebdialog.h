@@ -3,7 +3,7 @@
  *
  * This file is part of OpcServant. OpcServant C++ classes are free software: you can
  * redistribute it and/or modify it under the terms of the Mozilla Public
- * License v2.0 as stated in the LICENSE file provided with open62541.
+ * License v2.0 as stated in the LICENSE file .
  *
  * These classes are distributed in the hope that it will be useful, but WITHOUT ANY
  * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
@@ -20,7 +20,10 @@
 
 namespace MRL
 {
-  // entry form
+  /*!
+   * \brief The ConfigurationWebForm class
+   * Web based configuration  base class
+   */
   class ConfigurationWebForm : public WebDialogBase
   {
       PropertyPath _path;
@@ -31,12 +34,12 @@ namespace MRL
       Wt::WCheckBox * _enabled = nullptr;
       Wt::WCheckBox * _enableTabView = nullptr;
       ConfigurationWebForm(const PropertyPath &path) : _path(path){}
-      void setup();
-      void onOk();
+      void setup();// initialise form
+      void onOk(); // handles OK button
       MRL::VariantPropertyTree &configuration() {return  _configuration;} // tree of configuration values
       virtual int addFields(Wt::WGridLayout *, int row = 0);
-      virtual void setFields();
-      virtual void getFields();
+      virtual void setFields(); // configuration -> fields
+      virtual void getFields(); // fields -> configuration
   };
 
   // the web form dialog wrapper

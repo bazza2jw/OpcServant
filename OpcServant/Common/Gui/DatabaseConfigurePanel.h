@@ -5,6 +5,7 @@
 
 /*!
  * \brief The DatabaseConfigurePanel class
+ * Configure a MySQL / MariaDB database configuration
  */
 class DatabaseConfigurePanel : public DatabaseConfigurePanelBase
 {

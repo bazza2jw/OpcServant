@@ -158,7 +158,9 @@ public:
     void write(VariantPropertyTree &c,MRL::PropertyPath &);
 };
 
-
+/*!
+ * \brief The ConfigureNetworkWebPanel class
+ */
 class ConfigureNetworkWebPanel : public Wt::WContainerWidget
 {
     Wt::WLineEdit * _address = nullptr;
@@ -192,6 +194,12 @@ public:
     }
 
     template <typename T>
+    /*!
+     * \brief addPanel
+     * \param s
+     * \param w
+     * \return created panel
+     */
     Wt::WPanel *  addPanel(const std::string &s, std::unique_ptr<T> &w)
     {
         Wt::WPanel *p = _panelList->addWidget(_TR(s), std::move(w));
@@ -292,6 +300,9 @@ public:
 //
 // Some standard configuration dialogs
 //
+/*!
+ * \brief The ConfigurationI2CWebDialog class
+ */
 class ConfigurationI2CWebDialog : public  DefaultConfigurationWeb2Dialog<ConfigureI2cWebPanel>
 {
 public:
@@ -301,6 +312,9 @@ public:
 
     }
 };
+/*!
+ * \brief The ConfigurationSerialWebDialog class
+ */
 class ConfigurationSerialWebDialog : public DefaultConfigurationWeb2Dialog<ConfigureSerialWebPanel>
 {
 public:
@@ -310,6 +324,9 @@ public:
 
     }
 };
+/*!
+ * \brief The ConfigurationDatabaseWebDialog class
+ */
 class ConfigurationDatabaseWebDialog : public DefaultConfigurationWeb2Dialog<ConfigureDatabaseWebPanel >
 {
 public:
@@ -319,7 +336,9 @@ public:
 
     }
 };
-
+/*!
+ * \brief The ConfigurationNetworkWebDialog class
+ */
 class ConfigurationNetworkWebDialog : public DefaultConfigurationWeb2Dialog<ConfigureNetworkWebPanel>
 {
 public:
@@ -327,7 +346,9 @@ public:
         DefaultConfigurationWeb2Dialog<ConfigureNetworkWebPanel>(path,"Network") {}
 
 };
-
+/*!
+ * \brief The ConfigureSerialNodeWebDialog class
+ */
 class ConfigureSerialNodeWebDialog : public DefaultConfigurationWeb2Dialog<ConfigureSerialWebPanel>
 {
     ConfigureSerialWebPanel * _panel = nullptr;

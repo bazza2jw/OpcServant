@@ -11,7 +11,7 @@
 #ifndef _WXSFROUNDORTHOSHAPE_H
 #define _WXSFROUNDORTHOSHAPE_H
 
-#include <wx/wxsf/OrthoShape.h>
+#include <ShapeCanvas/OrthoShape.h>
 
 // default values
 /*! \brief Default value of wxSFRoundOrthoLineShape::m_nMaxRadius data member */

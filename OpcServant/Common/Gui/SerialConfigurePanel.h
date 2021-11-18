@@ -4,6 +4,7 @@
 #include <Common/common.h>
 /*!
  * \brief The SerialConfigurePanel class
+ * Standard config panel for uart devices
  */
 class SerialConfigurePanel : public SerialConfigurePanelBase
 {

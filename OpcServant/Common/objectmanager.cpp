@@ -3,7 +3,7 @@
  *
  * This file is part of OpcServant. OpcServant C++ classes are free software: you can
  * redistribute it and/or modify it under the terms of the Mozilla Public
- * License v2.0 as stated in the LICENSE file provided with open62541.
+ * License v2.0 as stated in the LICENSE file .
  *
  * These classes are distributed in the hope that it will be useful, but WITHOUT ANY
  * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
@@ -74,7 +74,7 @@ void MRL::ObjectManager::initialise()
     \brief MRL::ObjectManager::create
     \param t
     \param path
-    \return
+    \return true on success
 */
 bool MRL::ObjectManager::create(const PropertyPath &path) {
     if (Common::configuration().add(path, type())) {
@@ -88,7 +88,7 @@ bool MRL::ObjectManager::create(const PropertyPath &path) {
     \brief MRL::ObjectManager::remove
     \param t
     \param s
-    \return
+    \return true on success
 */
 bool MRL::ObjectManager::remove(const PropertyPath &s) {
     removeRT(s);
@@ -103,7 +103,7 @@ bool MRL::ObjectManager::remove(const PropertyPath &s) {
     \brief MRL::ObjectManager::removeRT
     \param t
     \param s
-    \return
+    \return true on success
 */
 bool MRL::ObjectManager::removeRT(const PropertyPath &s) {
     Common::runTime().remove(s);
@@ -124,19 +124,18 @@ bool MRL::ObjectManager::createRT(const PropertyPath &path) {
 
 /*!
  * \brief MRL::ObjectManager::edit
- * \return
+ * \return true on success
  */
 bool MRL::ObjectManager::edit(Wt::WWidget *w, const PropertyPath &s) {
-    WebDialogBase::showDialog<ConfigurationWebForm>(w,s);
+    WebDialogBase::showDialog<ConfigurationWebForm>(w,s); // web based edit
     return true;
 }
 
 
 /*!
     \brief MRL::ObjectManager::update
-    \param t
     \param s
-    \return
+    \return true on success
 */
 bool MRL::ObjectManager::update(const PropertyPath &s) {
     Common::display().update(s); // update the displays
@@ -147,7 +146,7 @@ bool MRL::ObjectManager::update(const PropertyPath &s) {
     \brief MRL::ObjectManager::buildMenu
     \param m
     \param s
-    \return
+    \return  true on success
 */
 bool MRL::ObjectManager::buildMenu(wxMenu *m,  const PropertyPath &/*s*/) {
     if (canAdd()) m->Append(ObjectManagerAdd, _("Add"), _("Add child object to this item"));
@@ -161,7 +160,7 @@ bool MRL::ObjectManager::buildMenu(wxMenu *m,  const PropertyPath &/*s*/) {
     \brief MRL::ObjectManager::buildMenu
     \param m
     \param s
-    \return
+    \return true on success
 */
 bool MRL::ObjectManager::buildMenu(Wt::WPopupMenu *m,  const PropertyPath &/*s*/) {
     if (canAdd()) {
@@ -214,7 +213,7 @@ bool MRL::ObjectManager::add(wxWindow *w, const PropertyPath &path, PropertyPath
  * \brief MRL::ObjectManager::edit
  * \param w
  * \param s
- * \return
+ * \return true on success
  */
 bool MRL::ObjectManager::edit(wxWindow *w, const PropertyPath &s) {
     SetupDialog dlg(w,s);
@@ -240,7 +239,7 @@ bool MRL::ObjectManager::add(Wt::WWidget *w, const PropertyPath &path) {
     \param server
     \param id
     \param node
-    \return
+    \return true on success
 */
 bool MRL::ObjectManager::setupOPCInstance(OpcServer &server, unsigned id, Open62541::NodeId &node) {
     DataNode *d = Common::configuration().idMap()[id];
@@ -323,7 +322,7 @@ void MRL::ObjectManager::createTabWindow(Wt::WTabWidget * tab, unsigned id)
  * \brief MRL::ObjectManager::createWebWindow
  * \param root
  * \param id
- * \return
+ * \return true on success
  */
 Wt::WContainerWidget * MRL::ObjectManager::createWebWindow( Wt::WContainerWidget *root, unsigned id)
 {

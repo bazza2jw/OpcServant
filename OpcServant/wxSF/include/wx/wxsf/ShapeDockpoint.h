@@ -11,8 +11,8 @@
 #ifndef _WXSFSHAPEDOCKPOINT_H_
 #define _WXSFSHAPEDOCKPOINT_H_
 
-#include <wx/wxsf/ScaledDC.h>
-#include <wx/wxxmlserializer/XmlSerializer.h>
+#include <ShapeCanvas/ScaledDC.h>
+#include <ShapeCanvas/XmlSerializer.h>
 
 class WXDLLIMPEXP_SF wxSFShapeBase;
 

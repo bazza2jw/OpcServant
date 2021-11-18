@@ -3,7 +3,7 @@
  *
  * This file is part of OpcServant. OpcServant C++ classes are free software: you can
  * redistribute it and/or modify it under the terms of the Mozilla Public
- * License v2.0 as stated in the LICENSE file provided with open62541.
+ * License v2.0 as stated in the LICENSE file .
  *
  * These classes are distributed in the hope that it will be useful, but WITHOUT ANY
  * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
@@ -105,14 +105,14 @@ namespace MRL {
             #ifdef USE_GUI
             /*!
                 \brief iconIndex
-                \return
+                \return index into image array
             */
             int iconIndex() {
                 return _iconIndex;
             }
             /*!
                 \brief iconFileName
-                \return
+                \return name of icon file
             */
             const std::string &iconFileName() {
                 return _iconFileName;
@@ -143,7 +143,7 @@ namespace MRL {
                 \brief type
             */
             virtual unsigned type() {
-                return _type;
+                return _type; // this is a hash of the object type name
             }
 
             /*!
@@ -159,7 +159,7 @@ namespace MRL {
             /*!
                 \brief find
                 \param i
-                \return
+                \return object manager or null
             */
             static ObjectManager *find(unsigned i) {
                 if(_idmap.find(i) == _idmap.end()) return nullptr;
@@ -168,7 +168,7 @@ namespace MRL {
             /*!
              * \brief findByObjectId
              * \param i
-             * \return
+             * \return object manager or null
              */
             static ObjectManager * findByObjectId(unsigned i) {
                 unsigned id = Common::objectType(i);
@@ -178,7 +178,7 @@ namespace MRL {
             /*!
                 \brief idToName
                 \param i
-                \return
+                \return name
             */
             static const std::string &idToName(unsigned i) {
                 static std::string ret;
@@ -309,7 +309,7 @@ namespace MRL {
              * \brief createRtObject
              * \param p
              * \param r
-             * \return
+             * \return true on success
              */
             virtual bool createRtObject(const PropertyPath &p, RtObjectRef &r)
             {
@@ -351,7 +351,7 @@ namespace MRL {
              * \brief createTabWindow
              * \param parent
              * \param id
-             * \return
+             * \return window object pointer
              */
             virtual wxWindow * createTabWindow(wxWindow *parent, unsigned id);
             /*!
@@ -360,7 +360,7 @@ namespace MRL {
             virtual void createTabWindow(Wt::WTabWidget * /*tab*/,unsigned /*id*/);
             /*!
              * \brief createWebWindow
-             * \return
+             * \return wt widget
              */
             virtual Wt::WContainerWidget * createWebWindow( Wt::WContainerWidget */*root*/, unsigned /*id*/);
 

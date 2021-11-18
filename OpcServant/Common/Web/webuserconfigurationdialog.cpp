@@ -42,7 +42,9 @@ void MRL::WebUserConfigurationDialog::setup()
     contents()->setLayout(std::move(boxLayout));
 }
 
-
+/*!
+ * \brief MRL::WebUserConfigurationDialog::onOk
+ */
 void MRL::WebUserConfigurationDialog::onOk()
 {
     _settings.save(MRL::Common::instance()->configFileName());

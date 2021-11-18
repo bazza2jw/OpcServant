@@ -3,7 +3,7 @@
  *
  * This file is part of OpcServant. OpcServant C++ classes are free software: you can
  * redistribute it and/or modify it under the terms of the Mozilla Public
- * License v2.0 as stated in the LICENSE file provided with open62541.
+ * License v2.0 as stated in the LICENSE file .
  *
  * These classes are distributed in the hope that it will be useful, but WITHOUT ANY
  * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
@@ -13,6 +13,10 @@
 #define ADDALIASDIALOG_H
 #include "CommonGUI.h"
 
+/*!
+ * \brief The AddAliasDialog class
+ * Get an alias name
+ */
 class AddAliasDialog : public AddAliasDialogBase
 {
 public:

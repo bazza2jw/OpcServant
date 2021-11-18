@@ -4,6 +4,7 @@
 #include <Common/common.h>
 /*!
  * \brief The ConfigureI2cDialog class
+ * Setup I2C configuration
  */
 class ConfigureI2cDialog : public ConfigureI2cDialogBase
 {

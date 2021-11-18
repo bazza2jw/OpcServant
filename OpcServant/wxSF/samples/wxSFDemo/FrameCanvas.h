@@ -1,7 +1,7 @@
 #ifndef _FRAMECANVAS_H
 #define _FRAMECANVAS_H
 
-#include "wx/wxsf/wxShapeFramework.h"
+#include "ShapeCanvas/wxShapeFramework.h"
 
 class MainFrm;
 class FrameCanvas : public wxSFShapeCanvas

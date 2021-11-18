@@ -3,7 +3,7 @@
  *
  * This file is part of OpcServant. OpcServant C++ classes are free software: you can
  * redistribute it and/or modify it under the terms of the Mozilla Public
- * License v2.0 as stated in the LICENSE file provided with open62541.
+ * License v2.0 as stated in the LICENSE file .
  *
  * These classes are distributed in the hope that it will be useful, but WITHOUT ANY
  * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
@@ -114,6 +114,12 @@ public:
     void plot(wxDC &p,const wxRect &r, bool greyBackground = true);
     void scaleGraph();
     void update(const std::string &tag, const time_t dt, double v);
+    /*!
+     * \brief setData
+     * \param tag
+     * \param t
+     * \param v
+     */
     void setData(const std::string &tag, std::vector<double> &t, std::vector<double> &v)
     {
         if((t.size() > 0 ) && (v.size() > 0) && (t.size() == v.size()))
@@ -130,6 +136,7 @@ public:
         }
     }
     DataMapPtr & addLine(const std::string &tag, wxColour c = wxNullColour);
+    // accessors
     void getMinMaxY(double &miny, double &maxy) const {
         miny = minY;
         maxy = maxY;
@@ -164,7 +171,12 @@ public:
     };
     wxString getValue(const wxPoint &); // return the string value of the given point as wxString for UI use
     time_t timeFromPoint(const wxPoint &); // return the timestamp from the given point
-    //
+    /*!
+     * \brief plotToBitmap
+     * \param bm
+     * \param width
+     * \param height
+     */
     void plotToBitmap(wxBitmap &bm, int width, int height)
     {
         bm.Create(width,height);// resize the bitmap

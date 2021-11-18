@@ -3,7 +3,7 @@
  *
  * This file is part of OpcServant. OpcServant C++ classes are free software: you can
  * redistribute it and/or modify it under the terms of the Mozilla Public
- * License v2.0 as stated in the LICENSE file provided with open62541.
+ * License v2.0 as stated in the LICENSE file .
  *
  * These classes are distributed in the hope that it will be useful, but WITHOUT ANY
  * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
@@ -59,6 +59,9 @@ void  MRL::DataItemTree::deleteAll() {
 
 }
 
+/*!
+ * \brief MRL::DataItemTree::processGui
+ */
 void MRL::DataItemTree::processGui() {
     auto f = [this](DATAITEMTREE::PropertyNode & n) -> bool {
         if (n.data().waitGui()) {
@@ -91,7 +94,9 @@ void MRL::DataItemTree::processGui() {
     processDelete();
 }
 
-
+/*!
+ * \brief MRL::DataItemTree::processWeb
+ */
 void MRL::DataItemTree::processWeb() {
     auto f = [this](DATAITEMTREE::PropertyNode & n) -> bool {
         if (n.data().waitWeb()) {
@@ -124,7 +129,9 @@ void MRL::DataItemTree::processWeb() {
     _tree.root().iterateNodes(f); // action in web context
     processDelete(); // garbage collect
 }
-
+/*!
+ * \brief MRL::DataItemTree::processDelete
+ */
 void MRL::DataItemTree::processDelete() {
     auto f = [](DATAITEMTREE::PropertyNode & n) -> bool {
         if (n.data().waitGui()) {

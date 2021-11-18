@@ -3,6 +3,9 @@
 #include "CommonGUI.h"
 #include <Common/common.h>
 
+/*!
+ * \brief The UserConfigurationDialog class
+ */
 class UserConfigurationDialog : public UserConfigurationDialogBase
 {
     MRL::VariantPropertyTree &_settings;

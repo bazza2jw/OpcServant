@@ -2,7 +2,7 @@
 #define __sampleshape__
 
 // include main wxShapeFramework header file
-#include "wx/wxsf/wxShapeFramework.h"
+#include "ShapeCanvas/wxShapeFramework.h"
 
 class SampleShape : public wxSFRectShape
 {

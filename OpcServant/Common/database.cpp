@@ -3,7 +3,7 @@
  *
  * This file is part of OpcServant. OpcServant C++ classes are free software: you can
  * redistribute it and/or modify it under the terms of the Mozilla Public
- * License v2.0 as stated in the LICENSE file provided with open62541.
+ * License v2.0 as stated in the LICENSE file .
  *
  * These classes are distributed in the hope that it will be useful, but WITHOUT ANY
  * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
@@ -17,7 +17,7 @@
 
 /*!
     \brief MRL::Database::createDatabase
-    \return
+    \return true if the create database succeeds
 */
 bool MRL::Database::createDatabase() { // create database table, indices and triggers
     std::string  f = file() + ".DB";
@@ -110,7 +110,7 @@ void MRL::Database::resetDatabase()
     \brief MRL::Database::addData
     \param id
     \param data
-    \return
+    \return true on success
 */
 bool MRL::Database::addData(unsigned id, unsigned type, const std::string &data) {
     _addData.reset();
@@ -125,7 +125,7 @@ bool MRL::Database::addData(unsigned id, unsigned type, const std::string &data)
     \brief MRL::Database::getData
     \param id
     \param data
-    \return
+    \return true on success
 */
 bool MRL::Database::getData(unsigned id, std::string &data) {
     _getData.reset();
@@ -143,7 +143,7 @@ bool MRL::Database::getData(unsigned id, std::string &data) {
 /*!
     \brief MRL::Database::deleteData
     \param id
-    \return
+    \return true on success
 */
 bool MRL::Database::deleteData(unsigned id) {
     _deleteData.reset();
@@ -158,7 +158,7 @@ bool MRL::Database::deleteData(unsigned id) {
     \brief MRL::Database::addData
     \param id
     \param data
-    \return
+    \return true on success
 */
 bool MRL::Database::addAlias(const std::string &id, const std::string &data) {
     _addAlias.reset();
@@ -172,7 +172,7 @@ bool MRL::Database::addAlias(const std::string &id, const std::string &data) {
     \brief MRL::Database::getData
     \param id
     \param data
-    \return
+    \return true on success
 */
 bool MRL::Database::getAlias(const std::string &id, std::string &data) {
     _getAlias.reset();
@@ -190,7 +190,7 @@ bool MRL::Database::getAlias(const std::string &id, std::string &data) {
 /*!
     \brief MRL::Database::deleteData
     \param id
-    \return
+    \return true on success
 */
 bool MRL::Database::deleteAlias(const std::string &id) {
     _deleteAlias.reset();
@@ -203,7 +203,7 @@ bool MRL::Database::deleteAlias(const std::string &id) {
  * \brief MRL::Database::updateAlias
  * \param id
  * \param data
- * \return
+ * \return true on success
  */
 bool MRL::Database::updateAlias(const std::string &id, const std::string &data)
 {
@@ -217,7 +217,7 @@ bool MRL::Database::updateAlias(const std::string &id, const std::string &data)
 /*!
  * \brief MRL::Database::listAlias
  * \param l
- * \return
+ * \return true on success
  */
 bool MRL::Database::listAlias(StringMap &l, StringMap &r)
 {
@@ -244,7 +244,7 @@ bool MRL::Database::listAlias(StringMap &l, StringMap &r)
     \param id
     \param r
     \param data
-    \return
+    \return true on success
 */
 bool MRL::Database::addRecipeData(unsigned id, const std::string &r,  const std::string &data) {
     _addRecipeData.reset();
@@ -261,7 +261,7 @@ bool MRL::Database::addRecipeData(unsigned id, const std::string &r,  const std:
     \param id
     \param r
     \param data
-    \return
+    \return true on success
 */
 bool MRL::Database::getRecipeData(unsigned id, const std::string &r,  std::string &data) {
     _getRecipeData.reset();
@@ -282,7 +282,7 @@ bool MRL::Database::getRecipeData(unsigned id, const std::string &r,  std::strin
     \brief MRL::Database::deleteRecipeData
     \param id
     \param r
-    \return
+    \return true on success
 */
 bool MRL::Database::deleteRecipeData(unsigned id, const std::string &r) {
     _deleteRecipeData.reset();
@@ -296,7 +296,7 @@ bool MRL::Database::deleteRecipeData(unsigned id, const std::string &r) {
 /*!
     \brief MRL::Database::deleteAllRecipeData
     \param id
-    \return
+    \return true on success
 */
 bool MRL::Database::deleteAllRecipeData(unsigned id) {
     _deleteAllRecipeData.reset();
@@ -310,7 +310,7 @@ bool MRL::Database::deleteAllRecipeData(unsigned id) {
     \brief MRL::Database::addNotes
     \param id
     \param data
-    \return
+    \return true on success
 */
 bool MRL::Database::addNotes(unsigned id, const std::string &data) {
     _addNotes.reset();
@@ -324,7 +324,7 @@ bool MRL::Database::addNotes(unsigned id, const std::string &data) {
     \brief MRL::Database::getNotes
     \param id
     \param data
-    \return
+    \return true on success
 */
 bool MRL::Database::getNotes(unsigned id, std::string &data) {
     _getNotes.reset();
@@ -342,7 +342,7 @@ bool MRL::Database::getNotes(unsigned id, std::string &data) {
 /*!
     \brief MRL::Database::deleteNotes
     \param id
-    \return
+    \return true on success
 */
 bool MRL::Database::deleteNotes(unsigned id) {
     _deleteNotes.reset();
@@ -375,7 +375,7 @@ bool MRL::Database::load() { // load a configuration file
 
 /*!
     \brief MRL::Database::save
-    \return true on succes
+    \return true on success
 */
 bool MRL::Database::save() { // load a configuration file
     Json::Value v;
@@ -449,7 +449,7 @@ bool MRL::Database::add(const PropertyPath &path, unsigned type) { // create an 
     \brief MRL::Database::updateData
     \param id
     \param data
-    \return
+    \return true on success
 */
 bool MRL::Database::updateData(unsigned id, const std::string &data) {
     _updateData.reset();

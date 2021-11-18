@@ -3,7 +3,7 @@
  *
  * This file is part of OpcServant. OpcServant C++ classes are free software: you can
  * redistribute it and/or modify it under the terms of the Mozilla Public
- * License v2.0 as stated in the LICENSE file provided with open62541.
+ * License v2.0 as stated in the LICENSE file .
  *
  * These classes are distributed in the hope that it will be useful, but WITHOUT ANY
  * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
@@ -85,7 +85,7 @@ namespace MRL {
             \brief asString
             \param i
             \param s
-            \return
+            \return true on success
         */
         bool asString(int i, std::string &s)  {
             try {
@@ -137,7 +137,7 @@ namespace MRL {
 
             /*!
                 \brief id
-                \return
+                \return message  id
             */
             int id() const {
                 return _id;
@@ -212,7 +212,7 @@ namespace MRL {
             /*!
                 \brief registerParameter
                 \param n
-                \return
+                \return parameter id code
             */
             static int registerParameter(const std::string &n, unsigned v = 0) {
                 int ret = parameter(n);
@@ -253,14 +253,14 @@ namespace MRL {
             /*!
                 \brief toJson
                 \param v
-                \return
+                \return true on success
             */
             bool toJson(Json::Value &v); // convert a message to JSON
 
             /*!
                 \brief fromJson
                 \param v
-                \return
+                \return true on success
             */
             bool fromJson(Json::Value &v); // convert from JSON to a message
 
@@ -338,7 +338,7 @@ namespace MRL {
 
             /*!
                 \brief hasMessage
-                \return
+                \return if there is a message waiting
             */
             bool hasMessage() {
                 ReadLock l(_mutex);
@@ -355,6 +355,9 @@ namespace MRL {
     };
 
     template <typename T>
+    /*!
+     * \brief The MessageHandler class
+     */
     class MessageHandler {
         public:
             MessageHandler() {}

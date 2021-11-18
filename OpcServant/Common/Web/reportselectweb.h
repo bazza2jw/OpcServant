@@ -38,6 +38,12 @@ namespace MRL
         Wt::WComboBox * _reportList = nullptr;
         void makeReport();
 
+        /*!
+         * \brief createColorButton
+         * \param className
+         * \param text
+         * \return create push button object
+         */
         Wt::WPushButton * createColorButton(const char *className, const Wt::WString& text)
         {
             Wt::WPushButton *b = nullptr;

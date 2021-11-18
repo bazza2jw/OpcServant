@@ -18,10 +18,10 @@
 #include <wx/arrstr.h>
 #include <wx/list.h>
 
-#include <wx/wxsf/ShapeHandle.h>
-#include <wx/wxsf/ShapeDockpoint.h>
-#include <wx/wxsf/Defs.h>
-#include <wx/wxxmlserializer/XmlSerializer.h>
+#include <ShapeCanvas/ShapeHandle.h>
+#include <ShapeCanvas/ShapeDockpoint.h>
+#include <ShapeCanvas/Defs.h>
+#include <ShapeCanvas/XmlSerializer.h>
 
 #define sfRECURSIVE true
 #define sfNORECURSIVE false

@@ -11,7 +11,7 @@
 #ifndef _WXSFORTHOSHAPE_H
 #define _WXSFORTHOSHAPE_H
 
-#include <wx/wxsf/LineShape.h>
+#include <ShapeCanvas/LineShape.h>
 
 /*!
  * \brief Orthogonal line shape. The class extends wxSFLineShape class and allows

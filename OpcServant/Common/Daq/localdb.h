@@ -3,7 +3,7 @@
  *
  * This file is part of OpcServant. OpcServant C++ classes are free software: you can
  * redistribute it and/or modify it under the terms of the Mozilla Public
- * License v2.0 as stated in the LICENSE file provided with open62541.
+ * License v2.0 as stated in the LICENSE file .
  *
  * These classes are distributed in the hope that it will be useful, but WITHOUT ANY
  * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
@@ -50,7 +50,7 @@ class LocalDb : public MRL::BObject
      * \param state
      * \param value
      * \param doubleValue
-     * \return
+     * \return true one success
      */
     bool writeData(time_t timestamp, const std::string &source, const std::string &type,
                    const std::string &state, const std::string &value, double doubleValue = 0.0);
@@ -62,7 +62,7 @@ class LocalDb : public MRL::BObject
      * \param type
      * \param state
      * \param value
-     * \return
+     * \return true one success
      */
     bool writeRecord(time_t timestamp, const std::string &source, const std::string &type,
                      const std::string &state, const std::string &value);
@@ -73,7 +73,7 @@ class LocalDb : public MRL::BObject
      * \param source
      * \param type
      * \param message
-     * \return
+     * \return true one success
      */
     bool writeLog(time_t timestamp, const std::string &source,
                   const std::string &type, const std::string &message);
@@ -83,7 +83,7 @@ class LocalDb : public MRL::BObject
      * \param source
      * \param type
      * \param message
-     * \return
+     * \return true one success
      */
     bool writeAudit(time_t timestamp, const std::string &source,
                   const std::string &type, const std::string &message);
@@ -93,7 +93,7 @@ class LocalDb : public MRL::BObject
      * \param source
      * \param type
      * \param message
-     * \return
+     * \return true one success
      */
     bool writeDiagnostic(time_t timestamp, const std::string &source,
                   const std::string &type, const std::string &message);
@@ -113,6 +113,10 @@ public:
     LocalDb(const std::string &dir, const std::string &name);
     ~LocalDb();
 
+    /*!
+     * \brief mutex
+     * \return access mutes
+     */
     MRL::ReadWriteMutex & mutex() { return _mutex;}
 
     /*!
@@ -136,7 +140,7 @@ public:
     //
     /*!
      * \brief useOneSecondTimer
-     * \return
+     * \return true
      */
     bool useOneSecondTimer() {
         return true;
@@ -148,7 +152,7 @@ public:
     void handleOneSecond(time_t t);
     /*!
      * \brief db
-     * \return
+     * \return the SQLITE object
      */
     std::unique_ptr<SQLiteDB> & db() {
         return _db;

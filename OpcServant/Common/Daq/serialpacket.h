@@ -3,7 +3,7 @@
  *
  * This file is part of OpcServant. OpcServant C++ classes are free software: you can
  * redistribute it and/or modify it under the terms of the Mozilla Public
- * License v2.0 as stated in the LICENSE file provided with open62541.
+ * License v2.0 as stated in the LICENSE file .
  *
  * These classes are distributed in the hope that it will be useful, but WITHOUT ANY
  * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
@@ -39,7 +39,7 @@ namespace MRL {
                 \param data
                 \param stopbits
                 \param parity
-                \return
+                \return true if serial port opened
             */
             bool openSerial(const std::string port, int baud, int data, int stopbits, int parity) {
                 bool ret = false;
@@ -59,7 +59,7 @@ namespace MRL {
 
             /*!
                 \brief getChar
-                \return
+                \return character or -1
             */
             int getChar() {
                 int ret = -1;
@@ -90,7 +90,7 @@ namespace MRL {
 
             /*!
                 \brief isOk
-                \return
+                \return true if ok
             */
             bool isOk() {
                 return isOpen();

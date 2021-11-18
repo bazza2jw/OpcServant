@@ -2,6 +2,9 @@
 #define READWRITECONTEXT_H
 #include <open62541cpp/nodecontext.h>
 namespace MRL {
+/*!
+     * \brief The ReadWriteContext class
+     */
     class ReadWriteContext  : public Open62541::NodeContext {
         public:
             ReadWriteContext(): NodeContext("ReadWrite") {}
