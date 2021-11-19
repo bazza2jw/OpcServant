@@ -69,6 +69,9 @@ MRL::ValueGroupWebPanel::ValueGroupWebPanel(unsigned id) : _id(id), _handler(id,
 
 }
 
+/*!
+ * \brief MRL::ValueGroupWebPanel::setupTable
+ */
 void MRL::ValueGroupWebPanel::setupTable() // set up the grid - called on start
 {
     MRL::ValueRT *v =  MRL::ValueRT::find(_id);
@@ -206,7 +209,7 @@ void MRL::ValueGroupWebPanel::updateTable() // update the display
 /*!
  * \brief MRL::ValueGroupWebPanel::Handler::processQueueItem
  * \param msg
- * \return
+ * \return true on success
  */
 bool MRL::ValueGroupWebPanel::Handler::processQueueItem(const MRL::Message &msg)
 {

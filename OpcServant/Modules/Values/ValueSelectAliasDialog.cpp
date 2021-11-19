@@ -29,11 +29,16 @@ ValueSelectAliasDialog::ValueSelectAliasDialog(wxWindow* parent)
     }
 
 }
-
+/*!
+ * \brief ValueSelectAliasDialog::~ValueSelectAliasDialog
+ */
 ValueSelectAliasDialog::~ValueSelectAliasDialog()
 {
 }
-
+/*!
+ * \brief ValueSelectAliasDialog::onOk
+ * \param event
+ */
 void ValueSelectAliasDialog::onOk(wxCommandEvent& event)
 {
     if(GetAliasList()->GetCount() > 0)

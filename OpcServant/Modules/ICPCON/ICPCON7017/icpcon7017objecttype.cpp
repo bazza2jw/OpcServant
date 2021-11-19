@@ -15,7 +15,7 @@
 /*!
  * \brief MRL::ICPCON7017ObjectType::addChildren
  * \param parent
- * \return
+ * \return true on success
  */
 bool MRL::ICPCON7017ObjectType::addChildren(const Open62541::NodeId &parent)
 {
@@ -40,7 +40,7 @@ bool MRL::ICPCON7017ObjectType::addChildren(const Open62541::NodeId &parent)
  * \param nodeId
  * \param requestNodeId
  * \param context
- * \return
+ * \return true on success
  */
 bool MRL::ICPCON7017ObjectType::addInstance(const std::string &n,
                          const Open62541::NodeId &parent,

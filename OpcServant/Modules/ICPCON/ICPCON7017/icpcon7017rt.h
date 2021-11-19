@@ -80,7 +80,7 @@ namespace MRL {
 
         /*!
          * \brief useProcessTimer
-         * \return
+         * \return true
          */
         virtual bool useProcessTimer() {
             return true;   // used to drive state machines

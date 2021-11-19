@@ -98,7 +98,7 @@ public:
     /*!
      * \brief find
      * \param id
-     * \return
+     * \return ValueRT object or null
      */
     static ValueRT * find(unsigned id) {
         if(_map.find(id) == _map.end() ) return nullptr;

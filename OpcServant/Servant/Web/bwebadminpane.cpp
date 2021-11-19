@@ -12,6 +12,10 @@
 #include "bwebadminpane.h"
 #include <Wt/WTextArea.h>
 #include <Wt/WFitLayout.h>
+
+/*!
+ * \brief MRL::BWebAdminPane::BWebAdminPane
+ */
 MRL::BWebAdminPane::BWebAdminPane()
 {
     auto layout = std::make_unique<Wt::WFitLayout>();

@@ -35,6 +35,9 @@ namespace MRL
 // The user tab display
 // query each object for a tab display and add to the tab.
 //
+/*!
+ * \brief The BuiWebUserPage class
+ */
 class BuiWebUserPage  : public Wt::WContainerWidget
 {
     Wt::WTabWidget * _tab = nullptr;

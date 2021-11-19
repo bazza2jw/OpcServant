@@ -6,6 +6,9 @@
 
 namespace MRL {
 typedef ObjectManagerRT<ICPCON7065RT,SetupNodeSerial,ConfigureSerialNodeWebDialog> ICPCON7065ObjectManagerBase;
+/*!
+     * \brief The ICPCON7065ObjectManager class
+     */
     class ICPCON7065ObjectManager  : public ICPCON7065ObjectManagerBase {
         public:
         ICPCON7065ObjectManager() : ICPCON7065ObjectManagerBase("ICPCON7065") {}

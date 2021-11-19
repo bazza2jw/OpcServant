@@ -16,7 +16,7 @@
 /*!
  * \brief MRL::SimulatorTypeObject::addChildren
  * \param parent
- * \return
+ * \return true on success
  */
 bool MRL::SimulatorTypeObject::addChildren(const Open62541::NodeId &parent)
 {
@@ -41,7 +41,7 @@ bool MRL::SimulatorTypeObject::addChildren(const Open62541::NodeId &parent)
  * \param nodeId
  * \param requestNodeId
  * \param context
- * \return
+ * \return true on success
  */
 bool MRL::SimulatorTypeObject::addInstance(const std::string &n,
                          const Open62541::NodeId &parent,

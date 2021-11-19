@@ -13,12 +13,16 @@
 #include "mariadbpublisherobjectmanager.h"
 #include "mariadbobjecttype.h"
 static MRL::MariaDbPublisher _instance; // self register
-
+/*!
+ * \brief MRL::MariaDbPublisher::MariaDbPublisher
+ */
 MRL::MariaDbPublisher::MariaDbPublisher() : Plugin("MariaDbPublisher")
 {
 
 }
-
+/*!
+ * \brief MRL::MariaDbPublisher::initialise
+ */
 void MRL::MariaDbPublisher::initialise()
 {
     (void) new MariaDbPublisherObjectManager();

@@ -41,7 +41,7 @@ namespace MRL {
 
 /*!
  * \brief The I2cInterface class
- * Communications with I2c devices
+ * Communications with I2c devices - base class
  */
 class  I2cInterfaceBase
 {
@@ -110,7 +110,7 @@ public:
      * \param address
      * \param buf
      * \param len
-     * \return
+     * \return true on success
      */
     virtual bool  readBlock( int address, uint8_t *buf, int len)
     {
@@ -121,7 +121,7 @@ public:
      * \brief blockRead
      * \param buf
      * \param len
-     * \return
+     * \return true on success
      */
     virtual bool blockRead(uint8_t */*buf*/, int /*len*/)
     {
@@ -132,7 +132,7 @@ public:
      * \brief blockWrite
      * \param buf
      * \param len
-     * \return
+     * \return true on success
      */
     virtual bool blockWrite(const uint8_t */*buf*/, int /*len*/)
     {
@@ -148,7 +148,10 @@ public:
     static void makeI2c(Type type, Ptr &i2c,const std::string &address = I2C_DEF_DEV, int port = 5001 ) ;
 
 };
-
+/*!
+ * \brief The I2cInterfaceLocal class
+ * Local I2C bus
+ */
 class  I2cInterfaceLocal : public I2cInterfaceBase
 {
     int _fd = -1;
@@ -211,7 +214,7 @@ public:
      * \param address
      * \param buf
      * \param len
-     * \return
+     * \return true on success
      */
     bool  readBlock( int address, uint8_t *buf, int len)
     {
@@ -230,7 +233,7 @@ public:
      * \brief blockRead
      * \param buf
      * \param len
-     * \return
+     * \return true on success
      */
     virtual bool blockRead(uint8_t *buf, int len)
     {
@@ -245,7 +248,7 @@ public:
      * \brief blockWrite
      * \param buf
      * \param len
-     * \return
+     * \return true on success
      */
     virtual bool blockWrite(const uint8_t *buf, int len)
     {
@@ -258,7 +261,10 @@ public:
 
 };
 
-
+/*!
+ * \brief The I2cInterfaceRemote class
+ * Access via the MODBUC I2C interface
+ */
 class  I2cInterfaceRemote : public I2cInterfaceBase
 {
     std::string _dev;
@@ -301,7 +307,7 @@ public:
      * \param address
      * \param buf
      * \param len
-     * \return
+     * \return true on success
      */
     bool  readBlock( int address, uint8_t *buf, int len);
 
@@ -309,7 +315,7 @@ public:
      * \brief blockRead
      * \param buf
      * \param len
-     * \return
+     * \return true on success
      */
     virtual bool blockRead(uint8_t *buf, int len);
 
@@ -317,7 +323,7 @@ public:
      * \brief blockWrite
      * \param buf
      * \param len
-     * \return
+     * \return true on success
      */
     virtual bool blockWrite(const uint8_t *buf, int len);
 

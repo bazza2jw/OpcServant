@@ -263,7 +263,7 @@ public:
      * \param addr
      * \param nb
      * \param ret
-     * \return
+     * \return true on success
      */
     bool readInputRegisters(int slave, int addr, int nb, uint16_t *res) {
         if (setSlave(slave)) {
@@ -283,7 +283,7 @@ public:
 
         @param coil_addr
         @param status
-        @return int
+        @return true on success
     */
     bool writeBit(int slave, int coil_addr, int status) {
         if(setSlave(slave))
@@ -300,7 +300,7 @@ public:
 
         @param reg_addr
         @param value
-        @return int
+        @return true on success
     */
     bool writeRegister(int slave, int reg_addr, int value) {
         _lastError = -1;
@@ -319,7 +319,7 @@ public:
 
         @param addr
         @param data
-        @return int
+        @return true on success
     */
     bool writeBits(int slave, int addr, ModbusCoilArray &data) {
         if(setSlave(slave))
@@ -340,7 +340,7 @@ public:
 
         @param addr
         @param data
-        @return int
+        @return true on success
     */
     bool writeRegisters(int slave, int addr, ModbusRegisterArray &data) {
         uint16_t *p = (uint16_t *)(data.data());
@@ -352,7 +352,7 @@ public:
      * \param slave
      * \param addr
      * \param data
-     * \return
+     * \return true on success
      */
     bool writeRegisters(int slave, int addr, int size, const uint16_t *data) {
         if(setSlave(slave))

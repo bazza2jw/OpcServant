@@ -58,7 +58,9 @@ MRL::SQLiteDB::~SQLiteDB()
     delete pSQLiteConn;
 }
 
-
+/*!
+ * \brief MRL::SQLiteDB::getErrString
+ */
 void MRL::SQLiteDB::getErrString() {
     m_strLastError = std::string(sqlite3_errmsg(pSQLiteConn->pCon));
 }
@@ -74,7 +76,7 @@ void MRL::SQLiteDB::CloseConnection()
 
 /*!
  * \brief MRL::SQLiteDB::GetLastError
- * \return
+ * \return string form last error
  */
 std::string MRL::SQLiteDB::GetLastError()
 {
@@ -84,7 +86,7 @@ std::string MRL::SQLiteDB::GetLastError()
 
 /*!
  * \brief MRL::SQLiteDB::isConnected
- * \return
+ * \return true if connected
  */
 bool   MRL::SQLiteDB::isConnected()
 {
@@ -96,7 +98,7 @@ bool   MRL::SQLiteDB::isConnected()
  * \brief MRL::SQLiteDB::OpenConnection
  * \param DatabaseName
  * \param DatabaseDir
- * \return
+ * \return true on success
  */
 bool MRL::SQLiteDB::OpenConnection(std::string DatabaseName, std::string DatabaseDir, int cache)
 {
@@ -157,7 +159,7 @@ void MRL::SQLiteDB::CommitTransaction()
 /*!
  * \brief MRL::SQLiteDB::ExecuteSelect
  * \param Query
- * \return
+ * \return the result structure
  */
 MRL::IResult*  MRL::SQLiteDB::ExecuteSelect(const std::string &Query)
 {
@@ -204,7 +206,7 @@ unsigned MRL::SQLiteDB::Execute(const std::string &Query)
 /*Result Set Definations*/
 /*!
  * \brief MRL::SQLiteDB::GetColumnCount
- * \return
+ * \return number of cols
  */
 int	MRL::SQLiteDB::GetColumnCount()
 {
@@ -214,7 +216,7 @@ int	MRL::SQLiteDB::GetColumnCount()
 /*!
  * \brief MRL::SQLiteDB::NextColumnName
  * \param iClmnCount
- * \return
+ * \return name of column
  */
 const char* MRL::SQLiteDB::NextColumnName(int iClmnCount)
 {
@@ -225,7 +227,7 @@ const char* MRL::SQLiteDB::NextColumnName(int iClmnCount)
 
 /*!
  * \brief MRL::SQLiteDB::Next
- * \return
+ * \return true if record fetched
  */
 bool MRL::SQLiteDB:: Next()
 {
@@ -236,7 +238,7 @@ bool MRL::SQLiteDB:: Next()
 /*!
  * \brief MRL::SQLiteDB::ColumnData
  * \param clmNum
- * \return
+ * \return data for column
  */
 const char*  MRL::SQLiteDB::ColumnData(int clmNum)
 {

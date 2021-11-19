@@ -16,7 +16,7 @@
 /*!
  * \brief MRL::Mics6814TypeObject::addChildren
  * \param parent
- * \return
+ * \return true on success
  */
 bool MRL::Mics6814TypeObject::addChildren(const Open62541::NodeId &parent)
 {
@@ -41,7 +41,7 @@ bool MRL::Mics6814TypeObject::addChildren(const Open62541::NodeId &parent)
  * \param nodeId
  * \param requestNodeId
  * \param context
- * \return
+ * \return true on success
  */
 bool MRL::Mics6814TypeObject::addInstance(const std::string &n,
                          const Open62541::NodeId &parent,

@@ -23,7 +23,7 @@
     \param node
     \param range
     \param value
-    \return
+    \return true on success
 */
 bool MRL::ICPCON7065NodeContext::readData(Open62541::Server &/*server*/,
                                      Open62541::NodeId &/*node*/, const UA_NumericRange * /*range*/,
@@ -48,7 +48,7 @@ bool MRL::ICPCON7065NodeContext::readData(Open62541::Server &/*server*/,
     \param node
     \param range
     \param value
-    \return
+    \return true on success
 */
 bool MRL::ICPCON7065NodeContext::writeData(Open62541::Server &/*server*/,  Open62541::NodeId &node,
                                       const UA_NumericRange * /*range*/, const UA_DataValue &value) {

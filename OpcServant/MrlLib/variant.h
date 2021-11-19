@@ -55,7 +55,7 @@ MRLLIBSHARED_EXPORT wxDataOutputStream &operator << (wxDataOutputStream &, const
     \brief operator >>
     \param is
     \param f
-    \return
+    \return stream
 */
 inline wxDataInputStream &operator  >> (wxDataInputStream &is, bool &f) {
     char c = is.Read8();
@@ -67,7 +67,7 @@ inline wxDataInputStream &operator  >> (wxDataInputStream &is, bool &f) {
     \brief operator <<
     \param os
     \param c
-    \return
+    \return stream
 */
 inline wxDataOutputStream &operator << (wxDataOutputStream &os, char c) {
     os.Write8(c);
@@ -78,7 +78,7 @@ inline wxDataOutputStream &operator << (wxDataOutputStream &os, char c) {
     \brief operator >>
     \param is
     \param c
-    \return
+    \return stream
 */
 inline wxDataInputStream &operator  >> (wxDataInputStream &is, char &c) {
     c = is.Read8();
@@ -89,7 +89,7 @@ inline wxDataInputStream &operator  >> (wxDataInputStream &is, char &c) {
     \brief operator <<
     \param os
     \param f
-    \return
+    \return stream
 */
 inline wxDataOutputStream &operator << (wxDataOutputStream &os, bool f) {
     os.Write8(f ? 1 : 0);

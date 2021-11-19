@@ -16,6 +16,8 @@
 //
 // create static instances of each command handler
 //
+
+// Handle a set and output
 static class SetOutput : public MRL::MqttCommand
 {
 public:

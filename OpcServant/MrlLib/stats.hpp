@@ -38,7 +38,10 @@ namespace MRL {
                 _lastValue = _sum = _sumSquares = _minimum = _maximum = 0.0;
                 _numberSamples = 0;
             }
-
+            /*!
+             * \brief setValue
+             * \param v
+             */
 
             void setValue(double v) {
                 _lastValue = v;
@@ -231,7 +234,7 @@ namespace MRL {
             /*!
                 \brief toJson
                 \param v
-                \return
+                \return true on success
             */
             virtual bool toJson(Json::Value &v) {
                 v["LastValue"] = lastValue;
@@ -275,7 +278,11 @@ namespace MRL {
                 v["TrendCountLimit"] = _trendCountLimit;
                 return true;
             }
-
+            /*!
+             * \brief fromJson
+             * \param v
+             * \return true on success
+             */
             virtual bool fromJson(Json::Value &v) {
                 clear();
                 lastValue = v["LastValue"].asDouble();

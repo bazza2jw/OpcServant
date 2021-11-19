@@ -12,7 +12,13 @@
 #include "i2cinterface.h"
 #include <wx/socket.h>
 
-
+/*!
+ * \brief MRL::I2cInterfaceBase::makeI2c
+ * \param type
+ * \param i2c
+ * \param address
+ * \param port
+ */
 void MRL::I2cInterfaceBase::makeI2c(Type type, Ptr &i2c,const std::string &address , int port ) {
     switch(type)
     {
@@ -118,7 +124,7 @@ MRL::I2cInterfaceRemote::~I2cInterfaceRemote()
   * \param address
   * \param buf
   * \param len
-  * \return
+  * \return true on success
   */
  bool  MRL::I2cInterfaceRemote::readBlock( int address, uint8_t *buf, int len)
  {
@@ -143,7 +149,7 @@ MRL::I2cInterfaceRemote::~I2cInterfaceRemote()
   * \brief blockRead
   * \param buf
   * \param len
-  * \return
+  * \return true on success
   */
  bool MRL::I2cInterfaceRemote::blockRead(uint8_t *buf, int len)
  {
@@ -166,7 +172,7 @@ MRL::I2cInterfaceRemote::~I2cInterfaceRemote()
   * \brief blockWrite
   * \param buf
   * \param len
-  * \return
+  * \return true on success
   */
  bool MRL::I2cInterfaceRemote::blockWrite(const uint8_t *buf, int len)
  {

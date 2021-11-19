@@ -12,6 +12,11 @@
 #include "ICPCON7017SetupDialog.h"
 #include "icpcon7017objectmanager.h"
 
+/*!
+ * \brief ICPCON7017SetupDialog::ICPCON7017SetupDialog
+ * \param parent
+ * \param path
+ */
 ICPCON7017SetupDialog::ICPCON7017SetupDialog(wxWindow* parent, const MRL::PropertyPath &path)
     : SetupNodeSerial(parent,path)
 {

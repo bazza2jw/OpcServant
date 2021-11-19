@@ -16,10 +16,8 @@
 #include <Wt/WSpinBox.h>
 #include <Wt/WPushButton.h>
 /*!
-    \brief SimulatorConfigurationWebForm
-    \param path
-    \return
-*/
+ * \brief MRL::SimulatorConfigurationWebForm::setup
+ */
 void MRL::SimulatorConfigurationWebForm::setup() {
 
     setWindowTitle("Simulator Configuration");

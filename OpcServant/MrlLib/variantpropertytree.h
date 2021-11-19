@@ -18,12 +18,23 @@
 
 namespace MRL {
 
-
+/*!
+ * \brief valueToString
+ * \param v
+ * \return value of string
+ */
 inline const std::string valueToString(const MRL::Variant &v) {
     return toString(v);
 }
 
-template <typename T> const T &valueToType(const MRL::Variant &v) {
+
+template <typename T>
+/*!
+ * \brief valueToType
+ * \param v
+ * \return value
+ */
+const T &valueToType(const MRL::Variant &v) {
     return boost::get<T>(v);
 }
 
@@ -118,7 +129,7 @@ public:
      * \brief getAsWxString
      * \param p
      * \param s
-     * \return
+     * \return value as wxString
      */
     wxString getAsWxString(MRL::PropertyPath &p, const std::string &s) {
         try {
@@ -138,7 +149,7 @@ public:
     /*!
         \brief getAsWxString
         \param path
-        \return
+        \return value as string
     */
     std::string getAsString(P path) {
         try {
@@ -159,7 +170,7 @@ public:
     /*!
         \brief getAsString
         \param path
-        \return
+        \return value as string
     */
     std::string getAsString(MRL::PropertyPath &p, const std::string &s) {
         try {
@@ -180,7 +191,7 @@ public:
     /*!
         \brief getValue
         \param path
-        \return
+        \return value or T()
     */
     T getValue(P path) {
         try {
@@ -203,7 +214,7 @@ public:
     /*!
         \brief getValue
         \param path
-        \return
+        \return value or T()
     */
     T getValue(MRL::PropertyPath &p, const std::string &c) {
         if (!c.empty()) {
@@ -251,7 +262,7 @@ public:
     /*!
         \brief MRL::VariantPropertyTree::load
         \param file
-        \return
+        \return true on success
     */
     bool load(const std::string &file) { // load from file
         try {
@@ -271,7 +282,7 @@ public:
     /*!
         \brief MRL::VariantPropertyTree::save
         \param file
-        \return
+        \return true on success
     */
     bool save(const std::string &file) { // save to file
         try {

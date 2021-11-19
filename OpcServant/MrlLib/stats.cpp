@@ -12,6 +12,10 @@
 #include "stats.hpp"
 // Statistics class
 //
+/*!
+ * \brief MRL::Statistics::setValue
+ * \param v
+ */
 void MRL::Statistics::setValue(double v)
 {
     updateTime = wxDateTime::Now();
@@ -91,7 +95,7 @@ void MRL::Statistics::setValue(double v)
  * \brief MRL::Statistics::tval
  * \param p
  * \param df
- * \return
+ * \return tvalue
  */
 double MRL::Statistics::tval(double p, int df)
 {
@@ -122,7 +126,7 @@ double MRL::Statistics::tval(double p, int df)
 
 /*!
  * \brief StatisticsThresholdSet::spcAlarmTriggered
- * \return
+ * \return spc trigger state
  */
 int MRL::Statistics::spcAlarmTriggered()
 {

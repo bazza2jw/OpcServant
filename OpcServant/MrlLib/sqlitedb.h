@@ -128,7 +128,9 @@ private:
     void Release();
 
 };
-
+/*!
+ * \brief The SqlLiteStatement class
+ */
 class MRLLIBSHARED_EXPORT SqlLiteStatement {
     SQLiteDB *_db = nullptr;
     sqlite3_stmt *_stmt = nullptr;
@@ -240,7 +242,7 @@ public:
 
     /*!
         \brief ok
-        \return
+        \return true if db ok
     */
     bool ok() {
         return _db && _stmt;
@@ -250,7 +252,7 @@ public:
         \brief bindText
         \param i
         \param s
-        \return
+        \return true on success
     */
 
     bool bindText(int i, const char *s) {
@@ -262,7 +264,7 @@ public:
         \brief bindString
         \param i
         \param s
-        \return
+        \return true on success
     */
     bool bindString(int i, const std::string &s) {
         return (i > 0) && ok() && (sqlite3_bind_text(_stmt, i, s.c_str(), s.size(), SQLITE_TRANSIENT) == SQLITE_OK);
@@ -272,7 +274,7 @@ public:
         \brief bindInt
         \param i
         \param v
-        \return
+        \return true on success
     */
     bool bindInt(int i, int v) {
         return (i > 0) && ok() && (sqlite3_bind_int(_stmt, i, v) != SQLITE_OK);
@@ -292,7 +294,7 @@ public:
         \brief bindDouble
         \param i
         \param v
-        \return
+        \return true on success
     */
     bool bindDouble(int i, double v) {
         return (i > 0) && ok() && (sqlite3_bind_double(_stmt, i, v) != SQLITE_OK);
@@ -301,7 +303,7 @@ public:
     /*!
         \brief bindNull
         \param i
-        \return
+        \return true on success
     */
     bool bindNull(int i) {
         return (i > 0) && ok() && (sqlite3_bind_null(_stmt, i) != SQLITE_OK);
@@ -311,14 +313,19 @@ public:
         \brief bindDateTime
         \param i
         \param t
-        \return
+        \return true on success
     */
     bool bindDateTime(int i, const wxDateTime &t) {
         std::string s = t.FormatISOCombined().ToStdString();
         return bindString(i, s);
     }
 
-
+    /*!
+     * \brief bindDateTime
+     * \param i
+     * \param t
+     * \return true on success
+     */
     bool bindDateTime(int i, time_t &t) {
         wxDateTime dt(t);
         return bindDateTime(i,dt);
@@ -327,7 +334,7 @@ public:
 
     /*!
         \brief lastError
-        \return
+        \return last error string
     */
     const char *lastError() {
         return _db ? sqlite3_errmsg(_db->getConnection()) : "No Database";

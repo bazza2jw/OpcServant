@@ -31,7 +31,7 @@
 
 /*!
     \brief OnInit
-    \return
+    \return true on success
 */
 bool MRL::BuiApp::OnInit() {
     try {
@@ -220,7 +220,7 @@ void MRL::BuiApp::OnInitCmdLine(wxCmdLineParser &parser) {
 /*!
     \brief OnCmdLineParsed
     \param parser
-    \return
+    \return true on success
 */
 bool MRL::BuiApp::OnCmdLineParsed(wxCmdLineParser &parser) {
     // Override flags
@@ -234,7 +234,7 @@ bool MRL::BuiApp::OnCmdLineParsed(wxCmdLineParser &parser) {
 
 /*!
     \brief OnExit
-    \return
+    \return exit code
 */
 int  MRL::BuiApp::OnExit() {
     wxLogDebug("OnExit()");

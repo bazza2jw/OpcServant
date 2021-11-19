@@ -75,16 +75,28 @@ void STATES::States::initialiseStates()
 
 }
 
+/*!
+ * \brief STATES::States::getIcon
+ * \return bitmap for icon
+ */
 const wxBitmap &STATES::States::getIcon()
 {
     return _images->Bitmap(iconName);
 }
 
+/*!
+ * \brief STATES::States::loadStates
+ * \return true on success
+ */
 bool STATES::States::loadStates(const std::string & /*s*/)
 {
 	return false;
 }
 
+/*!
+ * \brief STATES::States::saveStates
+ * \return true on success
+ */
 bool STATES::States::saveStates(const std::string &/*fileName*/)
 {
     return false;
@@ -92,6 +104,11 @@ bool STATES::States::saveStates(const std::string &/*fileName*/)
 
 
 // translate  from statistics state to state name
+/*!
+ * \brief STATES::States::StatisticStateToState
+ * \param st
+ * \return
+ */
 std::string STATES::States::StatisticStateToState(MRL::StatisticsThresholdSet &st)
 {
     std::string  res = STATE_OK;

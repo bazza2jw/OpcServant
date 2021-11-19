@@ -14,7 +14,7 @@
 /*!
  * \brief MRL::SimulatorTypeObject::addChildren
  * \param parent
- * \return
+ * \return true on success
  */
 bool MRL::OPCN3TypeObject::addChildren(const Open62541::NodeId &parent)
 {

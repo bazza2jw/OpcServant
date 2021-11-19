@@ -49,7 +49,7 @@ namespace MRL {
             /*!
                 \brief getPointer
                 \param path
-                \return
+                \return pointer to value or null
             */
             T *getPointer(P path) {
                 T *ret = nullptr;
@@ -64,7 +64,7 @@ namespace MRL {
             /*!
                 \brief getPointer
                 \param n
-                \return
+                \return pointer to value or null
             */
             T *getPointer(ValueNode *n) {
                 T *ret = nullptr;

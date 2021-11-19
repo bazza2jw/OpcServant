@@ -18,8 +18,6 @@
 namespace MRL
 {
 
-
-
 /*!
      * \brief The MQTTRT class
      */

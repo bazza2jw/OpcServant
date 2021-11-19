@@ -34,7 +34,7 @@ struct ScaleOffset
     double current() const { return _current;}
     double unscale(double v)
     {
-        if(_scale != 0) return (v - _offset)/_scale;
+        if(_scale != 0) return (v - _offset)/_scale; // inverse scaling
         return 0.0;
     }
 

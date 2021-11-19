@@ -61,11 +61,11 @@ namespace STATES {
     constexpr const char *STATE_QUALITY_GOOD = "Good";
     constexpr const char *STATE_QUALITY_BAD = "Bad";
 
-    /**
-        @brief
 
-    */
-    class  MRLLIBSHARED_EXPORT States {
+/*!
+ * \brief The States class
+ */
+class  MRLLIBSHARED_EXPORT States {
 
             std::string name;//!< state name
 
@@ -296,7 +296,7 @@ namespace STATES {
                 @brief
 
                 @param st
-                @return QString
+                @return String
             */
             static std::string  StatisticStateToState(MRL::StatisticsThresholdSet &st);
     };

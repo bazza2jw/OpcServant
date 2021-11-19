@@ -35,7 +35,7 @@ namespace MRL {
             /*!
              * \brief makePacket
              * \param fmt
-             * \return
+             * \return packet
              */
             static std::string  makePacket( int node, const char *fmt)
             {

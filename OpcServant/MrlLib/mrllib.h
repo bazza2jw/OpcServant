@@ -62,7 +62,7 @@ namespace MRL {
     /*!
         \brief isType
         \param a
-        \return
+        \return true if any type is type
     */
     inline bool isType(boost::any &a) {
         return a.type().hash_code() == typeid(T).hash_code();
@@ -71,13 +71,13 @@ namespace MRL {
     /*!
         \brief stringToBool
         \param s
-        \return
+        \return true on success
     */
     MRLLIBSHARED_EXPORT bool stringToBool(const std::string &s);
     /*!
      * \brief boolToString
      * \param f
-     * \return
+     * \return True or False
      */
     inline const char * boolToString(bool f) { return f?"True":"False";}
 
@@ -85,7 +85,7 @@ namespace MRL {
         \brief stringToXml
         \param s
         \param doc
-        \return
+        \return true on success
     */
     inline bool stringToXml(const std::string &s, wxXmlDocument &doc) {
         wxString in(s);
@@ -97,7 +97,7 @@ namespace MRL {
         \brief xmlToString
         \param doc
         \param s
-        \return
+        \return true on success
     */
     inline bool xmlToString(wxXmlDocument &doc, std::string &s) {
         wxString out;
@@ -111,7 +111,7 @@ namespace MRL {
         \brief stringToJson
         \param s
         \param v
-        \return
+        \return true on success
     */
     inline bool stringToJson(const std::string &s, Json::Value &v) {
         if (!s.empty()) {
@@ -133,7 +133,7 @@ namespace MRL {
         \brief jsonToString
         \param v
         \param s
-        \return
+        \return true on success
     */
     inline bool jsonToString(Json::Value &v, std::string &s) {
         try {
@@ -152,7 +152,7 @@ namespace MRL {
      * \brief toLong
      * \param l
      * \param h
-     * \return
+     * \return unsinged long
      */
     inline uint32_t  toLong(uint16_t l, uint16_t h)
     {
@@ -183,7 +183,7 @@ namespace MRL {
    /*!
     * \brief GetChoice
     * \param c
-    * \return
+    * \return current selection
     */
    std::string GetChoice(Wt::WComboBox *c);
 
@@ -192,7 +192,7 @@ namespace MRL {
    /*!
      * \brief toFloat
      * \param s
-     * \return
+     * \return float value
      */
     inline float toFloat(const wxString &s)
     {
@@ -203,7 +203,7 @@ namespace MRL {
     /*!
      * \brief toShort
      * \param s
-     * \return
+     * \return short value
      */
     inline uint16_t toShort(const wxString &s)
     {
@@ -239,13 +239,14 @@ namespace MRL {
     /*!
      * \brief getSerialPortList
      * \param sp
-     * \return
+     * \return number of ports found
      */
     int getSerialPortList(std::list<std::string> &sp);
 
 
     typedef std::map<std::string, std::string> StringMap;
 
+    // separator used to separate path and input
 #define TAG_SEPERATOR ":"
 
 

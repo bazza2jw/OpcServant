@@ -15,7 +15,7 @@
 /*!
  * \brief MRL::ValueTypeObject::addChildren
  * \param parent
- * \return
+ * \return true on success
  */
 bool MRL::ValueTypeObject::addChildren(const Open62541::NodeId &parent)
 {
@@ -34,7 +34,7 @@ bool MRL::ValueTypeObject::addChildren(const Open62541::NodeId &parent)
  * \param nodeId
  * \param requestNodeId
  * \param context
- * \return
+ * \return true on success
  */
 bool MRL::ValueTypeObject::addInstance(const std::string &n,
                          const Open62541::NodeId &parent,

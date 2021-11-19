@@ -17,7 +17,7 @@
 /*!
  * \brief MRL::SPS30TypeObject::addChildren
  * \param parent
- * \return
+ * \return true on success
  */
 bool MRL::SPS30TypeObject::addChildren(const Open62541::NodeId &parent)
 {
@@ -39,7 +39,7 @@ bool MRL::SPS30TypeObject::addChildren(const Open62541::NodeId &parent)
  * \param nodeId
  * \param requestNodeId
  * \param context
- * \return
+ * \return true on success
  */
 bool MRL::SPS30TypeObject::addInstance(const std::string &n,
                          const Open62541::NodeId &parent,
