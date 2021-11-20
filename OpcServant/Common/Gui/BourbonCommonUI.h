@@ -347,7 +347,7 @@ protected:
 
 public:
     wxPropertyGridManager* GetPropertySheet() { return m_PropertySheet; }
-    ConfigurationPropertySheetBase(wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Configuration"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize(500,300), long style = wxDEFAULT_DIALOG_STYLE);
+    ConfigurationPropertySheetBase(wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Configuration"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize(500,300), long style = wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER);
     virtual ~ConfigurationPropertySheetBase();
 };
 

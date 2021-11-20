@@ -351,7 +351,7 @@ public:
     wxButton* GetButtonDelete() { return m_buttonDelete; }
     wxPanel* GetPanel529() { return m_panel529; }
     wxPanel* GetPanel517() { return m_panel517; }
-    UserConfigurationDialogBase(wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("User Configuration"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize(800,500), long style = wxDEFAULT_DIALOG_STYLE);
+    UserConfigurationDialogBase(wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("User Configuration"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize(800,500), long style = wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER);
     virtual ~UserConfigurationDialogBase();
 };
 
@@ -403,7 +403,7 @@ public:
     wxButton* GetButton585() { return m_button585; }
     wxButton* GetButton587() { return m_button587; }
     wxButton* GetButton589() { return m_button589; }
-    PinEntryDialogBase(wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("PIN Entry"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize(500,500), long style = wxDEFAULT_DIALOG_STYLE);
+    PinEntryDialogBase(wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("PIN Entry"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize(500,500), long style = wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER);
     virtual ~PinEntryDialogBase();
 };
 
