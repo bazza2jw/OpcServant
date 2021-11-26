@@ -28,6 +28,16 @@ void MRL::LinkRT::start()
     _ident = configuration().getAsString("Ident");
     _port = configuration().getAsString("Port");
     _host = configuration().getAsString("Host");
+    //
+    _addr.Hostname(_host);
+    _addr.Service(_port);
+    //
+    wxIPV4address addr;
+    addr.AnyAddress();
+    addr.Service(_port);
+    //
+    _socket.reset();
+    _socket = std::make_unique<wxDatagramSocket>(addr); // set up the datagram socket
 }
 
 /*!
@@ -47,22 +57,51 @@ void MRL::LinkRT::stop()
 void MRL::LinkRT::onOneSecond(time_t t)
 {
     RTObject::onOneSecond(t);
-    if(_queue.size() > 0)
+}
+
+/*!
+ * \brief MRL::LinkRT::process
+ */
+void MRL::LinkRT::process()
+{
+    RTObject::process();
+    if(_socket)
     {
-        wxIPV4address addr;
-        addr.Hostname(_host);
-        addr.Service(_port);
-        wxSocketClient client;
-        client.Connect(addr,false);
-        client.WaitOnConnect(0,100);
-        while(_queue.size())
+        while(_socket->IsData())
         {
-            std::string &s = _queue.front();
-            client.Write(s.c_str(),s.length());
+            char b[4096];
+            int n = _socket->Read(b,sizeof(b)).GetLastIOReadSize();
+            b[n] = '\0';
+            std::string s(b);
+            //
+            // process the received message
+            // should be a JSON packet
+            // TBD use the MQTT command handler
+            Json::Value v;
+            if(stringToJson(s,v))
+            {
+                Json::Value &op = v["action"];
+                std::string o = op.asString();
+                MqttCommand *c = MqttConnection::find(o);
+                if(c)
+                {
+                    c->action(_dummy,_ident,v);
+                }
+            }
+
         }
-        client.Close();
+        if(_queue.size() > 0)
+        {
+            while(_queue.size())
+            {
+                std::string &s = _queue.front();
+                _socket->SendTo(_addr,s.c_str(),s.length());
+                _queue.pop();
+            }
+        }
     }
 }
+
 
 /*!
  * \brief MRL::LinkRT::publishQueueItem
@@ -110,19 +149,23 @@ void MRL::LinkRT::publishQueueItem(const MRL::Message &msg) {
                         // filter - either empty string or look for string within source name
                         if ((_filter.length() < 1) || (_filter == "*") || (src.find(_filter) != std::string::npos)) {
                             //
-                            std::stringstream ss;
-                            //
                             std::string alias = MRL::Common::findReverseAlias(src);
-                            //const std::string &alias = am[src];
                             // does this map onto an alias? - if so translate
                             if(!alias.empty())
                             {
                                 src = alias;
                             }
                             //
+                            Json::Value jv;
                             std::string item =  "/" + _ident + "/" + src;
-                            ss << item << "," << v << "," << id << "\n";
-                            _queue.push(ss.str());
+                            jv["Ident"]  = item;
+                            jv["Value"] = v;
+                            jv["Id"] = id;
+                            //
+                            std::string ss;
+                            jsonToString(jv,ss);
+                            //
+                            _queue.push(ss);
                         }
                     }
                 }

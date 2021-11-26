@@ -45,7 +45,7 @@ namespace MRL
              * \param host
              * \param port
              */
-            MqttConnection(const char *id);
+            MqttConnection(const char *id = "");
             /*!
               */
             ~MqttConnection();

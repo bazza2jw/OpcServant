@@ -11,6 +11,7 @@ set(LIB_SOURCES
     LinkSetupDialog.cpp
     LinkUI_Link_bitmaps.cpp
     Linkwebsetupdialog.cpp
+    LinkUI.cpp
 )
 
 set(PROJECT_LIB_FLAGS Common MrlLib)

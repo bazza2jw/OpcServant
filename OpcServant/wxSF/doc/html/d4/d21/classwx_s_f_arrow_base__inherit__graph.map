@@ -1,7 +1,0 @@
-<map id="G" name="G">
-<area shape="rect" id="node5" href="$d6/dab/classwx_s_f_open_arrow.html" title="Class extends the wxSFArrowBase class and encapsulates arrow shape consisting of single two lines lea..." alt="" coords="5,160,128,189"/>
-<area shape="rect" id="node7" href="$d7/d98/classwx_s_f_solid_arrow.html" title="Class extends the wxSFArrowBase class and encapsulates arrow shape consisting of a solid triangle poi..." alt="" coords="152,160,272,189"/>
-<area shape="rect" id="node2" href="$de/d26/classxs_serializable.html" title="Base class encapsulating object which can be serialized/deserialized to/from XML file (disk file or a..." alt="" coords="84,5,193,35"/>
-<area shape="rect" id="node9" href="$da/d96/classwx_s_f_circle_arrow.html" title="Class extends the wxSFSolidBase class and encapsulates arrow shape consisting of a filled circle loca..." alt="" coords="69,237,195,267"/>
-<area shape="rect" id="node11" href="$d5/d7b/classwx_s_f_diamond_arrow.html" title="Class extends the wxSFSolidArrow class and encapsulates arrow shape consisting of filled diamond loca..." alt="" coords="219,237,365,267"/>
-</map>

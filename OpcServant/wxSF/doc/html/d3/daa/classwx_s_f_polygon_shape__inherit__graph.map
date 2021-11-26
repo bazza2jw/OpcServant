@@ -1,5 +1,0 @@
-<map id="G" name="G">
-<area shape="rect" id="node7" href="$d4/d6a/classwx_s_f_diamond_shape.html" title="Class encapsulating the diamond shape. It extends the basic polygon shape." alt="" coords="5,237,157,267"/>
-<area shape="rect" id="node2" href="$db/d0e/classwx_s_f_rect_shape.html" title="Class encapsulates basic rectangle shape which is used as a base class for many other shapes that can..." alt="" coords="20,83,143,112"/>
-<area shape="rect" id="node4" href="$da/d88/classwx_s_f_shape_base.html" title="Base class for all shapes providing fundamental functionality and publishing set of virtual functions..." alt="" coords="19,5,144,35"/>
-</map>

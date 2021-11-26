@@ -13,6 +13,8 @@
 #define LinkRT_H
 #include <Common/Daq/rtobject.h>
 #include <wx/socket.h>
+#include <Common/MQTT/mqttconnection.h>
+
 
 namespace MRL {
     // runtime Link object
@@ -21,14 +23,21 @@ namespace MRL {
      */
     class LinkRT : public RTObject
     {
+        MqttConnection _dummy;
         std::string _filter = "*"; // filter on source path
-        std::string _port = "1883"; // server port
+        std::string _port = "10000"; // server port
         std::string _ident = "OPCSERVANT";
         std::string _host = "localhost";
         //
         PropertyPath _path; // where in the models the object data goes
         std::queue<std::string> _queue;
         //
+        std::unique_ptr<wxDatagramSocket> _socket;
+        wxIPV4address _addr;
+        //
+        virtual bool useProcessTimer() {
+            return true;   // used to drive state machines
+        }
 
     public:
         LinkRT(int id) : RTObject(id)
@@ -50,6 +59,7 @@ namespace MRL {
          */
         void publishQueueItem(const Message &msg);
 
+        void process();
         /*!
          * \brief onOneSecond
          * \param t

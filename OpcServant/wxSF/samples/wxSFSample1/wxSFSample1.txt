@@ -1,1 +1,0 @@
-.objsud/wxSFSample1Main.o .objsud/wx_pch.o .objsud/wxSFSample1App.o

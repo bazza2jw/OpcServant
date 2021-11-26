@@ -1,5 +1,0 @@
-<map id="G" name="G">
-<area shape="rect" id="node6" href="$db/d44/classwx_s_f_shape_canvas.html" title="Class encapsulating a Shape canvas. The shape canvas is window control which extends the wxScrolledWi..." alt="" coords="11,101,153,131"/>
-<area shape="rect" id="node2" href="$d7/d2d/classwx_s_f_canvas_state.html" title="Class which stores one saved state of the shape canvas. The instaces of this class are managed by the..." alt="" coords="159,293,295,323"/>
-<area shape="rect" id="node4" href="$d2/d22/classwx_s_f_diagram_manager.html" title="Class encapsulating framework&#39;s data layer. Its functions are responsible for managing shape objects ..." alt="" coords="75,197,241,227"/>
-</map>

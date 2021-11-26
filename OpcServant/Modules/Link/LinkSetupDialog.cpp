@@ -35,6 +35,14 @@ LinkSetupDialog::LinkSetupDialog(wxWindow* parent, const MRL::PropertyPath &path
         GetPort()->SetValue(pt.asInt());
         GetEnable()->SetValue(ei.asBool());
     }
+    else
+    {
+        GetHost()->SetValue("localhost");
+        GetIdent()->SetValue("OPCSERVANT");
+        GetFilter()->SetValue("*");
+        GetPort()->SetValue(10001);
+        GetEnable()->SetValue(false);
+    }
 }
 
 /*!

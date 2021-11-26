@@ -1,7 +1,0 @@
-<map id="G" name="G">
-<area shape="rect" id="node1" href="$d9/d29/classwx_s_f_layout_algorithm.html" title="Base class for all layouting algorithms. The class containts one abstract function modifying shapes&#39; ..." alt="" coords="7,85,164,115"/>
-<area shape="rect" id="node3" href="$d8/d1e/classwx_s_f_layout_circle.html" title="Class encapsulating algorithm which layouts all top&#45;most shapes into circle registered under &quot;Circle..." alt="" coords="243,5,373,35"/>
-<area shape="rect" id="node5" href="$d0/d47/classwx_s_f_layout_horizontal_tree.html" title="Class encapsulating algorithm which layouts all top&#45;most shapes into horizontal tree registered under..." alt="" coords="215,59,401,88"/>
-<area shape="rect" id="node7" href="$d9/dc3/classwx_s_f_layout_mesh.html" title="Class encapsulating algorithm which layouts all top&#45;most shapes into mesh registered under &quot;Mesh&quot; n..." alt="" coords="243,112,373,141"/>
-<area shape="rect" id="node9" href="$db/d25/classwx_s_f_layout_vertical_tree.html" title="Class encapsulating algorithm which layouts all top&#45;most shapes into vertical tree registered under &quot;..." alt="" coords="223,165,393,195"/>
-</map>

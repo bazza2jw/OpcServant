@@ -14,6 +14,8 @@
 #include <Common/objectmanager.h>
 #include <Common/Gui/SetupDialog.h>
 #include <Common/Web/webpanel.h>
+#include "LinkSetupDialog.h"
+#include "Linkwebsetupdialog.h"
 #include "Linkrt.h"
 
 namespace MRL
@@ -21,7 +23,7 @@ namespace MRL
 /*!
      * \brief The LinkObjectManager class
      */
-typedef ObjectManagerRT<LinkRT,SetupNetworkDialog,ConfigurationNetworkWebDialog> LinkObjectManagerBase;
+typedef ObjectManagerPublisher<LinkRT,LinkSetupDialog,MRL::LinkWebSetupDialog> LinkObjectManagerBase;
 
 class LinkObjectManager : public LinkObjectManagerBase
 {
