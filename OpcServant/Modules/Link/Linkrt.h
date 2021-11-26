@@ -40,7 +40,7 @@ namespace MRL {
         }
 
     public:
-        LinkRT(int id) : RTObject(id)
+        LinkRT(int id) : RTObject(id),_dummy("DUMMY")
         {
             Daq::instance()->publishMessage().connect(this, &LinkRT::publishQueueItem);
         }
