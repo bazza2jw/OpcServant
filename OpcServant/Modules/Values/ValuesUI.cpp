@@ -281,9 +281,11 @@ ValueGroupConfigurationDialogBase::ValueGroupConfigurationDialogBase(wxWindow* p
     
     gridBagSizer94->Add(m_button116, wxGBPosition(3,1), wxGBSpan(1,1), wxALL, WXC_FROM_DIP(5));
     
-    flexGridSizer122 = new wxFlexGridSizer(0, 5, 0, 0);
+    flexGridSizer122 = new wxFlexGridSizer(0, 4, 0, 0);
     flexGridSizer122->SetFlexibleDirection( wxBOTH );
     flexGridSizer122->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
+    flexGridSizer122->AddGrowableCol(1);
+    flexGridSizer122->AddGrowableCol(3);
     
     gridBagSizer94->Add(flexGridSizer122, wxGBPosition(4,0), wxGBSpan(1,1), wxALL|wxEXPAND, WXC_FROM_DIP(5));
     
@@ -306,6 +308,42 @@ ValueGroupConfigurationDialogBase::ValueGroupConfigurationDialogBase(wxWindow* p
     m_publishInterval->SetValue(60);
     
     flexGridSizer122->Add(m_publishInterval, 0, wxALL, WXC_FROM_DIP(5));
+    
+    m_staticText299 = new wxStaticText(m_panel86, wxID_ANY, _("OK Output"), wxDefaultPosition, wxDLG_UNIT(m_panel86, wxSize(-1,-1)), 0);
+    
+    flexGridSizer122->Add(m_staticText299, 0, wxALL, WXC_FROM_DIP(5));
+    
+    wxArrayString m_okOutputArr;
+    m_okOutput = new wxChoice(m_panel86, wxID_ANY, wxDefaultPosition, wxDLG_UNIT(m_panel86, wxSize(-1,-1)), m_okOutputArr, 0);
+    
+    flexGridSizer122->Add(m_okOutput, 0, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    
+    m_staticText303 = new wxStaticText(m_panel86, wxID_ANY, _("Alert Output"), wxDefaultPosition, wxDLG_UNIT(m_panel86, wxSize(-1,-1)), 0);
+    
+    flexGridSizer122->Add(m_staticText303, 0, wxALL, WXC_FROM_DIP(5));
+    
+    wxArrayString m_alertOutputArr;
+    m_alertOutput = new wxChoice(m_panel86, wxID_ANY, wxDefaultPosition, wxDLG_UNIT(m_panel86, wxSize(-1,-1)), m_alertOutputArr, 0);
+    
+    flexGridSizer122->Add(m_alertOutput, 0, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    
+    m_staticText307 = new wxStaticText(m_panel86, wxID_ANY, _("Action Output"), wxDefaultPosition, wxDLG_UNIT(m_panel86, wxSize(-1,-1)), 0);
+    
+    flexGridSizer122->Add(m_staticText307, 0, wxALL, WXC_FROM_DIP(5));
+    
+    wxArrayString m_actionOutputArr;
+    m_actionOutput = new wxChoice(m_panel86, wxID_ANY, wxDefaultPosition, wxDLG_UNIT(m_panel86, wxSize(-1,-1)), m_actionOutputArr, 0);
+    
+    flexGridSizer122->Add(m_actionOutput, 0, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    
+    m_staticText311 = new wxStaticText(m_panel86, wxID_ANY, _("Failure Output"), wxDefaultPosition, wxDLG_UNIT(m_panel86, wxSize(-1,-1)), 0);
+    
+    flexGridSizer122->Add(m_staticText311, 0, wxALL, WXC_FROM_DIP(5));
+    
+    wxArrayString m_failureOutputArr;
+    m_failureOutput = new wxChoice(m_panel86, wxID_ANY, wxDefaultPosition, wxDLG_UNIT(m_panel86, wxSize(-1,-1)), m_failureOutputArr, 0);
+    
+    flexGridSizer122->Add(m_failureOutput, 0, wxALL|wxEXPAND, WXC_FROM_DIP(5));
     
     m_enabled = new wxCheckBox(m_panel86, wxID_ANY, _("Enabled"), wxDefaultPosition, wxDLG_UNIT(m_panel86, wxSize(-1,-1)), 0);
     m_enabled->SetValue(false);
@@ -420,4 +458,137 @@ ValueGroupPanelBase::~ValueGroupPanelBase()
     m_periodicTimer->Stop();
     wxDELETE( m_periodicTimer );
 
+}
+
+AlarmGroupConfigurationDialogBase::AlarmGroupConfigurationDialogBase(wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style)
+    : wxDialog(parent, id, title, pos, size, style)
+{
+    if ( !bBitmapLoaded ) {
+        // We need to initialise the default bitmap handler
+        wxXmlResource::Get()->AddHandler(new wxBitmapXmlHandler);
+        wxCrafterxH0hAmInitBitmapResources();
+        bBitmapLoaded = true;
+    }
+    
+    boxSizer233 = new wxBoxSizer(wxVERTICAL);
+    this->SetSizer(boxSizer233);
+    
+    m_panel241 = new wxPanel(this, wxID_ANY, wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), wxTAB_TRAVERSAL);
+    
+    boxSizer233->Add(m_panel241, 1, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    
+    boxSizer243 = new wxBoxSizer(wxHORIZONTAL);
+    m_panel241->SetSizer(boxSizer243);
+    
+    boxSizer269 = new wxBoxSizer(wxVERTICAL);
+    
+    boxSizer243->Add(boxSizer269, 1, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    
+    wxArrayString m_valueListArr;
+    m_valueList = new wxListBox(m_panel241, wxID_ANY, wxDefaultPosition, wxDLG_UNIT(m_panel241, wxSize(-1,-1)), m_valueListArr, wxLB_SINGLE);
+    
+    boxSizer269->Add(m_valueList, 2, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    
+    flexGridSizer271 = new wxFlexGridSizer(0, 4, 0, 0);
+    flexGridSizer271->SetFlexibleDirection( wxBOTH );
+    flexGridSizer271->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
+    flexGridSizer271->AddGrowableCol(1);
+    flexGridSizer271->AddGrowableCol(3);
+    
+    boxSizer269->Add(flexGridSizer271, 0, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    
+    m_staticText273 = new wxStaticText(m_panel241, wxID_ANY, _("OK"), wxDefaultPosition, wxDLG_UNIT(m_panel241, wxSize(-1,-1)), 0);
+    
+    flexGridSizer271->Add(m_staticText273, 0, wxALL, WXC_FROM_DIP(5));
+    
+    wxArrayString m_okOutputArr;
+    m_okOutput = new wxChoice(m_panel241, wxID_ANY, wxDefaultPosition, wxDLG_UNIT(m_panel241, wxSize(-1,-1)), m_okOutputArr, 0);
+    
+    flexGridSizer271->Add(m_okOutput, 0, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    
+    m_staticText277 = new wxStaticText(m_panel241, wxID_ANY, _("Alert"), wxDefaultPosition, wxDLG_UNIT(m_panel241, wxSize(-1,-1)), 0);
+    
+    flexGridSizer271->Add(m_staticText277, 0, wxALL, WXC_FROM_DIP(5));
+    
+    wxArrayString m_alertOutputArr;
+    m_alertOutput = new wxChoice(m_panel241, wxID_ANY, wxDefaultPosition, wxDLG_UNIT(m_panel241, wxSize(-1,-1)), m_alertOutputArr, 0);
+    
+    flexGridSizer271->Add(m_alertOutput, 0, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    
+    m_staticText281 = new wxStaticText(m_panel241, wxID_ANY, _("Action"), wxDefaultPosition, wxDLG_UNIT(m_panel241, wxSize(-1,-1)), 0);
+    
+    flexGridSizer271->Add(m_staticText281, 0, wxALL, WXC_FROM_DIP(5));
+    
+    wxArrayString m_actionOutputArr;
+    m_actionOutput = new wxChoice(m_panel241, wxID_ANY, wxDefaultPosition, wxDLG_UNIT(m_panel241, wxSize(-1,-1)), m_actionOutputArr, 0);
+    
+    flexGridSizer271->Add(m_actionOutput, 0, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    
+    m_staticText287 = new wxStaticText(m_panel241, wxID_ANY, _("Fault"), wxDefaultPosition, wxDLG_UNIT(m_panel241, wxSize(-1,-1)), 0);
+    
+    flexGridSizer271->Add(m_staticText287, 0, wxALL, WXC_FROM_DIP(5));
+    
+    wxArrayString m_faultOutputArr;
+    m_faultOutput = new wxChoice(m_panel241, wxID_ANY, wxDefaultPosition, wxDLG_UNIT(m_panel241, wxSize(-1,-1)), m_faultOutputArr, 0);
+    
+    flexGridSizer271->Add(m_faultOutput, 0, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    
+    m_Enabled = new wxCheckBox(m_panel241, wxID_ANY, _("Enabled"), wxDefaultPosition, wxDLG_UNIT(m_panel241, wxSize(-1,-1)), 0);
+    m_Enabled->SetValue(false);
+    
+    flexGridSizer271->Add(m_Enabled, 0, wxALL, WXC_FROM_DIP(5));
+    
+    boxSizer247 = new wxBoxSizer(wxVERTICAL);
+    
+    boxSizer243->Add(boxSizer247, 0, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    
+    m_button249 = new wxButton(m_panel241, wxID_ANY, _("Add ..."), wxDefaultPosition, wxDLG_UNIT(m_panel241, wxSize(-1,-1)), 0);
+    
+    boxSizer247->Add(m_button249, 0, wxALL, WXC_FROM_DIP(5));
+    
+    m_button251 = new wxButton(m_panel241, wxID_ANY, _("Remove"), wxDefaultPosition, wxDLG_UNIT(m_panel241, wxSize(-1,-1)), 0);
+    
+    boxSizer247->Add(m_button251, 0, wxALL, WXC_FROM_DIP(5));
+    
+    m_stdBtnSizer235 = new wxStdDialogButtonSizer();
+    
+    boxSizer233->Add(m_stdBtnSizer235, 0, wxALL, WXC_FROM_DIP(5));
+    
+    m_button237 = new wxButton(this, wxID_CANCEL, wxT(""), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1, -1)), 0);
+    m_stdBtnSizer235->AddButton(m_button237);
+    
+    m_button239 = new wxButton(this, wxID_OK, wxT(""), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1, -1)), 0);
+    m_stdBtnSizer235->AddButton(m_button239);
+    m_stdBtnSizer235->Realize();
+    
+    SetName(wxT("AlarmGroupConfigurationDialogBase"));
+    SetSize(wxDLG_UNIT(this, wxSize(800,600)));
+    if (GetSizer()) {
+         GetSizer()->Fit(this);
+    }
+    if(GetParent()) {
+        CentreOnParent(wxBOTH);
+    } else {
+        CentreOnScreen(wxBOTH);
+    }
+#if wxVERSION_NUMBER >= 2900
+    if(!wxPersistenceManager::Get().Find(this)) {
+        wxPersistenceManager::Get().RegisterAndRestore(this);
+    } else {
+        wxPersistenceManager::Get().Restore(this);
+    }
+#endif
+    // Connect events
+    m_button249->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AlarmGroupConfigurationDialogBase::onAdd), NULL, this);
+    m_button251->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AlarmGroupConfigurationDialogBase::onRemove), NULL, this);
+    m_button239->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AlarmGroupConfigurationDialogBase::onOk), NULL, this);
+    
+}
+
+AlarmGroupConfigurationDialogBase::~AlarmGroupConfigurationDialogBase()
+{
+    m_button249->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AlarmGroupConfigurationDialogBase::onAdd), NULL, this);
+    m_button251->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AlarmGroupConfigurationDialogBase::onRemove), NULL, this);
+    m_button239->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AlarmGroupConfigurationDialogBase::onOk), NULL, this);
+    
 }

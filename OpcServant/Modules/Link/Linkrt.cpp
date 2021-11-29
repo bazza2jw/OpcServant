@@ -16,6 +16,11 @@
 #include <Common/objectmanager.h>
 #include <sstream>
 
+/*
+ * This is a UDP based link to other applications. In particular Node Red.
+ * Packets are sent and received as JSON
+ * Uses the MQTT command handler to avoid dupilcation
+ */
 
 /*!
     \brief start
@@ -67,7 +72,7 @@ void MRL::LinkRT::process()
     RTObject::process();
     if(_socket)
     {
-        while(_socket->IsData())
+        while(_socket->IsData()) // receive
         {
             char b[4096];
             int n = _socket->Read(b,sizeof(b)).GetLastIOReadSize();
@@ -90,7 +95,7 @@ void MRL::LinkRT::process()
             }
 
         }
-        if(_queue.size() > 0)
+        if(_queue.size() > 0) // send
         {
             while(_queue.size())
             {

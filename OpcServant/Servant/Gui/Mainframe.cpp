@@ -229,44 +229,44 @@ void Mainframe::OnContextMenu(wxDataViewEvent &event) {
     \brief Mainframe::OnStartupTimer
 */
 void Mainframe::OnStartupTimer(wxTimerEvent & /*event*/) {
-    // delayed actions to allow initialisation to complete
-    // sync model with configuration tree
-    GetNavigation()->Expand(MRL::Common::display().root().guiItem());
-    //
-    MRL::PropertyPath p;
-    p.push_back("System");
-    _mainTab =  MRL::SETTINGS().getValue<std::string>(p, "MainTab");
-    //
-    GetButtonSysProps()->Disable();
-    GetNavigation()->Disable();
-    setMainTab();
-#ifdef RASPBERRY_PI_BUILD
-    Maximize(true); // gives access to top menu on Pi
-    //ShowFullScreen(true); // occupies all of display
-#else
-    // get the screen size
-    SetSize(10,10,640,480);
-    //Maximize(true);
-#endif
-
-    if(MRL::SETTINGS().getValue<bool>(p,"ScreenLock"))
+    if(!_inStartup)
     {
-        PinEntryDialog dlg(this);
-        while(true)
+        _inStartup = true;
+        // delayed actions to allow initialisation to complete
+        // sync model with configuration tree
+        GetNavigation()->Expand(MRL::Common::display().root().guiItem());
+        //
+        MRL::PropertyPath p;
+        p.push_back("System");
+        _mainTab =  MRL::SETTINGS().getValue<std::string>(p, "MainTab");
+        //
+        GetButtonSysProps()->Disable();
+        setMainTab();
+#ifdef RASPBERRY_PI_BUILD
+        Maximize(true); // gives access to top menu on Pi
+        //ShowFullScreen(true); // occupies all of display
+#else
+        // get the screen size
+        SetSize(10,10,640,480);
+        //Maximize(true);
+#endif
+        if(MRL::SETTINGS().getValue<bool>(p,"ScreenLock"))
         {
-            dlg.ShowModal();
-            std::string r = dlg.GetText()->GetValue().ToStdString();
-            std::string pw = MRL::SETTINGS().getValue<std::string>(p,"ScreenLockPin");
-            if(r == pw) break;
+            PinEntryDialog dlg(this);
+            while(true)
+            {
+                dlg.ShowModal();
+                std::string r = dlg.GetText()->GetValue().ToStdString();
+                std::string pw = MRL::SETTINGS().getValue<std::string>(p,"ScreenLockPin");
+                if(r == pw) break;
+            }
         }
+        //
+        if (MRL::SETTINGS().getValue<bool>(p, "EnableVK")) {
+            VirtualKeypad::setKeypad(this);
+        }
+        _inStartup = false;
     }
-
-
-    if (MRL::SETTINGS().getValue<bool>(p, "EnableVK")) {
-        VirtualKeypad::setKeypad(this);
-    }
-
-
 }
 
 /*!
@@ -482,10 +482,10 @@ bool Mainframe::processQueueItem(const MRL::Message &msg) {
 
             case MESSAGEID::PowerOff:
             {
-               wxGetApp().setShutdownOnExit();
-               wxExit();
+                wxGetApp().setShutdownOnExit();
+                wxExit();
             }
-                break;
+            break;
             default:
                 break;
             }

@@ -15,6 +15,8 @@
 #include <Common/messageids.h>
 
 MRL::StringVector MRL::SimulatorRT::_inputs = {"Value"};
+MRL::StringVector MRL::SimulatorRT::_outputs = {"Output"};
+
 
 /*!
     \brief start
@@ -111,6 +113,9 @@ void MRL::SimulatorRT::updateOpc(OpcServer &server, Open62541::NodeId &/*objectN
     Open62541::Variant v(_lastValue);
     // find the child node called Value
     server.writeValue(_valueNode,v);
+    //
+    Open62541::Variant o(_output);
+    server.writeValue(_outputNode,o);
 }
 
 
@@ -130,6 +135,7 @@ void MRL::SimulatorRT::initialiseOpc(OpcServer &server, Open62541::NodeId &node)
         TRC_LINE("Type Node " << Open62541::toString(_typeNode));
         server.getChild(node,"Value",_valueNode);
         TRC_LINE("Value Node " << Open62541::toString(_valueNode));
+        server.getChild(node,"Output",_outputNode);
         //
         Open62541::Variant v(configuration().getValue<int>("Range"));
         server.writeValue(_rangeNode,v);
@@ -174,3 +180,33 @@ void MRL::SimulatorRT::measureHtmlPage(CTML::Node &s)
     v.SetContent(ss.str());
     s.AppendChild(v);
 }
+
+/*!
+    \brief processQueueItem
+*/
+bool MRL::SimulatorRT::processQueueItem(const Message &msg) {
+    Message &m = const_cast<Message &>(msg);
+    if (!RTObject::processQueueItem(m)) {
+        switch (m.id()) {
+            case MESSAGEID::SetOutput: {
+                bool v;
+                std::string i;
+                m.data().get(PARAMETERID::Index, i);
+                m.data().get(PARAMETERID::Value, v);
+                //
+                if(i == "Output")
+                {
+                    _output = v;
+                    wxLogDebug("Set Output to %s",v?"On":"Off");
+                }
+            }
+            break;
+            default:
+                break;
+        }
+        return false;
+    }
+    return true; // return true if processed
+}
+
+

@@ -12,6 +12,9 @@
 #include "ValueGroupConfigurationDialog.h"
 #include "ValueConfigurationDialog.h"
 #include <Common/Gui/AliasConfigurationDialog.h>
+#include <MrlLib/mrllib.h>
+#include <Common/Daq/daqcommon.h>
+
 
 /*!
  * \brief ValueGroupConfigurationDialog::ValueGroupConfigurationDialog
@@ -39,6 +42,38 @@ ValueGroupConfigurationDialog::ValueGroupConfigurationDialog(wxWindow* parent, c
         {
             GetListValues()->SetSelection(0);
         }
+        //
+        GetOkOutput()->AppendString("None"); // add the
+        GetAlertOutput()->AppendString("None"); // add the
+        GetActionOutput()->AppendString("None"); // add the
+        GetFailureOutput()->AppendString("None"); // add the
+        //
+        // build the output list
+        //
+        for (auto i = MRL::Common::daq().objects().begin(); i != MRL::Common::daq().objects().end(); i++) {
+            MRL::RtObjectRef &r = i->second;
+            if (r) {
+                if (r->hasOutputs()) {
+                    std::string pt;
+                    r->path().toString(pt);
+                    MRL::StringVector &l = r->outputs();
+                    for(int j = 0; j < l.size(); j++)
+                    {
+                        std::string s = pt + TAG_SEPERATOR + l[j];
+                        GetOkOutput()->AppendString(s); // add the
+                        GetAlertOutput()->AppendString(s); // add the
+                        GetActionOutput()->AppendString(s); // add the
+                        GetFailureOutput()->AppendString(s); // add the
+                    }
+                }
+            }
+        }
+        //
+        MRL::SetChoice(GetOkOutput(), _configuration.getString("/OkOutput") );
+        MRL::SetChoice(GetAlertOutput(), _configuration.getString("/AlertOutput") );
+        MRL::SetChoice(GetActionOutput(), _configuration.getString("/ActionOutput") );
+        MRL::SetChoice(GetFailureOutput(), _configuration.getString("/FailureOutput") );
+        //
 
         GetMeasureInterval()->SetValue(_configuration.getInt("/MeasureInterval"));
         GetPublishInterval()->SetValue(_configuration.getInt("/PublishInterval"));
@@ -136,7 +171,11 @@ void ValueGroupConfigurationDialog::onOk(wxCommandEvent& /*event*/)
     _configuration.setValue("/MeasureInterval", GetMeasureInterval()->GetValue());
     _configuration.setValue("/PublishInterval",GetPublishInterval()->GetValue());
     _configuration.setBool("/EnableTabView",GetEnableTabView()->GetValue());
-
+    //
+    _configuration.setString("/OkOutput",MRL::GetChoice(GetOkOutput()));
+    _configuration.setString("/AlertOutput",MRL::GetChoice(GetAlertOutput()));
+    _configuration.setString("/ActionOutput",MRL::GetChoice(GetActionOutput()));
+    _configuration.setString("/FailureOutput",MRL::GetChoice(GetFailureOutput()));
     //
     Json::Value v;
     _configuration.toJson(v);

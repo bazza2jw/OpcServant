@@ -30,6 +30,32 @@ namespace MRL {
 
 
 
+/*!
+     * \brief The PathTag struct
+     */
+    struct PathTag
+    {
+        std::string _path; // path to object
+        std::string _tag; // input or output
+        PathTag() {}
+        PathTag(const std::string &p, const std::string &t ) : _path(p), _tag(t) {}
+        bool parse(const std::string &p)
+        {
+            //
+            _path.clear();
+            _tag.clear();
+            //
+            int n = p.find(TAG_SEPERATOR);
+            if(n  != std::string::npos)
+            {
+                _path = p.substr(0,n);
+                _tag = p.substr(n + 1);
+                return true;
+            }
+            return false;
+        }
+    };
+
     /*!
         \brief The RTObject class
     */

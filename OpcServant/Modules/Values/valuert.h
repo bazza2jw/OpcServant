@@ -19,6 +19,7 @@
 #include <open62541cpp/open62541server.h>
 #include <open62541cpp/serverbrowser.h>
 #include <open62541cpp/servernodetree.h>
+#include <Common/Daq/daqcommon.h>
 
 namespace MRL {
 
@@ -59,7 +60,6 @@ public:
         void mapToInput();
         int state() { return _state;}
         void setState(int s) {_state= s;}
-
     };
 
 private:
@@ -72,7 +72,13 @@ private:
     //
     std::map<std::string,ValueItem> _values;
     //
-
+    // outputs
+    //
+    PathTag _okOutput;
+    PathTag _alertOutput;
+    PathTag _actionOutput;
+    PathTag _failureOutput;
+    //
 public:
     /*!
      * \brief ValueRT
@@ -164,7 +170,42 @@ public:
         return  _values;
     }
 
-
+    /*!
+     * \brief setOutput
+     * \param s
+     * \param f
+     */
+    void setOutput(const PathTag &s, bool f)
+    {
+        if(!s._path.empty() && !s._tag.empty())
+        {
+            unsigned id = Common::configuration().find(s._path);
+            if( id )
+            {
+                MRL::RtObjectRef &r = MRL::Common::daq().objects()[id];
+                if (r) {
+                    MRL::Message m(MESSAGEID::SetOutput);
+                    m.data().add(PARAMETERID::Index, s._tag);
+                    m.data().add(PARAMETERID::Value, f);
+                    r->queueItem(m);
+                }
+            }
+        }
+    }
+    /*!
+     * \brief setOutputs
+     * \param ok
+     * \param alert
+     * \param action
+     * \param fail
+     */
+    void setOutputs(bool ok = false, bool alert = false, bool action = false, bool fail = false)
+    {
+        setOutput(_okOutput, ok);
+        setOutput(_alertOutput, alert);
+        setOutput(_actionOutput, action);
+        setOutput(_failureOutput, fail);
+    }
 };
 }
 

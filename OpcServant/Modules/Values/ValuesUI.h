@@ -137,6 +137,14 @@ protected:
     wxSpinCtrl* m_measureInterval;
     wxStaticText* m_staticText128;
     wxSpinCtrl* m_publishInterval;
+    wxStaticText* m_staticText299;
+    wxChoice* m_okOutput;
+    wxStaticText* m_staticText303;
+    wxChoice* m_alertOutput;
+    wxStaticText* m_staticText307;
+    wxChoice* m_actionOutput;
+    wxStaticText* m_staticText311;
+    wxChoice* m_failureOutput;
     wxCheckBox* m_enabled;
     wxCheckBox* m_enableTabView;
     wxStdDialogButtonSizer* m_stdBtnSizer88;
@@ -160,6 +168,14 @@ public:
     wxSpinCtrl* GetMeasureInterval() { return m_measureInterval; }
     wxStaticText* GetStaticText128() { return m_staticText128; }
     wxSpinCtrl* GetPublishInterval() { return m_publishInterval; }
+    wxStaticText* GetStaticText299() { return m_staticText299; }
+    wxChoice* GetOkOutput() { return m_okOutput; }
+    wxStaticText* GetStaticText303() { return m_staticText303; }
+    wxChoice* GetAlertOutput() { return m_alertOutput; }
+    wxStaticText* GetStaticText307() { return m_staticText307; }
+    wxChoice* GetActionOutput() { return m_actionOutput; }
+    wxStaticText* GetStaticText311() { return m_staticText311; }
+    wxChoice* GetFailureOutput() { return m_failureOutput; }
     wxCheckBox* GetEnabled() { return m_enabled; }
     wxCheckBox* GetEnableTabView() { return m_enableTabView; }
     wxPanel* GetPanel86() { return m_panel86; }
@@ -186,6 +202,55 @@ public:
     wxTimer* GetPeriodicTimer() { return m_periodicTimer; }
     ValueGroupPanelBase(wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize(800,600), long style = wxTAB_TRAVERSAL);
     virtual ~ValueGroupPanelBase();
+};
+
+
+class AlarmGroupConfigurationDialogBase : public wxDialog
+{
+protected:
+    wxBoxSizer* boxSizer233;
+    wxPanel* m_panel241;
+    wxBoxSizer* boxSizer243;
+    wxBoxSizer* boxSizer269;
+    wxListBox* m_valueList;
+    wxFlexGridSizer* flexGridSizer271;
+    wxStaticText* m_staticText273;
+    wxChoice* m_okOutput;
+    wxStaticText* m_staticText277;
+    wxChoice* m_alertOutput;
+    wxStaticText* m_staticText281;
+    wxChoice* m_actionOutput;
+    wxStaticText* m_staticText287;
+    wxChoice* m_faultOutput;
+    wxCheckBox* m_Enabled;
+    wxBoxSizer* boxSizer247;
+    wxButton* m_button249;
+    wxButton* m_button251;
+    wxStdDialogButtonSizer* m_stdBtnSizer235;
+    wxButton* m_button237;
+    wxButton* m_button239;
+
+protected:
+    virtual void onAdd(wxCommandEvent& event) { event.Skip(); }
+    virtual void onRemove(wxCommandEvent& event) { event.Skip(); }
+    virtual void onOk(wxCommandEvent& event) { event.Skip(); }
+
+public:
+    wxListBox* GetValueList() { return m_valueList; }
+    wxStaticText* GetStaticText273() { return m_staticText273; }
+    wxChoice* GetOkOutput() { return m_okOutput; }
+    wxStaticText* GetStaticText277() { return m_staticText277; }
+    wxChoice* GetAlertOutput() { return m_alertOutput; }
+    wxStaticText* GetStaticText281() { return m_staticText281; }
+    wxChoice* GetActionOutput() { return m_actionOutput; }
+    wxStaticText* GetStaticText287() { return m_staticText287; }
+    wxChoice* GetFaultOutput() { return m_faultOutput; }
+    wxCheckBox* GetEnabled() { return m_Enabled; }
+    wxButton* GetButton249() { return m_button249; }
+    wxButton* GetButton251() { return m_button251; }
+    wxPanel* GetPanel241() { return m_panel241; }
+    AlarmGroupConfigurationDialogBase(wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Alarm Group Configuration"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize(800,600), long style = wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER);
+    virtual ~AlarmGroupConfigurationDialogBase();
 };
 
 #endif

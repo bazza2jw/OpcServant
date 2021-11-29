@@ -31,6 +31,9 @@ bool MRL::SimulatorTypeObject::addChildren(const Open62541::NodeId &parent)
     n.notNull();
     addObjectTypeVariable<std::string>("Type", parent, n); // type of simulation ramp or random
     setMandatory(n);
+    n.notNull();
+    addObjectTypeVariable<bool>("Output", parent, n); // type of simulation ramp or random
+    setMandatory(n);
     return true;
 }
 

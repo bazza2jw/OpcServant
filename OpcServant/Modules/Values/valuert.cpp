@@ -22,15 +22,13 @@ void MRL::ValueRT::ValueItem::mapToInput()
     // translate the alias to an object id and an input path
     std::string o = Common::aliasMap()[_alias];
     // split on the tag separator
-    int n = o.find(TAG_SEPERATOR);
-    if(n  != std::string::npos)
+    PathTag pt;
+    if(pt.parse(o))
     {
-        std::string on = o.substr(0,n);
-        // now find the object
         PropertyPath p;
-        p.toList(on);
+        p.toList(pt._path);
         _id = MRL::Common::configuration().find(p);
-        _input = o.substr(n + 1);
+        _input = pt._tag;
     }
 }
 
@@ -75,6 +73,12 @@ void MRL::ValueRT::start() {
     //
     runtime().setValue("State", STATES::States::StateOk);
     //
+    //
+    // Get the output ids as path and output name
+    _okOutput.parse(configuration().getString("/OkOutput"));
+    _alertOutput.parse(configuration().getString("/AlertOutput"));
+    _actionOutput.parse(configuration().getString("/ActionOutput"));
+    _failureOutput.parse(configuration().getString("/FailureOutput"));
 }
 
 /*!
@@ -163,6 +167,27 @@ void MRL::ValueRT::measure() {
     }
     runtime().setInt("/GroupState",_group_st);
     updateObject(_group_st);
+    //
+    // Now manage the outputs based on the group state
+    //
+    switch(_group_st)
+    {
+    case STATES::States::StateOk:
+        setOutputs(true);
+        break;
+    case STATES::States::StateAction:
+        setOutputs(false,true);
+        break;
+    case STATES::States::StateAlert:
+        setOutputs(false,false,true);
+        break;
+    case  STATES::States::StateFault:
+        setOutputs(false,false,false,true);
+        break;
+        default:
+        setOutputs();
+        break;
+    }
 }
 
 /*!

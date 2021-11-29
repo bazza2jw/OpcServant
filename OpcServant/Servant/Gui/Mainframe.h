@@ -44,6 +44,7 @@ class Mainframe : public MainframeBase, public MRL::BObject
     wxString _mainTab = "System";
     //
     ReportGeneratorPanel * _reportPanel = nullptr;
+    bool _inStartup = false;
 public:
     Mainframe(wxWindow* parent);
     virtual ~Mainframe();

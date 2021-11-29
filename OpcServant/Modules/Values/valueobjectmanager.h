@@ -32,6 +32,9 @@ public:
     Wt::WContainerWidget * createWebWindow( Wt::WContainerWidget */*root*/, unsigned /*id*/);
 
 };
+
+
+
 }
 
 

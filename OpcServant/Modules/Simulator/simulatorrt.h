@@ -31,12 +31,16 @@ namespace MRL {
         int _type = 0;
         int _lastValue = 0;
         bool _dirDown = false; // direction for ramp
+        bool _output = false;
         //
         // Cache the NodeIds
         Open62541::NodeId _rangeNode;
         Open62541::NodeId _typeNode;
         Open62541::NodeId _valueNode;
+        Open62541::NodeId _outputNode;
+
         static StringVector _inputs;
+        static StringVector _outputs;
     public:
         SimulatorRT(int id) : RTObject(id)
         {
@@ -76,6 +80,11 @@ namespace MRL {
         virtual void publishHtmlPage(CTML::Node &s); // publish the current runtime status as HTML text
 
         /*!
+            \brief processQueueItem
+        */
+        virtual bool processQueueItem(const Message &);
+
+        /*!
          * \brief measureHtmlPage
          */
         virtual void measureHtmlPage(CTML::Node &s);
@@ -86,10 +95,24 @@ namespace MRL {
          */
         virtual bool hasInputs() const { return true;}
         /*!
+         * \brief hasOutputs
+         * \return
+         */
+        virtual bool hasOutputs() const { return true;}
+
+        /*!
          * \brief inputs
          * \return
          */
         virtual StringVector & inputs() { return _inputs;}
+        virtual StringVector & outputs() { return _outputs;}
+        /*!
+         * \brief useProcessTimer
+         * \return
+         */
+        virtual bool useProcessTimer() {
+            return true;   // used to drive state machines
+        }
 
 
     };
