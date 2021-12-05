@@ -59,6 +59,10 @@ void MRL::BME280RT::measure()
 {
     RTObject::measure();
     // The BME280 is for correcting other items
+    updateValue(temperature(),"Temperature");
+    updateValue(pressure(),"Pressure");
+    updateValue(humidity(),"Humidity");
+    //
     Common::runTime().setValue("Temperature",temperature());
     Common::runTime().setValue("Pressure",pressure());
     Common::runTime().setValue("Humidity",humidity());

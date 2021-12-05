@@ -17,6 +17,8 @@
 #include <Common/bobject.h>
 #include <queue>
 #include <Common/VirtualKeypad.h>
+#include <Common/Gui/PinEntryDialog.h>
+
 namespace MRL
 {
     class LogMessage;
@@ -45,6 +47,7 @@ class Mainframe : public MainframeBase, public MRL::BObject
     //
     ReportGeneratorPanel * _reportPanel = nullptr;
     bool _inStartup = false;
+    PinEntryDialog * _pinEntry = nullptr;
 public:
     Mainframe(wxWindow* parent);
     virtual ~Mainframe();
@@ -66,6 +69,8 @@ protected:
     virtual void OnContextMenu(wxDataViewEvent& event);
     virtual void OnItemActivated(wxDataViewEvent& event);
     virtual void OnSelChanged(wxDataViewEvent& event);
+    bool adminPassword(); // ask for the admin password
+    void showPinEntry();
     void setupTopLevel();
     void OnPopupClick(wxCommandEvent &evt);
     bool processQueueItem(const MRL::Message &);

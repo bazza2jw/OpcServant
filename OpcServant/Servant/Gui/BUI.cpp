@@ -80,7 +80,6 @@ MainframeBase::MainframeBase(wxWindow* parent, wxWindowID id, const wxString& ti
     m_buttonSysProps->SetBitmap(wxXmlResource::Get()->LoadBitmap(wxT("emblem-system")), wxLEFT);
     m_buttonSysProps->SetBitmapMargins(2,2);
     #endif
-    m_buttonSysProps->Enable(false);
     
     gridSizer175->Add(m_buttonSysProps, 1, wxALL|wxEXPAND, WXC_FROM_DIP(5));
     

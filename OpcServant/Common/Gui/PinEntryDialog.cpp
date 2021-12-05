@@ -60,7 +60,7 @@ void PinEntryDialog::onDP(wxCommandEvent& event)
         GetText()->SetValue(s);
     }
 }
-void PinEntryDialog::onOk(wxCommandEvent& event)
+void PinEntryDialog::onOk(wxCommandEvent& /*event*/)
 {
-    EndModal(wxID_OK);
+    Hide();
 }

@@ -35,6 +35,8 @@ link_directories(${PIROOT}/opt/vc/lib)
 #
 LINK_DIRECTORIES(${PIROOT}/usr/lib/arm-linux-gnueabihf)
 LINK_DIRECTORIES(${PIROOT}/usr/local/lib)
+LINK_DIRECTORIES(${PIROOT}/lib/arm-linux-gnueabihf)
+
 
 SET(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER)
 # Search for libraries and headers in the target directories only

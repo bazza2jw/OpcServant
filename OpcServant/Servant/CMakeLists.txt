@@ -24,11 +24,10 @@ set(LIB_SOURCES
 add_executable(Servant ${LIB_SOURCES})
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
-set(PROJECT_LIB_FLAGS  MrlLib Common ShapeCanvas )
+set(PROJECT_LIB_FLAGS  MrlLib Common )
 target_link_libraries(Servant ${wxWidgets_LIBRARIES} ${WTLIBS} ${Boost_LIBRARIES} ${EXTRA_LIB_FLAGS} ${PROJECT_LIB_FLAGS}  )
 
 IF( DEFINED CROSSBUILD )
-link_directories(${PIROOT}/opt/vc/lib)
 target_link_libraries(Servant ${PIROOT}/opt/vc/lib/libvchiq_arm.so ${PIROOT}/opt/vc/lib/libvcos.so)
 ENDIF( DEFINED CROSSBUILD )
 

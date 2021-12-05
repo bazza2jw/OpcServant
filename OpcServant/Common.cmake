@@ -22,6 +22,8 @@ find_package(Threads)
 add_definitions(-DTRAP_ENABLE)
 # Enable debug trace in build
 #add_definitions(-DTRACE_ON)
+# NB: may on module by module basis use - target_compile_options(my_library PRIVATE -Werror -Wall -Wextra)
+SET(CMAKE_CXX_FLAGS "-Wno-psabi ${CMAKE_CXX_FLAGS}")
 #
 IF( DEFINED CROSSBUILD )
 #when building for cross compiling wxWidgets cannot be auto detected
