@@ -15,9 +15,9 @@
 #include <Common/objectmanager.h>
 #include "Gui/BourbonCommonUI.h"
 MRL::Common * MRL::Common::_instance = nullptr; //!< global instance
-wxHtmlEasyPrinting  * MRL::Common::_htmlPrinter = nullptr;
-MRL::StringMap MRL::Common::_aliasMap;
-MRL::StringMap MRL::Common::_reverseAliasMap;
+wxHtmlEasyPrinting  * MRL::Common::_htmlPrinter = nullptr; // printer interface
+MRL::StringMap MRL::Common::_aliasMap; // maps path to alias
+MRL::StringMap MRL::Common::_reverseAliasMap; // maps alias to path
 
 /*!
  * \brief MRL::Common::~Common

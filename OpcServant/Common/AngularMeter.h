@@ -18,7 +18,9 @@
 #endif
 #include <math.h>
 #define MAXSECTORCOLOR 10
-
+/*!
+ * \brief The kwxAngularMeter class
+ */
 class kwxAngularMeter : public wxControl {
     public:
         kwxAngularMeter(wxWindow *parent = nullptr, wxWindowID id = wxID_ANY, const wxPoint &pos = wxDefaultPosition,

@@ -20,6 +20,7 @@
 namespace MRL {
 /*!
  * \brief The LwsApexRT class
+ * This is a basic interface - consider an example on how to use MODBUS TCP
  */
 class LwsApexRT : public MRL::RTObject
 {

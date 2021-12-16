@@ -20,11 +20,17 @@ LwsApexPanel::LwsApexPanel(wxWindow* parent, unsigned id)
     : LwsApexPanelBase(parent),BObject(id)
 {
 }
-
+/*!
+ * \brief LwsApexPanel::~LwsApexPanel
+ */
 LwsApexPanel::~LwsApexPanel()
 {
 }
-
+/*!
+ * \brief LwsApexPanel::processQueueItem
+ * \param msg
+ * \return
+ */
 bool LwsApexPanel::processQueueItem(const MRL::Message &msg)
 {
     if (!MRL::BObject::processQueueItem(msg)) {

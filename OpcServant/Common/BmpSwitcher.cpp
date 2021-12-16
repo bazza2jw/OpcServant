@@ -41,7 +41,14 @@
 
 WX_DEFINE_LIST(CBmpList)
 
-
+/*!
+ * \brief kwxBmpSwitcher::kwxBmpSwitcher
+ * \param parent
+ * \param id
+ * \param pos
+ * \param size
+ * \param style
+ */
 
 kwxBmpSwitcher::kwxBmpSwitcher(wxWindow* parent,
                            const wxWindowID id,
@@ -64,7 +71,9 @@ kwxBmpSwitcher::kwxBmpSwitcher(wxWindow* parent,
     this->Connect(wxEVT_PAINT, wxPaintEventHandler(kwxBmpSwitcher::OnPaint), NULL, this);
 
 }
-
+/*!
+ * \brief kwxBmpSwitcher::~kwxBmpSwitcher
+ */
 kwxBmpSwitcher::~kwxBmpSwitcher()
 {
 	delete membitmap;
@@ -78,7 +87,10 @@ kwxBmpSwitcher::~kwxBmpSwitcher()
 		node = node->GetNext() ;
 	}
 }
-
+/*!
+ * \brief kwxBmpSwitcher::OnPaint
+ * \param WXUNUSED
+ */
 void kwxBmpSwitcher::OnPaint(wxPaintEvent &WXUNUSED(event))
 {
 	wxPaintDC old_dc(this);
@@ -119,7 +131,9 @@ void kwxBmpSwitcher::OnPaint(wxPaintEvent &WXUNUSED(event))
 
 	old_dc.Blit(0, 0, w, h, &dc, 0, 0);
 }
-
+/*!
+ * \brief kwxBmpSwitcher::IncState
+ */
 void kwxBmpSwitcher::IncState()
 {
 	if (m_nCount > 1 )
@@ -131,7 +145,10 @@ void kwxBmpSwitcher::IncState()
 		Refresh() ;
 	}
 }
-
+/*!
+ * \brief kwxBmpSwitcher::SetState
+ * \param state
+ */
 void kwxBmpSwitcher::SetState(int state)
 {
 	if (m_nCount > 1 )
@@ -143,7 +160,10 @@ void kwxBmpSwitcher::SetState(int state)
 		Refresh() ;
 	}
 }
-
+/*!
+ * \brief kwxBmpSwitcher::AddBitmap
+ * \param bitmap
+ */
 void kwxBmpSwitcher::AddBitmap(wxBitmap *bitmap)
 {
 	m_bmplist.Append(bitmap);

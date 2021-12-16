@@ -30,6 +30,12 @@ BEGIN_EVENT_TABLE(kwxLCDClock,kwxLCDDisplay)
 	EVT_TIMER(TIMER_TIME, kwxLCDClock::OnTimer)
 END_EVENT_TABLE()
 
+/*!
+ * \brief kwxLCDClock::kwxLCDClock
+ * \param parent
+ * \param pos
+ * \param size
+ */
 kwxLCDClock::kwxLCDClock(wxWindow *parent, const wxPoint& pos, const wxSize& size )
 {
 	Create(parent, pos, size);

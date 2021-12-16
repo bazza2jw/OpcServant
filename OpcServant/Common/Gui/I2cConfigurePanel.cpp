@@ -1,4 +1,4 @@
-#include "I2cConfigurePanel.h"
+
 /*
  * Copyright (C) 2018 -  B. J. Hill
  *
@@ -10,6 +10,8 @@
  * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
  * A PARTICULAR PURPOSE.
  */
+#include "I2cConfigurePanel.h"
+
 /*!
  * \brief I2cConfigurePanel::I2cConfigurePanel
  * \param parent

@@ -27,7 +27,10 @@
 #include <wx/event.h>
 
 
-
+/*!
+ * \brief kwxAngularMeter::SetValue
+ * \param val
+ */
 void kwxAngularMeter::SetValue(int val)
 {
 	int deltarange = m_nRangeEnd - m_nRangeStart;
@@ -38,7 +41,10 @@ void kwxAngularMeter::SetValue(int val)
 	m_nRealVal = val;
 	Refresh();
 }
-
+/*!
+ * \brief kwxAngularMeter::OnPaint
+ * \param WXUNUSED
+ */
 void kwxAngularMeter::OnPaint(wxPaintEvent &WXUNUSED(event))
 {
 	wxPaintDC old_dc(this);
@@ -163,7 +169,10 @@ void kwxAngularMeter::DrawNeedle(wxDC &dc)
     dc.SetBrush(*wxTheBrushList->FindOrCreateBrush(*wxWHITE,wxBRUSHSTYLE_SOLID));
 	dc.DrawCircle(w / 2, h / 2, 4);
 }
-
+/*!
+ * \brief kwxAngularMeter::DrawSectors
+ * \param dc
+ */
 void kwxAngularMeter::DrawSectors(wxDC &dc)
 {
 	double starc,endarc;
@@ -247,7 +256,11 @@ void kwxAngularMeter::DrawTicks(wxDC &dc)
 		valint = valint + intervallo;
 	}
 }
-
+/*!
+ * \brief kwxAngularMeter::SetSectorColor
+ * \param nSector
+ * \param colour
+ */
 void kwxAngularMeter::SetSectorColor(int nSector, wxColour colour)
 {
 	m_aSectorColor[nSector] = colour;
