@@ -18,7 +18,7 @@
  */
 void MRL::OPCN3WebConfiguration::setup()
 {
-    setWindowTitle("LWS Apex Configuration");
+    setWindowTitle("OPCN3 Configuration");
     auto layout = contents()->setLayout(std::make_unique<Wt::WGridLayout>()); // a bag grid layout
     layout->setColumnStretch(0,1);
     layout->setColumnStretch(1,1);
@@ -33,7 +33,7 @@ void MRL::OPCN3WebConfiguration::setup()
     layout->addWidget(std::make_unique<Wt::WLabel>(_TR("Wait Interval(min)")), row, 0);
     _purgeInterval = layout->addWidget(std::make_unique<Wt::WSpinBox>(), row++, 1);
     _enabled = layout->addWidget(std::make_unique<Wt::WCheckBox>(_TR("Enabled")),row,0);
-    _enableTabView = layout->addWidget(std::make_unique<Wt::WCheckBox>("Enable Tab View"),3,0);
+    _enableTabView = layout->addWidget(std::make_unique<Wt::WCheckBox>("Enable Tab View"),row,1);
 
     //
     _sampleInterval->setMaximum(45);

@@ -16,7 +16,7 @@ add_subdirectory(OPCN3)
 add_subdirectory(BME280)
 add_subdirectory(SPS30)
 add_subdirectory(Mics6814)
-add_subdirectory(Link)
+#add_subdirectory(Link)
 
 
 

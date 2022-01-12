@@ -12,7 +12,7 @@
 #ifndef LinkRT_H
 #define LinkRT_H
 #include <Common/Daq/rtobject.h>
-#include <wx/socket.h>
+#include <libsocket/inetserverdgram.hpp>
 #include <Common/MQTT/mqttconnection.h>
 
 
@@ -32,8 +32,7 @@ namespace MRL {
         PropertyPath _path; // where in the models the object data goes
         std::queue<std::string> _queue;
         //
-        std::unique_ptr<wxDatagramSocket> _socket;
-        wxIPV4address _addr;
+        std::unique_ptr<libsocket::inet_dgram_server> _socket;
         //
         virtual bool useProcessTimer() {
             return true;   // used to drive state machines

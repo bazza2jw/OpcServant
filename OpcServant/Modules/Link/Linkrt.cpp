@@ -34,15 +34,9 @@ void MRL::LinkRT::start()
     _port = configuration().getAsString("Port");
     _host = configuration().getAsString("Host");
     //
-    _addr.Hostname(_host);
-    _addr.Service(_port);
-    //
-    wxIPV4address addr;
-    addr.AnyAddress();
-    addr.Service(_port);
     //
     _socket.reset();
-    _socket = std::make_unique<wxDatagramSocket>(addr); // set up the datagram socket
+    _socket = std::make_unique<libsocket::inet_dgram_server>(_host,_port); // set up the datagram socket
 }
 
 /*!
@@ -72,18 +66,18 @@ void MRL::LinkRT::process()
     RTObject::process();
     if(_socket)
     {
-        while(_socket->IsData()) // receive
+        std::string buf;
+        std::string srchost;
+        std::string srcport;
+        int n = 0;
+        while((n = _socket->rcvfrom(buf,srchost,srcport)) > 0) // receive
         {
-            char b[4096];
-            int n = _socket->Read(b,sizeof(b)).GetLastIOReadSize();
-            b[n] = '\0';
-            std::string s(b);
             //
             // process the received message
             // should be a JSON packet
             // TBD use the MQTT command handler
             Json::Value v;
-            if(stringToJson(s,v))
+            if(stringToJson(buf,v))
             {
                 Json::Value &op = v["action"];
                 std::string o = op.asString();
@@ -100,7 +94,7 @@ void MRL::LinkRT::process()
             while(_queue.size())
             {
                 std::string &s = _queue.front();
-                _socket->SendTo(_addr,s.c_str(),s.length());
+                _socket->sndto(buf,_host,_port);
                 _queue.pop();
             }
         }
