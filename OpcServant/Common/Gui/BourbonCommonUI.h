@@ -61,7 +61,7 @@ protected:
     wxChoice* m_type;
     wxStdDialogButtonSizer* m_stdBtnSizer7;
     wxButton* m_buttonOk;
-    wxButton* m_button11;
+    wxButton* m_buttonCancel;
 
 protected:
     virtual void OnEditChanged(wxCommandEvent& event) { event.Skip(); }

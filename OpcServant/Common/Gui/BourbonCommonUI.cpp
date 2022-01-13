@@ -62,10 +62,11 @@ AddObjectDialogBase::AddObjectDialogBase(wxWindow* parent, wxWindowID id, const 
     boxSizer3->Add(m_stdBtnSizer7, 0, wxALL, WXC_FROM_DIP(5));
     
     m_buttonOk = new wxButton(this, wxID_OK, wxT(""), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1, -1)), 0);
+    m_buttonOk->SetDefault();
     m_stdBtnSizer7->AddButton(m_buttonOk);
     
-    m_button11 = new wxButton(this, wxID_CANCEL, wxT(""), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1, -1)), 0);
-    m_stdBtnSizer7->AddButton(m_button11);
+    m_buttonCancel = new wxButton(this, wxID_CANCEL, wxT(""), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1, -1)), 0);
+    m_stdBtnSizer7->AddButton(m_buttonCancel);
     m_stdBtnSizer7->Realize();
     
     SetName(wxT("AddObjectDialogBase"));
@@ -88,14 +89,14 @@ AddObjectDialogBase::AddObjectDialogBase(wxWindow* parent, wxWindowID id, const 
 #endif
     // Connect events
     m_objectName->Connect(wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AddObjectDialogBase::OnEditChanged), NULL, this);
-    m_button11->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AddObjectDialogBase::OnOk), NULL, this);
+    m_buttonOk->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AddObjectDialogBase::OnOk), NULL, this);
     
 }
 
 AddObjectDialogBase::~AddObjectDialogBase()
 {
     m_objectName->Disconnect(wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AddObjectDialogBase::OnEditChanged), NULL, this);
-    m_button11->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AddObjectDialogBase::OnOk), NULL, this);
+    m_buttonOk->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AddObjectDialogBase::OnOk), NULL, this);
     
 }
 
