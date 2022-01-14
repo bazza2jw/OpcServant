@@ -2001,12 +2001,12 @@
                "m_events": [],
                "m_children": [{
                  "m_type": 4405,
-                 "proportion": 0,
+                 "proportion": 1,
                  "border": 5,
                  "gbSpan": "1,1",
                  "gbPosition": "0,0",
                  "m_styles": [],
-                 "m_sizerFlags": ["wxALL", "wxLEFT", "wxRIGHT", "wxTOP", "wxBOTTOM"],
+                 "m_sizerFlags": ["wxALL", "wxLEFT", "wxRIGHT", "wxTOP", "wxBOTTOM", "wxEXPAND"],
                  "m_properties": [{
                    "type": "winid",
                    "m_label": "ID:",
@@ -2163,7 +2163,7 @@
                  "gbSpan": "1,1",
                  "gbPosition": "0,0",
                  "m_styles": [],
-                 "m_sizerFlags": ["wxALL", "wxLEFT", "wxRIGHT", "wxTOP", "wxBOTTOM"],
+                 "m_sizerFlags": ["wxALL", "wxLEFT", "wxRIGHT", "wxTOP", "wxBOTTOM", "wxEXPAND"],
                  "m_properties": [{
                    "type": "winid",
                    "m_label": "ID:",
@@ -2305,7 +2305,7 @@
                  "gbSpan": "1,1",
                  "gbPosition": "0,0",
                  "m_styles": [],
-                 "m_sizerFlags": ["wxALL", "wxLEFT", "wxRIGHT", "wxTOP", "wxBOTTOM"],
+                 "m_sizerFlags": ["wxALL", "wxLEFT", "wxRIGHT", "wxTOP", "wxBOTTOM", "wxEXPAND"],
                  "m_properties": [{
                    "type": "winid",
                    "m_label": "ID:",
@@ -2447,7 +2447,7 @@
                  "gbSpan": "1,1",
                  "gbPosition": "0,0",
                  "m_styles": [],
-                 "m_sizerFlags": ["wxALL", "wxLEFT", "wxRIGHT", "wxTOP", "wxBOTTOM"],
+                 "m_sizerFlags": ["wxALL", "wxLEFT", "wxRIGHT", "wxTOP", "wxBOTTOM", "wxEXPAND"],
                  "m_properties": [{
                    "type": "winid",
                    "m_label": "ID:",
@@ -2589,7 +2589,7 @@
                  "gbSpan": "1,1",
                  "gbPosition": "0,0",
                  "m_styles": [],
-                 "m_sizerFlags": ["wxALL", "wxLEFT", "wxRIGHT", "wxTOP", "wxBOTTOM"],
+                 "m_sizerFlags": ["wxALL", "wxLEFT", "wxRIGHT", "wxTOP", "wxBOTTOM", "wxEXPAND"],
                  "m_properties": [{
                    "type": "winid",
                    "m_label": "ID:",
@@ -3903,7 +3903,7 @@
            "m_events": [],
            "m_children": [{
              "m_type": 4469,
-             "proportion": 1,
+             "proportion": 0,
              "border": 5,
              "gbSpan": "1,1",
              "gbPosition": "0,0",
@@ -4360,12 +4360,12 @@
              "m_events": [],
              "m_children": [{
                "m_type": 4405,
-               "proportion": 0,
+               "proportion": 1,
                "border": 5,
                "gbSpan": "1,1",
                "gbPosition": "0,0",
                "m_styles": [],
-               "m_sizerFlags": ["wxALL", "wxLEFT", "wxRIGHT", "wxTOP", "wxBOTTOM"],
+               "m_sizerFlags": ["wxALL", "wxLEFT", "wxRIGHT", "wxTOP", "wxBOTTOM", "wxEXPAND"],
                "m_properties": [{
                  "type": "winid",
                  "m_label": "ID:",
@@ -4435,7 +4435,7 @@
                "m_children": []
               }, {
                "m_type": 4425,
-               "proportion": 1,
+               "proportion": 4,
                "border": 5,
                "gbSpan": "1,1",
                "gbPosition": "0,0",
@@ -4506,12 +4506,12 @@
                "m_children": []
               }, {
                "m_type": 4405,
-               "proportion": 0,
+               "proportion": 1,
                "border": 5,
                "gbSpan": "1,1",
                "gbPosition": "0,0",
                "m_styles": [],
-               "m_sizerFlags": ["wxALL", "wxLEFT", "wxRIGHT", "wxTOP", "wxBOTTOM"],
+               "m_sizerFlags": ["wxALL", "wxLEFT", "wxRIGHT", "wxTOP", "wxBOTTOM", "wxEXPAND"],
                "m_properties": [{
                  "type": "winid",
                  "m_label": "ID:",
@@ -4581,7 +4581,7 @@
                "m_children": []
               }, {
                "m_type": 4425,
-               "proportion": 1,
+               "proportion": 4,
                "border": 5,
                "gbSpan": "1,1",
                "gbPosition": "0,0",

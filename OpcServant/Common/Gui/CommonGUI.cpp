@@ -181,7 +181,7 @@ ReportGeneratorPanelBase::ReportGeneratorPanelBase(wxWindow* parent, wxWindowID 
     
     m_staticText271 = new wxStaticText(m_panelSetup, wxID_ANY, _("Type"), wxDefaultPosition, wxDLG_UNIT(m_panelSetup, wxSize(-1,-1)), 0);
     
-    flexGridSizer199->Add(m_staticText271, 0, wxALL, WXC_FROM_DIP(5));
+    flexGridSizer199->Add(m_staticText271, 1, wxALL|wxEXPAND, WXC_FROM_DIP(5));
     
     wxArrayString m_choiceTimeFrameArr;
     m_choiceTimeFrameArr.Add(wxT("Last Hour"));
@@ -196,7 +196,7 @@ ReportGeneratorPanelBase::ReportGeneratorPanelBase(wxWindow* parent, wxWindowID 
     
     m_staticText223 = new wxStaticText(m_panelSetup, wxID_ANY, _("Start Time"), wxDefaultPosition, wxDLG_UNIT(m_panelSetup, wxSize(-1,-1)), 0);
     
-    flexGridSizer199->Add(m_staticText223, 0, wxALL, WXC_FROM_DIP(5));
+    flexGridSizer199->Add(m_staticText223, 0, wxALL|wxEXPAND, WXC_FROM_DIP(5));
     
     m_timeStart = new wxTimePickerCtrl(m_panelSetup, wxID_ANY, wxDefaultDateTime, wxDefaultPosition, wxDLG_UNIT(m_panelSetup, wxSize(-1,-1)), wxTP_DEFAULT);
     m_timeStart->Enable(false);
@@ -206,7 +206,7 @@ ReportGeneratorPanelBase::ReportGeneratorPanelBase(wxWindow* parent, wxWindowID 
     
     m_staticText275 = new wxStaticText(m_panelSetup, wxID_ANY, _("Start Date"), wxDefaultPosition, wxDLG_UNIT(m_panelSetup, wxSize(-1,-1)), 0);
     
-    flexGridSizer199->Add(m_staticText275, 0, wxALL, WXC_FROM_DIP(5));
+    flexGridSizer199->Add(m_staticText275, 0, wxALL|wxEXPAND, WXC_FROM_DIP(5));
     
     m_dateStart = new wxDatePickerCtrl(m_panelSetup, wxID_ANY, wxDefaultDateTime, wxDefaultPosition, wxDLG_UNIT(m_panelSetup, wxSize(-1,-1)), wxDP_DEFAULT);
     m_dateStart->Enable(false);
@@ -215,7 +215,7 @@ ReportGeneratorPanelBase::ReportGeneratorPanelBase(wxWindow* parent, wxWindowID 
     
     m_staticText227 = new wxStaticText(m_panelSetup, wxID_ANY, _("End Time"), wxDefaultPosition, wxDLG_UNIT(m_panelSetup, wxSize(-1,-1)), 0);
     
-    flexGridSizer199->Add(m_staticText227, 0, wxALL, WXC_FROM_DIP(5));
+    flexGridSizer199->Add(m_staticText227, 0, wxALL|wxEXPAND, WXC_FROM_DIP(5));
     
     m_timeEnd = new wxTimePickerCtrl(m_panelSetup, wxID_ANY, wxDefaultDateTime, wxDefaultPosition, wxDLG_UNIT(m_panelSetup, wxSize(-1,-1)), wxTP_DEFAULT);
     m_timeEnd->Enable(false);
@@ -225,7 +225,7 @@ ReportGeneratorPanelBase::ReportGeneratorPanelBase(wxWindow* parent, wxWindowID 
     
     m_staticText279 = new wxStaticText(m_panelSetup, wxID_ANY, _("End Date"), wxDefaultPosition, wxDLG_UNIT(m_panelSetup, wxSize(-1,-1)), 0);
     
-    flexGridSizer199->Add(m_staticText279, 0, wxALL, WXC_FROM_DIP(5));
+    flexGridSizer199->Add(m_staticText279, 0, wxALL|wxEXPAND, WXC_FROM_DIP(5));
     
     m_dateEnd = new wxDatePickerCtrl(m_panelSetup, wxID_ANY, wxDefaultDateTime, wxDefaultPosition, wxDLG_UNIT(m_panelSetup, wxSize(-1,-1)), wxDP_DEFAULT);
     m_dateEnd->Enable(false);
@@ -293,7 +293,7 @@ ReportGeneratorPanelBase::ReportGeneratorPanelBase(wxWindow* parent, wxWindowID 
     
     m_statsTable = new wxDataViewListCtrl(m_panelStatistics, wxID_ANY, wxDefaultPosition, wxDLG_UNIT(m_panelStatistics, wxSize(-1,-1)), wxDV_ROW_LINES|wxDV_SINGLE);
     
-    boxSizer251->Add(m_statsTable, 1, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    boxSizer251->Add(m_statsTable, 0, wxALL|wxEXPAND, WXC_FROM_DIP(5));
     
     m_statsTable->AppendTextColumn(_("Item"), wxDATAVIEW_CELL_INERT, WXC_FROM_DIP(-2), wxALIGN_LEFT, wxDATAVIEW_COL_RESIZABLE);
     m_statsTable->AppendTextColumn(_("Mean"), wxDATAVIEW_CELL_INERT, WXC_FROM_DIP(-2), wxALIGN_LEFT, wxDATAVIEW_COL_RESIZABLE);
@@ -313,21 +313,21 @@ ReportGeneratorPanelBase::ReportGeneratorPanelBase(wxWindow* parent, wxWindowID 
     
     m_staticText487 = new wxStaticText(m_panelDataPoints, wxID_ANY, _("Values"), wxDefaultPosition, wxDLG_UNIT(m_panelDataPoints, wxSize(-1,-1)), 0);
     
-    boxSizer267->Add(m_staticText487, 0, wxALL, WXC_FROM_DIP(5));
+    boxSizer267->Add(m_staticText487, 1, wxALL|wxEXPAND, WXC_FROM_DIP(5));
     
     wxArrayString m_valueListArr;
     m_valueList = new wxCheckListBox(m_panelDataPoints, wxID_ANY, wxDefaultPosition, wxDLG_UNIT(m_panelDataPoints, wxSize(-1,-1)), m_valueListArr, wxLB_SINGLE);
     
-    boxSizer267->Add(m_valueList, 1, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    boxSizer267->Add(m_valueList, 4, wxALL|wxEXPAND, WXC_FROM_DIP(5));
     
     m_staticText489 = new wxStaticText(m_panelDataPoints, wxID_ANY, _("Alias"), wxDefaultPosition, wxDLG_UNIT(m_panelDataPoints, wxSize(-1,-1)), 0);
     
-    boxSizer267->Add(m_staticText489, 0, wxALL, WXC_FROM_DIP(5));
+    boxSizer267->Add(m_staticText489, 1, wxALL|wxEXPAND, WXC_FROM_DIP(5));
     
     wxArrayString m_AliasListArr;
     m_AliasList = new wxCheckListBox(m_panelDataPoints, wxID_ANY, wxDefaultPosition, wxDLG_UNIT(m_panelDataPoints, wxSize(-1,-1)), m_AliasListArr, wxLB_SINGLE);
     
-    boxSizer267->Add(m_AliasList, 1, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    boxSizer267->Add(m_AliasList, 4, wxALL|wxEXPAND, WXC_FROM_DIP(5));
     
     m_buttonRefreshValues = new wxButton(m_panelDataPoints, wxID_ANY, _("Refresh"), wxDefaultPosition, wxDLG_UNIT(m_panelDataPoints, wxSize(-1,-1)), 0);
     
