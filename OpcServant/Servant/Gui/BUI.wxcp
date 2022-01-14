@@ -202,7 +202,7 @@
         }, {
          "type": "font",
          "m_label": "Font:",
-         "m_value": "16,normal, bold, swiss, 0, Noto Sans"
+         "m_value": "wxSYS_DEVICE_DEFAULT_FONT,normal,bold,normal"
         }, {
          "type": "bool",
          "m_label": "Hidden",

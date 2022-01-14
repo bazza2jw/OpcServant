@@ -27,7 +27,8 @@ MainframeBase::MainframeBase(wxWindow* parent, wxWindowID id, const wxString& ti
     this->SetSizer(boxSizer15);
     
     m_notebook = new wxNotebook(this, wxID_ANY, wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), wxBK_RIGHT|wxBK_DEFAULT);
-    wxFont m_notebookFont(16, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD, false, wxT("Noto Sans"));
+    wxFont m_notebookFont = wxSystemSettings::GetFont(wxSYS_DEVICE_DEFAULT_FONT);
+    m_notebookFont.SetWeight(wxFONTWEIGHT_BOLD);
     m_notebook->SetFont(m_notebookFont);
     m_notebook->SetName(wxT("m_notebook"));
     wxImageList* m_notebook_il = new wxImageList(32, 32);
