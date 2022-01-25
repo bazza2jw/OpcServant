@@ -22,22 +22,14 @@ SET(CMAKE_CXX_COMPILER ${PITOOLS}/arm-linux-gnueabihf-g++-8)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
-SET(CMAKE_C_FLAGS "-march=armv8-a -mtune=cortex-a53 -mfpu=crypto-neon-fp-armv8 ${CMAKE_C_FLAGS} "  )
+SET(CMAKE_C_FLAGS "-march=armv8-a -mtune=cortex-a53 -mfpu=crypto-neon-fp-armv8 ${CMAKE_C_FLAGS}"  )
 SET(CMAKE_CXX_FLAGS "-march=armv8-a -mtune=cortex-a53 -mfpu=crypto-neon-fp-armv8 ${CMAKE_CXX_FLAGS}")
 
 # Define the sysroot path for the RaspberryPi distribution in our tools folder
 SET(CMAKE_SYSROOT ${PIROOT}) 
 SET(CMAKE_FIND_ROOT_PATH ${PIROOT})
-#INCLUDE_DIRECTORIES(${PIROOT}/usr/include/arm-linux-gnueabihf ) # Use our definitions for compiler tools
-INCLUDE_DIRECTORIES(${PIROOT}/usr/local/include )
-#INCLUDE_DIRECTORIES(${PIROOT}/usr/crossinc )
-link_directories(${PIROOT}/opt/vc/lib)
+SET(CMAKE_INCLUDE_SYSTEM_FLAG_CXX "-isystem")
 #
-LINK_DIRECTORIES(${PIROOT}/usr/lib/arm-linux-gnueabihf)
-LINK_DIRECTORIES(${PIROOT}/usr/local/lib)
-LINK_DIRECTORIES(${PIROOT}/lib/arm-linux-gnueabihf)
-
-
 SET(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER)
 # Search for libraries and headers in the target directories only
 SET(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY)

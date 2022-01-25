@@ -27,6 +27,7 @@ SET(CMAKE_CXX_FLAGS "-Wno-psabi ${CMAKE_CXX_FLAGS}")
 #
 IF( DEFINED CROSSBUILD )
 #when building for cross compiling wxWidgets cannot be auto detected
+    include_directories(${PIROOT}/usr/local/include)
     include_directories(${PIROOT}/usr/local/lib/wx/include/gtk3-unicode-3.1)
     include_directories(${PIROOT}/usr/local/include/wx-3.1)
      add_definitions(-DWXUSINGDLL -D__WXGTK3__ -D__WXGTK__)
@@ -44,9 +45,9 @@ IF( DEFINED CROSSBUILD )
     SET(BOOST_INCLUDEDIR ${PIROOT}/usr/include/boost)
 
     # Force the linker to look in the sysroot where the libraries actually are - needed for some of the cmake tests
-    SET (PI_LINKER_FLAGS "-Wl,--no-as-needed -lpthread -lcrypt")
-    SET(CMAKE_EXE_LINKER_FLAGS "${PI_LINKER_FLAGS} ${CMAKE_EXE_LINKER_FLAGS}" )
-    SET(CMAKE_SHARED_LINKER_FLAGS "${PI_LINKER_FLAGS} ${CMAKE_SHARED_LINKER_FLAGS}")
+    SET (PI_LINKER_FLAGS "-Wl,--no-as-needed -lcrypt" )
+    SET(CMAKE_EXE_LINKER_FLAGS "${PI_LINKER_FLAGS} ${CMAKE_EXE_LINKER_FLAGS} " )
+    SET(CMAKE_SHARED_LINKER_FLAGS "${PI_LINKER_FLAGS} ${CMAKE_SHARED_LINKER_FLAGS} ")
 
     
     add_definitions(-Wall )
@@ -85,6 +86,9 @@ endif()
 IF( DEFINED RASPBERRY_PI )
     add_definitions(-DRASPBERRY_PI_BUILD)
 endif()
+    SET (LINKER_FLAGS "-lcrypt" )
+    SET(CMAKE_EXE_LINKER_FLAGS "${LINKER_FLAGS} ${CMAKE_EXE_LINKER_FLAGS} " )
+    SET(CMAKE_SHARED_LINKER_FLAGS "${LINKER_FLAGS} ${CMAKE_SHARED_LINKER_FLAGS} ")
 
 
 ENDIF( DEFINED CROSSBUILD )
@@ -102,7 +106,7 @@ include_directories(/usr/local/include/open62541cpp)
 #
 # Enable the GUI build
 add_definitions(-DUSE_GUI )
-set(EXTRA_LIB_FLAGS open62541cpp sqlite3 mysqlpp modbus mosquittopp socket++ atomic pthread m rt)
+set(EXTRA_LIB_FLAGS open62541cpp sqlite3 mysqlpp modbus mosquittopp socket++ atomic pthread rt m)
 
 
 
