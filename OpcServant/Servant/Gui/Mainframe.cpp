@@ -50,7 +50,9 @@ Mainframe::Mainframe(wxWindow *parent)
 Mainframe::~Mainframe() {
 
 }
-
+/*!
+ * \brief Mainframe::clearTabs
+ */
 void Mainframe::clearTabs() {
     Hide();
     for (auto i = MRL::Common::daq().tabWindows().begin(); i != MRL::Common::daq().tabWindows().end(); i++) {
@@ -314,7 +316,9 @@ void Mainframe::onProperties(wxCommandEvent &/*event*/) {
         }
     }
 }
-
+/*!
+ * \brief Mainframe::onPeriodicTimer
+ */
 void Mainframe::onPeriodicTimer(wxTimerEvent &/*event*/) {
     MRL::WriteLock l(_mutex);
     while (_msgBuffer.size() > 0) {

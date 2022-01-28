@@ -105,9 +105,9 @@ public:
 
     static void itemToFilename(std::string &i){
         int n = i.find(":");
-        if(n != std::string::npos) i[n] = '_';
+        if(unsigned(n) != std::string::npos) i[n] = '_';
         n = i.find("/");
-        while(n != std::string::npos)
+        while(unsigned(n) != std::string::npos)
         {
             i[n] = '_';
             n = i.find("/");

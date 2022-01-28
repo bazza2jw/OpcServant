@@ -12,7 +12,7 @@
 cmake_minimum_required(VERSION 3.10)
 project(OpcServant)
 include (Common.cmake)
-add_subdirectory(ShapeCanvas)
+#add_subdirectory(ShapeCanvas)
 add_subdirectory(reportdocument)
 add_subdirectory(MrlLib)
 add_subdirectory(Common)

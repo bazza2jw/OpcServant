@@ -55,7 +55,7 @@ public:
     ScaleOffsetMap(const MRL::StringVector &l)
     {
         ScaleOffset o(1.0,0.0);
-        for(int i = 0; i < l.size(); i++)
+        for(unsigned i = 0; i < l.size(); i++)
         {
            insert_or_assign(l[i],o);
         }

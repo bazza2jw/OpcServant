@@ -46,7 +46,7 @@ namespace MRL {
             _tag.clear();
             //
             int n = p.find(TAG_SEPERATOR);
-            if(n  != std::string::npos)
+            if(unsigned(n)  != std::string::npos)
             {
                 _path = p.substr(0,n);
                 _tag = p.substr(n + 1);
