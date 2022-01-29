@@ -162,7 +162,7 @@ void Mainframe::setupTopLevel() {
 void Mainframe::setMainTab() {
     size_t n = GetNotebook()->GetPageCount();
     if (n > 0) {
-        for (int i = 0; i < n; i++) {
+        for (int i = 0; i < int(n); i++) {
             if (GetNotebook()->GetPageText(i) == _mainTab) {
                 GetNotebook()->SetSelection(i);
                 break;

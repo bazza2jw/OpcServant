@@ -183,12 +183,8 @@ void  MRL::MQTTRt::publishQueueItem(const Message &msg) {
                                     src = alias;
                                 }
                                 //
-                                std::string item =  "/" + _ident + "/" + src;
-                                //
                                 std::string js;
                                 MRL::jsonToString(vs, js);
-                                int rc = _mqtt->publish(NULL, item.c_str(), js.length(), js.c_str());
-                                //wxLogDebug("Publish %s ret = %d",js.c_str(),rc);
                             }
                         }
                     }

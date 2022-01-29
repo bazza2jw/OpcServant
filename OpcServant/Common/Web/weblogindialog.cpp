@@ -76,7 +76,7 @@ void MRL::WebLoginDialog::onOk()
         std::string url = Wt::WApplication::instance()->url();
         //
         int n = url.find('?');
-        if(n != std::string::npos)
+        if(n != int(std::string::npos))
         {
             url = url.substr(0,n +1); // strip out the
         }

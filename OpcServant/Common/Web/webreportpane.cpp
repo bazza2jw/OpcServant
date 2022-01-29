@@ -123,7 +123,7 @@ void MRL::WebReportPane::updateReportList()
         {
             MRL::StringVector &in =  r->inputs();
             // now build the list
-            for(int j = 0; j < in.size(); j++)
+            for(int j = 0; j < int(in.size()); j++)
             {
                 std::string s = r->pathAsString() + ":" + in[j];
                 _valueList->addItem(s);
@@ -146,9 +146,8 @@ void MRL::WebReportPane::updateReportList()
     wxDir::GetAllFiles 	(rd,&files, "*.rpt");
     if(files.Count() > 0)
     {
-        for(int i = 0; i < files.Count(); i++)
+        for(int i = 0; i < int(files.Count()); i++)
         {
-            std::cerr << files[i].ToStdString() << std::endl;
             wxFileName fn(files[i]);
             std::string rn = fn.GetName().ToStdString();
             _reportList->addItem(rn);

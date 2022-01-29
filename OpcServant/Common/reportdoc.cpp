@@ -60,7 +60,7 @@ void MRL::ReportDoc::addTablePage(ReportResultDatabase &rdb, const std::string &
  */
 void MRL::ReportDoc::addGraphPage(wxString path)
 {
-    wxReportImageItem i("Graph", path , 10, 10);
+    wxReportImageItem i("Graph", path, 10, 10);
     AddPage();
     AddItem(i);
 }
@@ -115,7 +115,7 @@ void MRL::ReportDoc::addStatisticsPage(ReportResultDatabase &rdb, const std::str
     maxS[1] = wxString::Format("%8.2f", stats.getMaximum());
     minS[1] = wxString::Format("%8.2f", stats.getMinimum());
     numS[1] = wxString::Format("%d", stats.getNumberSamples());
-   //
+    //
     table.AddColumn(itemS,"Item");
     table.AddColumn(meanS,"Mean");
     table.AddColumn(stdDevS,"Std.Dev");
@@ -145,18 +145,18 @@ void MRL::ReportDoc::addStatisticsPage(ReportResultDatabase &rdb,ReportGroup &rg
     minS.SetCount(rg._items.size());
     numS.SetCount(rg._items.size());
     //
-    for(int i = 0; i < rg._items.size(); i++)
+    for(int i = 0; i < int(rg._items.size()); i++)
     {
-    Statistics stats;
-    rdb.getStatistics(rg._items[i],stats);
-    itemS[i] = rg._items[i];
-    meanS[i] = wxString::Format("%8.2f", stats.getMean());
-    stdDevS[i] = wxString::Format("%8.2f", stats.getStdDev());
-    maxS[i] = wxString::Format("%8.2f", stats.getMaximum());
-    minS[i] = wxString::Format("%8.2f", stats.getMinimum());
-    numS[i] = wxString::Format("%d", stats.getNumberSamples());
+        Statistics stats;
+        rdb.getStatistics(rg._items[i],stats);
+        itemS[i] = rg._items[i];
+        meanS[i] = wxString::Format("%8.2f", stats.getMean());
+        stdDevS[i] = wxString::Format("%8.2f", stats.getStdDev());
+        maxS[i] = wxString::Format("%8.2f", stats.getMaximum());
+        minS[i] = wxString::Format("%8.2f", stats.getMinimum());
+        numS[i] = wxString::Format("%d", stats.getNumberSamples());
     }
-   //
+    //
     wxReportTableItem table("Statistics");
     table.AddColumn(itemS,"Item");
     table.AddColumn(meanS,"Mean");

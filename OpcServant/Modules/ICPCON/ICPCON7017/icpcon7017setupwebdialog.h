@@ -30,7 +30,7 @@ namespace MRL {
             auto bp =  std::make_unique<ScaleOffsetWebPanel >(6);
             _panel = bp.get();
 
-            for(int i = 0; i < MRL::ICPCON7017RT::_channelNames.size(); i++)
+            for(int i = 0; i < int(MRL::ICPCON7017RT::_channelNames.size()); i++)
             {
                 _panel->map()[MRL::ICPCON7017RT::_channelNames[i]] = ScaleOffset(1.0,0.0); // setup the map
             }

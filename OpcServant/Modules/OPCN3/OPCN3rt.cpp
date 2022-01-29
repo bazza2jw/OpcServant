@@ -66,14 +66,14 @@ void MRL::OPCN3RT::onOneSecond(time_t t)
         }
         break;
     case STATE_WAIT:
-        if(_timer.Time() >= _waitInterval)
+        if(unsigned(_timer.Time()) >= _waitInterval)
         {
             _timer.Start();
             _state = STATE_START;
         }
         break;
     case STATE_FAIL:
-        if(_timer.Time() >= FAIL_WAIT_TIME)
+        if(_timer.Time() >= long(FAIL_WAIT_TIME))
         {
             _state = STATE_START;
         }
@@ -81,7 +81,7 @@ void MRL::OPCN3RT::onOneSecond(time_t t)
     case START_STOP:
         break;
     case STATE_WAIT_SAMPLE:
-        if(_timer.Time() >= _sampleInterval)
+        if(unsigned(_timer.Time()) >= _sampleInterval)
         {
             _timer.Start();
             if(_opc.read(OPCN3::OP_READ_HISTOGRAM_DATA, _results)) // read the data
@@ -138,7 +138,7 @@ void MRL::OPCN3RT::onOneSecond(time_t t)
             {
                 _state = STATE_FAIL;
                 _ok = false;
-                _status = STATES::States::StateFault;
+                _status = false;
                 updateValue(_status,"Status",STATES::States::StateFault);
                 runtime().setString("StatusDesc","FAULT");
             }

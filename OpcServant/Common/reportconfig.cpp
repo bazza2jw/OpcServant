@@ -66,7 +66,6 @@ bool MRL::ReportConfig::toReportGroup(ReportGroup &g)
     // populate the fields of a group from a configuration ready for a search
     MRL::PropertyPath p;
     p.push_back("Report");
-    int tfs = _config.getValue<int>(p,"Timeframe");
     // get the datetime
     wxDateTime start;
     std::string s = _config.getAsString(p,"Start");
@@ -87,7 +86,6 @@ bool MRL::ReportConfig::toReportGroup(ReportGroup &g)
         _config.listChildren(p, l);
         g._items.clear();
         //
-        size_t j = 0;
         for(auto i  = l.begin(); i != l.end(); i++)
         {
             std::string v = _config.getAsString(p, *i);

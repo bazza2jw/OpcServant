@@ -57,7 +57,7 @@ ValueGroupConfigurationDialog::ValueGroupConfigurationDialog(wxWindow* parent, c
                     std::string pt;
                     r->path().toString(pt);
                     MRL::StringVector &l = r->outputs();
-                    for(int j = 0; j < l.size(); j++)
+                    for(unsigned j = 0; j < l.size(); j++)
                     {
                         std::string s = pt + TAG_SEPERATOR + l[j];
                         GetOkOutput()->AppendString(s); // add the

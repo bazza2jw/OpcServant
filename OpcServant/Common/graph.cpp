@@ -512,7 +512,7 @@ void  MRL::Graph::plotLines(wxDC &DC)
         int maxLen = 0; // find longest string
         for(auto i = plotMap.begin(); i != plotMap.end(); i++)
         {
-            if((*i).first.length() > maxLen) maxLen = (*i).first.length();
+            if(int((*i).first.length()) > maxLen) maxLen = (*i).first.length();
         }
         //
         wxRect bkg(plotRect.GetLeft(),plotRect.GetTop(),(maxLen + 2) * timeSize.GetWidth()/8, plotMap.size() * (timeSize.GetHeight()+2) + 6  );

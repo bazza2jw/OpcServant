@@ -82,8 +82,6 @@ void ValueGroupPanel::updateTable() // update the display
             //
             // find the row
             //
-            int j = 0;
-            //
             wxString n(i->first);
             //
             for(int j = 0; j < GetValues()->GetNumberRows(); j++)

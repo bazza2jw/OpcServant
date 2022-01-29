@@ -1938,8 +1938,10 @@ bool mpWindow::UpdateBBox()
             }
             else
             {
-                if (f->GetMinX()<m_minX) m_minX=f->GetMinX(); if (f->GetMaxX()>m_maxX) m_maxX=f->GetMaxX();
-                if (f->GetMinY()<m_minY) m_minY=f->GetMinY(); if (f->GetMaxY()>m_maxY) m_maxY=f->GetMaxY();
+                if (f->GetMinX()<m_minX) m_minX=f->GetMinX();
+                if (f->GetMaxX()>m_maxX) m_maxX=f->GetMaxX();
+                if (f->GetMinY()<m_minY) m_minY=f->GetMinY();
+                if (f->GetMaxY()>m_maxY) m_maxY=f->GetMaxY();
             }
         }
         //node = node->GetNext();
@@ -2226,7 +2228,9 @@ bool mpWindow::SaveScreenshot(const wxString& filename, int /*type*/, wxSize ima
     // Draw all the layers:
     wxLayerList::iterator li;
     for (li = m_layers.begin(); li != m_layers.end(); li++)
+    {
     	(*li)->Plot(screenDC, *this);
+    }
 
 	if (imageSize != wxDefaultSize) {
 		// Restore dimensions

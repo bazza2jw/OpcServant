@@ -79,8 +79,8 @@ namespace MRL{
 
 
     /*!
-    /*!     \brief The ReportGroup struct
-    /*!
+    *!     \brief The ReportGroup struct
+    *!
     */
     struct ReportGroup
     {

@@ -187,7 +187,6 @@ void MRL::BWebNavigationTree::onTimer() {
     \return
 */
 bool MRL::WebHandler::processQueueItem(const Message &msg) {
-    MRL::Message &m = const_cast<MRL::Message &>(msg);
     if (!MRL::BObject::processQueueItem(msg)) {
         // notifications from DAQ thread
         switch (msg.id()) {

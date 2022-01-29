@@ -134,7 +134,7 @@ MRL::ScaleOffsetWebPanel::ScaleOffsetWebPanel( int numberRows)
 
 MRL::ScaleOffsetWebPanel::ScaleOffsetWebPanel(MRL::StringVector &l) : ScaleOffsetWebPanel(l.size())
 {
-    for(int i = 0; i < l.size(); i++)
+    for(int i = 0; i < int(l.size()); i++)
     {
         map()[l[i]] = ScaleOffset(1.0,0.0); // setup the map
     }
@@ -147,7 +147,7 @@ MRL::ScaleOffsetWebPanel::ScaleOffsetWebPanel(MRL::StringVector &l) : ScaleOffse
  */
 void MRL::ScaleOffsetWebPanel::setLabels()
 {
-    if(_map.size() <= _numberRows)
+    if(int(_map.size()) <= _numberRows)
     {
         int j = 0;
         for(auto i = _map.begin(); i != _map.end(); i++)

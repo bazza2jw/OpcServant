@@ -50,7 +50,7 @@ void MRL::WebAliasConfigurationDialog::WebAddAliasDialog::setup()
                 std::string s;
                 r->path().toString(s);
                 MRL::StringVector &l = r->inputs();
-                for(int i = 0; i < l.size(); i++)
+                for(int i = 0; i < int(l.size()); i++)
                 {
                     std::string v = s + TAG_SEPERATOR + l[i];
                     _valueList->addItem(v);

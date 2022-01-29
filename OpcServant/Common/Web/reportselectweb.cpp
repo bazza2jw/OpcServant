@@ -54,7 +54,7 @@ MRL::ReportSelectWeb::ReportSelectWeb()
     wxDir::GetAllFiles 	(rd,&files, "*.rpt");
     if(files.Count() > 0)
     {
-        for(int i = 0; i < files.Count(); i++)
+        for(int i = 0; i < int(files.Count()); i++)
         {
             std::cerr << files[i].ToStdString() << std::endl;
             wxFileName fn(files[i]);

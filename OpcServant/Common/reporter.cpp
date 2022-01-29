@@ -47,10 +47,9 @@ void MRL::Reporter::getReportList(MRL::StringList &l)
     //
     wxArrayString files;
     wxDir::GetAllFiles 	(rd,&files, "*.rpt");
-    std::cerr << rd << std::endl;
     if(files.Count() > 0)
     {
-        for(int i = 0; i < files.Count(); i++)
+        for(int i = 0; i < int(files.Count()); i++)
         {
             wxFileName fn(files[i]);
             l.push_back(fn.GetName().ToStdString());
@@ -225,7 +224,7 @@ bool MRL::Reporter::generateHtml( std::ostream &os, std::string item, int page)
             return true;
         }
     }
-    catch(std::exception e)
+    catch(std::exception &e)
     {
         std::cerr << "Exception " << __FUNCTION__ << e.what() << std::endl;
     }
@@ -264,7 +263,7 @@ bool MRL::Reporter::generateGraphHtml(std::ostream &os, std::string item, int pa
  */
 bool MRL::Reporter::generateTablesHtml(std::ostream &os, ReportGroup &g, int page)
 {
-    for(int i = 0; i < g._items.size(); i++)
+    for(int i = 0; i < int(g._items.size()); i++)
     {
         int nPage = _rdb->getPageCount(g._items[i], recordsPerRead());
         if(nPage > 0)
@@ -349,7 +348,7 @@ bool MRL::Reporter::createTables(ReportGroup &g, bool asOneFile)
     else
     {
         // generate as separate files
-        for(int i = 0; i < g._items.size(); i++)
+        for(int i = 0; i < int(g._items.size()); i++)
         {
             if(!createTable( g._items[i])) return false;
         }
@@ -375,7 +374,7 @@ bool MRL::Reporter::generateStatisticsHtml(std::ostream &os, ReportGroup &sg, in
         os << "<header><br><h4>Statistics:" << _name << "</h4></header>" << std::endl;
         os << "<table border=\"1\" style=\"width:100%\">" << std::endl;
         os << "<tr><th>Item</th><th>Mean</th><th>Std.Dev.</th><th>Maximum</th><th>Minimum</th><th>Count</th></tr>" << std::endl;
-        for(int i = 0; i < sg._items.size(); i++)
+        for(int i = 0; i < int(sg._items.size()); i++)
         {
             Statistics stats;
             resultsdb().getStatistics(sg._items[i],stats);
@@ -479,7 +478,7 @@ bool MRL::Reporter::createCsv(const std::string &item)
  */
 bool MRL::Reporter::createCsv(ReportGroup &g)
 {
-    for(int i = 0; i < g._items.size(); i++)
+    for(int i = 0; i < int(g._items.size()); i++)
     {
         if(!createCsv(g._items[i])) return false;
     }
@@ -511,7 +510,7 @@ bool MRL::Reporter::createStatisticsCsv(ReportGroup &sg)
 {
     std::string f = _outputDir + "/" +  "Stats.csv" ;
     std::ofstream os(f);
-    for(int i = 0; i < sg._items.size(); i++)
+    for(int i = 0; i < int(sg._items.size()); i++)
     {
         Statistics stats;
         resultsdb().getStatistics(sg._items[i],stats);
@@ -574,7 +573,7 @@ bool MRL::Reporter::createGraph(const std::string &item, ReportGraph *w ) // cre
 bool MRL::Reporter::createGraph(ReportGroup &rg, ReportGraph *w) // plot all data on one graph
 {
     // the group has already been built
-    for(int i = 0; i < rg._items.size(); i++)
+    for(int i = 0; i < int(rg._items.size()); i++)
     {
         createGraph(rg._items[i], w );
     }
@@ -616,7 +615,7 @@ bool MRL::Reporter::createGraph( const std::string &item, Graph &w) // create gr
 bool MRL::Reporter::createGraph( ReportGroup &rg, Graph &w) // plot all data on one graph
 {
     // the group has already been built
-    for(int i = 0; i < rg._items.size(); i++)
+    for(int i = 0; i < int(rg._items.size()); i++)
     {
         createGraph(rg._items[i], w );
     }

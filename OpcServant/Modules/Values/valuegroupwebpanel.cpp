@@ -23,7 +23,7 @@
  * \brief MRL::ValueGroupWebPanel::ValueGroupWebPanel
  * \param id
  */
-MRL::ValueGroupWebPanel::ValueGroupWebPanel(unsigned id) : _id(id), _handler(id,this)
+MRL::ValueGroupWebPanel::ValueGroupWebPanel(unsigned id) : _handler(id,this), _id(id)
 {
     //
     _timer = addChild(std::make_unique<Wt::WTimer>());

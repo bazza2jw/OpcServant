@@ -47,7 +47,7 @@ void ReportGeneratorPanel::setReportList()
     GetListDataPoints()->Clear();
     if(files.Count() > 0)
     {
-        for(int i = 0; i < files.Count(); i++)
+        for(int i = 0; i < int(files.Count()); i++)
         {
             //std::cerr << files[i].ToStdString() << std::endl;
             wxFileName fn(files[i]);
@@ -79,7 +79,7 @@ void ReportGeneratorPanel::setValueList()
         {
             MRL::StringVector &in =  r->inputs();
             // now build the list
-            for(int j = 0; j < in.size(); j++)
+            for(int j = 0; j < int(in.size()); j++)
             {
                 std::string s = r->pathAsString() + TAG_SEPERATOR + in[j];
                 GetValueList()->Append(s);
@@ -211,7 +211,7 @@ void ReportGeneratorPanel::toConfig()
     p.push_back("Values");
     //
     int k = 0;
-    for(int i = 0; i < GetValueList()->GetCount(); i++)
+    for(int i = 0; i < int(GetValueList()->GetCount()); i++)
     {
         // store selected value list
         if(GetValueList()->IsChecked(i))
@@ -224,7 +224,7 @@ void ReportGeneratorPanel::toConfig()
     //
     k=0;
     p.push_back("Alias");
-    for(int i = 0; i < GetAliasList()->GetCount(); i++)
+    for(int i = 0; i < int(GetAliasList()->GetCount()); i++)
     {
         // store selected value list
         if(GetAliasList()->IsChecked(i))
@@ -274,7 +274,7 @@ void ReportGeneratorPanel::onLoadReport(wxCommandEvent& /*event*/)
                 //
                 // Now get the list of points in the report
                 // clear value selections
-                for(int i = 0; i < GetValueList()->GetCount(); i++)
+                for(int i = 0; i < int(GetValueList()->GetCount()); i++)
                 {
                     GetValueList()->Check(i,false);
                 }
@@ -297,7 +297,7 @@ void ReportGeneratorPanel::onLoadReport(wxCommandEvent& /*event*/)
                 //
                 p.pop_back();
                 //
-                for(int i = 0; i < GetAliasList()->GetCount(); i++)
+                for(int i = 0; i < int(GetAliasList()->GetCount()); i++)
                 {
                     GetAliasList()->Check(i,false);
                 }
@@ -333,7 +333,7 @@ void ReportGeneratorPanel::addPages()
     // add the pages to the tables - pages scroll records in and out from the report (which is in the form of an SQLITE database)
     if(_report)
     {
-        for(int i = 0; i < _group._items.size(); i++)
+        for(int i = 0; i < int(_group._items.size()); i++)
         {
             ReportTablePage *p = new ReportTablePage(_report.get(), _group._items[i], GetReportTables());
             p->SetHelpText(_group._items[i]);
@@ -387,7 +387,7 @@ void ReportGeneratorPanel::onMakeReport(wxCommandEvent& /*event*/)
                         GetStatsTable()->DeleteAllItems();
                         // build the stats table
                         wxVector<wxVariant> data;
-                        for(int i = 0; i < _group._items.size(); i++)
+                        for(int i = 0; i < int(_group._items.size()); i++)
                         {
                             _report->statsTowxVector(_group._items[i], data);
                             GetStatsTable()->AppendItem(data);
@@ -560,7 +560,7 @@ void ReportGeneratorPanel::onExport(wxCommandEvent& /*event*/)
                     if(!d.IsEmpty())
                     {
                         // do the file copy
-                        for(int i = 0; i < _group._items.size(); i++)
+                        for(int i = 0; i < int(_group._items.size()); i++)
                         {
                             std::string it = _group._items[i];
                             MRL::Reporter::itemToFilename(it);

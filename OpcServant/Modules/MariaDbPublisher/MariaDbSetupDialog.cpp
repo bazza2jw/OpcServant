@@ -88,7 +88,7 @@ void MariaDbSetupDialog::OnTest(wxCommandEvent & /*event*/) {
             wxMessageBox("Connect Fail");
         }
     }
-    catch (mysqlpp::Exception e) {
+    catch (mysqlpp::Exception &e) {
         wxLogDebug("Database Exception in %s: %s", __FUNCTION__, e.what());
          wxMessageBox(e.what());
     }
