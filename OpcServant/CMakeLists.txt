@@ -8,17 +8,17 @@
  #* These classes are distributed in the hope that it will be useful, but WITHOUT ANY
  #* WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
  #* A PARTICULAR PURPOSE.
-
+#
+# Build and install VisualCalc before building these
+#
 cmake_minimum_required(VERSION 3.10)
 project(OpcServant)
 include (Common.cmake)
-#add_subdirectory(ShapeCanvas)
 add_subdirectory(reportdocument)
 add_subdirectory(MrlLib)
 add_subdirectory(Common)
 add_subdirectory(Modules)
 add_subdirectory(Servant)
-
 #
 
 

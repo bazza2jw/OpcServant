@@ -54,6 +54,7 @@ public:
     void logMessage(const std::string &s, const std::string &m, const std::string &st = "Ok");
     void clearTabs();
 protected:
+    virtual void onVisualCalc(wxCommandEvent& event);
     virtual void OnAliasConfigure(wxCommandEvent& event);
     virtual void onClose(wxCloseEvent& event);
     virtual void onUnlockNavigator(wxCommandEvent& event);

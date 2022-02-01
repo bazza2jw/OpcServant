@@ -36,7 +36,7 @@ void MRL::LinkRT::start()
     //
     //
     _socket.reset();
-    _socket = std::make_unique<libsocket::inet_dgram_server>(_host,_port); // set up the datagram socket
+    _socket = std::make_unique<libsocket::inet_dgram_server>(_host,_port,LIBSOCKET_IPv4); // set up the datagram socket
 }
 
 /*!

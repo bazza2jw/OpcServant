@@ -8,7 +8,7 @@ class FrameCanvas : public wxSFShapeCanvas
 {
 public:
     FrameCanvas(){;}
-	FrameCanvas(wxSFDiagramManager* manager, wxWindow* parent, wxWindowID id);
+    FrameCanvas(wxSFDiagramManager* manager, SfMainFrm* parent = nullptr, wxWindowID id = 0);
 	virtual ~FrameCanvas(void);
 
 	// public virtual functions
@@ -20,7 +20,7 @@ public:
 
 protected:
 	// protected data members
-    SfMainFrm *m_pParentFrame;
+    SfMainFrm *m_pParentFrame = nullptr;
 };
 
 #endif //_FRAMECANVAS_H

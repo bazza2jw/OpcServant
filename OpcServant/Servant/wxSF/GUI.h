@@ -27,7 +27,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 /// Class _SfMainFrm
 ///////////////////////////////////////////////////////////////////////////////
-class _SfMainFrm : public wxPanel
+class _SfMainFrm : public wxFrame
 {
 	private:
 	
@@ -45,7 +45,7 @@ class _SfMainFrm : public wxPanel
 	public:
 		wxBoxSizer* m_pCanvasSizer;
 		
-                _SfMainFrm(wxWindow *parent, wxWindowID id=wxID_ANY, const wxPoint &pos=wxDefaultPosition, const wxSize &size=wxDefaultSize, long style=wxTAB_TRAVERSAL, const wxString &name=wxPanelNameStr);
+                _SfMainFrm(wxWindow *parent, wxWindowID id=wxID_ANY, const wxString &title = wxT("Shape Editor"),const wxPoint &pos=wxDefaultPosition, const wxSize &size=wxDefaultSize, long style=wxTAB_TRAVERSAL, const wxString &name=wxPanelNameStr);
 		
                 ~_SfMainFrm();
 	

@@ -6,11 +6,11 @@
 #include <wx/textdlg.h>
 #include <wx/filename.h>
 
-FrameCanvas::FrameCanvas(wxSFDiagramManager* manager, wxWindow* parent, wxWindowID id)
+FrameCanvas::FrameCanvas(wxSFDiagramManager* manager, SfMainFrm* parent, wxWindowID id)
 : wxSFShapeCanvas(manager, parent, id, wxDefaultPosition, wxDefaultSize, wxHSCROLL | wxVSCROLL | wxSTATIC_BORDER)
 {
     // get pointer to main application frame
-    m_pParentFrame = (SfMainFrm*)wxGetApp().GetTopWindow();
+    m_pParentFrame = parent;
 	
 	// initialize grid
 	AddStyle(sfsGRID_USE);

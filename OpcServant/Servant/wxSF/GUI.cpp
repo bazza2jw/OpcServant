@@ -11,8 +11,8 @@
 
 ///////////////////////////////////////////////////////////////////////////
 
-_SfMainFrm::_SfMainFrm(wxWindow *parent, wxWindowID id, const wxPoint &pos, const wxSize &size, long style, const wxString &name):
-                        wxPanel( parent, id, pos, size, style,name )
+_SfMainFrm::_SfMainFrm(wxWindow *parent, wxWindowID id, const wxString &title, const wxPoint &pos, const wxSize &size, long style, const wxString &name):
+                        wxFrame( parent, id, title, pos, size, style,name )
 {
 	this->SetSizeHints( wxSize( 1024,700 ), wxDefaultSize );
 	

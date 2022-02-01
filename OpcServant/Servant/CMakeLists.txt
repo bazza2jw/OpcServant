@@ -19,12 +19,12 @@ set(LIB_SOURCES
     Gui/BUI.cpp 
     Gui/BUI_bui_bitmaps.cpp 
     Gui/Mainframe.cpp 
-   )
+     )
 
 add_executable(Servant ${LIB_SOURCES})
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
-set(PROJECT_LIB_FLAGS  MrlLib Common )
+set(PROJECT_LIB_FLAGS  MrlLib Common VisualScriptEngine)
 target_link_libraries(Servant ${wxWidgets_LIBRARIES} ${WTLIBS} ${Boost_LIBRARIES} ${EXTRA_LIB_FLAGS} ${PROJECT_LIB_FLAGS}  )
 
 IF( DEFINED CROSSBUILD )
