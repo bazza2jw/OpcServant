@@ -13,6 +13,7 @@ namespace BI
 {
 
 DYNAMIC_SERIALIZATION_INFO (BooleanNode, 1, "{72E14D86-E5DC-4AD6-A7E4-F60D47BFB114}");
+DYNAMIC_SERIALIZATION_INFO (StringNode, 1, "{c50838f6-3081-4732-92ef-1ff71f248259}");
 
 SERIALIZATION_INFO (NumericUpDownNode, 1);
 DYNAMIC_SERIALIZATION_INFO (IntegerUpDownNode, 1, "{98ADBB4A-8E55-4FE5-B0F9-EC5DD776C000}");
@@ -168,6 +169,85 @@ void BooleanNode::SetValue (bool newVal)
 {
 	val = newVal;
 }
+
+StringNode::StringNode () :
+    StringNode (NE::LocString (), NUIE::Point (), std::wstring())
+{
+
+}
+
+StringNode::StringNode (const NE::LocString& name, const NUIE::Point& position, const std::wstring &v) :
+    BasicUINode (name, position),    val (v)
+{
+
+}
+
+StringNode::~StringNode ()
+{
+
+}
+
+void StringNode::Initialize ()
+{
+    RegisterUIOutputSlot (NUIE::UIOutputSlotPtr (new NUIE::UIOutputSlot (NE::SlotId ("out"), NE::LocString (L"Output"))));
+}
+
+bool StringNode::IsForceCalculated () const
+{
+    return true;
+}
+
+NE::ValueConstPtr StringNode::Calculate (NE::EvaluationEnv&) const
+{
+    return NE::ValueConstPtr (new NE::StringValue (val));
+}
+
+void StringNode::RegisterParameters (NUIE::NodeParameterList& parameterList) const
+{
+    class ValueParameter : public NUIE::StringNodeParameter<StringNode>
+    {
+    public:
+        ValueParameter () :
+            NUIE::StringNodeParameter<StringNode> (NE::LocString (L"Value"))
+        {
+
+        }
+
+        virtual NE::ValueConstPtr GetValueInternal (const NUIE::UINodeConstPtr& uiNode) const override
+        {
+            return NE::ValuePtr (new NE::StringValue (GetTypedNode (uiNode)->GetValue ()));
+        }
+
+        virtual bool SetValueInternal (NUIE::UINodeInvalidator& invalidator, NE::EvaluationEnv&, NUIE::UINodePtr& uiNode, const NE::ValueConstPtr& value) override
+        {
+            GetTypedNode (uiNode)->SetValue (const_cast<std::wstring &>(NE::StringValue::Get (value)));
+            invalidator.InvalidateValueAndDrawing ();
+            return true;
+        }
+    };
+    BasicUINode::RegisterParameters (parameterList);
+    parameterList.AddParameter (NUIE::NodeParameterPtr (new ValueParameter ()));
+}
+
+NE::Stream::Status StringNode::Read (NE::InputStream& inputStream)
+{
+    NE::ObjectHeader header (inputStream);
+    BasicUINode::Read (inputStream);
+    inputStream.Read (val);
+    return inputStream.GetStatus ();
+}
+
+NE::Stream::Status StringNode::Write (NE::OutputStream& outputStream) const
+{
+    NE::ObjectHeader header (outputStream, serializationInfo);
+    BasicUINode::Write (outputStream);
+    outputStream.Write (val);
+    return outputStream.GetStatus ();
+}
+
+
+
+
 
 NumericUpDownNode::Layout::Layout (	const std::string& leftButtonId,
 									const std::wstring& leftButtonText,

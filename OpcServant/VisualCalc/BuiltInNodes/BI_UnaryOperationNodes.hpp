@@ -38,14 +38,15 @@ class NotNode : public UnaryOperationNode
     DYNAMIC_SERIALIZABLE (NotNode)
 
 public:
-        NotNode (){}
+    NotNode (){}
     NotNode (const NE::LocString& name, const NUIE::Point& position) : UnaryOperationNode(name,position) {}
     virtual ~NotNode (){}
 
     virtual void				Initialize () override
     {
         RegisterUIInputSlot (NUIE::UIInputSlotPtr (new NUIE::UIInputSlot (NE::SlotId ("a"), NE::LocString (L"A"),
-                                                                          NE::ValuePtr (new NE::BooleanValue (0.0)), NE::OutputSlotConnectionMode::Single)));
+                                                                          NE::ValuePtr (new NE::BooleanValue (false)),
+                                                                          NE::OutputSlotConnectionMode::Single)));
         RegisterUIOutputSlot (NUIE::UIOutputSlotPtr (new NUIE::UIOutputSlot (NE::SlotId ("result"), NE::LocString (L"Result"))));
     }
     virtual NE::ValueConstPtr	Calculate (NE::EvaluationEnv& env) const override

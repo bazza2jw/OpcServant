@@ -25,7 +25,7 @@ public:
 	};
 
 	BooleanNode ();
-	BooleanNode (const NE::LocString& name, const NUIE::Point& position, bool val);
+    BooleanNode (const NE::LocString& name, const NUIE::Point& position, bool f);
 	virtual ~BooleanNode ();
 
 	virtual void						Initialize () override;
@@ -43,6 +43,33 @@ public:
 private:
 	bool								val;
 };
+
+class StringNode : public BasicUINode
+{
+    DYNAMIC_SERIALIZABLE (StringNode);
+
+public:
+
+    StringNode ();
+    StringNode (const NE::LocString& name, const NUIE::Point& position, const std::wstring & v = L"");
+    virtual ~StringNode ();
+
+    virtual void						Initialize () override;
+    virtual bool						IsForceCalculated () const override;
+
+    virtual NE::ValueConstPtr			Calculate (NE::EvaluationEnv& env) const override;
+    virtual void						RegisterParameters (NUIE::NodeParameterList& parameterList) const override;
+
+    virtual NE::Stream::Status			Read (NE::InputStream& inputStream) override;
+    virtual NE::Stream::Status			Write (NE::OutputStream& outputStream) const override;
+
+    const std::wstring &						GetValue () const { return val;}
+    void								SetValue (std::wstring &v) { val = v;}
+
+private:
+    std::wstring					    val;
+};
+
 
 class NumericUpDownNode : public BasicUINode
 {
@@ -215,6 +242,10 @@ public:
 	virtual NE::Stream::Status			Read (NE::InputStream& inputStream) override;
 	virtual NE::Stream::Status			Write (NE::OutputStream& outputStream) const override;
 };
+
+
+
+
 
 }
 

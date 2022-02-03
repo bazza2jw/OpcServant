@@ -93,10 +93,6 @@ MainframeBase::MainframeBase(wxWindow* parent, wxWindowID id, const wxString& ti
     
     gridSizer175->Add(m_aliasConfigure, 1, wxALL|wxEXPAND, WXC_FROM_DIP(5));
     
-    m_visualCalc = new wxButton(m_splitterPage115, wxID_ANY, _("VC"), wxDefaultPosition, wxDLG_UNIT(m_splitterPage115, wxSize(-1,-1)), 0);
-    
-    gridSizer175->Add(m_visualCalc, 1, wxALL|wxEXPAND, WXC_FROM_DIP(5));
-    
     m_diagnosticPage = new wxPanel(m_splitter111, wxID_ANY, wxDefaultPosition, wxDLG_UNIT(m_splitter111, wxSize(-1,-1)), wxTAB_TRAVERSAL);
     m_splitter111->SplitVertically(m_splitterPage115, m_diagnosticPage, 0);
     
@@ -222,7 +218,6 @@ MainframeBase::MainframeBase(wxWindow* parent, wxWindowID id, const wxString& ti
     m_unlockNavigator->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(MainframeBase::onUnlockNavigator), NULL, this);
     m_buttonSysProps->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(MainframeBase::onProperties), NULL, this);
     m_aliasConfigure->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(MainframeBase::OnAliasConfigure), NULL, this);
-    m_visualCalc->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(MainframeBase::onVisualCalc), NULL, this);
     m_buttonClearMessages->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(MainframeBase::OnClearMessages), NULL, this);
     m_timer77->Connect(wxEVT_TIMER, wxTimerEventHandler(MainframeBase::OnStartupTimer), NULL, this);
     m_timerPeriodic->Connect(wxEVT_TIMER, wxTimerEventHandler(MainframeBase::onPeriodicTimer), NULL, this);
@@ -237,7 +232,6 @@ MainframeBase::~MainframeBase()
     m_unlockNavigator->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(MainframeBase::onUnlockNavigator), NULL, this);
     m_buttonSysProps->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(MainframeBase::onProperties), NULL, this);
     m_aliasConfigure->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(MainframeBase::OnAliasConfigure), NULL, this);
-    m_visualCalc->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(MainframeBase::onVisualCalc), NULL, this);
     m_buttonClearMessages->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(MainframeBase::OnClearMessages), NULL, this);
     m_timer77->Disconnect(wxEVT_TIMER, wxTimerEventHandler(MainframeBase::OnStartupTimer), NULL, this);
     m_timerPeriodic->Disconnect(wxEVT_TIMER, wxTimerEventHandler(MainframeBase::onPeriodicTimer), NULL, this);

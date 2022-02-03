@@ -57,7 +57,6 @@ protected:
     wxButton* m_unlockNavigator;
     wxButton* m_buttonSysProps;
     wxButton* m_aliasConfigure;
-    wxButton* m_visualCalc;
     wxPanel* m_diagnosticPage;
     wxBoxSizer* boxSizer125;
     wxNotebook* m_notebook129;
@@ -85,7 +84,6 @@ protected:
     virtual void onUnlockNavigator(wxCommandEvent& event) { event.Skip(); }
     virtual void onProperties(wxCommandEvent& event) { event.Skip(); }
     virtual void OnAliasConfigure(wxCommandEvent& event) { event.Skip(); }
-    virtual void onVisualCalc(wxCommandEvent& event) { event.Skip(); }
     virtual void OnClearMessages(wxCommandEvent& event) { event.Skip(); }
     virtual void OnStartupTimer(wxTimerEvent& event) { event.Skip(); }
     virtual void onPeriodicTimer(wxTimerEvent& event) { event.Skip(); }
@@ -95,7 +93,6 @@ public:
     wxButton* GetUnlockNavigator() { return m_unlockNavigator; }
     wxButton* GetButtonSysProps() { return m_buttonSysProps; }
     wxButton* GetAliasConfigure() { return m_aliasConfigure; }
-    wxButton* GetVisualCalc() { return m_visualCalc; }
     wxPanel* GetSplitterPage115() { return m_splitterPage115; }
     wxHtmlWindow* GetConfiguration() { return m_Configuration; }
     wxPanel* GetPanelConfiguration() { return m_panelConfiguration; }

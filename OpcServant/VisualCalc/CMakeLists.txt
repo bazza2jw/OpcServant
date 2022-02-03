@@ -40,9 +40,10 @@ set (wxWidgetsAppSupportFolder wxWidgetsAppSupport)
 file (GLOB wxWidgetsAppSupportHeaderFiles ${wxWidgetsAppSupportFolder}/*.hpp)
 file (GLOB wxWidgetsAppSupportSourceFiles ${wxWidgetsAppSupportFolder}/*.cpp)
 
-set  (VisualCalcFolder VisualCalc)
-file (GLOB VisualCalcHeaderFiles ${VisualCalcFolder}/*.hpp)
-file (GLOB VisualCalcSourceFiles ${VisualCalcFolder}/*.cpp)
+# Example UI 
+#set  (VisualCalcFolder VisualCalc)
+#file (GLOB VisualCalcHeaderFiles ${VisualCalcFolder}/*.hpp)
+#file (GLOB VisualCalcSourceFiles ${VisualCalcFolder}/*.cpp)
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/wxWidgetsAppSupport)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/NodeEngine)
@@ -60,7 +61,7 @@ install(FILES ${NodeEngineHeaderFiles} DESTINATION include/VisualScriptEngine)
 install(FILES ${NodeUIEngineHeaderFiles} DESTINATION include/VisualScriptEngine)
 install(FILES ${BuiltInNodesHeaderFiles} DESTINATION include/VisualScriptEngine)
 install(FILES ${wxWidgetsAppSupportHeaderFiles} DESTINATION include/VisualScriptEngine)
-install(FILES ${VisualCalcHeaderFiles} DESTINATION include/VisualScriptEngine)
+#install(FILES ${VisualCalcHeaderFiles} DESTINATION include/VisualScriptEngine)
 
 
 

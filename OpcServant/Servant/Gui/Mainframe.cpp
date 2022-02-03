@@ -20,7 +20,6 @@
 #include <Common/messageids.h>
 #include <Common/Gui/ReportGeneratorPanel.h>
 #include <Common/Gui/AliasConfigurationDialog.h>
-#include <VisualScriptEngine/VisualCalc.hpp>
 /*!
     \brief Mainframe::Mainframe
     \param parent
@@ -590,6 +589,5 @@ void Mainframe::OnAliasConfigure(wxCommandEvent& /*event*/)
 
 void Mainframe::onVisualCalc(wxCommandEvent& /*event*/)
 {
-    VisualCalc::MainFrame * w = new VisualCalc::MainFrame();
-    w->Show();
+
 }

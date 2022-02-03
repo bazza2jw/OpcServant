@@ -46,7 +46,7 @@ bool MRL::BuiApp::OnInit() {
         #endif
         // comment out to enable error message from wx - esp load library errors
 #ifndef TRACE_ON
-        if(!_enableErrorLog) _nullLog.reset(new wxLogNull()); // switches off warning dialogs
+       //if(!_enableErrorLog) _nullLog.reset(new wxLogNull()); // switches off warning dialogs
 #endif
 
         STATES::States::initialiseStates();

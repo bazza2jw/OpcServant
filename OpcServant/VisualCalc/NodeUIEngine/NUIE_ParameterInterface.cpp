@@ -42,5 +42,6 @@ const ParameterType ParameterType::Float ("float");
 const ParameterType ParameterType::Double ("double");
 const ParameterType ParameterType::String ("string");
 const ParameterType ParameterType::Enumeration ("enumeration");
+const ParameterType ParameterType::FileName("filename");
 
 }

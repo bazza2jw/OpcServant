@@ -24,6 +24,7 @@ public:
 	static const ParameterType Double;
 	static const ParameterType String;
 	static const ParameterType Enumeration;
+    static const ParameterType FileName;
 
 private:
 	std::string id;
