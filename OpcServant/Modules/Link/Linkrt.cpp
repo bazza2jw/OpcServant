@@ -29,14 +29,21 @@ void MRL::LinkRT::start()
 {
     //
     RTObject::start();
+
     _filter = configuration().getAsString("Filter");
     _ident = configuration().getAsString("Ident");
-    _port = configuration().getAsString("Port");
+    _port = configuration().getInt("Port");
     _host = configuration().getAsString("Host");
+    _hostPort = configuration().getInt("HostPort");
     //
+    _remoteAddress.Hostname(_host);
+    _remoteAddress.Service(_port);
+    _localAddress.AnyAddress();
+    _localAddress.Service(_hostPort);
     //
-    _socket.reset();
-    _socket = std::make_unique<libsocket::inet_dgram_server>(_host,_port,LIBSOCKET_IPv4); // set up the datagram socket
+    _datagram.reset();
+    _datagram = std::make_unique<wxDatagramSocket>(_localAddress);
+    _datagram->SetFlags(wxSOCKET_NOWAIT);
 }
 
 /*!
@@ -64,14 +71,15 @@ void MRL::LinkRT::onOneSecond(time_t t)
 void MRL::LinkRT::process()
 {
     RTObject::process();
-    if(_socket)
+
+    if(_datagram)
     {
-        std::string buf;
-        std::string srchost;
-        std::string srcport;
+
+        char buf[2000];
         int n = 0;
-        while((n = _socket->rcvfrom(buf,srchost,srcport)) > 0) // receive
+        while((n = _datagram->Read(buf, sizeof(buf)  - 1).LastReadCount()) > 0) // receive
         {
+            buf[n] = 0;
             //
             // process the received message
             // should be a JSON packet
@@ -89,16 +97,18 @@ void MRL::LinkRT::process()
             }
 
         }
+
         if(_queue.size() > 0) // send
         {
             while(_queue.size())
             {
                 std::string &s = _queue.front();
-                _socket->sndto(buf,_host,_port);
+                _datagram->SendTo(_remoteAddress,s.c_str(),s.size());
                 _queue.pop();
             }
         }
     }
+
 }
 
 

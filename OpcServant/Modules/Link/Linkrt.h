@@ -12,8 +12,8 @@
 #ifndef LinkRT_H
 #define LinkRT_H
 #include <Common/Daq/rtobject.h>
-#include <libsocket/inetserverdgram.hpp>
 #include <Common/MQTT/mqttconnection.h>
+#include <wx/socket.h>
 
 
 namespace MRL {
@@ -25,14 +25,18 @@ namespace MRL {
     {
         MqttConnection _dummy;
         std::string _filter = "*"; // filter on source path
-        std::string _port = "10000"; // server port
+        int _port = 10000; // server port
+        int _hostPort = 10000;
         std::string _ident = "OPCSERVANT";
         std::string _host = "localhost";
+        //
+        wxIPV4address _remoteAddress;
+        wxIPV4address _localAddress;
         //
         PropertyPath _path; // where in the models the object data goes
         std::queue<std::string> _queue;
         //
-        std::unique_ptr<libsocket::inet_dgram_server> _socket;
+        std::unique_ptr<wxDatagramSocket> _datagram;
         //
         virtual bool useProcessTimer() {
             return true;   // used to drive state machines

@@ -27,12 +27,14 @@ LinkSetupDialog::LinkSetupDialog(wxWindow* parent, const MRL::PropertyPath &path
         Json::Value &hs = v["Host"];
         Json::Value &db = v["Filter"];
         Json::Value &pt = v["Port"];
+        Json::Value &hp = v["HostPort"];
         Json::Value &ei = v["Enabled"];
         //
         GetHost()->SetValue(hs.asString());
         GetIdent()->SetValue(ht.asString());
         GetFilter()->SetValue(db.asString());
         GetPort()->SetValue(pt.asInt());
+        GetHostPort()->SetValue(hp.asInt());
         GetEnable()->SetValue(ei.asBool());
     }
     else
@@ -40,7 +42,8 @@ LinkSetupDialog::LinkSetupDialog(wxWindow* parent, const MRL::PropertyPath &path
         GetHost()->SetValue("localhost");
         GetIdent()->SetValue("OPCSERVANT");
         GetFilter()->SetValue("*");
-        GetPort()->SetValue(10001);
+        GetPort()->SetValue(10000);
+        GetHostPort()->SetValue(10000);
         GetEnable()->SetValue(false);
     }
 }
@@ -64,6 +67,7 @@ void LinkSetupDialog::OnOk(wxCommandEvent& /*event*/)
     v["Filter"] = GetFilter()->GetValue().ToStdString();
     v["Port"] = GetPort()->GetValue();
     v["Enabled"]  = GetEnable()->GetValue();
+    v["HostPort"] = GetHostPort()->GetValue();
     //
     MRL::Common::configuration().updateData(_path, v);
     //

@@ -47,10 +47,10 @@ protected:
     wxTextCtrl* m_ident;
     wxStaticText* m_staticText21;
     wxSpinCtrl* m_port;
+    wxStaticText* m_staticText43;
+    wxSpinCtrl* m_hostPort;
     wxStaticText* m_staticText25;
     wxTextCtrl* m_filter;
-    wxStaticText* m_staticText39;
-    wxTextCtrl* m_commandSub;
     wxCheckBox* m_enable;
     wxStdDialogButtonSizer* m_stdBtnSizer7;
     wxButton* m_button9;
@@ -66,10 +66,10 @@ public:
     wxTextCtrl* GetIdent() { return m_ident; }
     wxStaticText* GetStaticText21() { return m_staticText21; }
     wxSpinCtrl* GetPort() { return m_port; }
+    wxStaticText* GetStaticText43() { return m_staticText43; }
+    wxSpinCtrl* GetHostPort() { return m_hostPort; }
     wxStaticText* GetStaticText25() { return m_staticText25; }
     wxTextCtrl* GetFilter() { return m_filter; }
-    wxStaticText* GetStaticText39() { return m_staticText39; }
-    wxTextCtrl* GetCommandSub() { return m_commandSub; }
     wxCheckBox* GetEnable() { return m_enable; }
     LinkSetupDialogBase(wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Link Configuration"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize(300,400), long style = wxDEFAULT_DIALOG_STYLE);
     virtual ~LinkSetupDialogBase();

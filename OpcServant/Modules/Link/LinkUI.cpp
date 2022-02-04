@@ -59,11 +59,21 @@ LinkSetupDialogBase::LinkSetupDialogBase(wxWindow* parent, wxWindowID id, const 
     
     flexGridSizer5->Add(m_staticText21, 0, wxALL, WXC_FROM_DIP(5));
     
-    m_port = new wxSpinCtrl(this, wxID_ANY, wxT("1883"), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), wxSP_ARROW_KEYS);
+    m_port = new wxSpinCtrl(this, wxID_ANY, wxT("10000"), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), wxSP_ARROW_KEYS);
     m_port->SetRange(1025, 32000);
-    m_port->SetValue(1883);
+    m_port->SetValue(10000);
     
     flexGridSizer5->Add(m_port, 0, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    
+    m_staticText43 = new wxStaticText(this, wxID_ANY, _("Host Port"), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), 0);
+    
+    flexGridSizer5->Add(m_staticText43, 0, wxALL, WXC_FROM_DIP(5));
+    
+    m_hostPort = new wxSpinCtrl(this, wxID_ANY, wxT("10000"), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), wxSP_ARROW_KEYS);
+    m_hostPort->SetRange(10000, 32000);
+    m_hostPort->SetValue(10000);
+    
+    flexGridSizer5->Add(m_hostPort, 0, wxALL|wxEXPAND, WXC_FROM_DIP(5));
     
     m_staticText25 = new wxStaticText(this, wxID_ANY, _("Filter"), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), 0);
     
@@ -75,17 +85,6 @@ LinkSetupDialogBase::LinkSetupDialogBase(wxWindow* parent, wxWindowID id, const 
     #endif
     
     flexGridSizer5->Add(m_filter, 0, wxALL|wxEXPAND, WXC_FROM_DIP(5));
-    
-    m_staticText39 = new wxStaticText(this, wxID_ANY, _("Command Sub."), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), 0);
-    
-    flexGridSizer5->Add(m_staticText39, 0, wxALL, WXC_FROM_DIP(5));
-    
-    m_commandSub = new wxTextCtrl(this, wxID_ANY, wxT(""), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), 0);
-    #if wxVERSION_NUMBER >= 3000
-    m_commandSub->SetHint(wxT(""));
-    #endif
-    
-    flexGridSizer5->Add(m_commandSub, 1, wxALL|wxEXPAND, WXC_FROM_DIP(5));
     
     m_enable = new wxCheckBox(this, wxID_ANY, _("Enabled"), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), 0);
     m_enable->SetValue(false);
