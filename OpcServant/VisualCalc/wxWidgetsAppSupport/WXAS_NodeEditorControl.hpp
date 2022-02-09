@@ -1,7 +1,7 @@
 #ifndef WXAS_NODEEDITORCONTROL_HPP
 #define WXAS_NODEEDITORCONTROL_HPP
 
-#include "NUIE_NodeEditor.hpp"
+#include "../NodeUIEngine/NUIE_NodeEditor.hpp"
 #include "WXAS_ControlUtilities.hpp"
 
 #include <wx/wx.h>
@@ -119,6 +119,7 @@ public:
 	bool						NeedToSave () const;
 	void						Undo ();
 	void						Redo ();
+    void                        Step();
 
 protected:
 	MouseCaptureHandler							captureHandler;

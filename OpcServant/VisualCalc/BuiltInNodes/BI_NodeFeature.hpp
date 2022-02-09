@@ -1,11 +1,11 @@
 #ifndef BI_NODEFEATURE_HPP
 #define BI_NODEFEATURE_HPP
 
-#include "NE_Stream.hpp"
-#include "NE_Serializable.hpp"
-#include "NUIE_NodeParameters.hpp"
-#include "NUIE_NodeMenuCommands.hpp"
-#include "NUIE_NodeCommonParameters.hpp"
+#include "../NodeEngine/NE_Stream.hpp"
+#include "../NodeEngine/NE_Serializable.hpp"
+#include "../NodeUIEngine/NUIE_NodeParameters.hpp"
+#include "../NodeUIEngine/NUIE_NodeMenuCommands.hpp"
+#include "../NodeUIEngine/NUIE_NodeCommonParameters.hpp"
 
 #include <memory>
 

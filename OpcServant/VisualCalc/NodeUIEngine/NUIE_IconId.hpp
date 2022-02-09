@@ -1,7 +1,7 @@
 #ifndef NUIE_ICONID_HPP
 #define NUIE_ICONID_HPP
 
-#include "NE_Serializable.hpp"
+#include "../NodeEngine/NE_Serializable.hpp"
 
 #include <functional>
 

@@ -1,7 +1,7 @@
 #ifndef NUIE_PARAMETERINTERFACE_HPP
 #define NUIE_PARAMETERINTERFACE_HPP
 
-#include "NE_Value.hpp"
+#include "VisualCalc/NodeEngine/NE_Value.hpp"
 #include "NUIE_NodeUIManager.hpp"
 
 namespace NUIE

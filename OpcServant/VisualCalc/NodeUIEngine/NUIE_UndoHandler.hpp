@@ -1,8 +1,8 @@
 #ifndef NUIE_UNDOHANDLER_HPP
 #define NUIE_UNDOHANDLER_HPP
 
-#include "NE_NodeManager.hpp"
-#include "NE_NodeManagerMerge.hpp"
+#include "../NodeEngine/NE_NodeManager.hpp"
+#include "../NodeEngine/NE_NodeManagerMerge.hpp"
 
 #include <vector>
 

@@ -340,7 +340,6 @@ namespace MRL {
                 m.data().add(PARAMETERID::Status, state);
                 m.data().add(PARAMETERID::Timestamp, timeStamp);
                 //
-                //
             }
 
             template <typename T>

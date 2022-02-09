@@ -2,7 +2,7 @@
 #define NUIE_NODEDRAWINGIMAGE_HPP
 
 #include "NUIE_DrawingImage.hpp"
-#include "NE_SlotId.hpp"
+#include "../NodeEngine/NE_SlotId.hpp"
 #include <unordered_map>
 
 namespace NUIE

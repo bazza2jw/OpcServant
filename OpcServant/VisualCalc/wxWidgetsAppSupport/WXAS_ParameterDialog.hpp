@@ -1,7 +1,7 @@
 #ifndef WXAS_PARAMETERDIALOG_HPP
 #define WXAS_PARAMETERDIALOG_HPP
 
-#include "NUIE_ParameterInterface.hpp"
+#include <VisualCalc/NodeUIEngine/NUIE_ParameterInterface.hpp>
 
 #include <wx/wx.h>
 #include <memory>

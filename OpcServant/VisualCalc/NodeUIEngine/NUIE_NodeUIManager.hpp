@@ -1,8 +1,8 @@
 #ifndef NUIE_NODEUIMANAGER_HPP
 #define NUIE_NODEUIMANAGER_HPP
 
-#include "NE_NodeManager.hpp"
-#include "NE_NodeCollection.hpp"
+#include "../NodeEngine/NE_NodeManager.hpp"
+#include "../NodeEngine/NE_NodeCollection.hpp"
 #include "NUIE_UINode.hpp"
 #include "NUIE_UINodeGroup.hpp"
 #include "NUIE_NodeUIEnvironment.hpp"
@@ -204,6 +204,7 @@ public:
 
 	void							ExecuteCommand (NodeUIManagerCommand& command, NodeUIInteractionEnvironment& interactionEnv);
 	void							ExecuteCommand (NodeUIManagerCommandPtr& command, NodeUIInteractionEnvironment& interactionEnv);
+    void                            Step(NE::EvaluationEnv &ev)  { nodeManager.EvaluateAllNodes(ev);}
 
 private:
 	class Status

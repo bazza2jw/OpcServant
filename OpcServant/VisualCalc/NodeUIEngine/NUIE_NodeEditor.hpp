@@ -74,6 +74,7 @@ public:
 	void							Redo ();
 
 	NodeEditorInfo					GetInfo () const;
+    NodeUIManager&				    UiManager()  { return uiManager;}
 
 private:
 	NodeUIManager				uiManager;

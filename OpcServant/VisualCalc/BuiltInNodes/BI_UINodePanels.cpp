@@ -281,7 +281,7 @@ void NodeUISlotPanel::Draw (NUIE::NodeUIDrawingEnvironment& env, const NUIE::Rec
 		}
 
 		if (skinParams.GetHiddenSlotMarker () == NUIE::SkinParams::HiddenSlotMarker::Arrow) {
-			bool hasHiddenConnection = (uiSlot->GetConnectionDisplayMode () == NUIE::ConnectionDisplayMode::Hidden && node.IsInputSlotConnected (uiSlot->GetId ()));
+            bool hasHiddenConnection = (uiSlot->GetConnectionDisplayMode () == NUIE::ConnectionDisplayMode::Hidden );
 			if (hasHiddenConnection) {
 				const NUIE::Size markerSize = skinParams.GetSlotMarkerSize ();
 				NUIE::Point hiddenConnectionCenter = slotRect.GetLeftCenter () - NUIE::Point (markerSize.GetWidth () / 3.0 * 2.0, 0.0);

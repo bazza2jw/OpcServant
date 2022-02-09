@@ -14,21 +14,36 @@ NodeValueCache::~NodeValueCache ()
 
 }
 
-bool NodeValueCache::Add (const NodeId& id, const ValueConstPtr& value)
+bool NodeValueCache::Add (const NodeId& id, const ValueConstPtr& value, const std::string &s)
 {
-	if (DBGERROR (Contains (id))) {
-		return false;
+    if (DBGERROR (Contains (id,s))) {
+        return false; // already exists
 	}
-	cache.insert ({ id, value });
+
+    if(cache.find (id) == cache.end ())
+    {
+        cache[id] = std::make_unique<NodeValueSet>( ); // create the dict for the node
+    }
+    //
+    NodeValueSetPtr &m = cache[id];
+    (*m)[s] = value; // set the value
 	return true;
 }
 
-bool NodeValueCache::Remove (const NodeId& id)
+bool NodeValueCache::Remove (const NodeId& id, const std::string &s)
 {
-	if (DBGERROR (!Contains (id))) {
-		return false;
-	}
-	cache.erase (id);
+    if(!s.size() )
+    {
+        cache.erase(id);
+    }
+    else
+    {
+        if (DBGERROR (!Contains (id,s))) {
+            return false;
+        }
+        NodeValueSetPtr &m = cache[id];
+        m->erase(s);
+    }
 	return true;
 }
 
@@ -37,14 +52,28 @@ void NodeValueCache::Clear ()
 	return cache.clear ();
 }
 
-bool NodeValueCache::Contains (const NodeId& id) const
+bool NodeValueCache::Contains (const NodeId& id, const std::string &s) const
 {
-	return cache.find (id) != cache.end ();
+    auto i = cache.find (id);
+    if(cache.find (id) != cache.end ())
+    {
+       const NodeValueSetPtr &m = i->second;
+       if(m)
+       {
+           return m->find(s) != m->end();
+       }
+    }
+    return false;
 }
 
-const ValueConstPtr& NodeValueCache::Get (const NodeId& id) const
+const ValueConstPtr& NodeValueCache::Get (const NodeId& id,const std::string &s) const
 {
-	return cache.at (id);
+    if(cache.find (id) != cache.end ())
+    {
+        const NodeValueSetPtr &m = cache.at(id);
+        return m->at(s);
+    }
+    return _null;
 }
 
 }

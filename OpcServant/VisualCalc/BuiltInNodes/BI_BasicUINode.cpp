@@ -33,10 +33,7 @@ BasicUINode::BasicUINode (const NE::LocString& name, const NUIE::Point& position
 
 }
 
-BasicUINode::~BasicUINode ()
-{
 
-}
 
 bool BasicUINode::HasIconId () const
 {

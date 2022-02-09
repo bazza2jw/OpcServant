@@ -1,10 +1,10 @@
 #ifndef BI_UINODELAYOUT_HPP
 #define BI_UINODELAYOUT_HPP
 
-#include "NUIE_UINode.hpp"
-#include "NUIE_NodeUIEnvironment.hpp"
-#include "NUIE_NodePanelDrawer.hpp"
-#include "NUIE_NodeDrawingImage.hpp"
+#include "../NodeUIEngine/NUIE_UINode.hpp"
+#include "../NodeUIEngine/NUIE_NodeUIEnvironment.hpp"
+#include "../NodeUIEngine/NUIE_NodePanelDrawer.hpp"
+#include "../NodeUIEngine/NUIE_NodeDrawingImage.hpp"
 
 namespace BI
 {

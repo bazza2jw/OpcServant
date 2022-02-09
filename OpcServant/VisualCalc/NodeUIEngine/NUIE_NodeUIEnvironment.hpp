@@ -1,8 +1,8 @@
 #ifndef NUIE_NODEUIENVIRONMENT_HPP
 #define NUIE_NODEUIENVIRONMENT_HPP
 
-#include "NE_StringConverter.hpp"
-#include "NE_EvaluationEnv.hpp"
+#include "../NodeEngine/NE_StringConverter.hpp"
+#include "../NodeEngine/NE_EvaluationEnv.hpp"
 #include "NUIE_Version.hpp"
 #include "NUIE_Selection.hpp"
 #include "NUIE_UndoState.hpp"

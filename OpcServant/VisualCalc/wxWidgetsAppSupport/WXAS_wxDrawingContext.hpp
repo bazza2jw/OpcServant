@@ -1,7 +1,7 @@
 #ifndef WXAS_WXDRAWINGCONTEXT_HPP
 #define WXAS_WXDRAWINGCONTEXT_HPP
 
-#include "NUIE_DrawingContext.hpp"
+#include "../NodeUIEngine/NUIE_DrawingContext.hpp"
 
 #include <wx/dcmemory.h>
 #include <wx/graphics.h>

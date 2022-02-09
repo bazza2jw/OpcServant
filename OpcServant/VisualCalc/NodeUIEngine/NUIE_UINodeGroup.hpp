@@ -1,8 +1,8 @@
 #ifndef NUIE_UINODEGROUP_HPP
 #define NUIE_UINODEGROUP_HPP
 
-#include "NE_LocString.hpp"
-#include "NE_NodeGroup.hpp"
+#include "../NodeEngine/NE_LocString.hpp"
+#include "../NodeEngine/NE_NodeGroup.hpp"
 #include "NUIE_UINode.hpp"
 
 namespace NUIE

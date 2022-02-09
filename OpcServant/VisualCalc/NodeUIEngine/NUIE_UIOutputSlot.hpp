@@ -1,8 +1,8 @@
 #ifndef NUIE_UIOUTPUTSLOT_HPP
 #define NUIE_UIOUTPUTSLOT_HPP
 
-#include "NE_LocString.hpp"
-#include "NE_OutputSlot.hpp"
+#include "../NodeEngine/NE_LocString.hpp"
+#include "../NodeEngine/NE_OutputSlot.hpp"
 
 namespace NUIE
 {
@@ -11,7 +11,7 @@ class OutputSlotCommandRegistrator;
 
 class UIOutputSlot : public NE::OutputSlot
 {
-	DYNAMIC_SERIALIZABLE (UIOutputSlot);
+    DYNAMIC_SERIALIZABLE (UIOutputSlot)
 
 public:
 	UIOutputSlot ();

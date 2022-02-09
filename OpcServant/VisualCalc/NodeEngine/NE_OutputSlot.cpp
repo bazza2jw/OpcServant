@@ -25,10 +25,6 @@ OutputSlot::~OutputSlot ()
 
 }
 
-ValueConstPtr OutputSlot::Evaluate (EvaluationEnv& env) const
-{
-	return EvaluateOwnerNode (env);
-}
 
 Stream::Status OutputSlot::Read (InputStream& inputStream)
 {
@@ -44,12 +40,5 @@ Stream::Status OutputSlot::Write (OutputStream& outputStream) const
 	return outputStream.GetStatus ();
 }
 
-ValueConstPtr OutputSlot::EvaluateOwnerNode (EvaluationEnv& env) const
-{
-	if (DBGERROR (!HasOwnerNode ())) {
-		return nullptr;
-	}
-	return ownerNode->Evaluate (env);
-}
 
 }

@@ -1,94 +1,81 @@
 #ifndef BI_BINARYOPERATIONNODES_HPP
 #define BI_BINARYOPERATIONNODES_HPP
 
-#include "NE_SingleValues.hpp"
+#include "../NodeEngine/NE_SingleValues.hpp"
 #include "BI_BasicUINode.hpp"
 #include "BI_BuiltInFeatures.hpp"
-
+#include <functional>
 namespace BI
 {
-
-class BinaryOperationNode : public BasicUINode
+template <typename A, typename R>
+class BaseOperationNode : public BasicUINode
 {
-    SERIALIZABLE;
 
+    A _a;
+    A _b;
+    bool _aSet = false;
+    bool _bSet = false;
 public:
-    BinaryOperationNode ();
-    BinaryOperationNode (const NE::LocString& name, const NUIE::Point& position);
-    virtual ~BinaryOperationNode ();
-
-    virtual void				Initialize () override;
-    virtual NE::ValueConstPtr	Calculate (NE::EvaluationEnv& env) const override;
-
-    virtual void				RegisterParameters (NUIE::NodeParameterList& parameterList) const override;
-    virtual bool				IsForceCalculated () const override;
-
-    virtual NE::Stream::Status	Read (NE::InputStream& inputStream) override;
-    virtual NE::Stream::Status	Write (NE::OutputStream& outputStream) const override;
-
-private:
-    virtual NE::ValuePtr		DoSingleOperation (const NE::ValueConstPtr& aValue, const NE::ValueConstPtr& bValue) const;
-    virtual double				DoOperation (double a, double b) const = 0;
-};
-
-
-class ComparisonOperationNode :  public BasicUINode
-{
-    SERIALIZABLE;
-
-public:
-    ComparisonOperationNode () {}
-    ComparisonOperationNode (const NE::LocString& name, const NUIE::Point& position) : BasicUINode(name,position) {}
-    virtual void				Initialize () override
+    BaseOperationNode () :
+        BaseOperationNode (NE::LocString (), NUIE::Point ())
     {
-        RegisterUIInputSlot (NUIE::UIInputSlotPtr (new NUIE::UIInputSlot (NE::SlotId ("a"),
-                             NE::LocString (L"A"),
-                             NE::ValuePtr (new NE::DoubleValue (0.0)),
-                             NE::OutputSlotConnectionMode::Single)));
-        RegisterUIInputSlot (NUIE::UIInputSlotPtr (new NUIE::UIInputSlot (NE::SlotId ("b"), NE::LocString (L"B"),
-                             NE::ValuePtr (new NE::DoubleValue (0.0)),
-                             NE::OutputSlotConnectionMode::Single)));
-        RegisterUIOutputSlot (NUIE::UIOutputSlotPtr (new NUIE::UIOutputSlot (NE::SlotId ("result"), NE::LocString (L"Result"))));
-        RegisterFeature (NodeFeaturePtr (new ValueCombinationFeature (NE::ValueCombinationMode::Longest)));
 
     }
-    virtual NE::ValueConstPtr	Calculate (NE::EvaluationEnv& env) const override
+
+    BaseOperationNode (const NE::LocString& name, const NUIE::Point& position) :
+        BasicUINode (name, position)
     {
-        NE::ValueConstPtr aValue = EvaluateInputSlot (NE::SlotId ("a"), env);
-        NE::ValueConstPtr bValue = EvaluateInputSlot (NE::SlotId ("b"), env);
-        if (NE::IsSingleValue (aValue) && NE::IsSingleValue (bValue)) {
-            return DoSingleOperation (aValue, bValue);
-        } else {
-            NE::ListValuePtr resultListValue (new NE::ListValue ());
-            std::shared_ptr<ValueCombinationFeature> valueCombination = GetValueCombinationFeature (this);
-            bool isValid = valueCombination->CombineValues ({ aValue, bValue }, [&] (const NE::ValueCombination& combination) {
-                NE::ValuePtr result = DoSingleOperation (combination.GetValue (0), combination.GetValue (1));
-                if (result == nullptr) {
-                    return false;
+    }
+
+    virtual ~BaseOperationNode () {}
+
+    virtual void Initialize () override
+    {
+        RegisterUIInputSlot (NUIE::UIInputSlotPtr (new NUIE::UIInputSlot (NE::SlotId ("a"), NE::LocString (L"A"),
+                                                                          NE::OutputSlotConnectionMode::Single)));
+        RegisterUIInputSlot (NUIE::UIInputSlotPtr (new NUIE::UIInputSlot (NE::SlotId ("b"), NE::LocString (L"B"),
+                                                                          NE::OutputSlotConnectionMode::Single)));
+        RegisterUIOutputSlot (NUIE::UIOutputSlotPtr (new NUIE::UIOutputSlot (NE::SlotId ("result"),
+                                                                             NE::LocString (L"Result"))));
+    }
+
+    void Process(const NE::InputSlotConstPtr &in, JSONVALUEPTR &v)
+    {
+        try
+        {
+            if(v)
+            {
+                if(v->is<A>())
+                {
+                    if((in->GetId().Id() == "a"))
+                    {
+                        _a = v->as<A>();
+                        _aSet = true;
+                    }
+                    else if(in->GetId().Id() == "b")
+                    {
+                        _b = v->as<A>();
+                        _bSet = true;
+                    }
+                    if(_aSet && _bSet)
+                    {
+                        JSONVALUEPTR vo = std::make_unique<Json::Value>(Op(_a,_b));
+                        Post("result",vo); // propogate forwards
+                    }
                 }
-                resultListValue->Push (result);
-                return true;
-            });
-            if (!isValid) {
-                return nullptr;
             }
-            return resultListValue;
+        }
+        catch(...)
+        {
+
         }
     }
+
+    virtual R Op(A , A) const { return R(0);}
 
     virtual void RegisterParameters (NUIE::NodeParameterList& parameterList) const override
     {
         BasicUINode::RegisterParameters (parameterList);
-        NUIE::RegisterSlotDefaultValueNodeParameter<ComparisonOperationNode, NE::BooleanValue> (parameterList,
-                NE::SlotId ("a"), NE::LocString (L"A"),
-                NUIE::ParameterType::Boolean);
-        NUIE::RegisterSlotDefaultValueNodeParameter<ComparisonOperationNode, NE::BooleanValue> (parameterList,
-                NE::SlotId ("b"), NE::LocString (L"B"),
-                NUIE::ParameterType::Boolean);
-
-    }
-    virtual bool				IsForceCalculated () const override {
-        return true;
     }
 
     virtual NE::Stream::Status	Read (NE::InputStream& inputStream) override
@@ -96,382 +83,135 @@ public:
         NE::ObjectHeader header (inputStream);
         BasicUINode::Read (inputStream);
         return inputStream.GetStatus ();
+
     }
     virtual NE::Stream::Status	Write (NE::OutputStream& outputStream) const override
     {
         NE::ObjectHeader header (outputStream, serializationInfo);
         BasicUINode::Write (outputStream);
         return outputStream.GetStatus ();
-
     }
+};
 
-private:
-    virtual NE::ValuePtr DoSingleOperation (const NE::ValueConstPtr& aValue, const NE::ValueConstPtr& bValue) const
+
+class BinaryOperationNode : public BaseOperationNode<double,double>
+{
+public:
+    BinaryOperationNode () :
+        BaseOperationNode (NE::LocString (), NUIE::Point ())
     {
-        double aDouble = NE::NumberValue::ToDouble (aValue);
-        double bDouble = NE::NumberValue::ToDouble (bValue);
-        bool result = DoOperation (aDouble, bDouble);
-        return NE::ValuePtr (new NE::BooleanValue (result));
+
     }
-    virtual bool DoOperation (double a, double b) const = 0; // bools are not an internal type
-};
 
-
-class LogicOperationNode : public BasicUINode
-{
-    SERIALIZABLE;
-
-public:
-    LogicOperationNode () {}
-    LogicOperationNode (const NE::LocString& name, const NUIE::Point& position) : BasicUINode(name,position) {}
-
-    virtual void				Initialize () override
+    BinaryOperationNode (const NE::LocString& name, const NUIE::Point& position) :
+        BaseOperationNode (name, position)
     {
-        RegisterUIInputSlot (NUIE::UIInputSlotPtr (new NUIE::UIInputSlot (NE::SlotId ("a"),
-                             NE::LocString (L"A"),
-                             NE::ValuePtr (new NE::BooleanValue (0.0)),
-                             NE::OutputSlotConnectionMode::Single)));
-        RegisterUIInputSlot (NUIE::UIInputSlotPtr (new NUIE::UIInputSlot (NE::SlotId ("b"), NE::LocString (L"B"),
-                             NE::ValuePtr (new NE::BooleanValue (0.0)),
-                             NE::OutputSlotConnectionMode::Single)));
-        RegisterUIOutputSlot (NUIE::UIOutputSlotPtr (new NUIE::UIOutputSlot (NE::SlotId ("result"), NE::LocString (L"Result"))));
-        RegisterFeature (NodeFeaturePtr (new ValueCombinationFeature (NE::ValueCombinationMode::Longest)));
 
     }
-    virtual NE::ValueConstPtr	Calculate (NE::EvaluationEnv& env) const override
-    {
-        NE::ValueConstPtr aValue = EvaluateInputSlot (NE::SlotId ("a"), env);
-        NE::ValueConstPtr bValue = EvaluateInputSlot (NE::SlotId ("b"), env);
-        if (NE::IsSingleValue (aValue) && NE::IsSingleValue (bValue)) {
-            return DoSingleOperation (aValue, bValue);
-        } else {
-            NE::ListValuePtr resultListValue (new NE::ListValue ());
-            std::shared_ptr<ValueCombinationFeature> valueCombination = GetValueCombinationFeature (this);
-            bool isValid = valueCombination->CombineValues ({ aValue, bValue }, [&] (const NE::ValueCombination& combination) {
-                NE::ValuePtr result = DoSingleOperation (combination.GetValue (0), combination.GetValue (1));
-                if (result == nullptr) {
-                    return false;
-                }
-                resultListValue->Push (result);
-                return true;
-            });
-            if (!isValid) {
-                return nullptr;
-            }
-            return resultListValue;
-        }
-    }
-
-    virtual void RegisterParameters (NUIE::NodeParameterList& parameterList) const override
-    {
-        BasicUINode::RegisterParameters (parameterList);
-        NUIE::RegisterSlotDefaultValueNodeParameter<LogicOperationNode, NE::BooleanValue> (parameterList,
-                NE::SlotId ("a"), NE::LocString (L"A"),
-                NUIE::ParameterType::Boolean);
-        NUIE::RegisterSlotDefaultValueNodeParameter<LogicOperationNode, NE::BooleanValue> (parameterList,
-                NE::SlotId ("b"), NE::LocString (L"B"),
-                NUIE::ParameterType::Boolean);
-
-    }
-    virtual bool				IsForceCalculated () const override {
-        return true;
-    }
-
-    virtual NE::Stream::Status	Read (NE::InputStream& inputStream) override
-    {
-        NE::ObjectHeader header (inputStream);
-        BasicUINode::Read (inputStream);
-        return inputStream.GetStatus ();
-    }
-    virtual NE::Stream::Status	Write (NE::OutputStream& outputStream) const override
-    {
-        NE::ObjectHeader header (outputStream, serializationInfo);
-        BasicUINode::Write (outputStream);
-        return outputStream.GetStatus ();
-
-    }
-private:
-    NE::ValuePtr	DoSingleOperation (const NE::ValueConstPtr& aValue, const NE::ValueConstPtr& bValue) const
-    {
-        bool a = NE::NumberValue::ToBool(aValue);
-        bool b = NE::NumberValue::ToBool(bValue);
-        bool result = DoOperation (a, b);
-        return NE::ValuePtr (new NE::BooleanValue (result));
-    }
-
-    virtual bool DoOperation (bool a, bool b) const = 0;
+    virtual double Op (double a, double b) const = 0; // bools are not an internal type
 };
 
-
-
-class BitOperationNode : public BasicUINode
-{
-    SERIALIZABLE;
-
-public:
-    BitOperationNode () {}
-    BitOperationNode (const NE::LocString& name, const NUIE::Point& position) : BasicUINode(name,position) {}
-
-    virtual void				Initialize () override
-    {
-        RegisterUIInputSlot (NUIE::UIInputSlotPtr (new NUIE::UIInputSlot (NE::SlotId ("a"),
-                             NE::LocString (L"A"),
-                             NE::ValuePtr (new NE::UnsignedValue (0.0)),
-                             NE::OutputSlotConnectionMode::Single)));
-        RegisterUIInputSlot (NUIE::UIInputSlotPtr (new NUIE::UIInputSlot (NE::SlotId ("b"), NE::LocString (L"B"),
-                             NE::ValuePtr (new NE::UnsignedValue (0.0)),
-                             NE::OutputSlotConnectionMode::Single)));
-        RegisterUIOutputSlot (NUIE::UIOutputSlotPtr (new NUIE::UIOutputSlot (NE::SlotId ("result"), NE::LocString (L"Result"))));
-        RegisterFeature (NodeFeaturePtr (new ValueCombinationFeature (NE::ValueCombinationMode::Longest)));
-
-    }
-    virtual NE::ValueConstPtr	Calculate (NE::EvaluationEnv& env) const override
-    {
-        NE::ValueConstPtr aValue = EvaluateInputSlot (NE::SlotId ("a"), env);
-        NE::ValueConstPtr bValue = EvaluateInputSlot (NE::SlotId ("b"), env);
-        if (NE::IsSingleValue (aValue) && NE::IsSingleValue (bValue)) {
-            return DoSingleOperation (aValue, bValue);
-        } else {
-            NE::ListValuePtr resultListValue (new NE::ListValue ());
-            std::shared_ptr<ValueCombinationFeature> valueCombination = GetValueCombinationFeature (this);
-            bool isValid = valueCombination->CombineValues ({ aValue, bValue }, [&] (const NE::ValueCombination& combination) {
-                NE::ValuePtr result = DoSingleOperation (combination.GetValue (0), combination.GetValue (1));
-                if (result == nullptr) {
-                    return false;
-                }
-                resultListValue->Push (result);
-                return true;
-            });
-            if (!isValid) {
-                return nullptr;
-            }
-            return resultListValue;
-        }
-    }
-
-    virtual void RegisterParameters (NUIE::NodeParameterList& parameterList) const override
-    {
-        BasicUINode::RegisterParameters (parameterList);
-        NUIE::RegisterSlotDefaultValueNodeParameter<LogicOperationNode, NE::UnsignedValue> (parameterList,
-                NE::SlotId ("a"), NE::LocString (L"A"),
-                NUIE::ParameterType::Unsigned);
-        NUIE::RegisterSlotDefaultValueNodeParameter<LogicOperationNode, NE::UnsignedValue> (parameterList,
-                NE::SlotId ("b"), NE::LocString (L"B"),
-                NUIE::ParameterType::Unsigned);
-
-    }
-    virtual bool	IsForceCalculated () const override {
-        return true;
-    }
-
-    virtual NE::Stream::Status	Read (NE::InputStream& inputStream) override
-    {
-        NE::ObjectHeader header (inputStream);
-        BasicUINode::Read (inputStream);
-        return inputStream.GetStatus ();
-    }
-    virtual NE::Stream::Status	Write (NE::OutputStream& outputStream) const override
-    {
-        NE::ObjectHeader header (outputStream, serializationInfo);
-        BasicUINode::Write (outputStream);
-        return outputStream.GetStatus ();
-
-    }
-private:
-    NE::ValuePtr	DoSingleOperation (const NE::ValueConstPtr& aValue, const NE::ValueConstPtr& bValue) const
-    {
-        unsigned a = NE::NumberValue::ToUnsigned(aValue);
-        unsigned b = NE::NumberValue::ToUnsigned(bValue);
-        unsigned result = DoOperation (a, b);
-        return NE::ValuePtr (new NE::UnsignedValue (result));
-    }
-
-    virtual unsigned DoOperation (unsigned a, unsigned b) const = 0;
-};
-//
-// Bit wise logic
-//
-class BitAndNode : public BitOperationNode
-{
-    DYNAMIC_SERIALIZABLE (BitAndNode);
-public:
-    BitAndNode () {}
-    BitAndNode (const NE::LocString& name, const NUIE::Point& position) : BitOperationNode(name,position) {}
-private:
-    virtual unsigned DoOperation (unsigned a, unsigned b) const  {
-        return a & b;
-    }
+#define BINARYOPNODE(n,o) \
+class n : public BinaryOperationNode\
+{\
+     DYNAMIC_SERIALIZABLE (n)\
+public:\
+    n() : BinaryOperationNode() {}\
+    n(const NE::LocString& name, const NUIE::Point& position) : BinaryOperationNode ( name, position) {}\
+    double Op(double a, double b) const { return a o b;}\
 };
 
-class BitOrNode : public BitOperationNode
-{
-    DYNAMIC_SERIALIZABLE (BitOrNode);
-public:
-    BitOrNode () {}
-    BitOrNode (const NE::LocString& name, const NUIE::Point& position) : BitOperationNode(name,position) {}
-private:
-    virtual unsigned DoOperation (unsigned a, unsigned b) const  {
-        return a | b;
-    }
-};
-
-class BitXorNode : public BitOperationNode
-{
-    DYNAMIC_SERIALIZABLE (BitXorNode);
-public:
-    BitXorNode () {}
-    BitXorNode (const NE::LocString& name, const NUIE::Point& position) : BitOperationNode(name,position) {}
-private:
-    virtual unsigned DoOperation (unsigned a, unsigned b) const {
-        return a ^ b;
-    }
-};
-
-
-//
-// Logic
-//
-class AndNode : public LogicOperationNode
-{
-    DYNAMIC_SERIALIZABLE (AndNode);
-public:
-    AndNode () {}
-    AndNode (const NE::LocString& name, const NUIE::Point& position) : LogicOperationNode(name,position) {}
-private:
-    virtual bool DoOperation (bool a, bool b) const  {
-        return a && b;
-    }
-};
-
-class OrNode : public LogicOperationNode
-{
-    DYNAMIC_SERIALIZABLE (OrNode);
-public:
-    OrNode () {}
-    OrNode (const NE::LocString& name, const NUIE::Point& position) : LogicOperationNode(name,position) {}
-private:
-    virtual bool DoOperation (bool a, bool b) const  {
-        return a || b;
-    }
-};
-
-class XorNode : public LogicOperationNode
-{
-    DYNAMIC_SERIALIZABLE (XorNode);
-public:
-    XorNode () {}
-    XorNode (const NE::LocString& name, const NUIE::Point& position) : LogicOperationNode(name,position) {}
-private:
-    virtual bool DoOperation (bool a, bool b) const {
-        return a ^ b;
-    }
-};
-
-
-//
-//
-//
-class GreaterThanNode : public ComparisonOperationNode
-{
-    DYNAMIC_SERIALIZABLE (GreaterThanNode);
-public:
-    GreaterThanNode () {}
-    GreaterThanNode (const NE::LocString& name, const NUIE::Point& position) : ComparisonOperationNode(name,position) {}
-private:
-    virtual bool DoOperation (double a, double b) const override {
-        return (a > b);
-    }
-};
-
-class LessThanNode : public ComparisonOperationNode
-{
-    DYNAMIC_SERIALIZABLE (LessThanNode);
-public:
-    LessThanNode () {}
-    LessThanNode (const NE::LocString& name, const NUIE::Point& position) : ComparisonOperationNode(name,position) {}
-private:
-    virtual bool DoOperation (double a, double b) const override {
-        return (a < b);
-    }
-};
-
-class EqualsNode : public ComparisonOperationNode
-{
-    DYNAMIC_SERIALIZABLE (EqualsNode);
-public:
-    EqualsNode () {}
-    EqualsNode (const NE::LocString& name, const NUIE::Point& position) : ComparisonOperationNode(name,position) {}
-private:
-    virtual bool DoOperation (double a, double b) const override {
-        return (a == b);
-    }
-};
-
-class NotEqualsNode : public ComparisonOperationNode
-{
-    DYNAMIC_SERIALIZABLE (NotEqualsNode);
-public:
-    NotEqualsNode () {}
-    NotEqualsNode (const NE::LocString& name, const NUIE::Point& position) : ComparisonOperationNode(name,position) {}
-private:
-    virtual bool DoOperation (double a, double b) const override {
-        return (a != b);
-    }
-};
-//
-//
-//
-class AdditionNode : public BinaryOperationNode
-{
-    DYNAMIC_SERIALIZABLE (AdditionNode);
-
-public:
-    AdditionNode ();
-    AdditionNode (const NE::LocString& name, const NUIE::Point& position);
-    virtual ~AdditionNode ();
-
-private:
-    virtual double DoOperation (double a, double b) const override;
-};
-
-class SubtractionNode : public BinaryOperationNode
-{
-    DYNAMIC_SERIALIZABLE (SubtractionNode);
-
-public:
-    SubtractionNode ();
-    SubtractionNode (const NE::LocString& name, const NUIE::Point& position);
-    virtual ~SubtractionNode ();
-
-private:
-    virtual double DoOperation (double a, double b) const override;
-};
-
-class MultiplicationNode : public BinaryOperationNode
-{
-    DYNAMIC_SERIALIZABLE (MultiplicationNode);
-
-public:
-    MultiplicationNode ();
-    MultiplicationNode (const NE::LocString& name, const NUIE::Point& position);
-    virtual ~MultiplicationNode ();
-
-private:
-    virtual double DoOperation (double a, double b) const override;
-};
+BINARYOPNODE(AdditionNode,+)
+BINARYOPNODE(SubtractionNode,-)
+BINARYOPNODE(MultiplicationNode,*)
 
 class DivisionNode : public BinaryOperationNode
 {
-    DYNAMIC_SERIALIZABLE (DivisionNode);
+     DYNAMIC_SERIALIZABLE (DivisionNode)
+public:
+    DivisionNode() : BinaryOperationNode() {}
+    DivisionNode(const NE::LocString& name, const NUIE::Point& position) : BinaryOperationNode ( name, position) {}
+    double Op(double a, double b) const { return (a != 0)? (a / b):0.0;}
+};
+
+
+
+#define COMPOPNODE(n,o) \
+class n : public ComparisonOperationNode\
+{\
+     DYNAMIC_SERIALIZABLE (n)\
+public:\
+    n() : ComparisonOperationNode() {}\
+    n(const NE::LocString& name, const NUIE::Point& position) : ComparisonOperationNode( name, position) {}\
+    bool Op(double a, double b) const { return a o b;}\
+};
+
+class ComparisonOperationNode :  public BaseOperationNode<double,bool>
+{
+public:
+    ComparisonOperationNode () : BaseOperationNode<double,bool>() {}
+    ComparisonOperationNode (const NE::LocString& name, const NUIE::Point& position) : BaseOperationNode<double,bool>(name,position) {}
+private:
+    virtual bool Op (double a, double b) const = 0; // bools are not an internal type
+};
+
+COMPOPNODE(GreaterThanNode,<)
+COMPOPNODE(LessThanNode,>)
+COMPOPNODE(EqualsNode,==)
+COMPOPNODE(NotEqualsNode,!=)
+
+
+#define LOGICOPNODE(n,o) \
+class n : public LogicOperationNode\
+{\
+     DYNAMIC_SERIALIZABLE (n)\
+public:\
+    n() : LogicOperationNode() {}\
+    n(const NE::LocString& name, const NUIE::Point& position) : LogicOperationNode( name, position) {}\
+    bool Op(bool a, bool b) const { return a o b;}\
+};
+
+
+class LogicOperationNode : public BaseOperationNode<bool,bool>
+{
 
 public:
-    DivisionNode ();
-    DivisionNode (const NE::LocString& name, const NUIE::Point& position);
-    virtual ~DivisionNode ();
-
+    LogicOperationNode () : BaseOperationNode<bool,bool>() {}
+    LogicOperationNode (const NE::LocString& name, const NUIE::Point& position) : BaseOperationNode<bool,bool>(name,position) {}
 private:
-    virtual double DoOperation (double a, double b) const override;
+    virtual bool Op (bool a, bool b) const = 0;
 };
+
+
+LOGICOPNODE(AndNode, &&)
+LOGICOPNODE(OrNode, ||)
+LOGICOPNODE(XorNode, ^)
+
+
+
+#define BITOPNODE(n,o) \
+class n : public BitOperationNode\
+{\
+     DYNAMIC_SERIALIZABLE (n)\
+public:\
+    n() : BitOperationNode() {}\
+    n(const NE::LocString& name, const NUIE::Point& position) : BitOperationNode( name, position) {}\
+    virtual unsigned Op(unsigned a, unsigned b) const  { return a o b;}\
+};
+
+class BitOperationNode :  public BaseOperationNode<unsigned, unsigned>
+{
+
+public:
+    BitOperationNode () {}
+    BitOperationNode (const NE::LocString& name, const NUIE::Point& position) : BaseOperationNode<unsigned, unsigned>(name,position) {}
+private:
+    virtual unsigned Op (unsigned a, unsigned b) const = 0;
+};
+
+BITOPNODE(BitAndNode, &)
+BITOPNODE(BitOrNode, |)
+BITOPNODE(BitXorNode, ^)
 
 }
 

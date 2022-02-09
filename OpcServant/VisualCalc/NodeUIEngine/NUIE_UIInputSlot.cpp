@@ -9,13 +9,13 @@ namespace NUIE
 DYNAMIC_SERIALIZATION_INFO (UIInputSlot, 2, "{6573888B-EE86-49C8-9E18-02A18FF83274}");
 
 UIInputSlot::UIInputSlot () :
-	UIInputSlot (NE::SlotId (), NE::LocString (), nullptr, NE::OutputSlotConnectionMode::Single)
+    UIInputSlot (NE::SlotId (), NE::LocString (),  NE::OutputSlotConnectionMode::Single)
 {
 
 }
 
-UIInputSlot::UIInputSlot (const NE::SlotId& id, const NE::LocString& name, const NE::ValuePtr& defaultValue, NE::OutputSlotConnectionMode slotConnectionMode) :
-	NE::InputSlot (id, defaultValue, slotConnectionMode),
+UIInputSlot::UIInputSlot (const NE::SlotId& id, const NE::LocString& name,  NE::OutputSlotConnectionMode slotConnectionMode) :
+    NE::InputSlot (id,  slotConnectionMode),
 	name (name),
 	connDisplayMode (ConnectionDisplayMode::Normal)
 {

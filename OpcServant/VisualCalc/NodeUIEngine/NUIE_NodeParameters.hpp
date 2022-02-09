@@ -1,12 +1,12 @@
 #ifndef NUIE_NODEPARAMETERS_HPP
 #define NUIE_NODEPARAMETERS_HPP
 
-#include "NE_LocString.hpp"
-#include "NE_Value.hpp"
-#include "NE_NodeCollection.hpp"
-#include "NUIE_UINode.hpp"
-#include "NUIE_UINodeInvalidator.hpp"
-#include "NUIE_ParameterInterface.hpp"
+#include "../NodeEngine/NE_LocString.hpp"
+#include "../NodeEngine/NE_Value.hpp"
+#include "../NodeEngine/NE_NodeCollection.hpp"
+#include "../NodeUIEngine/NUIE_UINode.hpp"
+#include "../NodeUIEngine/NUIE_UINodeInvalidator.hpp"
+#include "../NodeUIEngine/NUIE_ParameterInterface.hpp"
 
 namespace NUIE
 {

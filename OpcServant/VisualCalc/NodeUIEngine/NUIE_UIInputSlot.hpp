@@ -1,8 +1,8 @@
 #ifndef NUIE_UIINPUTSLOT_HPP
 #define NUIE_UIINPUTSLOT_HPP
 
-#include "NE_LocString.hpp"
-#include "NE_InputSlot.hpp"
+#include "../NodeEngine/NE_LocString.hpp"
+#include "../NodeEngine/NE_InputSlot.hpp"
 
 namespace NUIE
 {
@@ -17,11 +17,11 @@ enum class ConnectionDisplayMode
 
 class UIInputSlot : public NE::InputSlot
 {
-	DYNAMIC_SERIALIZABLE (UIInputSlot);
+    DYNAMIC_SERIALIZABLE (UIInputSlot)
 
 public:
 	UIInputSlot ();
-	UIInputSlot (const NE::SlotId& id, const NE::LocString& name, const NE::ValuePtr& defaultValue, NE::OutputSlotConnectionMode slotConnectionMode);
+    UIInputSlot (const NE::SlotId& id, const NE::LocString& name,  NE::OutputSlotConnectionMode slotConnectionMode);
 	~UIInputSlot ();
 
 	const NE::LocString&		GetName () const;

@@ -1,9 +1,9 @@
 #ifndef NUIE_NODEEDITORINFO_HPP
 #define NUIE_NODEEDITORINFO_HPP
 
-#include "NE_SlotId.hpp"
-#include "NE_NodeId.hpp"
-#include "NE_NodeGroupId.hpp"
+#include "../NodeEngine/NE_SlotId.hpp"
+#include "../NodeEngine/NE_NodeId.hpp"
+#include "../NodeEngine/NE_NodeGroupId.hpp"
 #include "NUIE_Geometry.hpp"
 
 #include <vector>

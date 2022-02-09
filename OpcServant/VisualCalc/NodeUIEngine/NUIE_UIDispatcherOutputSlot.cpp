@@ -24,21 +24,6 @@ UIDispatcherOutputSlot::~UIDispatcherOutputSlot ()
 
 }
 
-NE::ValueConstPtr UIDispatcherOutputSlot::Evaluate (NE::EvaluationEnv& env) const
-{
-	NE::ValueConstPtr value = EvaluateOwnerNode (env);
-	if (value == nullptr) {
-		return nullptr;
-	}
-	if (DBGERROR (!NE::Value::IsType<NE::ListValue> (value))) {
-		return nullptr;
-	}
-	NE::ListValueConstPtr listValue = NE::Value::Cast<NE::ListValue> (value);
-	if (DBGERROR (listIndex > listValue->GetSize ())) {
-		return nullptr;
-	}
-	return listValue->GetValue (listIndex);
-}
 
 NE::Stream::Status UIDispatcherOutputSlot::Read (NE::InputStream& inputStream)
 {

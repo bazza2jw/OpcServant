@@ -1,8 +1,8 @@
 #ifndef NUIE_INTERACTIONHANDLER_HPP
 #define NUIE_INTERACTIONHANDLER_HPP
 
-#include "NE_InputSlot.hpp"
-#include "NE_OutputSlot.hpp"
+#include "../NodeEngine/NE_InputSlot.hpp"
+#include "../NodeEngine/NE_OutputSlot.hpp"
 #include "NUIE_EventHandler.hpp"
 #include "NUIE_MenuCommands.hpp"
 #include "NUIE_UIEventHandlers.hpp"

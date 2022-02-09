@@ -1,7 +1,7 @@
 #ifndef BI_BUILTINFEATURES_HPP
 #define BI_BUILTINFEATURES_HPP
 
-#include "NE_ValueCombination.hpp"
+#include "../NodeEngine/NE_ValueCombination.hpp"
 #include "BI_BasicUINode.hpp"
 #include "BI_NodeFeatureSet.hpp"
 

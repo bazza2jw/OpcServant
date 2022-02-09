@@ -33,7 +33,7 @@ void ColorNode::Initialize ()
 	RegisterFeature (BI::NodeFeaturePtr (new BI::ValueCombinationFeature (NE::ValueCombinationMode::Longest)));
 }
 
-NE::ValueConstPtr ColorNode::Calculate (NE::EvaluationEnv& env) const
+NE::ValueConstPtr ColorNode::Calculate (NE::EvaluationEnv& env,const NE::OutputSlot */*out*/) const
 {
 	NE::ValueConstPtr r = EvaluateInputSlot (NE::SlotId ("r"), env);
 	NE::ValueConstPtr g = EvaluateInputSlot (NE::SlotId ("g"), env);

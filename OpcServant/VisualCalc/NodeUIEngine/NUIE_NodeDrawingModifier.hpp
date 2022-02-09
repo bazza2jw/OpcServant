@@ -1,8 +1,8 @@
 #ifndef NUIE_NODEDRAWINGMODIFIER_HPP
 #define NUIE_NODEDRAWINGMODIFIER_HPP
 
-#include "NE_NodeId.hpp"
-#include "NE_SlotId.hpp"
+#include "../NodeEngine/NE_NodeId.hpp"
+#include "../NodeEngine/NE_SlotId.hpp"
 #include "NUIE_Geometry.hpp"
 #include <functional>
 

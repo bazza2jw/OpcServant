@@ -1,9 +1,9 @@
 #ifndef BI_UINODELAYOUTS_HPP
 #define BI_UINODELAYOUTS_HPP
 
-#include "NUIE_UINode.hpp"
-#include "NUIE_NodeUIEnvironment.hpp"
-#include "NUIE_NodeDrawingImage.hpp"
+#include "../NodeUIEngine/NUIE_UINode.hpp"
+#include "../NodeUIEngine/NUIE_NodeUIEnvironment.hpp"
+#include "../NodeUIEngine/NUIE_NodeDrawingImage.hpp"
 #include "BI_UINodeLayout.hpp"
 #include "BI_BasicUINode.hpp"
 

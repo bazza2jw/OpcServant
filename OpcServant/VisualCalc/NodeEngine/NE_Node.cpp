@@ -3,27 +3,19 @@
 #include "NE_OutputSlot.hpp"
 #include "NE_Debug.hpp"
 #include "NE_MemoryStream.hpp"
+#include "NE_NodeManager.hpp"
 
 namespace NE
 {
 
 SERIALIZATION_INFO (Node, 1);
 
-NodeEvaluator::NodeEvaluator ()
-{
-
-}
-
-NodeEvaluator::~NodeEvaluator ()
-{
-
-}
 
 Node::Node () :
-	nodeId (NullNodeId),
+    nodeId (NullNodeId),
 	inputSlots (),
-	outputSlots (),
-	nodeEvaluator (nullptr)
+    outputSlots ()
+
 {
 
 }
@@ -35,7 +27,7 @@ Node::~Node ()
 
 bool Node::IsEmpty () const
 {
-	return nodeId == NullNodeId && inputSlots.IsEmpty () && outputSlots.IsEmpty ();
+    return (nodeId == NullNodeId) && inputSlots.IsEmpty () && outputSlots.IsEmpty ();
 }
 
 const NodeId& Node::GetId () const
@@ -53,17 +45,6 @@ bool Node::HasOutputSlot (const SlotId& slotId) const
 	return outputSlots.Contains (slotId);
 }
 
-bool Node::IsInputSlotConnected (const SlotId& slotId) const
-{
-	if (DBGERROR (nodeEvaluator == nullptr)) {
-		return false;
-	}
-	InputSlotConstPtr inputSlot = inputSlots.Get (slotId);
-	if (DBGERROR (inputSlot == nullptr)) {
-		return false;
-	}
-	return nodeEvaluator->HasConnectedOutputSlots (inputSlot);
-}
 
 InputSlotConstPtr Node::GetInputSlot (const SlotId& slotId) const
 {
@@ -105,73 +86,8 @@ void Node::EnumerateOutputSlots (const std::function<bool (OutputSlotConstPtr)>&
 	outputSlots.Enumerate (processor);
 }
 
-ValueConstPtr Node::Evaluate (EvaluationEnv& env) const
-{
-	if (DBGERROR (nodeEvaluator == nullptr)) {
-		return nullptr;
-	}
 
-	CalculationStatus calcStatus = GetCalculationStatus ();
-	if (calcStatus == CalculationStatus::Calculated) {
-		return nodeEvaluator->GetCalculatedNodeValue (nodeId);
-	}
 
-	if (calcStatus != CalculationStatus::NeedToCalculate) {
-		return nullptr;
-	}
-
-	ValueConstPtr value = Calculate (env);
-	nodeEvaluator->SetCalculatedNodeValue (nodeId, value);
-	ProcessCalculatedValue (value, env);
-
-	return value;
-}
-
-ValueConstPtr Node::GetCalculatedValue () const
-{
-	if (DBGERROR (nodeEvaluator == nullptr)) {
-		return nullptr;
-	}
-
-	if (DBGERROR (!nodeEvaluator->HasCalculatedNodeValue (nodeId))) {
-		return nullptr;
-	}
-
-	return nodeEvaluator->GetCalculatedNodeValue (nodeId);
-}
-
-bool Node::HasCalculatedValue () const
-{
-	if (DBGERROR (nodeEvaluator == nullptr)) {
-		return false;
-	}
-	return nodeEvaluator->HasCalculatedNodeValue (GetId ());
-}
-
-Node::CalculationStatus Node::GetCalculationStatus () const
-{
-	if (DBGERROR (nodeEvaluator == nullptr)) {
-		return CalculationStatus::NeedToCalculate;
-	}
-
-	if (nodeEvaluator->HasCalculatedNodeValue (nodeId)) {
-		return CalculationStatus::Calculated;
-	}
-
-	if (nodeEvaluator->IsCalculationEnabled () || IsForceCalculated ()) {
-		return CalculationStatus::NeedToCalculate;
-	} else {
-		return CalculationStatus::NeedToCalculateButDisabled;
-	}
-}
-
-void Node::InvalidateValue () const
-{
-	if (DBGERROR (nodeEvaluator == nullptr)) {
-		return;
-	}
-	nodeEvaluator->InvalidateNodeValue (GetId ());	
-}
 
 Stream::Status Node::Read (InputStream& inputStream)
 {
@@ -223,23 +139,6 @@ Stream::Status Node::Write (OutputStream& outputStream) const
 	return outputStream.GetStatus ();
 }
 
-ValueConstPtr Node::GetInputSlotDefaultValue (const SlotId& slotId) const
-{
-	InputSlotConstPtr inputSlot = inputSlots.Get (slotId);
-	if (DBGERROR (inputSlot == nullptr)) {
-		return nullptr;
-	}
-	return inputSlot->GetDefaultValue ();
-}
-
-void Node::SetInputSlotDefaultValue (const SlotId& slotId, const ValueConstPtr& newDefaultValue)
-{
-	InputSlotPtr inputSlot = inputSlots.Get (slotId);
-	if (DBGERROR (inputSlot == nullptr)) {
-		return;
-	}
-	inputSlot->SetDefaultValue (newDefaultValue);
-}
 
 bool Node::RegisterInputSlot (const InputSlotPtr& newInputSlot)
 {
@@ -275,81 +174,49 @@ bool Node::RegisterOutputSlot (const OutputSlotPtr& newOutputSlot)
 	return true;
 }
 
-ValueConstPtr Node::EvaluateInputSlot (const SlotId& slotId, EvaluationEnv& env) const
-{
-	if (DBGERROR (!HasInputSlot (slotId))) {
-		return nullptr;
-	}
-
-	InputSlotConstPtr inputSlot = GetInputSlot (slotId);
-	if (DBGERROR (inputSlot == nullptr)) {
-		return nullptr;
-	}
-
-	return EvaluateInputSlot (inputSlot, env);
-}
 
 void Node::SetId (const NodeId& newNodeId)
 {
 	nodeId = newNodeId;
 }
 
-void Node::SetEvaluator (const NodeEvaluatorConstPtr& newNodeEvaluator)
+
+void Node::Process(const InputSlotConstPtr &, JSONVALUEPTR &) // periodic processing - for example triggering a timer or reading an event queue
 {
-	nodeEvaluator = newNodeEvaluator;
+    // process the data and post to outputs as required
 }
 
-bool Node::IsEvaluatorSet () const
+void  Node::Post(const std::string &out, JSONVALUEPTR &v) const // send a value to an output slot
 {
-	return nodeEvaluator != nullptr;
+    if(nodeManager)
+    {
+        // find the slot
+        SlotId oid(out);
+        if(outputSlots.Contains(oid))
+        {
+            // iterate the connections to the slot
+            OutputSlotConstPtr o = outputSlots.Get(oid); // get reference to slot
+            //
+            if(o)
+            {
+            // iterate the connected inputs
+                if(nodeManager->HasConnectedInputSlots(o))
+                {
+                    nodeManager->EnumerateConnectedInputSlots (o, [&] (const InputSlotConstPtr&p)
+                    {
+                         NodePtr n =  nodeManager->GetNode(p->GetOwnerNodeId());
+                         if(n)
+                         {
+                            n->Process(p,v); // this is recursive - ends when the flow ends
+                         }
+                    });
+                }
+            }
+        }
+    }
 }
 
-void Node::ClearEvaluator ()
-{
-	nodeId = NullNodeId;
-	nodeEvaluator = nullptr;
-}
 
-bool Node::IsForceCalculated () const
-{
-	return false;
-}
-
-void Node::ProcessCalculatedValue (const ValueConstPtr&, EvaluationEnv&) const
-{
-
-}
-
-ValueConstPtr Node::EvaluateInputSlot (const InputSlotConstPtr& inputSlot, EvaluationEnv& env) const
-{
-	if (DBGERROR (nodeEvaluator == nullptr)) {
-		return nullptr;
-	}
-
-	if (!nodeEvaluator->HasConnectedOutputSlots (inputSlot)) {
-		return inputSlot->GetDefaultValue ();
-	}
-
-	std::vector<OutputSlotConstPtr> connectedOutputSlots;
-	nodeEvaluator->EnumerateConnectedOutputSlots (inputSlot, [&] (const OutputSlotConstPtr& outputSlot) {
-		connectedOutputSlots.push_back (outputSlot);
-	});
-
-	OutputSlotConnectionMode outputSlotConnectionMode = inputSlot->GetOutputSlotConnectionMode ();
-	if (outputSlotConnectionMode == OutputSlotConnectionMode::Single) {
-		DBGASSERT (connectedOutputSlots.size () == 1);
-		return connectedOutputSlots[0]->Evaluate (env);
-	} else if (inputSlot->GetOutputSlotConnectionMode () == OutputSlotConnectionMode::Multiple) {
-		ListValuePtr result (new ListValue ());
-		for (const OutputSlotConstPtr& outputSlot : connectedOutputSlots) {
-			result->Push (outputSlot->Evaluate (env));
-		}
-		return result;
-	}
-
-	DBGBREAK ();
-	return nullptr;
-}
 
 NodePtr Node::Clone (const NodeConstPtr& node)
 {

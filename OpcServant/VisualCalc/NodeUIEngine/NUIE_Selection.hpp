@@ -1,7 +1,7 @@
 #ifndef NUIE_SELECTION_HPP
 #define NUIE_SELECTION_HPP
 
-#include "NE_NodeCollection.hpp"
+#include "../NodeEngine/NE_NodeCollection.hpp"
 
 namespace NUIE
 {

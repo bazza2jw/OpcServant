@@ -506,7 +506,6 @@ void NodeUIManager::InvalidateNodeValue (const NE::NodeId& nodeId)
 
 void NodeUIManager::InvalidateNodeValue (const UINodePtr& uiNode)
 {
-	uiNode->InvalidateValue ();
 	RequestRecalculateAndRedraw ();
 }
 
@@ -856,10 +855,7 @@ void NodeUIManager::InvalidateDrawingsForInvalidatedNodes ()
 {
 	std::vector<UINodePtr> nodesToInvalidate;
 	EnumerateNodes ([&] (UINodePtr uiNode) {
-		NE::Node::CalculationStatus calcStatus = uiNode->GetCalculationStatus ();
-		if (calcStatus == NE::Node::CalculationStatus::NeedToCalculate || calcStatus == NE::Node::CalculationStatus::NeedToCalculateButDisabled) {
 			nodesToInvalidate.push_back (uiNode);
-		}
 		return true;
 	});
 	for (const UINodePtr& uiNode : nodesToInvalidate) {
@@ -870,18 +866,6 @@ void NodeUIManager::InvalidateDrawingsForInvalidatedNodes ()
 
 void NodeUIManager::UpdateInternal (NodeUICalculationEnvironment& calcEnv, InternalUpdateMode mode)
 {
-	if (status.NeedToRecalculate ()) {
-		calcEnv.OnEvaluationBegin ();
-		if (mode == InternalUpdateMode::Normal) {
-			nodeManager.EvaluateAllNodes (calcEnv.GetEvaluationEnv ());
-		} else if (mode == InternalUpdateMode::Manual) {
-			nodeManager.ForceEvaluateAllNodes (calcEnv.GetEvaluationEnv ());
-		}
-		calcEnv.OnEvaluationEnd ();
-
-		calcEnv.OnValuesRecalculated ();
-		status.ResetRecalculate ();
-	}
 	if (status.NeedToRedraw ()) {
 		calcEnv.OnRedrawRequested ();
 		status.ResetRedraw ();

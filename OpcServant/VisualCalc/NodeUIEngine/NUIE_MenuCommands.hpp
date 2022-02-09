@@ -1,7 +1,7 @@
 #ifndef NUIE_MENUCOMMANDS_HPP
 #define NUIE_MENUCOMMANDS_HPP
 
-#include "NE_LocString.hpp"
+#include "../NodeEngine/NE_LocString.hpp"
 
 #include <string>
 #include <vector>

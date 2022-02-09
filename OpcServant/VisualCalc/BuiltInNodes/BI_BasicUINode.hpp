@@ -1,23 +1,23 @@
 #ifndef BI_BASICUINODE_HPP
 #define BI_BASICUINODE_HPP
 
-#include "NUIE_UINode.hpp"
+#include "../NodeUIEngine/NUIE_UINode.hpp"
 #include "BI_UINodeLayout.hpp"
 #include "BI_NodeFeatureSet.hpp"
-
+#include "MrlLib/mrllib.h"
 namespace BI
 {
 
 class BasicUINode : public NUIE::UINode
 {
-	SERIALIZABLE;
+    SERIALIZABLE
 
 public:
 	BasicUINode ();
 	BasicUINode (const NE::LocString& name, const NUIE::Point& position);
 	BasicUINode (const NE::LocString& name, const NUIE::Point& position, const UINodeLayoutPtr& layout);
 	BasicUINode (const NE::LocString& name, const NUIE::Point& position, const UINodeLayoutPtr& layout, const NUIE::IconId& iconId);
-	virtual ~BasicUINode ();
+    virtual ~BasicUINode () {}
 
 	bool								HasIconId () const;
 	const NUIE::IconId&					GetIconId () const;

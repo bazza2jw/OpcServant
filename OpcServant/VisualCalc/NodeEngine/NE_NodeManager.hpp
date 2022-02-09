@@ -14,6 +14,7 @@
 #include "NE_NodeValueCache.hpp"
 #include "NE_UniqueIdGenerator.hpp"
 #include <functional>
+#include <set>
 
 namespace NE
 {
@@ -40,6 +41,9 @@ public:
 	virtual void	Enumerate (const std::function<bool (InputSlotConstPtr)>& processor) const = 0;
 };
 
+
+
+
 class NodeManager
 {
 	SERIALIZABLE;
@@ -56,7 +60,7 @@ public:
 	NodeManager ();
 	NodeManager (const NodeManager& src) = delete;
 	NodeManager (NodeManager&& src) = delete;
-	~NodeManager ();
+    virtual ~NodeManager ();
 
 	NodeManager&			operator= (const NodeManager& rhs) = delete;
 	NodeManager&			operator= (NodeManager&& rhs) = delete;
@@ -102,10 +106,7 @@ public:
 	void					EnumerateConnections (const std::function<void (const OutputSlotConstPtr&, const InputSlotConstPtr&)>& processor) const;
 	void					EnumerateConnections (const NodeCollection& nodes, const std::function<void (const OutputSlotConstPtr&, const InputSlotConstPtr&)>& processor) const;
 
-	void					EvaluateAllNodes (EvaluationEnv& env) const;
-	void					ForceEvaluateAllNodes (EvaluationEnv& env) const;
-	void					InvalidateNodeValue (const NodeId& nodeId) const;
-	void					InvalidateNodeValue (const NodeConstPtr& node) const;
+    void					EvaluateAllNodes (EvaluationEnv& env) ;
 	
 	void					EnumerateDependentNodes (const NodeConstPtr& node, const std::function<void (const NodeId&)>& processor) const;
 	void					EnumerateDependentNodesRecursive (const NodeConstPtr& node, const std::function<void (const NodeId&)>& processor) const;
@@ -130,16 +131,31 @@ public:
 	void					EnumerateNodeGroups (const std::function<bool (NodeGroupPtr)>& processor);
 	void					DeleteAllNodeGroups ();
 
-	bool					IsCalculationEnabled () const;
 	UpdateMode				GetUpdateMode () const;
 	void					SetUpdateMode (UpdateMode newUpdateMode);
 
 	Stream::Status			Read (InputStream& inputStream);
 	Stream::Status			Write (OutputStream& outputStream) const;
 
+
+
 	static bool				Clone (const NodeManager& source, NodeManager& target);
 	static bool				ReadFromBuffer (NodeManager& nodeManager, const std::vector<char>& buffer);
 	static bool				WriteToBuffer (const NodeManager& nodeManager, std::vector<char>& buffer);
+
+    /*
+     * These are the routines that drive the flows
+     * All flows start with a source node - Source nodes are evaluated and either do nothing or post a value to other nodes
+     * Source nodes only have outputs, they do not have inputs, there fore flows cannot loop
+     *
+     * Flows run from input (source) to output (destination)
+     * For each node each output acts as a source and so iterates
+     */
+     //
+     virtual bool Begin(); // gather the source node list nodes
+     virtual bool Step();  // iterate one flow step
+     virtual bool End();
+     //
 
 private:
 	enum class IdPolicy
@@ -164,9 +180,8 @@ private:
 	NodeGroupList							nodeGroupList;
 	UpdateMode								updateMode;
 
-	mutable NodeValueCache					nodeValueCache;
-	mutable NodeEvaluatorConstPtr			nodeEvaluator;
-	mutable bool							isForceCalculate;
+    NodeList                                sourceNodes; // set of source nodes
+
 };
 
 }

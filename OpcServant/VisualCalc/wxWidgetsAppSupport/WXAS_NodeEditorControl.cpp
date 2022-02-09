@@ -160,7 +160,15 @@ void NodeEditorControl::Init (std::shared_ptr<NodeEditorUIEnvironment>& editorUI
 	uiEnvironment = editorUIEnvironment;
 	nodeEditor = std::shared_ptr<NUIE::NodeEditor> (new NUIE::NodeEditor (*uiEnvironment));
 	OnInit ();
+    nodeEditor->Update ();
 }
+
+
+void  NodeEditorControl::Step()
+{
+    nodeEditor->UiManager().Step(uiEnvironment->GetEvaluationEnv()); // one iteration of the node flows
+}
+
 
 void NodeEditorControl::OnInit ()
 {
@@ -169,8 +177,12 @@ void NodeEditorControl::OnInit ()
 
 void NodeEditorControl::OnPaint (wxPaintEvent& evt)
 {
-	nodeEditor->Draw ();
-	uiEnvironment->OnPaint (this, evt);
+    try {
+        nodeEditor->Draw ();
+        uiEnvironment->OnPaint (this, evt);
+    } catch (...) {
+       wxTrap();
+    }
 }
 
 void NodeEditorControl::OnResize (wxSizeEvent& evt)
@@ -238,8 +250,13 @@ void NodeEditorControl::OnMiddleButtonDoubleClick (wxMouseEvent& evt)
 
 void NodeEditorControl::OnMouseMove (wxMouseEvent& evt)
 {
-	SetFocus ();
-	nodeEditor->OnMouseMove (GetModiferKeysFromEvent (evt), evt.GetX (), evt.GetY ());
+    try {
+        SetFocus ();
+        nodeEditor->OnMouseMove (GetModiferKeysFromEvent (evt), evt.GetX (), evt.GetY ());
+
+    } catch (...) {
+        wxTrap();
+    }
 }
 
 void NodeEditorControl::OnMouseWheel (wxMouseEvent& evt)

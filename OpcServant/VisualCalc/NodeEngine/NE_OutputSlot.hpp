@@ -15,14 +15,9 @@ public:
 	OutputSlot ();
 	OutputSlot (const SlotId& id);
 	virtual ~OutputSlot ();
-
-	virtual ValueConstPtr	Evaluate (EvaluationEnv& env) const;
-
 	virtual Stream::Status	Read (InputStream& inputStream) override;
 	virtual Stream::Status	Write (OutputStream& outputStream) const override;
 
-protected:
-	ValueConstPtr			EvaluateOwnerNode (EvaluationEnv& env) const;
 };
 
 }

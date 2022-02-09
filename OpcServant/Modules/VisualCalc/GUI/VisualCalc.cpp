@@ -58,65 +58,15 @@ const NUIE::BasicSkinParams& GetAppSkinParams ()
 NUIE::UINodePtr VisualCalc::CreateNodeCommand::CreateNode (const NUIE::Point& modelPosition)
 {
     switch (nodeType) {
-    case NodeType::String:
-        return NUIE::UINodePtr (new BI::StringNode (NE::LocString (L"String"), modelPosition, L""));
     case NodeType::Boolean:
         return NUIE::UINodePtr (new BI::BooleanNode (NE::LocString (L"Boolean"), modelPosition, true));
-    case NodeType::Integer:
-        return NUIE::UINodePtr (new BI::IntegerUpDownNode (NE::LocString (L"Integer"), modelPosition, 0, 5));
-    case NodeType::Number:
-        return NUIE::UINodePtr (new BI::DoubleUpDownNode (NE::LocString (L"Number"), modelPosition, 0.0, 5.0));
-    case NodeType::IntegerIncrement:
-        return NUIE::UINodePtr (new BI::IntegerIncrementedNode (NE::LocString (L"Integer Increment"), modelPosition));
-    case NodeType::NumberIncrement:
-        return NUIE::UINodePtr (new BI::DoubleIncrementedNode (NE::LocString (L"Number Increment"), modelPosition));
-    case NodeType::NumberDistribution:
-        return NUIE::UINodePtr (new BI::DoubleDistributedNode (NE::LocString (L"Number Distribution"), modelPosition));
-    case NodeType::ListBuilder:
-        return NUIE::UINodePtr (new BI::ListBuilderNode (NE::LocString (L"List Builder"), modelPosition));
-    case NodeType::Addition:
-        return NUIE::UINodePtr (new BI::AdditionNode (NE::LocString (L"Addition"), modelPosition));
-    case NodeType::Subtraction:
-        return NUIE::UINodePtr (new BI::SubtractionNode (NE::LocString (L"Subtraction"), modelPosition));
-    case NodeType::Multiplication:
-        return NUIE::UINodePtr (new BI::MultiplicationNode (NE::LocString (L"Multiplication"), modelPosition));
-    case NodeType::Division:
-        return NUIE::UINodePtr (new BI::DivisionNode (NE::LocString (L"Division"), modelPosition));
-    case NodeType::Color:
-        return NUIE::UINodePtr (new ColorNode (NE::LocString (L"Color"), modelPosition));
-    case NodeType::Point:
-        return NUIE::UINodePtr (new PointNode (NE::LocString (L"Point"), modelPosition));
-    case NodeType::Line:
-        return NUIE::UINodePtr (new LineNode (NE::LocString (L"Line"), modelPosition));
-    case NodeType::Circle:
-        return NUIE::UINodePtr (new CircleNode (NE::LocString (L"Circle"), modelPosition));
-    case NodeType::Offset:
-        return NUIE::UINodePtr (new OffsetNode (NE::LocString (L"Offset"), modelPosition));
     case NodeType::Viewer:
-        return NUIE::UINodePtr (new BI::MultiLineViewerNode (NE::LocString (L"Viewer"), modelPosition, 5));
-    case NodeType::And:
-        return NUIE::UINodePtr (new BI::AndNode (NE::LocString (L"And"), modelPosition));
-    case NodeType::Or:
-        return NUIE::UINodePtr (new BI::OrNode (NE::LocString (L"Or"), modelPosition));
-    case NodeType::Xor:
-        return NUIE::UINodePtr (new BI::XorNode (NE::LocString (L"Xor"), modelPosition));
-    case NodeType::BitAnd:
-        return NUIE::UINodePtr (new BI::BitAndNode (NE::LocString (L"Bit And"), modelPosition));
-    case NodeType::BitOr:
-        return NUIE::UINodePtr (new BI::BitOrNode (NE::LocString (L"Bit Or"), modelPosition));
-    case NodeType::BitXOr:
-        return NUIE::UINodePtr (new BI::BitXorNode (NE::LocString (L"Bit Xor"), modelPosition));
-    case NodeType::GreaterThan:
-        return NUIE::UINodePtr (new BI::GreaterThanNode (NE::LocString (L"Greater Than"), modelPosition));
-    case NodeType::LessThan:
-        return NUIE::UINodePtr (new BI::LessThanNode (NE::LocString (L"Less Than"), modelPosition));
-    case NodeType::Equals:
-        return NUIE::UINodePtr (new BI::EqualsNode (NE::LocString (L"Equals"), modelPosition));
-    case NodeType::NotEquals:
-        return NUIE::UINodePtr (new BI::NotEqualsNode (NE::LocString (L"Not Equals"), modelPosition));
-    case NodeType::Not:
-        return NUIE::UINodePtr (new BI::NotNode (NE::LocString (L"Not"), modelPosition));
+        return NUIE::UINodePtr (new BI::OutputNode(NE::LocString (L"Viewer"), modelPosition));
+    case NodeType::Addition:
+        return NUIE::UINodePtr (new BI::AdditionNode(NE::LocString (L"Addition"), modelPosition));
 
+    default:
+        break;
     }
     return nullptr;
 }
@@ -187,6 +137,12 @@ NUIE::MenuCommandPtr VisualCalc::NodeEditorEventHandler::OnContextMenu (NUIE::Ev
         transformationCommandGroup->AddChildCommand (NUIE::MenuCommandPtr (new CreateNodeCommand (control, CreateNodeCommand::NodeType::Offset, NE::LocString (L"Offset"), position)));
         createCommandGroup->AddChildCommand (transformationCommandGroup);
 
+        NUIE::MultiMenuCommandPtr runtimeCommandGroup (new NUIE::MultiMenuCommand (NE::LocString (L"Runtime Nodes")));
+        runtimeCommandGroup->AddChildCommand (NUIE::MenuCommandPtr (new CreateNodeCommand (control, CreateNodeCommand::NodeType::RuntimeInput, NE::LocString (L"Runtime Input"), position)));
+        runtimeCommandGroup->AddChildCommand (NUIE::MenuCommandPtr (new CreateNodeCommand (control, CreateNodeCommand::NodeType::RuntimeOutput, NE::LocString (L"Runtime Output"), position)));
+        createCommandGroup->AddChildCommand (runtimeCommandGroup);
+
+
         NUIE::MultiMenuCommandPtr otherCommandGroup (new NUIE::MultiMenuCommand (NE::LocString (L"Other Nodes")));
         otherCommandGroup->AddChildCommand (NUIE::MenuCommandPtr (new CreateNodeCommand (control, CreateNodeCommand::NodeType::Viewer, NE::LocString (L"Viewer"), position)));
         createCommandGroup->AddChildCommand (otherCommandGroup);
@@ -204,29 +160,11 @@ NUIE::MenuCommandPtr VisualCalc::NodeEditorEventHandler::OnContextMenu (NUIE::Ev
 
 void VisualCalc::NodeEditorControl::OnInit ()
 {
-
-        NUIE::UINodePtr startInputNode (new BI::DoubleUpDownNode (NE::LocString (L"Number"), NUIE::Point (70, 70), 20, 5));
-        NUIE::UINodePtr stepInputNode (new BI::DoubleUpDownNode (NE::LocString (L"Number"), NUIE::Point (70, 180), 20, 5));
-        NUIE::UINodePtr intRangeNodeX (new BI::DoubleIncrementedNode (NE::LocString (L"Increment"), NUIE::Point (220, 100)));
-        NUIE::UINodePtr inputNodeY (new BI::DoubleUpDownNode (NE::LocString (L"Number"), NUIE::Point (220, 220), 20, 5));
-        std::shared_ptr<PointNode> pointNode (new PointNode (NE::LocString (L"Point"), NUIE::Point (400, 150)));
-        NUIE::UINodePtr viewerNode (new BI::MultiLineViewerNode (NE::LocString (L"Viewer"), NUIE::Point (600, 150), 5));
-
-        nodeEditor->AddNode (startInputNode);
-        nodeEditor->AddNode (stepInputNode);
-        nodeEditor->AddNode (intRangeNodeX);
-        nodeEditor->AddNode (inputNodeY);
-        nodeEditor->AddNode (pointNode);
-        nodeEditor->AddNode (viewerNode);
-
-        nodeEditor->ConnectOutputSlotToInputSlot (startInputNode->GetUIOutputSlot (NE::SlotId ("out")), intRangeNodeX->GetUIInputSlot (NE::SlotId ("start")));
-        nodeEditor->ConnectOutputSlotToInputSlot (stepInputNode->GetUIOutputSlot (NE::SlotId ("out")), intRangeNodeX->GetUIInputSlot (NE::SlotId ("step")));
-        nodeEditor->ConnectOutputSlotToInputSlot (intRangeNodeX->GetUIOutputSlot (NE::SlotId ("out")), pointNode->GetUIInputSlot (NE::SlotId ("x")));
-        nodeEditor->ConnectOutputSlotToInputSlot (inputNodeY->GetUIOutputSlot (NE::SlotId ("out")), pointNode->GetUIInputSlot (NE::SlotId ("y")));
-        nodeEditor->ConnectOutputSlotToInputSlot (pointNode->GetUIOutputSlot (NE::SlotId ("point")), viewerNode->GetUIInputSlot (NE::SlotId ("in")));
-
-        nodeEditor->Update ();
-
+    NUIE::UINodePtr boolNode (new BI::BooleanNode (NE::LocString (L"Boolean"), NUIE::Point (600, 150),false));
+    NUIE::UINodePtr outNode (new BI::OutputNode (NE::LocString (L"Output"), NUIE::Point (500, 150)));
+    nodeEditor->AddNode(boolNode);
+    nodeEditor->AddNode(outNode);
+    nodeEditor->Update ();
 }
 
 #if 0

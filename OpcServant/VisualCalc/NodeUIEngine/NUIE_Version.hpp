@@ -1,7 +1,7 @@
 #ifndef NUIE_VERSION_HPP
 #define NUIE_VERSION_HPP
 
-#include "NE_Stream.hpp"
+#include "../NodeEngine/NE_Stream.hpp"
 #include <array>
 
 namespace NUIE

@@ -1,8 +1,8 @@
 #ifndef WXAS_CONTROLUTILITIES_HPP
 #define WXAS_CONTROLUTILITIES_HPP
 
-#include "NUIE_NodeEditor.hpp"
-#include "NUIE_MenuCommands.hpp"
+#include "../NodeUIEngine/NUIE_NodeEditor.hpp"
+#include "../NodeUIEngine/NUIE_MenuCommands.hpp"
 #include <wx/wx.h>
 
 namespace WXAS

@@ -23,6 +23,7 @@ public:
 	bool			operator> (const SlotId& rhs) const;
 	bool			operator== (const SlotId& rhs) const;
 	bool			operator!= (const SlotId& rhs) const;
+    const std::string &Id() const { return id;}
 
 	Stream::Status	Read (InputStream& inputStream);
 	Stream::Status	Write (OutputStream& outputStream) const;

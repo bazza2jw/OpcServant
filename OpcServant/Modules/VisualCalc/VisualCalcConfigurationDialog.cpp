@@ -41,14 +41,15 @@ void VisualCalcConfigurationDialog::onStartTimer(wxTimerEvent& /*event*/)
 }
 void VisualCalcConfigurationDialog::onAutomatic(wxCommandEvent& event)
 {
-    if(nodeEditorControl)
-        nodeEditorControl->SetUpdateMode (WXAS::NodeEditorControl::UpdateMode::Automatic);
+
 
 }
 void VisualCalcConfigurationDialog::onManual(wxCommandEvent& event)
 {
     if(nodeEditorControl)
-        nodeEditorControl->SetUpdateMode (WXAS::NodeEditorControl::UpdateMode::Manual);
+    {
+        nodeEditorControl->Step();
+    }
 }
 void VisualCalcConfigurationDialog::onOpen(wxCommandEvent& event)
 {
@@ -95,8 +96,7 @@ void VisualCalcConfigurationDialog::onSaveAs(wxCommandEvent& event)
 }
 void VisualCalcConfigurationDialog::onUpdate(wxCommandEvent& event)
 {
-    if(nodeEditorControl)
-        nodeEditorControl->ManualUpdate ();
+
 }
 void VisualCalcConfigurationDialog::onRedo(wxCommandEvent& event)
 {

@@ -16,7 +16,7 @@ public:
 	ColorNode (const NE::LocString& name, const NUIE::Point& position);
 
 	virtual void				Initialize () override;
-	virtual NE::ValueConstPtr	Calculate (NE::EvaluationEnv& env) const override;
+    virtual NE::ValueConstPtr	Calculate (NE::EvaluationEnv& env,const NE::OutputSlot *out) const override;
 	virtual void				RegisterParameters (NUIE::NodeParameterList& parameterList) const;
 
 	virtual NE::Stream::Status	Read (NE::InputStream& inputStream) override;
@@ -33,7 +33,7 @@ public:
 
 	virtual void				Initialize () override;
 	virtual void				RegisterParameters (NUIE::NodeParameterList& parameterList) const override;
-	virtual void				ProcessCalculatedValue (const NE::ValueConstPtr& value, NE::EvaluationEnv& env) const override;
+    virtual void				ProcessCalculatedValue (const NE::ValueConstPtr& value, NE::EvaluationEnv& env, const std::string &s) const override;
 	virtual void				OnFeatureChange (const BI::FeatureId& featureId, NE::EvaluationEnv& env) const override;
 	virtual void				OnDelete (NE::EvaluationEnv& env) const override;
 
@@ -62,7 +62,7 @@ public:
 	PointNode (const NE::LocString& name, const NUIE::Point& position);
 
 	virtual void				Initialize () override;
-	virtual NE::ValueConstPtr	Calculate (NE::EvaluationEnv& env) const override;
+    virtual NE::ValueConstPtr	Calculate (NE::EvaluationEnv& env,const NE::OutputSlot *out) const override;
 	virtual void				RegisterParameters (NUIE::NodeParameterList& parameterList) const;
 
 	virtual NE::Stream::Status	Read (NE::InputStream& inputStream) override;
@@ -78,7 +78,7 @@ public:
 	LineNode (const NE::LocString& name, const NUIE::Point& position);
 
 	virtual void				Initialize () override;
-	virtual NE::ValueConstPtr	Calculate (NE::EvaluationEnv& env) const override;
+    virtual NE::ValueConstPtr	Calculate (NE::EvaluationEnv& env,const NE::OutputSlot *out) const override;
 
 	virtual NE::Stream::Status	Read (NE::InputStream& inputStream) override;
 	virtual NE::Stream::Status	Write (NE::OutputStream& outputStream) const override;
@@ -93,7 +93,7 @@ public:
 	CircleNode (const NE::LocString& name, const NUIE::Point& position);
 
 	virtual void				Initialize () override;
-	virtual NE::ValueConstPtr	Calculate (NE::EvaluationEnv& env) const override;
+    virtual NE::ValueConstPtr	Calculate (NE::EvaluationEnv& env,const NE::OutputSlot *out) const override;
 	virtual void				RegisterParameters (NUIE::NodeParameterList& parameterList) const;
 
 	virtual NE::Stream::Status	Read (NE::InputStream& inputStream) override;
@@ -109,7 +109,7 @@ public:
 	OffsetNode (const NE::LocString& name, const NUIE::Point& position);
 
 	virtual void				Initialize () override;
-	virtual NE::ValueConstPtr	Calculate (NE::EvaluationEnv& env) const override;
+    virtual NE::ValueConstPtr	Calculate (NE::EvaluationEnv& env,const NE::OutputSlot *out) const override;
 	virtual void				RegisterParameters (NUIE::NodeParameterList& parameterList) const;
 
 	virtual NE::Stream::Status	Read (NE::InputStream& inputStream) override;

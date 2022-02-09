@@ -1,8 +1,8 @@
 #ifndef RESULTIMAGE_HPP
 #define RESULTIMAGE_HPP
 
-#include <VisualScriptEngine/NE_EvaluationEnv.hpp>
-#include <VisualScriptEngine/NUIE_DrawingImage.hpp>
+#include <VisualCalc/NodeEngine/NE_EvaluationEnv.hpp>
+#include <VisualCalc/NodeUIEngine/NUIE_DrawingImage.hpp>
 
 class ResultImage
 {
@@ -33,9 +33,10 @@ public:
 	std::shared_ptr<ResultImage>&	GetResultImage ();
 	void							AddItem (const NUIE::DrawingItemConstPtr& item);
 	void							RemoveItem (const NUIE::DrawingItemConstPtr& item);
-
+    unsigned id() const { return _id;}
 private:
 	std::shared_ptr<ResultImage>	resultImage;
+    unsigned _id = 0; // link to the RTObject
 };
 
 

@@ -1,7 +1,7 @@
 #ifndef NUIE_GEOMETRY_HPP
 #define NUIE_GEOMETRY_HPP
 
-#include "NE_Stream.hpp"
+#include "../NodeEngine/NE_Stream.hpp"
 
 #include <vector>
 

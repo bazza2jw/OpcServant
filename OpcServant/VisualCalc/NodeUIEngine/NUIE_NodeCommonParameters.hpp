@@ -1,7 +1,7 @@
 #ifndef NUIE_NODECOMMONPARAMETERS_HPP
 #define NUIE_NODECOMMONPARAMETERS_HPP
 
-#include "NE_SingleValues.hpp"
+#include "../NodeEngine/NE_SingleValues.hpp"
 #include "NUIE_NodeParameters.hpp"
 #include "NUIE_NodeUIManager.hpp"
 
@@ -212,23 +212,6 @@ public:
 
 	}
 
-	virtual NE::ValueConstPtr GetValueInternal (const UINodeConstPtr& uiNode) const override
-	{
-		NE::ValueConstPtr value = uiNode->GetInputSlotDefaultValue (slotId);
-		if (DBGERROR (value == nullptr)) {
-			return nullptr;
-		}
-		NE::ValueConstPtr convertedValue = ConvertValueForGet (value);
-		return convertedValue;
-	}
-
-	virtual bool SetValueInternal (UINodeInvalidator& invalidator, NE::EvaluationEnv&, UINodePtr& uiNode, const NE::ValueConstPtr& value) override
-	{
-		NE::ValueConstPtr convertedValue = ConvertValueForSet (value);
-		uiNode->SetInputSlotDefaultValue (slotId, convertedValue);
-		invalidator.InvalidateValueAndDrawing ();
-		return true;
-	}
 
 	virtual NE::ValueConstPtr ConvertValueForGet (const NE::ValueConstPtr& value) const
 	{

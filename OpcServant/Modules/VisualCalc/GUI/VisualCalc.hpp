@@ -1,12 +1,11 @@
 #ifndef VISUALCALC_HPP
 #define VISUALCALC_HPP
 #include "DrawingControl.hpp"
-#include <VisualScriptEngine/NE_SingleValues.hpp>
-#include <VisualScriptEngine/NE_Debug.hpp>
-#include <VisualScriptEngine/BI_BuiltInNodes.hpp>
-#include <VisualScriptEngine/WXAS_ParameterDialog.hpp>
-#include <VisualScriptEngine/WXAS_NodeEditorControl.hpp>
-#include "Nodes.hpp"
+#include  <VisualCalc/NodeEngine/NE_SingleValues.hpp>
+#include <VisualCalc/NodeEngine/NE_Debug.hpp>
+#include <VisualCalc/BuiltInNodes/BI_BuiltInNodes.hpp>
+#include <VisualCalc/wxWidgetsAppSupport/WXAS_ParameterDialog.hpp>
+#include <VisualCalc/wxWidgetsAppSupport/WXAS_NodeEditorControl.hpp>
 #include <locale>
 #include <codecvt>
 #include <wx/wx.h>
@@ -79,7 +78,9 @@ public:
         LessThan,
         Equals,
         NotEquals,
-        Not
+        Not,
+        RuntimeInput,
+        RuntimeOutput
     };
 
     CreateNodeCommand (WXAS::NodeEditorControl* nodeEditorControl, NodeType nodeType, const NE::LocString& name, const NUIE::Point& position) :

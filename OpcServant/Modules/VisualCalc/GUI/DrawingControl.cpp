@@ -1,6 +1,6 @@
 #include "DrawingControl.hpp"
-#include <VisualScriptEngine/NUIE_ContextDecorators.hpp>
-#include <VisualScriptEngine/WXAS_wxDrawingContext.hpp>
+#include <VisualCalc/NodeUIEngine/NUIE_ContextDecorators.hpp>
+#include <VisualCalc/wxWidgetsAppSupport/WXAS_wxDrawingContext.hpp>
 
 DrawingControl::DrawingControl (wxWindow *parent, const std::shared_ptr<ResultImage>& resultImage) :
 	wxPanel (parent, wxID_ANY, wxDefaultPosition, wxDefaultSize),

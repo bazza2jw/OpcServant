@@ -1,9 +1,9 @@
 #ifndef DRAWINGCONTROL_HPP
 #define DRAWINGCONTROL_HPP
 
-#include <VisualScriptEngine/NUIE_DrawingContext.hpp>
-#include <VisualScriptEngine/NUIE_ViewBox.hpp>
-#include <VisualScriptEngine/WXAS_ControlUtilities.hpp>
+#include "VisualCalc/wxWidgetsAppSupport/WXAS_ParameterDialog.hpp"
+#include <VisualCalc/wxWidgetsAppSupport/WXAS_NodeEditorControl.hpp>
+
 #include "ResultImage.hpp"
 
 #include <wx/wx.h>
