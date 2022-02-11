@@ -5,6 +5,7 @@
 #include "BI_BasicUINode.hpp"
 #include "BI_BuiltInFeatures.hpp"
 #include <functional>
+#include "BI_InputUINodes.hpp"
 namespace BI
 {
 template <typename A, typename R>
@@ -15,6 +16,7 @@ class BaseOperationNode : public BasicUINode
     A _b;
     bool _aSet = false;
     bool _bSet = false;
+    bool _reArmOnTick = true;
 public:
     BaseOperationNode () :
         BaseOperationNode (NE::LocString (), NUIE::Point ())
@@ -39,6 +41,13 @@ public:
                                                                              NE::LocString (L"Result"))));
     }
 
+    void Tick()
+    {
+        if(_reArmOnTick)
+        {
+            _aSet = _bSet = false; // need both to have been updated before generating event
+        }
+    }
     void Process(const NE::InputSlotConstPtr &in, JSONVALUEPTR &v)
     {
         try
@@ -75,6 +84,7 @@ public:
 
     virtual void RegisterParameters (NUIE::NodeParameterList& parameterList) const override
     {
+
         BasicUINode::RegisterParameters (parameterList);
     }
 

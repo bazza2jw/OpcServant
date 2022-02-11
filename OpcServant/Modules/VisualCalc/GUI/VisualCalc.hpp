@@ -52,12 +52,11 @@ public:
     {
         Boolean,
         Integer,
-        Number,
+        Double,
         String,
-        IntegerIncrement,
-        NumberIncrement,
-        NumberDistribution,
-        ListBuilder,
+        Unsigned,
+        Timer,
+        Event,
         Addition,
         Subtraction,
         Multiplication,
@@ -67,7 +66,7 @@ public:
         Line,
         Circle,
         Offset,
-        Viewer,
+        Output,
         And,
         Or,
         Xor,
@@ -79,8 +78,6 @@ public:
         Equals,
         NotEquals,
         Not,
-        RuntimeInput,
-        RuntimeOutput
     };
 
     CreateNodeCommand (WXAS::NodeEditorControl* nodeEditorControl, NodeType nodeType, const NE::LocString& name, const NUIE::Point& position) :

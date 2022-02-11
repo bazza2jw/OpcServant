@@ -113,53 +113,60 @@ ParameterDialog::ParameterDialog (wxWindow* parent, NUIE::ParameterInterfacePtr&
 
 void ParameterDialog::OnButtonClick (wxCommandEvent& evt)
 {
-    if (evt.GetId () == wxID_OK) {
-        bool isAllParameterValid = true;
-        for (size_t i = 0; i < paramInterface->GetParameterCount (); ++i) {
-            ParamUIData& uiData = paramUIDataList[i];
-            if (!uiData.isChanged) {
-                continue;
+    try {
+        if (evt.GetId () == wxID_OK) {
+            bool isAllParameterValid = true;
+            for (size_t i = 0; i < paramInterface->GetParameterCount (); ++i) {
+                ParamUIData& uiData = paramUIDataList[i];
+                if (!uiData.isChanged) {
+                    continue;
+                }
+
+                NUIE::ParameterType type = paramInterface->GetParameterType (i);
+                NE::ValuePtr value = uiData.GetValue (type);
+                if (DBGERROR (value == nullptr)) {
+                    isAllParameterValid = false;
+                    continue;
+                }
+
+                if (!paramInterface->IsValidParameterValue (i, value)) {
+                    NE::ValueConstPtr oldValue = paramInterface->GetParameterValue (i);
+                    std::wstring oldValueString = NUIE::ParameterValueToString (oldValue, type);
+                    uiData.SetStringValue (oldValueString);
+                    uiData.isChanged = false;
+                    isAllParameterValid = false;
+                }
             }
 
-            NUIE::ParameterType type = paramInterface->GetParameterType (i);
-            NE::ValuePtr value = uiData.GetValue (type);
-            if (DBGERROR (value == nullptr)) {
-                isAllParameterValid = false;
-                continue;
+            if (!isAllParameterValid) {
+                return;
             }
 
-            if (!paramInterface->IsValidParameterValue (i, value)) {
-                NE::ValueConstPtr oldValue = paramInterface->GetParameterValue (i);
-                std::wstring oldValueString = NUIE::ParameterValueToString (oldValue, type);
-                uiData.SetStringValue (oldValueString);
-                uiData.isChanged = false;
-                isAllParameterValid = false;
-            }
-        }
+            for (size_t i = 0; i < paramInterface->GetParameterCount (); ++i) {
+                const ParamUIData& uiData = paramUIDataList[i];
+                if (!uiData.isChanged) {
+                    continue;
+                }
 
-        if (!isAllParameterValid) {
-            return;
-        }
+                NUIE::ParameterType type = paramInterface->GetParameterType (i);
+                NE::ValuePtr value = uiData.GetValue (type);
+                if (DBGERROR (value == nullptr)) {
+                    continue;
+                }
 
-        for (size_t i = 0; i < paramInterface->GetParameterCount (); ++i) {
-            const ParamUIData& uiData = paramUIDataList[i];
-            if (!uiData.isChanged) {
-                continue;
+                paramInterface->SetParameterValue (i, value);
             }
 
-            NUIE::ParameterType type = paramInterface->GetParameterType (i);
-            NE::ValuePtr value = uiData.GetValue (type);
-            if (DBGERROR (value == nullptr)) {
-                continue;
+            if (isAllParameterValid) {
+                EndModal (wxID_OK);
             }
-
-            paramInterface->SetParameterValue (i, value);
-        }
-
-        if (isAllParameterValid) {
-            EndModal (wxID_OK);
         }
     }
+    catch(...)
+    {
+        DbgBreak();
+    }
+
 }
 
 void ParameterDialog::OnTextChanged (wxCommandEvent& evt)

@@ -8,7 +8,7 @@ namespace WXAS
 {
 
 NodeEditorEventHandler::NodeEditorEventHandler (NodeEditorControl* control) :
-	control (control)
+    control (control)
 {
 
 }
@@ -20,16 +20,16 @@ NodeEditorEventHandler::~NodeEditorEventHandler ()
 
 NUIE::MenuCommandPtr NodeEditorEventHandler::OnContextMenu (NUIE::EventHandler::ContextMenuType, const NUIE::Point& position, const NUIE::MenuCommandStructure& commands)
 {
-	return SelectCommandFromContextMenu (control, position, commands);
+    return SelectCommandFromContextMenu (control, position, commands);
 }
 
 bool NodeEditorEventHandler::OnParameterSettings (NUIE::EventHandler::ParameterSettingsType, NUIE::ParameterInterfacePtr paramInterface)
 {
-	ParameterDialog paramDialog (control, paramInterface);
-	if (paramDialog.ShowModal () == wxID_OK) {
-		return true;
-	}
-	return false;
+    ParameterDialog paramDialog (control, paramInterface);
+    if (paramDialog.ShowModal () == wxID_OK) {
+        return true;
+    }
+    return false;
 }
 
 void NodeEditorEventHandler::OnDoubleClick (const NUIE::Point&, NUIE::MouseButton)
@@ -38,19 +38,26 @@ void NodeEditorEventHandler::OnDoubleClick (const NUIE::Point&, NUIE::MouseButto
 }
 
 NodeEditorUIEnvironment::NodeEditorUIEnvironment (	NodeEditorControl* nodeEditorControl,
-													NE::StringConverterPtr& stringConverter,
-													NUIE::SkinParamsPtr& skinParams,
-													NUIE::EventHandlerPtr& eventHandler,
-													NE::EvaluationEnv& evaluationEnv) :
-	nodeEditorControl (nodeEditorControl),
-	evaluationEnv (evaluationEnv),
-	stringConverter (stringConverter),
-	skinParams (skinParams),
-	eventHandler (eventHandler),
-	clipboardHandler (new NUIE::MemoryClipboardHandler ()),
-	drawingContext (CreateNativeDrawingContext ())
+        NE::StringConverterPtr& stringConverter,
+        NUIE::SkinParamsPtr& skinParams,
+        NUIE::EventHandlerPtr& eventHandler,
+        NE::EvaluationEnv& evaluationEnv) :
+    nodeEditorControl (nodeEditorControl),
+    evaluationEnv (evaluationEnv),
+    stringConverter (stringConverter),
+    skinParams (skinParams),
+    eventHandler (eventHandler),
+    clipboardHandler (new NUIE::MemoryClipboardHandler ()),
+    drawingContext (CreateNativeDrawingContext ())
 {
-	drawingContext->Init (GetNativeHandle (nodeEditorControl));
+    try {
+        drawingContext->Init (GetNativeHandle (nodeEditorControl));
+    }
+    catch(...)
+    {
+        DbgBreak();
+    }
+
 }
 
 NodeEditorUIEnvironment::~NodeEditorUIEnvironment ()
@@ -60,67 +67,91 @@ NodeEditorUIEnvironment::~NodeEditorUIEnvironment ()
 
 void NodeEditorUIEnvironment::OnPaint (wxPanel*, wxPaintEvent&)
 {
-	drawingContext->BlitToWindow (GetNativeHandle (nodeEditorControl));
+    try
+    {
+        drawingContext->BlitToWindow (GetNativeHandle (nodeEditorControl));
+    }
+    catch(...)
+    {
+        DbgBreak();
+    }
+
 }
 
 void NodeEditorUIEnvironment::OnResize (int width, int height)
 {
-	drawingContext->Resize (width, height);
+    try
+    {
+        drawingContext->Resize (width, height);
+    }
+    catch(...)
+    {
+        DbgBreak();
+    }
+
 }
 
 const NE::StringConverter& NodeEditorUIEnvironment::GetStringConverter ()
 {
-	return *stringConverter;
+    return *stringConverter;
 }
 
 const NUIE::SkinParams& NodeEditorUIEnvironment::GetSkinParams ()
 {
-	return *skinParams;
+    return *skinParams;
 }
 
 NUIE::DrawingContext& NodeEditorUIEnvironment::GetDrawingContext ()
 {
-	return *drawingContext;
+    return *drawingContext;
 }
 
 double NodeEditorUIEnvironment::GetWindowScale ()
 {
-	return 1.0;
+    return 1.0;
 }
 
 NE::EvaluationEnv& NodeEditorUIEnvironment::GetEvaluationEnv ()
 {
-	return evaluationEnv;
+    return evaluationEnv;
 }
 
 void NodeEditorUIEnvironment::OnEvaluationBegin ()
 {
-	wxBeginBusyCursor ();
+    wxBeginBusyCursor ();
 }
 
 void NodeEditorUIEnvironment::OnEvaluationEnd ()
 {
-	wxEndBusyCursor ();
+    wxEndBusyCursor ();
 }
 
 void NodeEditorUIEnvironment::OnValuesRecalculated ()
 {
-	
+
 }
 
 void NodeEditorUIEnvironment::OnRedrawRequested ()
 {
-	nodeEditorControl->Refresh (false);
+    try
+    {
+        nodeEditorControl->Refresh (false);
+    }
+    catch(...)
+    {
+        DbgBreak();
+    }
+
 }
 
 NUIE::EventHandler& NodeEditorUIEnvironment::GetEventHandler ()
 {
-	return *eventHandler;
+    return *eventHandler;
 }
 
 NUIE::ClipboardHandler& NodeEditorUIEnvironment::GetClipboardHandler ()
 {
-	return *clipboardHandler;
+    return *clipboardHandler;
 }
 
 void NodeEditorUIEnvironment::OnSelectionChanged (const NUIE::Selection&)
@@ -144,8 +175,8 @@ void NodeEditorUIEnvironment::OnIncompatibleVersionPasted (const NUIE::Version&)
 }
 
 NodeEditorControl::NodeEditorControl (wxWindow *parent) :
-	wxPanel (parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxWANTS_CHARS),
-	captureHandler (this)
+    wxPanel (parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxWANTS_CHARS),
+    captureHandler (this)
 {
 
 }
@@ -157,16 +188,31 @@ NodeEditorControl::~NodeEditorControl ()
 
 void NodeEditorControl::Init (std::shared_ptr<NodeEditorUIEnvironment>& editorUIEnvironment)
 {
-	uiEnvironment = editorUIEnvironment;
-	nodeEditor = std::shared_ptr<NUIE::NodeEditor> (new NUIE::NodeEditor (*uiEnvironment));
-	OnInit ();
-    nodeEditor->Update ();
+    try {
+        uiEnvironment = editorUIEnvironment;
+        nodeEditor = std::shared_ptr<NUIE::NodeEditor> (new NUIE::NodeEditor (*uiEnvironment));
+        OnInit ();
+        nodeEditor->Update ();
+    }
+    catch(...)
+    {
+        DbgBreak();
+    }
+
 }
 
 
 void  NodeEditorControl::Step()
 {
-    nodeEditor->UiManager().Step(uiEnvironment->GetEvaluationEnv()); // one iteration of the node flows
+    try
+    {
+        nodeEditor->UiManager().Step(uiEnvironment->GetEvaluationEnv()); // one iteration of the node flows
+    }
+    catch(...)
+    {
+        DbgBreak();
+    }
+
 }
 
 
@@ -181,71 +227,152 @@ void NodeEditorControl::OnPaint (wxPaintEvent& evt)
         nodeEditor->Draw ();
         uiEnvironment->OnPaint (this, evt);
     } catch (...) {
-       wxTrap();
+        wxTrap();
     }
 }
 
 void NodeEditorControl::OnResize (wxSizeEvent& evt)
 {
-	SetFocus ();
-	wxSize size = evt.GetSize ();
-	nodeEditor->OnResize (size.GetWidth (), size.GetHeight ());
+    try {
+        SetFocus ();
+        wxSize size = evt.GetSize ();
+        nodeEditor->OnResize (size.GetWidth (), size.GetHeight ());
+    }
+    catch(...)
+    {
+        DbgBreak();
+    }
+
 }
 
 void NodeEditorControl::OnMouseCaptureLost (wxMouseCaptureLostEvent&)
 {
-	captureHandler.OnCaptureLost ();
+    try {
+        captureHandler.OnCaptureLost ();
+    }
+    catch(...)
+    {
+        DbgBreak();
+    }
+
 }
 
 void NodeEditorControl::OnLeftButtonDown (wxMouseEvent& evt)
 {
-	captureHandler.OnMouseDown ();
-	nodeEditor->OnMouseDown (GetModiferKeysFromEvent (evt), NUIE::MouseButton::Left, evt.GetX (), evt.GetY ());
+    try {
+        captureHandler.OnMouseDown ();
+        nodeEditor->OnMouseDown (GetModiferKeysFromEvent (evt), NUIE::MouseButton::Left, evt.GetX (), evt.GetY ());
+    }
+    catch(...)
+    {
+        DbgBreak();
+    }
+
 }
 
 void NodeEditorControl::OnLeftButtonUp (wxMouseEvent& evt)
 {
-	nodeEditor->OnMouseUp (GetModiferKeysFromEvent (evt), NUIE::MouseButton::Left, evt.GetX (), evt.GetY ());
-	captureHandler.OnMouseUp ();
+    try
+    {
+        nodeEditor->OnMouseUp (GetModiferKeysFromEvent (evt), NUIE::MouseButton::Left, evt.GetX (), evt.GetY ());
+        captureHandler.OnMouseUp ();
+    }
+    catch(...)
+    {
+        DbgBreak();
+    }
+
 }
 
 void NodeEditorControl::OnLeftButtonDoubleClick (wxMouseEvent& evt)
 {
-	nodeEditor->OnMouseDoubleClick (GetModiferKeysFromEvent (evt), NUIE::MouseButton::Left, evt.GetX (), evt.GetY ());
+    try
+    {
+        nodeEditor->OnMouseDoubleClick (GetModiferKeysFromEvent (evt), NUIE::MouseButton::Left, evt.GetX (), evt.GetY ());
+    }
+    catch(...)
+    {
+        DbgBreak();
+    }
+
 }
 
 void NodeEditorControl::OnRightButtonDown (wxMouseEvent& evt)
 {
-	captureHandler.OnMouseDown ();
-	nodeEditor->OnMouseDown (GetModiferKeysFromEvent (evt), NUIE::MouseButton::Right, evt.GetX (), evt.GetY ());
+    try
+    {
+        captureHandler.OnMouseDown ();
+        nodeEditor->OnMouseDown (GetModiferKeysFromEvent (evt), NUIE::MouseButton::Right, evt.GetX (), evt.GetY ());
+    }
+    catch(...)
+    {
+        DbgBreak();
+    }
+
 }
 
 void NodeEditorControl::OnRightButtonUp (wxMouseEvent& evt)
 {
-	nodeEditor->OnMouseUp (GetModiferKeysFromEvent (evt), NUIE::MouseButton::Right, evt.GetX (), evt.GetY ());
-	captureHandler.OnMouseUp ();
+    try
+    {
+        nodeEditor->OnMouseUp (GetModiferKeysFromEvent (evt), NUIE::MouseButton::Right, evt.GetX (), evt.GetY ());
+        captureHandler.OnMouseUp ();
+    }
+    catch(...)
+    {
+        DbgBreak();
+    }
+
 }
 
 void NodeEditorControl::OnRightButtonDoubleClick (wxMouseEvent& evt)
 {
-	nodeEditor->OnMouseDoubleClick (GetModiferKeysFromEvent (evt), NUIE::MouseButton::Right, evt.GetX (), evt.GetY ());
+    try {
+        nodeEditor->OnMouseDoubleClick (GetModiferKeysFromEvent (evt), NUIE::MouseButton::Right, evt.GetX (), evt.GetY ());
+    }
+    catch(...)
+    {
+        DbgBreak();
+    }
+
 }
 
 void NodeEditorControl::OnMiddleButtonDown (wxMouseEvent& evt)
 {
-	captureHandler.OnMouseDown ();
-	nodeEditor->OnMouseDown (GetModiferKeysFromEvent (evt), NUIE::MouseButton::Middle, evt.GetX (), evt.GetY ());
+    try {
+        captureHandler.OnMouseDown ();
+        nodeEditor->OnMouseDown (GetModiferKeysFromEvent (evt), NUIE::MouseButton::Middle, evt.GetX (), evt.GetY ());
+    }
+    catch(...)
+    {
+        DbgBreak();
+    }
+
 }
 
 void NodeEditorControl::OnMiddleButtonUp (wxMouseEvent& evt)
 {
-	nodeEditor->OnMouseUp (GetModiferKeysFromEvent (evt), NUIE::MouseButton::Middle, evt.GetX (), evt.GetY ());
-	captureHandler.OnMouseUp ();
+    try {
+        nodeEditor->OnMouseUp (GetModiferKeysFromEvent (evt), NUIE::MouseButton::Middle, evt.GetX (), evt.GetY ());
+        captureHandler.OnMouseUp ();
+    }
+    catch(...)
+    {
+        DbgBreak();
+    }
+
 }
 
 void NodeEditorControl::OnMiddleButtonDoubleClick (wxMouseEvent& evt)
 {
-	nodeEditor->OnMouseDoubleClick (GetModiferKeysFromEvent (evt), NUIE::MouseButton::Middle, evt.GetX (), evt.GetY ());
+    try {
+        nodeEditor->OnMouseDoubleClick (GetModiferKeysFromEvent (evt), NUIE::MouseButton::Middle, evt.GetX (), evt.GetY ());
+    }
+    catch(...)
+    {
+        DbgBreak();
+    }
+
 }
 
 void NodeEditorControl::OnMouseMove (wxMouseEvent& evt)
@@ -261,128 +388,163 @@ void NodeEditorControl::OnMouseMove (wxMouseEvent& evt)
 
 void NodeEditorControl::OnMouseWheel (wxMouseEvent& evt)
 {
-	NUIE::MouseWheelRotation rotation = evt.GetWheelRotation () > 0 ? NUIE::MouseWheelRotation::Forward : NUIE::MouseWheelRotation::Backward;
-	nodeEditor->OnMouseWheel (GetModiferKeysFromEvent (evt), rotation, evt.GetX (), evt.GetY ());
+    try {
+        NUIE::MouseWheelRotation rotation = evt.GetWheelRotation () > 0 ? NUIE::MouseWheelRotation::Forward : NUIE::MouseWheelRotation::Backward;
+        nodeEditor->OnMouseWheel (GetModiferKeysFromEvent (evt), rotation, evt.GetX (), evt.GetY ());
+    }
+    catch(...)
+    {
+        DbgBreak();
+    }
+
 }
 
 void NodeEditorControl::OnKeyDown (wxKeyEvent& evt)
 {
-	NUIE::CommandCode commandCode = GetCommandFromEvent (evt);
-	if (commandCode == NUIE::CommandCode::Undefined) {
-		return;
-	}
-	nodeEditor->ExecuteCommand (commandCode);
+    try {
+        NUIE::CommandCode commandCode = GetCommandFromEvent (evt);
+        if (commandCode == NUIE::CommandCode::Undefined) {
+            return;
+        }
+        nodeEditor->ExecuteCommand (commandCode);
+    }
+    catch(...)
+    {
+        DbgBreak();
+    }
+
 }
 
 NodeEditorControl::UpdateMode NodeEditorControl::GetUpdateMode () const
 {
-	if (nodeEditor->GetUpdateMode () == NUIE::NodeEditor::UpdateMode::Automatic) {
-		return UpdateMode::Automatic;
-	} else if (nodeEditor->GetUpdateMode () == NUIE::NodeEditor::UpdateMode::Manual) {
-		return UpdateMode::Manual;
-	} else {
-		DBGBREAK ();
-		return UpdateMode::Automatic;
-	}
+    try {
+        if (nodeEditor->GetUpdateMode () == NUIE::NodeEditor::UpdateMode::Automatic) {
+            return UpdateMode::Automatic;
+        } else if (nodeEditor->GetUpdateMode () == NUIE::NodeEditor::UpdateMode::Manual) {
+            return UpdateMode::Manual;
+        } else {
+            DBGBREAK ();
+            return UpdateMode::Automatic;
+        }
+    }
+    catch(...)
+    {
+        DbgBreak();
+    }
+
 }
 
 void NodeEditorControl::SetUpdateMode (UpdateMode mode) const
 {
-	if (mode == UpdateMode::Automatic) {
-		nodeEditor->SetUpdateMode (NUIE::NodeEditor::UpdateMode::Automatic);
-	} else if (mode == UpdateMode::Manual) {
-		nodeEditor->SetUpdateMode (NUIE::NodeEditor::UpdateMode::Manual);
-	} else {
-		DBGBREAK ();
-	}
+    try {
+        if (mode == UpdateMode::Automatic) {
+            nodeEditor->SetUpdateMode (NUIE::NodeEditor::UpdateMode::Automatic);
+        } else if (mode == UpdateMode::Manual) {
+            nodeEditor->SetUpdateMode (NUIE::NodeEditor::UpdateMode::Manual);
+        } else {
+            DBGBREAK ();
+        }
+    }
+    catch(...)
+    {
+        DbgBreak();
+    }
+
 }
 
 void NodeEditorControl::ManualUpdate ()
 {
-	nodeEditor->ManualUpdate ();
+    nodeEditor->ManualUpdate ();
 }
 
 void NodeEditorControl::AddNode (const NUIE::UINodePtr& uiNode)
 {
-	nodeEditor->AddNode (uiNode);
+    nodeEditor->AddNode (uiNode);
 }
 
 NUIE::Point NodeEditorControl::ViewToModel (const NUIE::Point& viewPoint) const
 {
-	return nodeEditor->ViewToModel (viewPoint);
+    try {
+        return nodeEditor->ViewToModel (viewPoint);
+    }
+    catch(...)
+    {
+        DbgBreak();
+    }
+
 }
 
 void NodeEditorControl::AlignToWindow ()
 {
-	nodeEditor->AlignToWindow ();
+    nodeEditor->AlignToWindow ();
 }
 
 void NodeEditorControl::FitToWindow ()
 {
-	nodeEditor->FitToWindow ();
+    nodeEditor->FitToWindow ();
 }
 
 void NodeEditorControl::New ()
 {
-	nodeEditor->New ();
+    nodeEditor->New ();
 }
- 
+
 bool NodeEditorControl::Open (const std::wstring& fileName)
 {
-	return nodeEditor->Open (fileName);
+    return nodeEditor->Open (fileName);
 }
 
 bool NodeEditorControl::Open (NE::InputStream& inputStream)
 {
-	return nodeEditor->Open (inputStream);
+    return nodeEditor->Open (inputStream);
 }
- 
+
 bool NodeEditorControl::Save (const std::wstring& fileName)
 {
-	return nodeEditor->Save (fileName);
+    return nodeEditor->Save (fileName);
 }
 
 bool NodeEditorControl::Save (NE::OutputStream& outputStream) const
 {
-	return nodeEditor->Save (outputStream);
+    return nodeEditor->Save (outputStream);
 }
 
 bool NodeEditorControl::NeedToSave () const
 {
-	return nodeEditor->NeedToSave ();
+    return nodeEditor->NeedToSave ();
 }
 
 void NodeEditorControl::Undo ()
 {
-	nodeEditor->Undo ();
+    nodeEditor->Undo ();
 }
 
 void NodeEditorControl::Redo ()
 {
-	nodeEditor->Redo ();
+    nodeEditor->Redo ();
 }
 
 BEGIN_EVENT_TABLE(NodeEditorControl, wxPanel)
 
-EVT_PAINT (NodeEditorControl::OnPaint)
-EVT_SIZE (NodeEditorControl::OnResize)
-EVT_MOUSE_CAPTURE_LOST (NodeEditorControl::OnMouseCaptureLost)
+    EVT_PAINT (NodeEditorControl::OnPaint)
+    EVT_SIZE (NodeEditorControl::OnResize)
+    EVT_MOUSE_CAPTURE_LOST (NodeEditorControl::OnMouseCaptureLost)
 
-EVT_LEFT_DOWN (NodeEditorControl::OnLeftButtonDown)
-EVT_LEFT_UP (NodeEditorControl::OnLeftButtonUp)
-EVT_LEFT_DCLICK (NodeEditorControl::OnLeftButtonDoubleClick)
+    EVT_LEFT_DOWN (NodeEditorControl::OnLeftButtonDown)
+    EVT_LEFT_UP (NodeEditorControl::OnLeftButtonUp)
+    EVT_LEFT_DCLICK (NodeEditorControl::OnLeftButtonDoubleClick)
 
-EVT_RIGHT_DOWN (NodeEditorControl::OnRightButtonDown)
-EVT_RIGHT_UP (NodeEditorControl::OnRightButtonUp)
-EVT_RIGHT_DCLICK (NodeEditorControl::OnRightButtonDoubleClick)
+    EVT_RIGHT_DOWN (NodeEditorControl::OnRightButtonDown)
+    EVT_RIGHT_UP (NodeEditorControl::OnRightButtonUp)
+    EVT_RIGHT_DCLICK (NodeEditorControl::OnRightButtonDoubleClick)
 
-EVT_MIDDLE_DOWN (NodeEditorControl::OnMiddleButtonDown)
-EVT_MIDDLE_UP (NodeEditorControl::OnMiddleButtonUp)
-EVT_MIDDLE_DCLICK (NodeEditorControl::OnMiddleButtonDoubleClick)
+    EVT_MIDDLE_DOWN (NodeEditorControl::OnMiddleButtonDown)
+    EVT_MIDDLE_UP (NodeEditorControl::OnMiddleButtonUp)
+    EVT_MIDDLE_DCLICK (NodeEditorControl::OnMiddleButtonDoubleClick)
 
-EVT_MOUSEWHEEL (NodeEditorControl::OnMouseWheel)
-EVT_MOTION (NodeEditorControl::OnMouseMove)
-EVT_KEY_DOWN (NodeEditorControl::OnKeyDown)
+    EVT_MOUSEWHEEL (NodeEditorControl::OnMouseWheel)
+    EVT_MOTION (NodeEditorControl::OnMouseMove)
+    EVT_KEY_DOWN (NodeEditorControl::OnKeyDown)
 
 END_EVENT_TABLE ()
 

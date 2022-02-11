@@ -60,10 +60,48 @@ NUIE::UINodePtr VisualCalc::CreateNodeCommand::CreateNode (const NUIE::Point& mo
     switch (nodeType) {
     case NodeType::Boolean:
         return NUIE::UINodePtr (new BI::BooleanNode (NE::LocString (L"Boolean"), modelPosition, true));
-    case NodeType::Viewer:
-        return NUIE::UINodePtr (new BI::OutputNode(NE::LocString (L"Viewer"), modelPosition));
+    case NodeType::Integer:
+        return NUIE::UINodePtr (new BI::IntegerNode (NE::LocString (L"Integer"), modelPosition, 1));
+    case NodeType::Double:
+        return NUIE::UINodePtr (new BI::IntegerNode (NE::LocString (L"Double"), modelPosition, 1.0));
+    case NodeType::Timer:
+        return NUIE::UINodePtr (new BI::TimerNode (NE::LocString (L"Timer"), modelPosition, 1000 ));
+    case NodeType::Event:
+        return NUIE::UINodePtr (new BI::EventNode (NE::LocString (L"Event"), modelPosition, false));
+    //
+    case NodeType::Output:
+        return NUIE::UINodePtr (new BI::OutputNode (NE::LocString (L"Ouput"), modelPosition));
+    //
     case NodeType::Addition:
-        return NUIE::UINodePtr (new BI::AdditionNode(NE::LocString (L"Addition"), modelPosition));
+        return NUIE::UINodePtr (new BI::AdditionNode (NE::LocString (L"Addition"), modelPosition));
+    case NodeType::Subtraction:
+        return NUIE::UINodePtr (new BI::SubtractionNode (NE::LocString (L"Subtraction"), modelPosition));
+    case NodeType::Multiplication:
+        return NUIE::UINodePtr (new BI::MultiplicationNode (NE::LocString (L"Multiplication"), modelPosition));
+    case NodeType::Division:
+        return NUIE::UINodePtr (new BI::DivisionNode (NE::LocString (L"Division"), modelPosition));
+    case NodeType::And:
+        return NUIE::UINodePtr (new BI::AndNode (NE::LocString (L"And"), modelPosition));
+    case NodeType::Or:
+        return NUIE::UINodePtr (new BI::OrNode (NE::LocString (L"Or"), modelPosition));
+    case NodeType::Xor:
+        return NUIE::UINodePtr (new BI::XorNode (NE::LocString (L"Xor"), modelPosition));
+    case NodeType::BitAnd:
+        return NUIE::UINodePtr (new BI::BitAndNode (NE::LocString (L"Bit And"), modelPosition));
+    case NodeType::BitOr:
+        return NUIE::UINodePtr (new BI::BitOrNode (NE::LocString (L"Bit Or"), modelPosition));
+    case NodeType::BitXOr:
+        return NUIE::UINodePtr (new BI::BitXorNode (NE::LocString (L"Bit Xor"), modelPosition));
+    case NodeType::GreaterThan:
+        return NUIE::UINodePtr (new BI::GreaterThanNode (NE::LocString (L"Greater Than"), modelPosition));
+    case NodeType::LessThan:
+        return NUIE::UINodePtr (new BI::LessThanNode (NE::LocString (L"Less Than"), modelPosition));
+    case NodeType::Equals:
+        return NUIE::UINodePtr (new BI::EqualsNode (NE::LocString (L"Equals"), modelPosition));
+    case NodeType::NotEquals:
+        return NUIE::UINodePtr (new BI::NotEqualsNode (NE::LocString (L"Not Equals"), modelPosition));
+    case NodeType::Not:
+        return NUIE::UINodePtr (new BI::NotNode (NE::LocString (L"Not"), modelPosition));
 
     default:
         break;
@@ -88,12 +126,9 @@ NUIE::MenuCommandPtr VisualCalc::NodeEditorEventHandler::OnContextMenu (NUIE::Ev
         NUIE::MultiMenuCommandPtr inputCommandGroup (new NUIE::MultiMenuCommand (NE::LocString (L"Input Nodes")));
         inputCommandGroup->AddChildCommand (NUIE::MenuCommandPtr (new CreateNodeCommand (control, CreateNodeCommand::NodeType::Boolean, NE::LocString (L"Boolean"), position)));
         inputCommandGroup->AddChildCommand (NUIE::MenuCommandPtr (new CreateNodeCommand (control, CreateNodeCommand::NodeType::Integer, NE::LocString (L"Integer"), position)));
-        inputCommandGroup->AddChildCommand (NUIE::MenuCommandPtr (new CreateNodeCommand (control, CreateNodeCommand::NodeType::Number, NE::LocString (L"Number"), position)));
-        inputCommandGroup->AddChildCommand (NUIE::MenuCommandPtr (new CreateNodeCommand (control, CreateNodeCommand::NodeType::String, NE::LocString (L"String"), position)));
-        inputCommandGroup->AddChildCommand (NUIE::MenuCommandPtr (new CreateNodeCommand (control, CreateNodeCommand::NodeType::IntegerIncrement, NE::LocString (L"Integer Increment"), position)));
-        inputCommandGroup->AddChildCommand (NUIE::MenuCommandPtr (new CreateNodeCommand (control, CreateNodeCommand::NodeType::NumberIncrement, NE::LocString (L"Number Increment"), position)));
-        inputCommandGroup->AddChildCommand (NUIE::MenuCommandPtr (new CreateNodeCommand (control, CreateNodeCommand::NodeType::NumberDistribution, NE::LocString (L"Number Distribution"), position)));
-        inputCommandGroup->AddChildCommand (NUIE::MenuCommandPtr (new CreateNodeCommand (control, CreateNodeCommand::NodeType::ListBuilder, NE::LocString (L"List Builder"), position)));
+        inputCommandGroup->AddChildCommand (NUIE::MenuCommandPtr (new CreateNodeCommand (control, CreateNodeCommand::NodeType::Double, NE::LocString (L"Double"), position)));
+        inputCommandGroup->AddChildCommand (NUIE::MenuCommandPtr (new CreateNodeCommand (control, CreateNodeCommand::NodeType::Event, NE::LocString (L"Event"), position)));
+        inputCommandGroup->AddChildCommand (NUIE::MenuCommandPtr (new CreateNodeCommand (control, CreateNodeCommand::NodeType::Timer, NE::LocString (L"Timer"), position)));
         createCommandGroup->AddChildCommand (inputCommandGroup);
 
         NUIE::MultiMenuCommandPtr arithmeticCommandGroup (new NUIE::MultiMenuCommand (NE::LocString (L"Arithmetic Nodes")));
@@ -125,26 +160,8 @@ NUIE::MenuCommandPtr VisualCalc::NodeEditorEventHandler::OnContextMenu (NUIE::Ev
         createCommandGroup->AddChildCommand (compareCommandGroup);
 
 
-
-        NUIE::MultiMenuCommandPtr drawingCommandGroup (new NUIE::MultiMenuCommand (NE::LocString (L"Drawing Nodes")));
-        drawingCommandGroup->AddChildCommand (NUIE::MenuCommandPtr (new CreateNodeCommand (control, CreateNodeCommand::NodeType::Color, NE::LocString (L"Color"), position)));
-        drawingCommandGroup->AddChildCommand (NUIE::MenuCommandPtr (new CreateNodeCommand (control, CreateNodeCommand::NodeType::Point, NE::LocString (L"Point"), position)));
-        drawingCommandGroup->AddChildCommand (NUIE::MenuCommandPtr (new CreateNodeCommand (control, CreateNodeCommand::NodeType::Line, NE::LocString (L"Line"), position)));
-        drawingCommandGroup->AddChildCommand (NUIE::MenuCommandPtr (new CreateNodeCommand (control, CreateNodeCommand::NodeType::Circle, NE::LocString (L"Circle"), position)));
-        createCommandGroup->AddChildCommand (drawingCommandGroup);
-
-        NUIE::MultiMenuCommandPtr transformationCommandGroup (new NUIE::MultiMenuCommand (NE::LocString (L"Transformation Nodes")));
-        transformationCommandGroup->AddChildCommand (NUIE::MenuCommandPtr (new CreateNodeCommand (control, CreateNodeCommand::NodeType::Offset, NE::LocString (L"Offset"), position)));
-        createCommandGroup->AddChildCommand (transformationCommandGroup);
-
-        NUIE::MultiMenuCommandPtr runtimeCommandGroup (new NUIE::MultiMenuCommand (NE::LocString (L"Runtime Nodes")));
-        runtimeCommandGroup->AddChildCommand (NUIE::MenuCommandPtr (new CreateNodeCommand (control, CreateNodeCommand::NodeType::RuntimeInput, NE::LocString (L"Runtime Input"), position)));
-        runtimeCommandGroup->AddChildCommand (NUIE::MenuCommandPtr (new CreateNodeCommand (control, CreateNodeCommand::NodeType::RuntimeOutput, NE::LocString (L"Runtime Output"), position)));
-        createCommandGroup->AddChildCommand (runtimeCommandGroup);
-
-
-        NUIE::MultiMenuCommandPtr otherCommandGroup (new NUIE::MultiMenuCommand (NE::LocString (L"Other Nodes")));
-        otherCommandGroup->AddChildCommand (NUIE::MenuCommandPtr (new CreateNodeCommand (control, CreateNodeCommand::NodeType::Viewer, NE::LocString (L"Viewer"), position)));
+        NUIE::MultiMenuCommandPtr otherCommandGroup (new NUIE::MultiMenuCommand (NE::LocString (L"Output Nodes")));
+        otherCommandGroup->AddChildCommand (NUIE::MenuCommandPtr (new CreateNodeCommand (control, CreateNodeCommand::NodeType::Output, NE::LocString (L"Output"), position)));
         createCommandGroup->AddChildCommand (otherCommandGroup);
 
         actualCommands.AddCommand (createCommandGroup);
@@ -166,174 +183,4 @@ void VisualCalc::NodeEditorControl::OnInit ()
     nodeEditor->AddNode(outNode);
     nodeEditor->Update ();
 }
-
-#if 0
-/*!
-* \brief VisualCalc::MenuBar::MenuBar
-*/
-VisualCalc::MenuBar::MenuBar () :
-    wxMenuBar ()
-{
-    wxMenu* fileMenu = new wxMenu ();
-    fileMenu->Append (CommandId::File_New, "New");
-    fileMenu->Append (CommandId::File_Open, "Open...");
-    fileMenu->Append (CommandId::File_Save, "Save...");
-    fileMenu->Append (CommandId::File_SaveAs, "Save As...");
-    fileMenu->AppendSeparator ();
-    fileMenu->Append (CommandId::File_Exit, L"Exit");
-    Append (fileMenu, L"&File");
-
-    wxMenu* editMenu = new wxMenu ();
-    editMenu->Append (CommandId::Edit_Undo, "Undo");
-    editMenu->Append (CommandId::Edit_Redo, "Redo");
-    Append (editMenu, L"&Edit");
-
-    wxMenu* modeMenu = new wxMenu ();
-    modeMenu->AppendRadioItem (CommandId::Mode_Automatic, "Automatic");
-    modeMenu->AppendRadioItem (CommandId::Mode_Manual, "Manual");
-    modeMenu->AppendSeparator ();
-    modeMenu->Append (CommandId::Mode_Update, L"Update");
-    Append (modeMenu, L"&Mode");
-
-    wxMenu* viewMenu = new wxMenu ();
-    viewMenu->Append (CommandId::View_AlignToWindow, "Align To Window");
-    viewMenu->Append (CommandId::View_FitToWindow, "Fit To Window");
-    Append (viewMenu, L"&View");
-}
-
-
-VisualCalc::MainFrame::MainFrame () :
-    wxFrame (NULL, wxID_ANY, L"Node Engine Test App", wxDefaultPosition, wxSize (1000, 600)),
-    resultImage (new ResultImage ()),
-    evaluationData (new ResultImageEvaluationData (resultImage)),
-    evaluationEnv (evaluationData),
-    menuBar (new MenuBar ()),
-    mainWindow (new wxSplitterWindow (this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxSP_THIN_SASH | wxSP_LIVE_UPDATE)),
-    drawingControl (new DrawingControl (mainWindow, resultImage)),
-    nodeEditorControl (new NodeEditorControl (mainWindow)),
-    applicationState ()
-{
-    NE::StringConverterPtr stringConverter (new NE::BasicStringConverter (NE::GetDefaultStringSettings ()));
-    NUIE::SkinParamsPtr skinParams (new NUIE::BasicSkinParams (GetAppSkinParams ()));
-    NUIE::EventHandlerPtr eventHandler (new NodeEditorEventHandler (nodeEditorControl));
-    std::shared_ptr<WXAS::NodeEditorUIEnvironment> uiEnvironment = std::shared_ptr<WXAS::NodeEditorUIEnvironment> (
-                new NodeEditorUIEnvironment (
-                    nodeEditorControl,
-                    drawingControl,
-                    stringConverter,
-                    skinParams,
-                    eventHandler,
-                    evaluationEnv
-                )
-            );
-
-    nodeEditorControl->Init (uiEnvironment);
-
-    SetMenuBar (menuBar);
-    UpdateMenuBar ();
-
-    CreateStatusBar ();
-    UpdateStatusBar ();
-
-    mainWindow->SetSashGravity (0.5);
-    mainWindow->SetMinimumPaneSize (20);
-    mainWindow->SplitVertically (nodeEditorControl, drawingControl, 700);
-}
-
-
-void VisualCalc::MainFrame::OnCommand (wxCommandEvent& evt)
-{
-    MenuBar::CommandId commandId = (MenuBar::CommandId) evt.GetId ();
-    switch (commandId) {
-    case MenuBar::CommandId::File_New:
-    {
-        Reset ();
-    }
-    break;
-    case MenuBar::CommandId::File_Open:
-    {
-        wxFileDialog fileDialog (this, L"Open", L"", L"", L"Node Engine Files (*.ne)|*.ne", wxFD_OPEN | wxFD_FILE_MUST_EXIST);
-        if (fileDialog.ShowModal () == wxID_OK) {
-            drawingControl->ClearImage ();
-            std::wstring fileName = fileDialog.GetPath ().ToStdWstring ();
-            if (nodeEditorControl->Open (fileName)) {
-                applicationState.SetCurrentFileName (fileName);
-            } else {
-                Reset ();
-            }
-        }
-    }
-    break;
-    case MenuBar::CommandId::File_Save:
-    {
-        wxFileDialog fileDialog (this, L"Save", L"", L"", L"Node Engine Files (*.ne)|*.ne", wxFD_SAVE);
-        if (applicationState.HasCurrentFileName ()) {
-            nodeEditorControl->Save (applicationState.GetCurrentFileName ());
-        } else if (fileDialog.ShowModal () == wxID_OK) {
-            std::wstring fileName = fileDialog.GetPath ().ToStdWstring ();
-            nodeEditorControl->Save (fileName);
-            applicationState.SetCurrentFileName (fileName);
-        }
-    }
-    break;
-    case MenuBar::CommandId::File_SaveAs:
-    {
-        wxFileDialog fileDialog (this, L"Save As", L"", L"", L"Node Engine Files (*.ne)|*.ne", wxFD_SAVE);
-        if (fileDialog.ShowModal () == wxID_OK) {
-            std::wstring fileName = fileDialog.GetPath ().ToStdWstring ();
-            nodeEditorControl->Save (fileName);
-            applicationState.SetCurrentFileName (fileName);
-        }
-    }
-    break;
-    case MenuBar::CommandId::File_Exit:
-    {
-        Close (true);
-    }
-    break;
-    case MenuBar::CommandId::Edit_Undo:
-    {
-        nodeEditorControl->Undo ();
-    }
-    break;
-    case MenuBar::CommandId::Edit_Redo:
-    {
-        nodeEditorControl->Redo ();
-    }
-    break;
-    case MenuBar::CommandId::Mode_Automatic:
-    {
-        nodeEditorControl->SetUpdateMode (WXAS::NodeEditorControl::UpdateMode::Automatic);
-    }
-    break;
-    case MenuBar::CommandId::Mode_Manual:
-    {
-        nodeEditorControl->SetUpdateMode (WXAS::NodeEditorControl::UpdateMode::Manual);
-    }
-    break;
-    case MenuBar::CommandId::Mode_Update:
-    {
-        nodeEditorControl->ManualUpdate ();
-    }
-    break;
-    case MenuBar::CommandId::View_AlignToWindow:
-    {
-        nodeEditorControl->AlignToWindow ();
-    }
-    break;
-    case MenuBar::CommandId::View_FitToWindow:
-    {
-        nodeEditorControl->FitToWindow ();
-    }
-    break;
-    }
-    UpdateMenuBar ();
-    UpdateStatusBar ();
-}
-
-
-BEGIN_EVENT_TABLE (VisualCalc::MainFrame, wxFrame)
-    EVT_MENU (wxID_ANY, VisualCalc::MainFrame::OnCommand)
-END_EVENT_TABLE ()
-#endif
 

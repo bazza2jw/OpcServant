@@ -89,7 +89,7 @@ public:
     static std::shared_ptr<const Type> CastConst (const NodeConstPtr& node);
 
     virtual void			Initialize () = 0;    // initialise a node - get parameters in locally clear any states, claim resources
-    virtual void            Process(void) const {}
+    virtual void            Process(void)  {}
     virtual void            Process(const InputSlotConstPtr &in, JSONVALUEPTR &v) ; // periodic processing - for example triggering a timer or reading an event queue
     virtual void            Post(const std::string &out, JSONVALUEPTR &v) const; // send a value to an output slot
     virtual void            Tick()  {} // periodic processing
