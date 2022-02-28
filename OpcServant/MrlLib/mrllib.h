@@ -188,6 +188,7 @@ namespace MRL {
    std::string GetChoice(Wt::WComboBox *c);
 
    typedef std::vector<std::string> StringVector;
+   void toList(const std::string  &s, StringVector &l, const char *seperator = "/");
 
    /*!
      * \brief toFloat

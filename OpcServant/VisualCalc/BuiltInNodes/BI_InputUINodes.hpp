@@ -24,8 +24,8 @@ template<typename NODETYPE, typename VALUETYPE >
 class ValueParameter : public NUIE::TypedNodeParameter<NODETYPE, VALUETYPE>
 {
 public:
-    ValueParameter (const NUIE::ParameterType& type) :
-         NUIE::TypedNodeParameter<NODETYPE, VALUETYPE>(NE::LocString (L"Value"), type)
+    ValueParameter (const NUIE::ParameterType& type , const std::wstring &s = L"Value" ) :
+         NUIE::TypedNodeParameter<NODETYPE, VALUETYPE>(NE::LocString (s), type)
     {
 
     }
@@ -41,7 +41,6 @@ public:
         return true;
     }
 };
-
 
 
 
@@ -165,6 +164,7 @@ class EventNode : public ValueNode<bool>
 {
     DYNAMIC_SERIALIZABLE (EventNode)
     int count = 0;
+
 public:
         EventNode() : ValueNode<bool>() {}
         EventNode (const NE::LocString &name, const NUIE::Point& position, bool f) :  ValueNode<bool> ( name,  position,f) {}
@@ -198,7 +198,7 @@ public:
 
     virtual void	Initialize () override
     {
-        RegisterUIInputSlot (NUIE::UIInputSlotPtr (new NUIE::UIInputSlot (NE::SlotId ("in"), NE::LocString (L"Input"), NE::OutputSlotConnectionMode::Single)));
+        RegisterUIInputSlot (NUIE::UIInputSlotPtr (new NUIE::UIInputSlot (NE::SlotId ("in"), NE::LocString (L"Input"), NE::OutputSlotConnectionMode::Multiple)));
     }
 
     virtual void	RegisterParameters (NUIE::NodeParameterList& parameterList) const override

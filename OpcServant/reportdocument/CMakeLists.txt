@@ -18,10 +18,10 @@ set(LIB_SOURCES
 add_library(ReportDocument SHARED ${LIB_SOURCES})
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 target_link_libraries(ReportDocument ${wxWidgets_LIBRARIES} ${WTLIBS} ${Boost_LIBRARIES} ${EXTRA_LIB_FLAGS} ${PROJECT_LIB_FLAGS})
-install(TARGETS ReportDocument DESTINATION ${EXE_DIR})
+install(TARGETS ReportDocument DESTINATION ${LIB_DIR})
 
 file(GLOB DAQ_HEADERS "*.h")
-install(FILES ${DAQ_HEADERS} DESTINATION include/reportdocument)
+install(FILES ${DAQ_HEADERS} DESTINATION ${INCLUDE_DIR}/reportdocument)
 
 
 

@@ -1,9 +1,8 @@
 cmake_minimum_required(VERSION 3.10)
-project(Common)
+set(MODULE Common)
+project(${MODULE})
 
 set(CMAKE_CXX_STANDARD 17)
-
-
 
 set(LIB_SOURCES
     common.cpp 
@@ -92,31 +91,33 @@ set(LIB_SOURCES
 set(PROJECT_LIB_FLAGS  MrlLib)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
-add_library(Common SHARED ${LIB_SOURCES})
-target_link_libraries(Common ${wxWidgets_LIBRARIES} ${WTLIBS} ${BOOST_FLAGS} ${EXTRA_LIB_FLAGS} ${PROJECT_LIB_FLAGS} ReportDocument)
+set(COMMON_INCLUDE ${INCLUDE_DIR}/${MODULE})
+
+add_library(${MODULE} SHARED ${LIB_SOURCES})
+target_link_libraries(${MODULE} ${wxWidgets_LIBRARIES} ${WTLIBS} ${BOOST_FLAGS} ${EXTRA_LIB_FLAGS} ${PROJECT_LIB_FLAGS} ReportDocument)
 
 file(GLOB COMMON_HEADERS "*.h")
 file(GLOB COMMON_HEADERS_CPP "*.hpp")
-install(FILES ${COMMON_HEADERS} ${COMMON_HEADERS_CPP} DESTINATION include/Common)
+install(FILES ${COMMON_HEADERS} ${COMMON_HEADERS_CPP} DESTINATION ${COMMON_INCLUDE})
 
 file(GLOB DAQ_HEADERS "Daq/*.h")
 file(GLOB DAQ_HEADERS_CPP "Daq/*.hpp")
 
-install(FILES ${DAQ_HEADERS} ${DAQ_HEADERS_CPP} DESTINATION include/Common/Daq)
+install(FILES ${DAQ_HEADERS} ${DAQ_HEADERS_CPP} DESTINATION ${COMMON_INCLUDE}/Daq)
 
 file(GLOB GUI_HEADERS "Gui/*.h")
-install(FILES ${GUI_HEADERS} DESTINATION include/Common/Gui)
+install(FILES ${GUI_HEADERS} DESTINATION ${COMMON_INCLUDE}/Gui)
 
 file(GLOB MQTT_HEADERS "MQTT/*.h")
-install(FILES ${MQTT_HEADERS} DESTINATION include/Common/MQTT)
+install(FILES ${MQTT_HEADERS} DESTINATION ${COMMON_INCLUDE}/MQTT)
 
 file(GLOB OPC_HEADERS "Opc/*.h")
-install(FILES ${OPC_HEADERS} DESTINATION include/Common/Opc)
+install(FILES ${OPC_HEADERS} DESTINATION ${COMMON_INCLUDE}/Opc)
 
 file(GLOB WEB_HEADERS "Web/*.h")
-install(FILES ${WEB_HEADERS} DESTINATION include/Common/Web)
+install(FILES ${WEB_HEADERS} DESTINATION ${COMMON_INCLUDE}/Web)
 
 
-install(TARGETS Common DESTINATION ${EXE_DIR})
+install(TARGETS Common DESTINATION ${LIB_DIR})
 
 

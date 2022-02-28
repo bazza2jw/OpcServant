@@ -9,15 +9,15 @@
  #* WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
  #* A PARTICULAR PURPOSE.
 #
-# Build and install VisualCalc before building these
 #
 cmake_minimum_required(VERSION 3.10)
 project(OpcServant)
 include (Common.cmake)
-add_subdirectory(reportdocument)
 add_subdirectory(MrlLib)
+add_subdirectory(reportdocument)
 add_subdirectory(Common)
-add_subdirectory(VisualCalc)
+# Build and install VisualCalc before building these
+#add_subdirectory(VisualCalc)
 add_subdirectory(Modules)
 add_subdirectory(Servant)
 #

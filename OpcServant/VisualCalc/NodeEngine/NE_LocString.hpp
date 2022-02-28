@@ -10,7 +10,7 @@ namespace NE
 
 class LocString
 {
-	SERIALIZABLE;
+    SERIALIZABLE
 
 public:
 	enum class Localization

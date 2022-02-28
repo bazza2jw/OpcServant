@@ -15,6 +15,20 @@
 #include <wx/propgrid/property.h>
 #include <wx/propgrid/advprops.h>
 
+/*!
+ * \brief MRL::toList
+ * \param s
+ * \param l
+ * \param seperator
+ */
+
+void MRL::toList(const std::string  &s, StringVector &l, const char *seperator ) {
+    boost::char_separator<char> sep(seperator);
+    tokenizer tokens(s, sep);
+    for (auto i = tokens.begin(); i != tokens.end(); i++) {
+        l.push_back(*i);
+    }
+}
 
 
 /*!

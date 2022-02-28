@@ -185,179 +185,203 @@ wxDataOutputStream &operator << (wxDataOutputStream &os, const wxTimeSpan &t) {
     return os;
 }
 
+
+/*!
+    \brief operator >>
+    \return
+*/
+wxDataInputStream &operator  >> (wxDataInputStream &is, size_t &t) {
+    is >> t;
+    return is;
+}
+
+/*!
+    \brief operator <<
+    \return
+*/
+wxDataOutputStream &operator << (wxDataOutputStream &os, const size_t t) {
+    os << wxLongLong(t);
+    return os;
+}
+
+
+
 // The default type set
 static MRL::VariantStreamer<char> _Char("char") ;
 //
 static class BoolStreamer : public MRL::VariantStreamer<bool> {
-    public:
-        BoolStreamer() : VariantStreamer("bool") {}
-        std::string toString(const boost::any &a) {
-            bool d = boost::any_cast<bool>(a);
-            return d ? "true" : "false";
-        }
+public:
+    BoolStreamer() : VariantStreamer("bool") {}
+    std::string toString(const boost::any &a) {
+        bool d = boost::any_cast<bool>(a);
+        return d ? "true" : "false";
+    }
 
-        boost::any fromString(const std::string &s) {
-            bool f = (s == "true");
-            return boost::any(f);
-        }
-        void toJson(Json::Value &v, const boost::any &a) {
-            // default JSON handling
-            v = boost::any_cast<bool>(boost::any(a));
-        }
+    boost::any fromString(const std::string &s) {
+        bool f = (s == "true");
+        return boost::any(f);
+    }
+    void toJson(Json::Value &v, const boost::any &a) {
+        // default JSON handling
+        v = boost::any_cast<bool>(boost::any(a));
+    }
 
-        virtual std::string toString(const MRL::Variant &v)
-        {
-                return boost::get<bool>(v)?std::string("true"):std::string("false");
-        }
+    virtual std::string toString(const MRL::Variant &v)
+    {
+        return boost::get<bool>(v)?std::string("true"):std::string("false");
+    }
 
-        virtual MRL::Variant toVariant(const std::string &s)
-        {
-            return MRL::Variant((s == "true")?true:false);
-        }
+    virtual MRL::Variant toVariant(const std::string &s)
+    {
+        return MRL::Variant((s == "true")?true:false);
+    }
 
 
 } _BoolS;
 //
 static class IntStreamer : public MRL::VariantStreamer<int> {
-    public:
-        IntStreamer() : VariantStreamer("int") {}
-        std::string toString(const boost::any &a) {
-            return std::to_string(boost::any_cast<int>(a));
-        }
+public:
+    IntStreamer() : VariantStreamer("int") {}
+    std::string toString(const boost::any &a) {
+        return std::to_string(boost::any_cast<int>(a));
+    }
 
-        boost::any fromString(const std::string &s) {
-            int i = std::stoi(s);
-            return boost::any(i);
-        }
-        void toJson(Json::Value &v, const boost::any &a) {
-            // default JSON handling
-            v = boost::any_cast<int>(boost::any(a));
-        }
+    boost::any fromString(const std::string &s) {
+        int i = std::stoi(s);
+        return boost::any(i);
+    }
+    void toJson(Json::Value &v, const boost::any &a) {
+        // default JSON handling
+        v = boost::any_cast<int>(boost::any(a));
+    }
 
-        virtual std::string toString(const MRL::Variant &v)
-        {
-                return std::to_string(boost::get<int>(v));
-        }
+    virtual std::string toString(const MRL::Variant &v)
+    {
+        return std::to_string(boost::get<int>(v));
+    }
 
-        virtual MRL::Variant toVariant(const std::string &s)
-        {
-            return MRL::Variant(std::stoi(s));
-        }
+    virtual MRL::Variant toVariant(const std::string &s)
+    {
+        return MRL::Variant(std::stoi(s));
+    }
 
 
 } _Int;
 
-static class UnsignedStreamer : public MRL::VariantStreamer<unsigned int> {
-    public:
-        UnsignedStreamer() : VariantStreamer("unsigned") {}
-        std::string toString(const boost::any &a) {
-            return std::to_string(boost::any_cast<unsigned>(a));
-        }
+static class UnsignedStreamer : public MRL::VariantStreamer<unsigned> {
+public:
+    UnsignedStreamer() : VariantStreamer("unsigned") {}
+    std::string toString(const boost::any &a) {
+        return std::to_string(boost::any_cast<unsigned>(a));
+    }
 
-        boost::any fromString(const std::string &s) {
-            unsigned i = std::stoul(s);
-            return boost::any(i);
-        }
-        void toJson(Json::Value &v, const boost::any &a) {
-            // default JSON handling
-            v = boost::any_cast<unsigned int>(boost::any(a));
-        }
+    boost::any fromString(const std::string &s) {
+        unsigned i = std::stoul(s);
+        return boost::any(i);
+    }
+    void toJson(Json::Value &v, const boost::any &a) {
+        // default JSON handling
+        v = boost::any_cast<unsigned int>(boost::any(a));
+    }
 
-        virtual std::string toString(const MRL::Variant &v)
-        {
-                return std::to_string(boost::get<unsigned int>(v));
-        }
+    virtual std::string toString(const MRL::Variant &v)
+    {
+        return std::to_string(boost::get<unsigned int>(v));
+    }
 
-        virtual MRL::Variant toVariant(const std::string &s)
-        {
-            return MRL::Variant((unsigned int)std::stoul(s));
-        }
+    virtual MRL::Variant toVariant(const std::string &s)
+    {
+        return MRL::Variant((unsigned int)std::stoul(s));
+    }
 
 
 
 } _Unsigned;
 
+
+
+
 static class DoubleStreamer : public MRL::VariantStreamer<double> {
-    public:
-        DoubleStreamer() : VariantStreamer("double") {}
-        std::string toString(const boost::any &a) {
-            return std::to_string(boost::any_cast<double>(a));
-        }
+public:
+    DoubleStreamer() : VariantStreamer("double") {}
+    std::string toString(const boost::any &a) {
+        return std::to_string(boost::any_cast<double>(a));
+    }
 
-        boost::any fromString(const std::string &s) {
-            double i = std::stod(s);
-            return boost::any(i);
-        }
-        void toJson(Json::Value &v, const boost::any &a) {
-            // default JSON handling
-            v = boost::any_cast<double>(boost::any(a));
-        }
-        virtual std::string toString(const MRL::Variant &v)
-        {
-                return std::to_string(boost::get<double>(v));
-        }
+    boost::any fromString(const std::string &s) {
+        double i = std::stod(s);
+        return boost::any(i);
+    }
+    void toJson(Json::Value &v, const boost::any &a) {
+        // default JSON handling
+        v = boost::any_cast<double>(boost::any(a));
+    }
+    virtual std::string toString(const MRL::Variant &v)
+    {
+        return std::to_string(boost::get<double>(v));
+    }
 
-        virtual MRL::Variant toVariant(const std::string &s)
-        {
-            return MRL::Variant(std::stod(s));
-        }
+    virtual MRL::Variant toVariant(const std::string &s)
+    {
+        return MRL::Variant(std::stod(s));
+    }
 
 
 } _Double;
 
 static class LongLongStreamer : public MRL::VariantStreamer<long long> {
-    public:
-        LongLongStreamer() : VariantStreamer("longlong") {}
-        std::string toString(const boost::any &a) {
-            return std::to_string(boost::any_cast<long long>(a));
-        }
+public:
+    LongLongStreamer() : VariantStreamer("longlong") {}
+    std::string toString(const boost::any &a) {
+        return std::to_string(boost::any_cast<long long>(a));
+    }
 
-        boost::any fromString(const std::string &s) {
-            long long  i = std::stoll(s);
-            return boost::any(i);
-        }
-        virtual void toJson(Json::Value &v, const boost::any &a) {
-            // default JSON handling
-            v = Json::Int64(boost::any_cast<long long>(boost::any(a)));
-        }
+    boost::any fromString(const std::string &s) {
+        long long  i = std::stoll(s);
+        return boost::any(i);
+    }
+    virtual void toJson(Json::Value &v, const boost::any &a) {
+        // default JSON handling
+        v = Json::Int64(boost::any_cast<long long>(boost::any(a)));
+    }
 
-        virtual std::string toString(const MRL::Variant &v)
-        {
-                return std::to_string(boost::get<long long>(v));
-        }
+    virtual std::string toString(const MRL::Variant &v)
+    {
+        return std::to_string(boost::get<long long>(v));
+    }
 
-        virtual MRL::Variant toVariant(const std::string &s)
-        {
-            return MRL::Variant(std::stoll(s));
-        }
+    virtual MRL::Variant toVariant(const std::string &s)
+    {
+        return MRL::Variant(std::stoll(s));
+    }
 
 } _LongLong;
 
 static class UnsignedLongLongStreamer : public MRL::VariantStreamer<unsigned long long> {
-    public:
-        UnsignedLongLongStreamer() : VariantStreamer("unsignedlonglong") {}
-        std::string toString(const boost::any &a) {
-            return std::to_string(boost::any_cast<unsigned long long>(a));
-        }
+public:
+    UnsignedLongLongStreamer() : VariantStreamer("unsignedlonglong") {}
+    std::string toString(const boost::any &a) {
+        return std::to_string(boost::any_cast<unsigned long long>(a));
+    }
 
-        boost::any fromString(const std::string &s) {
-            unsigned long long i = std::stoull(s);
-            return boost::any(i);
-        }
-        void toJson(Json::Value &v, const boost::any &a) {
-            // default JSON handling
-            v = Json::UInt64(boost::any_cast<unsigned long long >(boost::any(a)));
-        }
+    boost::any fromString(const std::string &s) {
+        unsigned long long i = std::stoull(s);
+        return boost::any(i);
+    }
+    void toJson(Json::Value &v, const boost::any &a) {
+        // default JSON handling
+        v = Json::UInt64(boost::any_cast<unsigned long long >(boost::any(a)));
+    }
 
-        virtual std::string toString(const MRL::Variant &v)
-        {
-                return std::to_string(boost::get<unsigned long long>(v));
-        }
+    virtual std::string toString(const MRL::Variant &v)
+    {
+        return std::to_string(boost::get<unsigned long long>(v));
+    }
 
-        virtual MRL::Variant toVariant(const std::string &s)
-        {
-            return MRL::Variant(std::stoull(s));
-        }
+    virtual MRL::Variant toVariant(const std::string &s)
+    {
+        return MRL::Variant(std::stoull(s));
+    }
 
 
 } _UnsignedLongLong;
@@ -372,49 +396,49 @@ public:
 //
 // need to define to and from string functions for XML encoding
 static class DateTimeStreamer : public MRL::VariantStreamer<wxDateTime> {
-    public:
-        DateTimeStreamer() : VariantStreamer("DateTime") {
+public:
+    DateTimeStreamer() : VariantStreamer("DateTime") {
 
-        }
+    }
 
-        std::string toString(const boost::any &a) {
-            wxDateTime d = boost::any_cast<wxDateTime>(a);
-            return d.FormatISOCombined().ToStdString();
-        }
+    std::string toString(const boost::any &a) {
+        wxDateTime d = boost::any_cast<wxDateTime>(a);
+        return d.FormatISOCombined().ToStdString();
+    }
 
-        boost::any fromString(const std::string &s) {
-            wxDateTime d;
-            wxString w(s);
-            d.ParseISOCombined(w);
-            return boost::any(d);
-        }
+    boost::any fromString(const std::string &s) {
+        wxDateTime d;
+        wxString w(s);
+        d.ParseISOCombined(w);
+        return boost::any(d);
+    }
 
-        void toJson(Json::Value &v, const boost::any &a) {
-            wxDateTime d = boost::any_cast<wxDateTime>(a);
-            v[JSON_OBJECT_TYPE] = id(); // set the object type
-            v["Date"] = d.FormatISOCombined().ToStdString();
-        }
+    void toJson(Json::Value &v, const boost::any &a) {
+        wxDateTime d = boost::any_cast<wxDateTime>(a);
+        v[JSON_OBJECT_TYPE] = id(); // set the object type
+        v["Date"] = d.FormatISOCombined().ToStdString();
+    }
 
-        void fromJson(Json::Value &v, boost::any &a) {
-            wxDateTime d;
-            wxString w(v.asString());
-            d.ParseISOCombined(w);
-            a = boost::any(d);
-        }
+    void fromJson(Json::Value &v, boost::any &a) {
+        wxDateTime d;
+        wxString w(v.asString());
+        d.ParseISOCombined(w);
+        a = boost::any(d);
+    }
 
-        virtual std::string toString(const MRL::Variant &v)
-        {
-            time_t t = (time_t)(boost::get<int>(v));
-            wxDateTime d(t);
-            return d.FormatISOCombined().ToStdString();
-        }
+    virtual std::string toString(const MRL::Variant &v)
+    {
+        time_t t = (time_t)(boost::get<int>(v));
+        wxDateTime d(t);
+        return d.FormatISOCombined().ToStdString();
+    }
 
-        virtual MRL::Variant toVariant(const std::string &s)
-        {
-            wxDateTime d;
-            d.ParseISOCombined(s);
-            return MRL::Variant((int) d.GetTicks());
-        }
+    virtual MRL::Variant toVariant(const std::string &s)
+    {
+        wxDateTime d;
+        d.ParseISOCombined(s);
+        return MRL::Variant((int) d.GetTicks());
+    }
 
 
 
@@ -423,40 +447,40 @@ static class DateTimeStreamer : public MRL::VariantStreamer<wxDateTime> {
 /*!
 */
 static class TimeSpanStreamer : public MRL::VariantStreamer<wxTimeSpan> {
-    public:
-        TimeSpanStreamer() : VariantStreamer("TimeSpan") {}
+public:
+    TimeSpanStreamer() : VariantStreamer("TimeSpan") {}
 
-        std::string toString(const boost::any &a) {
-            wxTimeSpan t = boost::any_cast<wxTimeSpan>(a);
-            return std::to_string(t.GetSeconds().ToLong());
-        }
+    std::string toString(const boost::any &a) {
+        wxTimeSpan t = boost::any_cast<wxTimeSpan>(a);
+        return std::to_string(t.GetSeconds().ToLong());
+    }
 
-        boost::any fromString(const std::string &s) {
-            wxLongLong l = std::stol(s);
-            wxTimeSpan t = wxTimeSpan::Seconds(l);
-            return boost::any(t);
-        }
+    boost::any fromString(const std::string &s) {
+        wxLongLong l = std::stol(s);
+        wxTimeSpan t = wxTimeSpan::Seconds(l);
+        return boost::any(t);
+    }
 
-        void toJson(Json::Value &v, const boost::any &a) {
-            wxTimeSpan t = boost::any_cast<wxTimeSpan>(a);
-            v[JSON_OBJECT_TYPE] = id(); // set the object type
-            v["Time"] = int(t.GetSeconds().ToLong());
-        }
+    void toJson(Json::Value &v, const boost::any &a) {
+        wxTimeSpan t = boost::any_cast<wxTimeSpan>(a);
+        v[JSON_OBJECT_TYPE] = id(); // set the object type
+        v["Time"] = int(t.GetSeconds().ToLong());
+    }
 
-        void fromJson(Json::Value &v, boost::any &a) {
-            a = boost::any(wxTimeSpan::Seconds(v.get("Time", 0).asUInt()));
-        }
+    void fromJson(Json::Value &v, boost::any &a) {
+        a = boost::any(wxTimeSpan::Seconds(v.get("Time", 0).asUInt()));
+    }
 
-        virtual std::string toString(const MRL::Variant &v)
-        {
-            return std::to_string(boost::get<int>(v));
-        }
+    virtual std::string toString(const MRL::Variant &v)
+    {
+        return std::to_string(boost::get<int>(v));
+    }
 
-        virtual MRL::Variant toVariant(const std::string &s)
-        {
-            int i = std::stoi(s);
-            return MRL::Variant((int)i);
-        }
+    virtual MRL::Variant toVariant(const std::string &s)
+    {
+        int i = std::stoi(s);
+        return MRL::Variant((int)i);
+    }
 
 
 } _timeSpan;
@@ -468,36 +492,40 @@ static class TimeSpanStreamer : public MRL::VariantStreamer<wxTimeSpan> {
     \param a
 */
 void MRL::setJson(Json::Value &v, Variant &a) {
-    const char *tn = a.type().name();
-    switch (tn[0]) {
-        case 'i':
-            v = boost::get<int>(a);
-            break;
-        case 'u':
-            v = boost::get<unsigned>(a);
-            break;
-        case 'd':
-            v = boost::get<double>(a);
-            break;
-        case 'S':
-            v = boost::get<std::string>(a);
-            break;
-        case 'b':
-            v = boost::get<bool>(a);
-            break;
-        default:
-            if (typeid(std::string).hash_code() == a.type().hash_code()) {
-                v = boost::get<std::string>(a);
-            }
-            else if (typeid(time_t).hash_code() == a.type().hash_code()) {
-                v = Json::LargestUInt(boost::get<time_t>(a));
-            }
-            else {
-                v = boost::get<std::string>(a);
-            }
-            break;
-    }
 
+    if (typeid(int).hash_code() == a.type().hash_code()) {
+        v = boost::get<int>(a);
+    }
+    else if (typeid(unsigned).hash_code() == a.type().hash_code()) {
+        v = boost::get<unsigned>(a);
+    }
+    else if (typeid(double).hash_code() == a.type().hash_code()) {
+        v = boost::get<double>(a);
+    }
+    else if (typeid(std::string).hash_code() == a.type().hash_code()) {
+        v =  boost::get<std::string>(a);
+    }
+    else if (typeid(bool).hash_code() == a.type().hash_code()) {
+        v = boost::get<bool>(a);
+    }
+    else if (typeid(std::string).hash_code() == a.type().hash_code()) {
+        v =  boost::get<std::string>(a);
+    }
+    else if (typeid(time_t).hash_code() == a.type().hash_code()) {
+        v = Json::LargestUInt(boost::get<time_t>(a));
+    }
+    else if (typeid(long long).hash_code() == a.type().hash_code()) {
+        v = Json::LargestInt(boost::get<long long>(a));
+    }
+    else if (typeid(unsigned long long).hash_code() == a.type().hash_code()) {
+        v = Json::LargestUInt(boost::get<unsigned long long>(a));
+    }
+    else if (typeid(size_t).hash_code() == a.type().hash_code()) {
+        v = Json::LargestUInt(boost::get<size_t>(a)); // one way
+    }
+    else {
+        v = "Unknown";
+    }
 }
 
 /*!
@@ -507,28 +535,28 @@ void MRL::setJson(Json::Value &v, Variant &a) {
 */
 void MRL::getJson(Json::Value &v, Variant &a) {
     switch (v.type()) {
-        case Json::intValue:      ///< signed integer value
-            a = v.asInt();
-            break;
-        case Json::uintValue:     ///< unsigned integer value
-            a = v.asUInt();
-            break;
-        case Json::realValue:     ///< double value
-            a = v.asDouble();
-            break;
-        case Json::stringValue:   ///< UTF-8 string value
-            a = v.asString();
-            break;
-        case Json::booleanValue:  ///< bool value
-            a = v.asBool();
-            break;
-        case Json::nullValue: ///< 'null' value
-        case Json::arrayValue:    ///< array value (ordered list)
-        case Json::objectValue:    ///< object value (collection of name/value pairs).
-            a = int(0);
-            break;
-        default:
-            break;
+    case Json::intValue:      ///< signed integer value
+        a = v.asInt();
+        break;
+    case Json::uintValue:     ///< unsigned integer value
+        a = v.asUInt();
+        break;
+    case Json::realValue:     ///< double value
+        a = v.asDouble();
+        break;
+    case Json::stringValue:   ///< UTF-8 string value
+        a = v.asString();
+        break;
+    case Json::booleanValue:  ///< bool value
+        a = v.asBool();
+        break;
+    case Json::nullValue: ///< 'null' value
+    case Json::arrayValue:    ///< array value (ordered list)
+    case Json::objectValue:    ///< object value (collection of name/value pairs).
+        a = int(0);
+        break;
+    default:
+        break;
     }
 }
 
@@ -550,33 +578,33 @@ void MRL::setJson(Json::Value &v, boost::any &a) {
 void MRL::getJson(Json::Value &v, boost::any &a) {
     // Get FROM JSON any any
     switch (v.type()) {
-        case Json::nullValue:     ///< 'null' value
-            a = std::string("");
-            break;
-        case Json::intValue:      ///< signed integer value
-            a = v.asInt();
-            break;
-        case Json::uintValue:     ///< unsigned integer value
-            a = v.asUInt();
-            break;
-        case Json::realValue:     ///< double value
-            a = v.asDouble();
-            break;
-        case Json::stringValue:   ///< UTF-8 string value
-            a = v.asString();
-            break;
-        case Json::booleanValue:  ///< bool value
-            a = v.asBool();
-            break;
-        case Json::arrayValue:    ///< array value (ordered list)
-            break;
-        case Json::objectValue: { ///< object value (collection of name/value pairs).
-            // Workout object type
-            a = MRL::VariantStreamerBase::anyFromJson(v, v.get(JSON_OBJECT_TYPE, "").asString());
-        }
+    case Json::nullValue:     ///< 'null' value
+        a = std::string("");
         break;
-        default:
-            break;
+    case Json::intValue:      ///< signed integer value
+        a = v.asInt();
+        break;
+    case Json::uintValue:     ///< unsigned integer value
+        a = v.asUInt();
+        break;
+    case Json::realValue:     ///< double value
+        a = v.asDouble();
+        break;
+    case Json::stringValue:   ///< UTF-8 string value
+        a = v.asString();
+        break;
+    case Json::booleanValue:  ///< bool value
+        a = v.asBool();
+        break;
+    case Json::arrayValue:    ///< array value (ordered list)
+        break;
+    case Json::objectValue: { ///< object value (collection of name/value pairs).
+        // Workout object type
+        a = MRL::VariantStreamerBase::anyFromJson(v, v.get(JSON_OBJECT_TYPE, "").asString());
+    }
+    break;
+    default:
+        break;
     }
 }
 
@@ -590,34 +618,47 @@ std::string MRL::toString(const Variant &v) {
     std::string res = "";
     const char *tn = v.type().name();
 
-
-    switch (tn[0]) {
-        case 'i':
-            return std::to_string(boost::get<int>(v));
-        case 'u':
-            return std::to_string(boost::get<unsigned>(v));
-        case 'd':
-            return std::to_string(boost::get<double>(v));
-        case 'S':
-            return boost::get<std::string>(v);
-        case 'b':
-            return std::string(boost::get<bool>(v) ? "true" : "false");
-        case 't':
-            return std::to_string(boost::get<time_t>(v));
-
-        default:
-            if (typeid(std::string).hash_code() == v.type().hash_code()) {
+    try
+    {
+            if (typeid(int).hash_code() == v.type().hash_code()) {
+                return std::to_string(boost::get<int>(v));
+            }
+            else if (typeid(unsigned).hash_code() == v.type().hash_code()) {
+                return std::to_string(boost::get<unsigned>(v));
+            }
+            else if (typeid(double).hash_code() == v.type().hash_code()) {
+                return std::to_string(boost::get<double>(v));
+            }
+            else if (typeid(std::string).hash_code() == v.type().hash_code()) {
+                return boost::get<std::string>(v);
+            }
+            else if (typeid(bool).hash_code() == v.type().hash_code()) {
+                return std::string(boost::get<bool>(v) ? "true" : "false");
+            }
+            else if (typeid(std::string).hash_code() == v.type().hash_code()) {
                 return boost::get<std::string>(v);
             }
             else if (typeid(time_t).hash_code() == v.type().hash_code()) {
                 return std::to_string(boost::get<time_t>(v));
             }
-            else {
-               return boost::get<std::string>(v);
+            else if (typeid(long long).hash_code() == v.type().hash_code()) {
+                return std::to_string(boost::get<long long>(v));
             }
-
-            break;
+            else if (typeid(unsigned long long).hash_code() == v.type().hash_code()) {
+                return std::to_string(boost::get<unsigned long long>(v));
+            }
+            else if (typeid(size_t).hash_code() == v.type().hash_code()) {
+                return std::to_string(boost::get<size_t>(v));
+            }
+            else {
+                return "Unknown";
+            }
     }
+    catch(...)
+    {
+        std::cerr << "Unknown Type " << tn << std::endl;
+    }
+
     return res;
 }
 

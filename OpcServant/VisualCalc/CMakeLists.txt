@@ -1,8 +1,6 @@
 cmake_minimum_required(VERSION 3.10)
 project (VisualScriptEngine)
 
-set(CMAKE_INSTALL_PREFIX ${PIROOT}/usr/local/OpcServant)
-
 set(CMAKE_CXX_STANDARD 17)
 add_definitions (-DUNICODE -D_UNICODE)
 
@@ -55,12 +53,12 @@ add_library(VisualScriptEngine SHARED ${NodeEngineSourceFiles} ${NodeUIEngineSou
 
 target_link_libraries(VisualScriptEngine ${wxWidgets_LIBRARIES}  ${Boost_LIBRARIES} ${EXTRA_LIB_FLAGS} ${PROJECT_LIB_FLAGS})
 
-install(TARGETS VisualScriptEngine DESTINATION bin)
+install(TARGETS VisualScriptEngine DESTINATION ${LIB_DIR})
 
-install(FILES ${NodeEngineHeaderFiles} DESTINATION include/VisualScriptEngine)
-install(FILES ${NodeUIEngineHeaderFiles} DESTINATION include/VisualScriptEngine)
-install(FILES ${BuiltInNodesHeaderFiles} DESTINATION include/VisualScriptEngine)
-install(FILES ${wxWidgetsAppSupportHeaderFiles} DESTINATION include/VisualScriptEngine)
+install(FILES ${NodeEngineHeaderFiles} DESTINATION ${INCLUDE_DIR}/VisualScriptEngine)
+install(FILES ${NodeUIEngineHeaderFiles} DESTINATION ${INCLUDE_DIR}/VisualScriptEngine)
+install(FILES ${BuiltInNodesHeaderFiles} DESTINATION ${INCLUDE_DIR}/VisualScriptEngine)
+install(FILES ${wxWidgetsAppSupportHeaderFiles} DESTINATION ${INCLUDE_DIR}/VisualScriptEngine)
 #install(FILES ${VisualCalcHeaderFiles} DESTINATION include/VisualScriptEngine)
 
 

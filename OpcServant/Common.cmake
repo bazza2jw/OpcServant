@@ -7,13 +7,14 @@ set(CMAKE_CXX_STANDARD 17)
 # Set project vaiables
 set(PROJECT_DIR ${CMAKE_CURRENT_SOURCE_DIR})  # Set the project source code location (location of this file)
 # If the install dir changes check Common/common.h
-set(CMAKE_INSTALL_PREFIX ${PIROOT}/usr/local/OpcServant)
+set(CMAKE_INSTALL_PREFIX ${PIROOT}/usr/local)
 message("Install Dir: ${CMAKE_INSTALL_PREFIX}")
 
 # where the components go
-set(EXE_DIR bin)
-set(LIB_DIR lib)
-set(PLUGINS_DIR modules)
+set(EXE_DIR OpcServant/bin)
+set(LIB_DIR OpcServant/lib)
+set(PLUGINS_DIR OpcServant/modules)
+set(INCLUDE_DIR OpcServant/include)
 set(THREADS_PREFER_PTHREAD_FLAG ON)
 find_package(Threads)
 #

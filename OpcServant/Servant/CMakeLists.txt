@@ -24,7 +24,7 @@ set(LIB_SOURCES
 add_executable(Servant ${LIB_SOURCES})
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
-set(PROJECT_LIB_FLAGS  MrlLib Common VisualScriptEngine)
+set(PROJECT_LIB_FLAGS  MrlLib Common)
 target_link_libraries(Servant ${wxWidgets_LIBRARIES} ${WTLIBS} ${Boost_LIBRARIES} ${EXTRA_LIB_FLAGS} ${PROJECT_LIB_FLAGS}  )
 
 IF( DEFINED CROSSBUILD )
@@ -32,4 +32,4 @@ target_link_libraries(Servant ${PIROOT}/opt/vc/lib/libvchiq_arm.so ${PIROOT}/opt
 ENDIF( DEFINED CROSSBUILD )
 
 
-install( TARGETS Servant DESTINATION bin)
+install( TARGETS Servant DESTINATION ${EXE_DIR})
