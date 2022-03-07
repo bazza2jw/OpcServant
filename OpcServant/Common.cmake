@@ -101,9 +101,13 @@ add_definitions(-D_UNIX)
 #
 set(WTLIBS  -lwt -lwthttp)
 include_directories(${CMAKE_SOURCE_DIR})
+
+
+
 # add mysql headers
 include_directories(/usr/include/mysql)
 include_directories(/usr/local/include/open62541cpp)
+
 #
 # Enable the GUI build
 add_definitions(-DUSE_GUI )

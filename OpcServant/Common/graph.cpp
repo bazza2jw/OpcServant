@@ -468,7 +468,7 @@ void  MRL::Graph::plotLines(wxDC &DC)
         for(auto i = plotMap.begin(); i != plotMap.end(); i++)
         {
             std::unique_ptr<DataMap> &m = (*i).second;
-            if(m->size() > 0)
+            if(m->size() > 1)
             {
                 double dx = (double)plotRect.GetWidth() / (double)(maxTime - minTime);
                 double dy = (double)plotRect.GetHeight() /(scaleMax - scaleMin);

@@ -486,6 +486,20 @@ namespace MRL {
                 message().emit(m);
             }
 
+            /*!
+             * \brief updateValue
+             * \param tag
+             * \param v
+             */
+            void updateValue(const std::string &tag, Open62541::Variant& v);
+
+            /*!
+             * \brief toUpdateValue
+             * \param m
+             * \param tag
+             * \param v
+             */
+            void toUpdateValue(Message &m, const std::string &tag, Open62541::Variant& v);
 
             /*!
              * \brief publishHtmlPage

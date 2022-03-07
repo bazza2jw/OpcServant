@@ -36,7 +36,7 @@ namespace MRL
          * \brief MQTTRT
          * \param id
          */
-        MQTTRt(int id);
+        MQTTRt(unsigned id);
         /*!
             \brief start
         */

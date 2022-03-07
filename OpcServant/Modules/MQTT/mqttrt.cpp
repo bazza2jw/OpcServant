@@ -20,7 +20,7 @@
     \brief MQTTRt
     \param id
 */
-MRL::MQTTRt::MQTTRt(int id) : RTObject(id) {
+MRL::MQTTRt::MQTTRt(unsigned id) : RTObject(id) {
     Daq::instance()->publishMessage().connect(this, &MQTTRt::publishQueueItem);
 }
 /*!

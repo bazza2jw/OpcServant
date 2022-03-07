@@ -4,6 +4,7 @@ project(${MODULE})
 
 set(CMAKE_CXX_STANDARD 17)
 
+
 set(LIB_SOURCES
     common.cpp 
     database.cpp
@@ -85,16 +86,16 @@ set(LIB_SOURCES
     Gui/UserConfigurationDialog.cpp
     Gui/PinEntryDialog.cpp
     Web/webuserconfigurationdialog.cpp
-
         )
 
 set(PROJECT_LIB_FLAGS  MrlLib)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
+
 set(COMMON_INCLUDE ${INCLUDE_DIR}/${MODULE})
 
 add_library(${MODULE} SHARED ${LIB_SOURCES})
-target_link_libraries(${MODULE} ${wxWidgets_LIBRARIES} ${WTLIBS} ${BOOST_FLAGS} ${EXTRA_LIB_FLAGS} ${PROJECT_LIB_FLAGS} ReportDocument)
+target_link_libraries(${MODULE} ${wxWidgets_LIBRARIES} ${WTLIBS} ${BOOST_FLAGS} ${EXTRA_LIB_FLAGS} ${PROJECT_LIB_FLAGS}  ReportDocument)
 
 file(GLOB COMMON_HEADERS "*.h")
 file(GLOB COMMON_HEADERS_CPP "*.hpp")

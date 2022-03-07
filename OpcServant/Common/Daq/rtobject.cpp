@@ -19,6 +19,258 @@
 
 MRL::StringVector MRL::RTObject::_emptyList;
 
+
+/*!
+ * \brief MRL::RTObject::toUpdateValue
+ * \param v
+ */
+void MRL::RTObject::updateValue(const std::string &tag, Open62541::Variant& v)
+{
+    std::string ret;
+    UA_DataType *t = v.dataType();
+
+    switch (t->typeKind) {
+    /**
+        Boolean
+        ^^^^^^^
+    */
+    case UA_DATATYPEKIND_BOOLEAN: {
+        updateValue(v.value<bool>(), tag);
+    }
+    break;
+
+    /**
+        Int16
+        ^^^^^
+    */
+    case UA_DATATYPEKIND_INT16: {
+        updateValue(int(v.value<int16_t>()), tag);
+    }
+    break;
+
+    /**
+        UInt16
+        ^^^^^^
+    */
+    case UA_DATATYPEKIND_UINT16: {
+        updateValue(unsigned(v.value<uint16_t>()), tag);
+
+    }
+    break;
+
+    /**
+        Int32
+        ^^^^^
+    */
+    case UA_DATATYPEKIND_INT32: {
+        updateValue(int(v.value<int32_t>()), tag);
+    }
+    break;
+
+    /**
+        UInt32
+        ^^^^^^
+    */
+    case UA_DATATYPEKIND_UINT32: {
+        updateValue(unsigned(v.value<uint32_t>()), tag);
+
+    }
+    break;
+
+    /**
+        Int64
+        ^^^^^
+    */
+    case UA_DATATYPEKIND_INT64: {
+        updateValue(v.value<int64_t>(), tag);
+
+    }
+    break;
+
+    /**
+        UInt64
+        ^^^^^^
+    */
+    case UA_DATATYPEKIND_UINT64: {
+        updateValue(v.value<uint64_t>(), tag);
+    }
+    break;
+
+    /**
+        Float
+        ^^^^^
+    */
+    case UA_DATATYPEKIND_FLOAT: {
+        updateValue(double(v.value<float>()), tag);
+
+    }
+    break;
+
+    /**
+        Double
+        ^^^^^^
+    */
+    case UA_DATATYPEKIND_DOUBLE: {
+        updateValue(v.value<double>(), tag);
+    }
+    break;
+
+    /**
+        String
+        ^^^^^^
+    */
+    case UA_DATATYPEKIND_STRING: {
+        UA_String* p = (UA_String*)(v.data);
+        ret          = std::string((const char*)p->data, p->length);
+        updateValue(ret, tag);
+
+    }
+    break;
+
+
+    /**
+        ByteString
+        ^^^^^^^^^^
+    */
+    case UA_DATATYPEKIND_BYTESTRING: {
+        UA_ByteString* p = (UA_ByteString*)(v.data);
+        ret              = std::string((const char*)p->data, p->length);
+        updateValue(ret, tag);
+    }
+    break;
+
+    default:
+        break;
+    }
+}
+
+/*!
+ * \brief MRL::RTObject::toUpdateValue
+ * \param v
+ */
+void MRL::RTObject::toUpdateValue(Message &m, const std::string &tag, Open62541::Variant& v)
+{
+    std::string ret;
+    UA_DataType *t = v.dataType();
+
+    switch (t->typeKind) {
+    /**
+        Boolean
+        ^^^^^^^
+    */
+    case UA_DATATYPEKIND_BOOLEAN: {
+        toUpdateValue(m,v.value<bool>(), tag);
+    }
+    break;
+
+    /**
+        Int16
+        ^^^^^
+    */
+    case UA_DATATYPEKIND_INT16: {
+        toUpdateValue(m,int(v.value<int16_t>()), tag);
+    }
+    break;
+
+    /**
+        UInt16
+        ^^^^^^
+    */
+    case UA_DATATYPEKIND_UINT16: {
+        toUpdateValue(m,unsigned(v.value<int16_t>()), tag);
+
+    }
+    break;
+
+    /**
+        Int32
+        ^^^^^
+    */
+    case UA_DATATYPEKIND_INT32: {
+        toUpdateValue(m,int(v.value<int32_t>()), tag);
+    }
+    break;
+
+    /**
+        UInt32
+        ^^^^^^
+    */
+    case UA_DATATYPEKIND_UINT32: {
+        toUpdateValue(m,unsigned(v.value<int32_t>()), tag);
+
+    }
+    break;
+
+    /**
+        Int64
+        ^^^^^
+    */
+    case UA_DATATYPEKIND_INT64: {
+        toUpdateValue(m,(v.value<int64_t>()), tag);
+
+    }
+    break;
+
+    /**
+        UInt64
+        ^^^^^^
+    */
+    case UA_DATATYPEKIND_UINT64: {
+        toUpdateValue(m,(v.value<uint64_t>()), tag);
+    }
+    break;
+
+    /**
+        Float
+        ^^^^^
+    */
+    case UA_DATATYPEKIND_FLOAT: {
+        toUpdateValue(m,(v.value<float>()), tag);
+
+    }
+    break;
+
+    /**
+        Double
+        ^^^^^^
+    */
+    case UA_DATATYPEKIND_DOUBLE: {
+        toUpdateValue(m,(v.value<double>()), tag);
+    }
+    break;
+
+    /**
+        String
+        ^^^^^^
+    */
+    case UA_DATATYPEKIND_STRING: {
+        UA_String* p = (UA_String*)(v.data);
+        ret          = std::string((const char*)p->data, p->length);
+        toUpdateValue(m,ret, tag);
+
+    }
+    break;
+
+
+    /**
+        ByteString
+        ^^^^^^^^^^
+    */
+    case UA_DATATYPEKIND_BYTESTRING: {
+        UA_ByteString* p = (UA_ByteString*)(v.data);
+        ret              = std::string((const char*)p->data, p->length);
+        toUpdateValue(m,ret, tag);
+    }
+    break;
+
+    default:
+        break;
+    }
+}
+
+
+
+
 /*!
  * \brief MRL::RTObject::logEvent
  * \param type
@@ -129,9 +381,9 @@ void MRL::RTObject::start() {
     //
     if(createTabView())
     {
-      Message msg(MESSAGEID::CreateTabView,dbId());
-      msg.data().add(PARAMETERID::ObjectId, dbId());
-      message().emit(msg);
+        Message msg(MESSAGEID::CreateTabView,dbId());
+        msg.data().add(PARAMETERID::ObjectId, dbId());
+        message().emit(msg);
     }
     //
     if(createTopWindow())
