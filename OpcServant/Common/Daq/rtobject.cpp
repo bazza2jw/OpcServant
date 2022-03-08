@@ -27,7 +27,7 @@ MRL::StringVector MRL::RTObject::_emptyList;
 void MRL::RTObject::updateValue(const std::string &tag, Open62541::Variant& v)
 {
     std::string ret;
-    UA_DataType *t = v.dataType();
+    const UA_DataType *t = v.dataType();
 
     switch (t->typeKind) {
     /**
@@ -120,7 +120,7 @@ void MRL::RTObject::updateValue(const std::string &tag, Open62541::Variant& v)
         ^^^^^^
     */
     case UA_DATATYPEKIND_STRING: {
-        UA_String* p = (UA_String*)(v.data);
+        UA_String* p = (UA_String*)(v.get().data);
         ret          = std::string((const char*)p->data, p->length);
         updateValue(ret, tag);
 
@@ -133,7 +133,7 @@ void MRL::RTObject::updateValue(const std::string &tag, Open62541::Variant& v)
         ^^^^^^^^^^
     */
     case UA_DATATYPEKIND_BYTESTRING: {
-        UA_ByteString* p = (UA_ByteString*)(v.data);
+        UA_ByteString* p = (UA_ByteString*)(v.get().data);
         ret              = std::string((const char*)p->data, p->length);
         updateValue(ret, tag);
     }
@@ -151,7 +151,7 @@ void MRL::RTObject::updateValue(const std::string &tag, Open62541::Variant& v)
 void MRL::RTObject::toUpdateValue(Message &m, const std::string &tag, Open62541::Variant& v)
 {
     std::string ret;
-    UA_DataType *t = v.dataType();
+    const UA_DataType *t = v.dataType();
 
     switch (t->typeKind) {
     /**
@@ -244,7 +244,7 @@ void MRL::RTObject::toUpdateValue(Message &m, const std::string &tag, Open62541:
         ^^^^^^
     */
     case UA_DATATYPEKIND_STRING: {
-        UA_String* p = (UA_String*)(v.data);
+        UA_String* p = (UA_String*)(v.get().data);
         ret          = std::string((const char*)p->data, p->length);
         toUpdateValue(m,ret, tag);
 
@@ -257,7 +257,7 @@ void MRL::RTObject::toUpdateValue(Message &m, const std::string &tag, Open62541:
         ^^^^^^^^^^
     */
     case UA_DATATYPEKIND_BYTESTRING: {
-        UA_ByteString* p = (UA_ByteString*)(v.data);
+        UA_ByteString* p = (UA_ByteString*)(v.get().data);
         ret              = std::string((const char*)p->data, p->length);
         toUpdateValue(m,ret, tag);
     }

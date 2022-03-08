@@ -16,8 +16,7 @@ include (Common.cmake)
 add_subdirectory(MrlLib)
 add_subdirectory(reportdocument)
 add_subdirectory(Common)
-# Build and install VisualCalc before building these
-#add_subdirectory(VisualCalc)
+add_subdirectory(NodeFlow)
 add_subdirectory(Modules)
 add_subdirectory(Servant)
 #

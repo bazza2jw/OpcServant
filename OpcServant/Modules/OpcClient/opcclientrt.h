@@ -17,6 +17,15 @@ class OpcClientRT : public RTObject
     Open62541::monitorItemFunc _callback;
     StringVector _inputs; // set of inputs - this is dynamic
     std::map<unsigned, std::string> _monitorNameMap;
+    enum
+    {
+        STATE_IDLE = 0,
+        STATE_CONNECTING,
+        STATE_CONNECTED,
+        STATE_WAIT
+    };
+    int _state = 0;
+    wxStopWatch _time;
 public:
     OpcClientRT(unsigned id);
     /*!
