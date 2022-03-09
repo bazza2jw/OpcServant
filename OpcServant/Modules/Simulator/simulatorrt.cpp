@@ -191,7 +191,7 @@ bool MRL::SimulatorRT::processQueueItem(const Message &msg) {
             case MESSAGEID::SetOutput: {
                 bool v;
                 std::string i;
-                asm.data().get(PARAMETERID::Index, i);
+                m.data().get(PARAMETERID::Index, i);
                 m.data().get(PARAMETERID::Value, v);
                 //
                 if(i == "Output")
