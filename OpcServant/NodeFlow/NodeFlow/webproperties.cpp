@@ -103,8 +103,9 @@ unsigned  NODEFLOW::WebProperties::setProperty( const MRL::StringVector &as) {
     case 'C':
     {
         // choice
+        MRL::StringList l = {"No","Yes"};
         int value = MRL::stringToNumber<int>(as[3]);
-        return addChoiceProperty(as[1],value,as[4]);
+        return addChoiceProperty(as[1],value,l);
    }
         break;
     default:
@@ -187,11 +188,10 @@ unsigned NODEFLOW::WebProperties::addColourProperty(const std::string &label, co
  * \param v
  * \param list
  */
-unsigned NODEFLOW::WebProperties::addChoiceProperty(const std::string &label, int v, const std::string &list)
+unsigned NODEFLOW::WebProperties::addChoiceProperty(const std::string &label, int v, const MRL::StringList &list)
 {
     MRL::StringVector l;
     MRL::PropertyPath pp;
-    pp.toList(list); // parse the arguments
     _table->elementAt(_fieldId, 0)->addNew<Wt::WText>(label);
     Wt::WComboBox *p = _table->elementAt(_fieldId, 1)->addNew<Wt::WComboBox>();
     for(auto i = pp.begin(); i != pp.end(); i++) p->addItem(*i);

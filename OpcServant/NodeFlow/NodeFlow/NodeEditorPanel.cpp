@@ -18,8 +18,8 @@
  * \brief NodeEditorPanel::NodeEditorPanel
  * \param parent
  */
-NodeEditorPanel::NodeEditorPanel(wxWindow* parent)
-    : NodeEditorPanelBase(parent)
+NodeEditorPanel::NodeEditorPanel(wxWindow* parent, wxWindowID id, const wxPoint &pos, const wxSize &size, long style)
+    : NodeEditorPanelBase(parent,id,pos,size,style)
 {
     _canvas = new CanvasWindows(GetSplitterRight(),1024,800,10);
     canvasSizer->Add(_canvas, 1, wxALL|wxEXPAND, WXC_FROM_DIP(5));

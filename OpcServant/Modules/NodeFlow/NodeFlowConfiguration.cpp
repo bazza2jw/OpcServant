@@ -1,4 +1,5 @@
 #include "NodeFlowConfiguration.h"
+#include "FlowEditorDialog.h"
 /*!
  * \brief NodeFlowConfiguration::NodeFlowConfiguration
  * \param parent
@@ -7,22 +8,19 @@
 NodeFlowConfiguration::NodeFlowConfiguration(wxWindow* parent, const MRL::PropertyPath &path)
     : NodeFlowConfigurationBase(parent),_path(path)
 {
+    //
+
+
     Json::Value v;
     if(MRL::Common::configuration().getData(_path,v))
     {
         _configuration.fromJson(v); // load configuration
         //
         // Get the list of flows
+        wxFileName fn(_configuration.getString("/Flow"));
         GetEnabled()->SetValue(_configuration.getBool("/Enabled"));
+        GetFlowList()->SetFileName(fn); // get the current flow
         //
-        MRL::StringList l;
-        _configuration.listChildren("/Inputs",l);
-        for(auto i = l.begin(); i != l.end(); i++)
-        {
-            wxString s(*i);
-            GetListInputs()->Append(s);
-        }
-        GetListInputs()->SetSelection(0);
     }
 }
 /*!
@@ -35,35 +33,21 @@ NodeFlowConfiguration::~NodeFlowConfiguration()
  * \brief NodeFlowConfiguration::onOK
  * \param event
  */
-void NodeFlowConfiguration::onOK(wxCommandEvent& event)
+void NodeFlowConfiguration::onOK(wxCommandEvent& /*event*/)
 {
     _configuration.setValue("/Enabled",GetEnabled()->GetValue());
-    _configuration.remove("/Inputs");
-    MRL::PropertyPath p;
-    p.push_back("Inputs");
-    for(int i = 0; i < GetListInputs()->GetCount(); i++)
-    {
-        std::string s = GetListInputs()->GetString(i).ToStdString();
-        _configuration.setValue(p,s,true);
-    }
+    _configuration.setString("/Flow",GetFlowList()->GetPath().ToStdString());
     Json::Value v;
     _configuration.toJson(v);
     MRL::Common::configuration().updateData(_path,v);
     EndModal(wxID_OK);
 }
 /*!
- * \brief NodeFlowConfiguration::onAdd
+ * \brief NodeFlowConfiguration::onEdit
  * \param event
  */
-void NodeFlowConfiguration::onAdd(wxCommandEvent& event)
+void NodeFlowConfiguration::onEdit(wxCommandEvent& /*event*/)
 {
-   GetListInputs()->Append(GetInputName()->GetValue());
-}
-void NodeFlowConfiguration::onRemove(wxCommandEvent& event)
-{
-    int i = GetListInputs()->GetSelection();
-    if(i != wxNOT_FOUND)
-    {
-        GetListInputs()->Delete(i);
-    }
+    FlowEditorDialog dlg(this,GetFlowList()->GetPath());
+    dlg.ShowModal();
 }

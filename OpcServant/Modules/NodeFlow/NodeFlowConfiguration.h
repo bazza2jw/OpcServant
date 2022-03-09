@@ -14,8 +14,7 @@ public:
     NodeFlowConfiguration(wxWindow* parent, const MRL::PropertyPath &path);
     virtual ~NodeFlowConfiguration();
 protected:
-    virtual void onAdd(wxCommandEvent& event);
-    virtual void onRemove(wxCommandEvent& event);
+    virtual void onEdit(wxCommandEvent& event);
     virtual void onOK(wxCommandEvent& event);
 };
 #endif // NODEFLOWCONFIGURATION_H

@@ -97,7 +97,7 @@ ENDIF( DEFINED CROSSBUILD )
 # flag a unix build
 add_definitions(-D_UNIX)
 #enable debug tracing
-#add_definitions(-DTRACE_ON)
+add_definitions(-DTRACE_ON)
 #
 set(WTLIBS  -lwt -lwthttp)
 include_directories(${CMAKE_SOURCE_DIR})

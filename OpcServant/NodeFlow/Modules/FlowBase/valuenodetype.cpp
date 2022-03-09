@@ -139,7 +139,7 @@ class TimerNodeType  :  public NODEFLOW::NodeType
          */
         bool ticked()
         {
-            if(_timer.TimeInMicro()/1000 > _interval)
+            if(_timer.Time() > _interval)
             {
                 _timer.Start();
                 return true;

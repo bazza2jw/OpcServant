@@ -15,12 +15,11 @@
 #include <wx/artprov.h>
 #include <wx/sizer.h>
 #include <wx/stattext.h>
-#include <wx/choice.h>
-#include <wx/arrstr.h>
+#include <wx/filepicker.h>
 #include <wx/button.h>
 #include <wx/checkbox.h>
-#include <wx/textctrl.h>
-#include <wx/listbox.h>
+#include <wx/panel.h>
+#include "NodeFlow/NodeFlow/NodeEditorPanel.h"
 #if wxVERSION_NUMBER >= 2900
 #include <wx/persist.h>
 #include <wx/persist/toplevel.h>
@@ -44,34 +43,43 @@ protected:
     wxBoxSizer* boxSizer3;
     wxFlexGridSizer* flexGridSizer23;
     wxStaticText* m_Flow;
-    wxChoice* m_flowList;
+    wxFilePickerCtrl* m_flowList;
     wxButton* m_editFlow;
     wxCheckBox* m_enabled;
-    wxGridSizer* gridSizer35;
-    wxButton* m_button37;
-    wxButton* m_button39;
-    wxTextCtrl* m_inputName;
-    wxListBox* m_listInputs;
     wxStdDialogButtonSizer* m_stdBtnSizer11;
     wxButton* m_button13;
     wxButton* m_button15;
 
 protected:
-    virtual void onAdd(wxCommandEvent& event) { event.Skip(); }
-    virtual void onRemove(wxCommandEvent& event) { event.Skip(); }
+    virtual void onEdit(wxCommandEvent& event) { event.Skip(); }
     virtual void onOK(wxCommandEvent& event) { event.Skip(); }
 
 public:
     wxStaticText* GetFlow() { return m_Flow; }
-    wxChoice* GetFlowList() { return m_flowList; }
+    wxFilePickerCtrl* GetFlowList() { return m_flowList; }
     wxButton* GetEditFlow() { return m_editFlow; }
     wxCheckBox* GetEnabled() { return m_enabled; }
-    wxButton* GetButton37() { return m_button37; }
-    wxButton* GetButton39() { return m_button39; }
-    wxTextCtrl* GetInputName() { return m_inputName; }
-    wxListBox* GetListInputs() { return m_listInputs; }
-    NodeFlowConfigurationBase(wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Node Flow Configuration"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize(500,400), long style = wxDEFAULT_DIALOG_STYLE);
+    NodeFlowConfigurationBase(wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Node Flow Configuration"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize(500,200), long style = wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER);
     virtual ~NodeFlowConfigurationBase();
+};
+
+
+class FlowEditorDialogBase : public wxDialog
+{
+protected:
+    wxBoxSizer* boxSizer45;
+    NodeEditorPanel* m_editorPanel;
+    wxStdDialogButtonSizer* m_stdBtnSizer49;
+    wxButton* m_button51;
+    wxButton* m_button53;
+
+protected:
+    virtual void onOk(wxCommandEvent& event) { event.Skip(); }
+
+public:
+    NodeEditorPanel* GetEditorPanel() { return m_editorPanel; }
+    FlowEditorDialogBase(wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Flow Editor"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize(800,600), long style = wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER|wxMAXIMIZE_BOX);
+    virtual ~FlowEditorDialogBase();
 };
 
 #endif

@@ -37,10 +37,9 @@ NodeFlowConfigurationBase::NodeFlowConfigurationBase(wxWindow* parent, wxWindowI
     
     flexGridSizer23->Add(m_Flow, 0, wxALL, WXC_FROM_DIP(5));
     
-    wxArrayString m_flowListArr;
-    m_flowList = new wxChoice(this, wxID_ANY, wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), m_flowListArr, 0);
+    m_flowList = new wxFilePickerCtrl(this, wxID_ANY, wxEmptyString, _("Select a Flow"), wxT("*.nfs"), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), wxFLP_DEFAULT_STYLE|wxFLP_USE_TEXTCTRL);
     
-    flexGridSizer23->Add(m_flowList, 1, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    flexGridSizer23->Add(m_flowList, 0, wxALL|wxEXPAND, WXC_FROM_DIP(5));
     
     m_editFlow = new wxButton(this, wxID_ANY, _("Edit ..."), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), 0);
     
@@ -50,30 +49,6 @@ NodeFlowConfigurationBase::NodeFlowConfigurationBase(wxWindow* parent, wxWindowI
     m_enabled->SetValue(false);
     
     flexGridSizer23->Add(m_enabled, 0, wxALL, WXC_FROM_DIP(5));
-    
-    gridSizer35 = new wxGridSizer(0, 3, 0, 0);
-    
-    boxSizer3->Add(gridSizer35, 0, wxALL|wxEXPAND, WXC_FROM_DIP(5));
-    
-    m_button37 = new wxButton(this, wxID_ANY, _("Add"), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), 0);
-    
-    gridSizer35->Add(m_button37, 0, wxALL, WXC_FROM_DIP(5));
-    
-    m_button39 = new wxButton(this, wxID_ANY, _("Remove"), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), 0);
-    
-    gridSizer35->Add(m_button39, 0, wxALL, WXC_FROM_DIP(5));
-    
-    m_inputName = new wxTextCtrl(this, wxID_ANY, wxT(""), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), 0);
-    #if wxVERSION_NUMBER >= 3000
-    m_inputName->SetHint(wxT(""));
-    #endif
-    
-    gridSizer35->Add(m_inputName, 1, wxALL|wxEXPAND, WXC_FROM_DIP(5));
-    
-    wxArrayString m_listInputsArr;
-    m_listInputs = new wxListBox(this, wxID_ANY, wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), m_listInputsArr, wxLB_SINGLE);
-    
-    boxSizer3->Add(m_listInputs, 1, wxALL|wxEXPAND, WXC_FROM_DIP(5));
     
     m_stdBtnSizer11 = new wxStdDialogButtonSizer();
     
@@ -87,8 +62,8 @@ NodeFlowConfigurationBase::NodeFlowConfigurationBase(wxWindow* parent, wxWindowI
     m_stdBtnSizer11->Realize();
     
     SetName(wxT("NodeFlowConfigurationBase"));
-    SetMinClientSize(wxSize(500,400));
-    SetSize(wxDLG_UNIT(this, wxSize(500,400)));
+    SetMinClientSize(wxSize(500,200));
+    SetSize(wxDLG_UNIT(this, wxSize(500,200)));
     if (GetSizer()) {
          GetSizer()->Fit(this);
     }
@@ -105,16 +80,71 @@ NodeFlowConfigurationBase::NodeFlowConfigurationBase(wxWindow* parent, wxWindowI
     }
 #endif
     // Connect events
-    m_button37->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(NodeFlowConfigurationBase::onAdd), NULL, this);
-    m_button39->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(NodeFlowConfigurationBase::onRemove), NULL, this);
+    m_editFlow->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(NodeFlowConfigurationBase::onEdit), NULL, this);
     m_button15->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(NodeFlowConfigurationBase::onOK), NULL, this);
     
 }
 
 NodeFlowConfigurationBase::~NodeFlowConfigurationBase()
 {
-    m_button37->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(NodeFlowConfigurationBase::onAdd), NULL, this);
-    m_button39->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(NodeFlowConfigurationBase::onRemove), NULL, this);
+    m_editFlow->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(NodeFlowConfigurationBase::onEdit), NULL, this);
     m_button15->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(NodeFlowConfigurationBase::onOK), NULL, this);
+    
+}
+
+FlowEditorDialogBase::FlowEditorDialogBase(wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style)
+    : wxDialog(parent, id, title, pos, size, style)
+{
+    if ( !bBitmapLoaded ) {
+        // We need to initialise the default bitmap handler
+        wxXmlResource::Get()->AddHandler(new wxBitmapXmlHandler);
+        wxCrafterCOw9lwInitBitmapResources();
+        bBitmapLoaded = true;
+    }
+    
+    boxSizer45 = new wxBoxSizer(wxVERTICAL);
+    this->SetSizer(boxSizer45);
+    
+    m_editorPanel = new NodeEditorPanel(this, wxID_ANY, wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), wxTAB_TRAVERSAL);
+    
+    boxSizer45->Add(m_editorPanel, 1, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    
+    m_stdBtnSizer49 = new wxStdDialogButtonSizer();
+    
+    boxSizer45->Add(m_stdBtnSizer49, 0, wxALL, WXC_FROM_DIP(5));
+    
+    m_button51 = new wxButton(this, wxID_CANCEL, wxT(""), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1, -1)), 0);
+    m_stdBtnSizer49->AddButton(m_button51);
+    
+    m_button53 = new wxButton(this, wxID_OK, wxT(""), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1, -1)), 0);
+    m_stdBtnSizer49->AddButton(m_button53);
+    m_stdBtnSizer49->Realize();
+    
+    SetName(wxT("FlowEditorDialogBase"));
+    SetMinClientSize(wxSize(800,600));
+    SetSize(wxDLG_UNIT(this, wxSize(800,600)));
+    if (GetSizer()) {
+         GetSizer()->Fit(this);
+    }
+    if(GetParent()) {
+        CentreOnParent(wxBOTH);
+    } else {
+        CentreOnScreen(wxBOTH);
+    }
+#if wxVERSION_NUMBER >= 2900
+    if(!wxPersistenceManager::Get().Find(this)) {
+        wxPersistenceManager::Get().RegisterAndRestore(this);
+    } else {
+        wxPersistenceManager::Get().Restore(this);
+    }
+#endif
+    // Connect events
+    m_button53->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(FlowEditorDialogBase::onOk), NULL, this);
+    
+}
+
+FlowEditorDialogBase::~FlowEditorDialogBase()
+{
+    m_button53->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(FlowEditorDialogBase::onOk), NULL, this);
     
 }

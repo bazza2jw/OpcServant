@@ -146,6 +146,7 @@ bool NODEFLOW::NodeType::post(NodeSet &ns, unsigned nodeId, unsigned id, const V
                             if(t)
                             {
                                 // process each connection
+
                                 ret |= t->process(ns,dn->id(),e->to().id(),data);
                             }
                         }

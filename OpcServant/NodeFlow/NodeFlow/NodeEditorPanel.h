@@ -21,7 +21,7 @@ class NodeEditorPanel : public NodeEditorPanelBase
     CanvasWindows * _canvas = nullptr;
     NODEFLOW::VALUE _value;
 public:
-    NodeEditorPanel(wxWindow* parent);
+    NodeEditorPanel(wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize(100,100), long style = wxTAB_TRAVERSAL);
     virtual ~NodeEditorPanel();
 public:
     CanvasWindows * canvas() const { return _canvas;}

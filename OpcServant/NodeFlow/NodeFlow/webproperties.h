@@ -91,7 +91,7 @@ namespace NODEFLOW
 
         unsigned addColourProperty(const std::string &label, const std::string &v);
 
-        unsigned addChoiceProperty(const std::string &label, int v, const std::string &list = "/Yes/No");
+        unsigned addChoiceProperty(const std::string &label, int v, const MRL::StringList &list);
         //
         void get(unsigned i, bool &v ) { v =  getBool(i);}
         void get(unsigned i, int &v ) { v = getInt(i);}
@@ -139,6 +139,14 @@ namespace NODEFLOW
             Wt::WComboBox *p = dynamic_cast<Wt::WComboBox *>(_table->elementAt(i,1)->widget(0));
             return p->currentIndex();
         }
+
+        void setChoice(unsigned i, const std::string &s)
+        {
+            Wt::WComboBox *p = dynamic_cast<Wt::WComboBox *>(_table->elementAt(i,1)->widget(0));
+            int j = p->findText(s);
+            p->setCurrentIndex(j);
+        }
+
 
         void setRowHeights()
         {

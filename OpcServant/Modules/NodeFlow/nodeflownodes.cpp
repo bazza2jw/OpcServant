@@ -2,41 +2,47 @@
 #include <Common/Daq/rtobject.h>
 #include <Common/Daq/daq.h>
 #include <Common/Daq/daqcommon.h>
-
+#include "nodeflowrt.h"
 
 /*!
  * \brief buildOutputList
  * \param l
  */
-static void buildOutputList(MRL::StringList &l)
+template <typename T>
+void buildOutputList(T &l)
 {
+    l.clear();
     for (auto i = MRL::Common::daq().objects().begin(); i != MRL::Common::daq().objects().end(); i++) {
         MRL::RtObjectRef &r = i->second;
         if (r) {
             if (r->hasOutputs()) {
                 std::string pt;
                 r->path().toString(pt);
-                MRL::StringVector &l = r->outputs();
-                for(unsigned j = 0; j < l.size(); j++)
+                MRL::StringVector &lo = r->outputs();
+                for(unsigned j = 0; j < lo.size(); j++)
                 {
-                    std::string s = pt + TAG_SEPERATOR + l[j];
+                    std::string s = pt + TAG_SEPERATOR + lo[j];
                     l.push_back(s);
                 }
             }
         }
     }
+    l.push_back("(null)");
 }
 /*!
  * \brief buildAliasList
  * \param l
  */
-static void buildAliasList(MRL::StringList &l)
+template <typename T>
+void buildAliasList(T &l)
 {
+    l.clear();
     MRL::StringMap &a = MRL::Common::aliasMap();
     for(auto i = a.begin(); i != a.end(); i++)
     {
         l.push_back(i->first);
     }
+    l.push_back("(null)");
 }
 
 /*!
@@ -90,7 +96,7 @@ bool MRL::OpcServantInput::process(NODEFLOW::NodeSet &ns, unsigned nodeId, unsig
         if (r) {
             double v = r->getInput<double>(n->data()["TAG"].asString());
             NODEFLOW::VALUE result;
-            setValueData(n->data()["TAG"],v,result);
+            setValueData(n->data()["TAG"].asString(),v,result);
             post(ns,nodeId,Output,result);
         }
     }
@@ -103,10 +109,25 @@ bool MRL::OpcServantInput::process(NODEFLOW::NodeSet &ns, unsigned nodeId, unsig
  * \param ns
  * \param p
  */
+
+static wxArrayString labels; // persists for an edit
+static MRL::StringList strLabels;
+
 void MRL::OpcServantInput::load(PropertiesEditorDialog &dlg,NODEFLOW::NodeSet &ns,MRL::PropertyPath p)
 {
     NODEFLOW::NodeType::load(dlg,ns,p);
-    dlg.loader().addStringProperty("Input","Input",ns.data().getValue<std::string>(p,"Input"));
+    buildAliasList(labels);
+    //
+    wxString c(ns.data().getValue<std::string>(p,"Input"));
+    int i = labels.Index(c);
+    if(i < 0) i = 0;
+    //
+    wxEnumProperty * e = dlg.loader().addChoiceProperty("Input", "Input", i, labels);
+    if(e)
+    {
+        e->SetChoiceSelection(i);
+    }
+
 }
 /*!
  * \brief save
@@ -117,8 +138,12 @@ void MRL::OpcServantInput::load(PropertiesEditorDialog &dlg,NODEFLOW::NodeSet &n
 void MRL::OpcServantInput::save(PropertiesEditorDialog &dlg,NODEFLOW::NodeSet &ns,MRL::PropertyPath p)
 {
     NODEFLOW::NodeType::save(dlg,ns,p);
-    ns.data().setValue(p,"Input",dlg.loader().get<wxString>(NODEFLOW::PropField1).ToStdString());
-
+    wxEnumProperty *e = dynamic_cast<wxEnumProperty *>(dlg.loader().fields()[NODEFLOW::PropField1]);
+    if(e)
+    {
+        std::string s = labels[e->GetChoiceSelection()].ToStdString();
+        ns.data().setValue(p,"Input",s);
+    }
 }
 /*!
  * \brief load
@@ -129,7 +154,12 @@ void MRL::OpcServantInput::save(PropertiesEditorDialog &dlg,NODEFLOW::NodeSet &n
 void MRL::OpcServantInput::load(NODEFLOW::WebProperties *dlg,NODEFLOW::NodeSet &ns,MRL::PropertyPath p)
 {
     NODEFLOW::NodeType::load(dlg,ns,p);
-    dlg->addStringProperty("Input",ns.data().getValue<std::string>(p,"Input"));
+    buildAliasList(strLabels);
+    buildAliasList(labels);
+
+    dlg->addChoiceProperty("Input",0,strLabels);
+    dlg->setChoice(NODEFLOW::PropField1,ns.data().getValue<std::string>(p,"Input"));
+
 }
 /*!
  * \brief save
@@ -140,10 +170,74 @@ void MRL::OpcServantInput::load(NODEFLOW::WebProperties *dlg,NODEFLOW::NodeSet &
 void MRL::OpcServantInput::save(NODEFLOW::WebProperties *dlg,NODEFLOW::NodeSet &ns,MRL::PropertyPath p)
 {
     NODEFLOW::NodeType::save(dlg,ns,p);
-    std::string  v =  dlg->getString(NODEFLOW::PropField1);
-    ns.data().setValue(p,"Input",v);
+    int v =  dlg->getChoice(NODEFLOW::PropField1);
+    ns.data().setValue(p,"Input", labels[v].ToStdString());
 }
 
+
+/*!
+ * \brief load
+ * \param dlg
+ * \param ns
+ * \param p
+ */
+void MRL::OpcServantOutput::load(PropertiesEditorDialog &dlg,NODEFLOW::NodeSet &ns,MRL::PropertyPath p)
+{
+    NODEFLOW::NodeType::load(dlg,ns,p);
+    buildOutputList(labels);
+    //
+    wxString c(ns.data().getValue<std::string>(p,"Output"));
+    int i = labels.Index(c);
+    if(i < 0) i = 0;
+    wxEnumProperty * e = dlg.loader().addChoiceProperty("Output", "Output", i, labels);
+    if(e)
+    {
+        e->SetChoiceSelection(i);
+    }
+
+}
+/*!
+ * \brief save
+ * \param dlg
+ * \param ns
+ * \param p
+ */
+void MRL::OpcServantOutput::save(PropertiesEditorDialog &dlg,NODEFLOW::NodeSet &ns,MRL::PropertyPath p)
+{
+    NODEFLOW::NodeType::save(dlg,ns,p);
+    wxEnumProperty *e = dynamic_cast<wxEnumProperty *>(dlg.loader().fields()[NODEFLOW::PropField1]);
+    if(e)
+    {
+        std::string s = labels[e->GetChoiceSelection()].ToStdString();
+        ns.data().setValue(p,"Output",s);
+    }
+}
+/*!
+ * \brief load
+ * \param dlg
+ * \param ns
+ * \param p
+ */
+void MRL::OpcServantOutput::load(NODEFLOW::WebProperties *dlg,NODEFLOW::NodeSet &ns,MRL::PropertyPath p)
+{
+    NODEFLOW::NodeType::load(dlg,ns,p);
+    buildOutputList(strLabels);
+    buildOutputList(labels);
+    dlg->addChoiceProperty("Output",0,strLabels);
+    dlg->setChoice(NODEFLOW::PropField1,ns.data().getValue<std::string>(p,"Output"));
+}
+/*!
+ * \brief save
+ * \param dlg
+ * \param ns
+ * \param p
+ */
+void MRL::OpcServantOutput::save(NODEFLOW::WebProperties *dlg,NODEFLOW::NodeSet &ns,MRL::PropertyPath p)
+{
+    NODEFLOW::NodeType::save(dlg,ns,p);
+    int v  = dlg->getChoice(NODEFLOW::PropField1);
+    ns.data().setValue(p,"Output",labels[v].ToStdString());
+}
 
 
 /*!
@@ -154,24 +248,95 @@ void MRL::OpcServantInput::save(NODEFLOW::WebProperties *dlg,NODEFLOW::NodeSet &
  * \param data
  * \return
  */
-bool MRL:: OpcServantPublish::process(NODEFLOW::NodeSet &ns, unsigned nodeId, unsigned id, const NODEFLOW::VALUE &data)
+bool MRL::OpcServantPublish::process(NODEFLOW::NodeSet &ns, unsigned nodeId, unsigned /*id*/, const NODEFLOW::VALUE &data)
 {
-    //
     // Get the tag
     // post the value
-    //
     NODEFLOW::NodePtr &n = ns.findNode(nodeId);
     if(n && n->enabled())
     {
-        PropertyPath p;
-        p.toList(ns.data().getString("/OWNER"));
-        unsigned id = MRL::Common::configuration().find(p); // the object id
+        unsigned id = n->data()["OWNERID"].asUInt();
         MRL::RtObjectRef &r = MRL::Common::daq().objects()[id];
         if(r)
         {
-            r->publishValue(data[DATA_PAYLOAD].asDouble(),data[DATA_TOPIC].asString(),STATES::States::StateOk );
+            std::string t = n->data()["TAG"].asString();
+            double d = data[DATA_PAYLOAD].asDouble();
+            r->publishValue(d,t,STATES::States::StateOk );
         }
     }
     return true;
 }
+
+/*!
+ * \brief load
+ * \param dlg
+ * \param ns
+ * \param p
+ */
+void MRL::OpcServantPublish::load(PropertiesEditorDialog &dlg,NODEFLOW::NodeSet &ns,MRL::PropertyPath p)
+{
+    //
+    // by fixing the possible tags there is no need to bind a flow config to a specific NodeFlowSet object instance
+    // makes life a bit easier
+    //
+    NODEFLOW::NodeType::load(dlg,ns,p);
+    labels.clear();
+    for(auto j = MRL::NodeFlowRT::_inputs.begin(); j != MRL::NodeFlowRT::_inputs.end(); j++) labels.push_back(*j);
+    wxString c(ns.data().getValue<std::string>(p,"Tag"));
+    int i = labels.Index(c);
+    if(i < 0) i = 0;
+    wxEnumProperty * e = dlg.loader().addChoiceProperty("Tag", "Tag", i, labels);
+    if(e)
+    {
+        e->SetChoiceSelection(i);
+    }
+}
+/*!
+ * \brief save
+ * \param dlg
+ * \param ns
+ * \param p
+ */
+void MRL::OpcServantPublish::save(PropertiesEditorDialog &dlg,NODEFLOW::NodeSet &ns,MRL::PropertyPath p)
+{
+    NODEFLOW::NodeType::save(dlg,ns,p);
+    wxEnumProperty *e = dynamic_cast<wxEnumProperty *>(dlg.loader().fields()[NODEFLOW::PropField1]);
+    if(e)
+    {
+        std::string s = labels[e->GetChoiceSelection()].ToStdString();
+        ns.data().setValue(p,"Tag",s);
+    }
+}
+/*!
+ * \brief load
+ * \param dlg
+ * \param ns
+ * \param p
+ */
+void MRL::OpcServantPublish::load(NODEFLOW::WebProperties *dlg,NODEFLOW::NodeSet &ns,MRL::PropertyPath p)
+{
+    NODEFLOW::NodeType::load(dlg,ns,p);
+    strLabels.clear();
+    for(auto j = MRL::NodeFlowRT::_inputs.begin(); j != MRL::NodeFlowRT::_inputs.end(); j++)
+    {
+        strLabels.push_back(*j);
+        labels.push_back(*j);
+    }
+    dlg->addChoiceProperty("Tag",0,strLabels);
+    dlg->setChoice(NODEFLOW::PropField1,ns.data().getValue<std::string>(p,"Tag"));
+}
+/*!
+ * \brief save
+ * \param dlg
+ * \param ns
+ * \param p
+ */
+void MRL::OpcServantPublish::save(NODEFLOW::WebProperties *dlg,NODEFLOW::NodeSet &ns,MRL::PropertyPath p)
+{
+    NODEFLOW::NodeType::save(dlg,ns,p);
+    int v = dlg->getChoice(NODEFLOW::PropField1);
+    std::string t = labels[v].ToStdString();
+    ns.data().setValue(p,"Tag",t);
+}
+
 

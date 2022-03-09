@@ -13,7 +13,7 @@
 #ifndef NODEFLOW_H
 #define NODEFLOW_H
 
-#define NODEFLOW_ROOT_DIR "/usr/local/NodeFlow"
+#define NODEFLOW_ROOT_DIR "/usr/local/OpcServant"
 namespace NODEFLOW
 {
 
