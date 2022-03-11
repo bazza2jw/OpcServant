@@ -21,6 +21,7 @@ set(LIB_SOURCES
     modbusClass.cpp 
     i2cinterface.cpp
     scaleoffset.cpp
+    luascript.cpp
         )
 
 add_library(${MODULE} SHARED ${LIB_SOURCES})

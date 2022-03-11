@@ -96,7 +96,7 @@ bool MRL::OpcServantInput::process(NODEFLOW::NodeSet &ns, unsigned nodeId, unsig
         if (r) {
             double v = r->getInput<double>(n->data()["TAG"].asString());
             NODEFLOW::VALUE result;
-            setValueData(n->data()["TAG"].asString(),v,result);
+            NODEFLOW::setValueData(n->data()["TAG"].asString(),v,result);
             post(ns,nodeId,Output,result);
         }
     }

@@ -12,7 +12,32 @@
 
 #include "nodeset.h"
 
+/*!
+ * \brief NODEFLOW::NodeSet::setupLuaApi
+ * \param state
+ */
+void NODEFLOW::NodeSet::setupLuaApi(LUASCRIPTPTR &state)
+{
+    (*state)["NodeSetData"].SetObj(_data,
+                                   "GetBool", &MRL::VariantPropertyTree::getBool,
+                                   "GetInt", &MRL::VariantPropertyTree::getInt,
+                                   "GetDouble", &MRL::VariantPropertyTree::getDouble,
+                                   "GetString", &MRL::VariantPropertyTree::getString,
+                                   "SetBool", &MRL::VariantPropertyTree::setBool,
+                                   "SetInt", &MRL::VariantPropertyTree::setInt,
+                                   "SetDouble", &MRL::VariantPropertyTree::setDouble,
+                                   "SetString", &MRL::VariantPropertyTree::setString,
+                                   "Remove", &MRL::VariantPropertyTree::erase
+                                  );
 
+
+}
+/*!
+ * \brief NODEFLOW::NodeSet::hitTest
+ * \param pt
+ * \param hs
+ * \return
+ */
 int NODEFLOW::NodeSet::hitTest(wxPoint &pt, HitStruct &hs)
 {
     int ret = NONE;
@@ -465,7 +490,6 @@ void NODEFLOW::NodeSet::save()
     {
         data().setInt("NodeId",_nodeId);
         data().setInt("EdgeId",_edgeId);
-
         enumNodes([&](NodePtr &n) {
             n->save(*this);
         });
@@ -495,4 +519,50 @@ void NODEFLOW::NodeSet::clear()
     //
     _nodeId = _edgeId = 100;
 }
+
+/*!
+ * \brief NODEFLOW::NodeSet::post
+ * \param nodeId
+ * \param id
+ * \param data
+ * \return
+ */
+bool NODEFLOW::NodeSet::post( unsigned nodeId, unsigned id, const VALUE &data )
+{
+    bool ret = false;
+    try
+    {
+        NodePtr &n = findNode(nodeId);
+        if(n)
+        {
+            // get the list of edges attached to the output
+            ItemListPtr &il = n->outputs()[id];
+            if(il->size() > 0) // connected to anything ?
+            {
+                for(auto i = il->begin(); i != il->end(); i++)
+                {
+                    EdgePtr &e = findEdge(*i);
+                    if(e)
+                    {
+                        NodePtr &dn = findNode(e->to().node());
+                        if(dn)
+                        {
+                            NodeType *t = NodeType::find(dn->type()); // get the destination type
+                            if(t)
+                            {
+                                // process each connection
+
+                                ret |= t->process(*this,dn->id(),e->to().id(),data);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    CATCH_DEF
+    return ret;
+}
+
+
 

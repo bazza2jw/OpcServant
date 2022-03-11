@@ -14,6 +14,7 @@
 #include <Common/Opc/opccommon.h>
 #include <Common/objectmanager.h>
 #include "Gui/BourbonCommonUI.h"
+#include <MrlLib/luascript.h>
 MRL::Common * MRL::Common::_instance = nullptr; //!< global instance
 wxHtmlEasyPrinting  * MRL::Common::_htmlPrinter = nullptr; // printer interface
 MRL::StringMap MRL::Common::_aliasMap; // maps path to alias
@@ -140,5 +141,45 @@ bool MRL::Common::checkUserAdmin(const std::string &u)
          return SETTINGS().getValue<bool>(p,"Enabled") && SETTINGS().getValue<bool>(p,"Admin");
     }
     return false;
+}
+
+/*!
+ * \brief MRL::Common::setupLuaApi
+ * \param state
+ */
+void MRL::Common::setupLuaApi(LUASCRIPTPTR &state)
+{
+    //
+    // Create common interface to an LUA script
+    //
+    (*state)["Util"].SetObj(*this,
+                           "Trace", &MRL::Common::trace
+                          );
+    //
+    // Property tree interface
+    //
+    (*state)["Settings"].SetObj(_settings,
+                             "GetBool", &VariantPropertyTree::getBool,
+                             "GetInt", &VariantPropertyTree::getInt,
+                             "GetDouble", &VariantPropertyTree::getDouble,
+                             "GetString", &VariantPropertyTree::getString,
+                             "SetBool", &VariantPropertyTree::setBool,
+                             "SetInt", &VariantPropertyTree::setInt,
+                             "SetDouble", &VariantPropertyTree::setDouble,
+                             "SetString", &VariantPropertyTree::setString,
+                             "Remove", &VariantPropertyTree::erase
+                            );
+    //
+    (*state)["Runtime"].SetObj(_runtime,
+                               "GetBool", &VariantPropertyTree::getBool,
+                               "GetInt", &VariantPropertyTree::getInt,
+                               "GetDouble", &VariantPropertyTree::getDouble,
+                               "GetString", &VariantPropertyTree::getString,
+                               "SetBool", &VariantPropertyTree::setBool,
+                               "SetInt", &VariantPropertyTree::setInt,
+                               "SetDouble", &VariantPropertyTree::setDouble,
+                               "SetString", &VariantPropertyTree::setString,
+                               "Remove", &VariantPropertyTree::erase
+                            );
 }
 

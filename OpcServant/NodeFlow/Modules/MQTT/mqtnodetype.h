@@ -93,7 +93,6 @@ class MqttInputNodeType : public NodeType
             _mqtt->setCommandSubscription(_subscribe);
             _mqtt->username_pw_set(u.c_str(), pwd.c_str()); // set access
             int rc = _mqtt->connect(h.c_str(), port); // connect
-            std::cerr << " Connect " << rc << std::endl;
         }
 
         void close()

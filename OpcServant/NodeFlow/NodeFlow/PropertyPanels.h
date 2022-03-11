@@ -19,6 +19,7 @@
 #include <wx/button.h>
 #include <wx/panel.h>
 #include <wx/stattext.h>
+#include <wx/textctrl.h>
 #if wxVERSION_NUMBER >= 2900
 #include <wx/persist.h>
 #include <wx/persist/toplevel.h>
@@ -102,6 +103,24 @@ public:
     wxPropertyGridManager* GetProperties() { return m_properties; }
     PropertiesViewerDialogBase(wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Properties Viewer"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize(500,400), long style = wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER|wxMAXIMIZE_BOX);
     virtual ~PropertiesViewerDialogBase();
+};
+
+
+class NotesEditorDialogBase : public wxDialog
+{
+protected:
+    wxBoxSizer* boxSizer148;
+    wxTextCtrl* m_notes;
+    wxStdDialogButtonSizer* m_stdBtnSizer152;
+    wxButton* m_button154;
+    wxButton* m_button156;
+
+protected:
+
+public:
+    wxTextCtrl* GetNotes() { return m_notes; }
+    NotesEditorDialogBase(wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Notes"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize(500,300), long style = wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER);
+    virtual ~NotesEditorDialogBase();
 };
 
 #endif

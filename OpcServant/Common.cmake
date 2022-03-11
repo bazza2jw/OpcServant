@@ -112,7 +112,7 @@ include_directories(/usr/local/include/open62541cpp)
 # Enable the GUI build
 add_definitions(-DUSE_GUI )
 add_definitions(-DUSE_WT)
-set(EXTRA_LIB_FLAGS open62541cpp sqlite3 mysqlpp modbus mosquittopp socket++ atomic pthread rt m)
+set(EXTRA_LIB_FLAGS open62541cpp sqlite3 mysqlpp modbus mosquittopp socket++ atomic pthread rt m lua5.3)
 
 
 

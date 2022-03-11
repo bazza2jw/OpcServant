@@ -17,6 +17,7 @@
 #include <NodeFlow/NodeFlow/fparser.hh>
 #include <NodeFlow/NodeFlow/PropertiesEditorDialog.h>
 #include <NodeFlow/NodeFlow/webproperties.h>
+#include <MrlLib/luascript.h>
 
 // function nodes are generated from the functions definitions file on startup
 // functions are for double values
@@ -710,7 +711,9 @@ public:
      * \brief nodeClass
      * \return
      */
-    virtual const char * nodeClass() const { return "Unary Operators"; }
+    virtual const char * nodeClass() const {
+        return "Unary Operators";
+    }
 
     /*!
      * \brief setupConnections
@@ -887,32 +890,157 @@ public:
 class FunctionTypeNode : public NodeType
 {
 protected:
-    class ParserWithConsts: public FunctionParser
+    /*!
+     * \brief The FunctionNode class
+     */
+
+    /*!
+     * \brief The FunctionNodeInterface struct
+     * The way Selene works requires this - references cannot be used to set up interfaces
+     */
+    struct FunctionNodeInterface
     {
-    public:
-        ParserWithConsts()
+        NodeSet * _set = nullptr;
+        Node *    _node = nullptr;
+        VALUE     _data;
+
+        // Data accessors
+        void clearData()
         {
-            AddConstant("pi", 3.14159265358979323846);
-            AddConstant("e", 2.71828182845904523536);
+            _data.clear();
         }
-    };
-    class FunctionNode : public Node
-    {
-        ParserWithConsts _parser;
-    public:
-        FunctionNode(unsigned id, unsigned type) : Node(id,type) {}
-        virtual bool compile(const std::string &func, const std::string &args = "a")
+        //
+        int getInt(std::string t)
         {
-            return _parser.Parse(func,args) == -1;
+            return _data[t].asInt();
+        }
+        //
+        double getDouble(std::string t)
+        {
+            return _data[t].asDouble();
+        }
+        //
+        bool getBool(std::string t)
+        {
+            return _data[t].asBool();
+        }
+        //
+        std::string getString(std::string t)
+        {
+            return _data[t].asString();
+        }
+        //
+        void setInt(std::string t, int v)
+        {
+            _data[t] = v;
+        }
+        //
+        void setDouble(std::string t, double v)
+        {
+            _data[t]= v;
+        }
+        //
+        void setBool(std::string t, bool v)
+        {
+            _data[t] = v;
+        }
+        //
+        void setString(std::string t, std::string s)
+        {
+            _data[t] = s;
         }
 
-        FunctionParser & parser() {
-            return  _parser;
+        //
+        unsigned id()
+        {
+            return _node->id();
+        }
+        /*!
+         * \brief post
+         * \param ns
+         * \param nodeId
+         * \param id
+         * \param tag - NB strings must be passed as std::string
+         * \param v
+         * \return
+         */
+        bool post( unsigned id)
+        {
+            return _set->post(_node->id(),id,_data);
+        }
+
+
+    };
+    /*!
+     * \brief The FunctionNode class
+     */
+    class FunctionNode : public Node
+    {
+        LUASCRIPTPTR _state;
+        FunctionNodeInterface _interface;
+    public:
+        /*!
+         * \brief FunctionNode
+         * \param id
+         * \param type
+         */
+        FunctionNode(unsigned id, unsigned type) : Node(id,type)
+        {
+            _state = std::make_unique<sel::State>(true);
+        }
+        /*!
+         * \brief load
+         * \param file
+         */
+        virtual void load(const NodeSet &ns, const std::string &script)
+        {
+            _state.reset();
+            _state = std::make_unique<sel::State>(true);
+            (*_state)(script.c_str()); // set the script
+            _interface._node = this;
+            _interface._set = const_cast<NodeSet *>(&ns);
+            (*_state)["Node"].SetObj(_interface,
+                                     "Id",&FunctionNodeInterface::id,
+                                     "Post",&FunctionNodeInterface::post,
+                                     "GetInt",&FunctionNodeInterface::getInt,
+                                     "GetDouble",&FunctionNodeInterface::getDouble,
+                                     "GetBool",&FunctionNodeInterface::getBool,
+                                     "GetString",&FunctionNodeInterface::getString,
+                                     "SetInt",&FunctionNodeInterface::setInt,
+                                     "SetDouble",&FunctionNodeInterface::setDouble,
+                                     "SetBool",&FunctionNodeInterface::setBool,
+                                     "SetString",&FunctionNodeInterface::setString
+                                    );
+
+        }
+
+        //
+        VALUE & iData()
+        {
+            return _interface._data;
+        }
+        /*!
+         * \brief state
+         * \return
+         */
+        sel::State & state() {
+            return  *_state;
+        }
+        /*!
+         * \brief stateRef
+         * \return
+         */
+        LUASCRIPTPTR &stateRef() {
+            return _state;
         }
 
     };
 
 public:
+    /*!
+     * \brief FunctionTypeNode
+     * \param s
+     */
     FunctionTypeNode(const std::string &s) : NodeType(s)
     {
 
@@ -931,6 +1059,7 @@ public:
         return "Function";
     }
 
+
     /*!
      * \brief start
      */
@@ -942,9 +1071,11 @@ public:
             {
                 MRL::PropertyPath p;
                 node->toPath(p);
-                std::string f = ns.data().getValue<std::string>(p,"Function");
+                std::string f = ns.data().getValue<std::string>(p,"Script");
                 FunctionNode *n = static_cast<FunctionNode *>(node.get());
-                n->compile(f,"a"); // variable a is the input
+                n->load(ns,f);
+                LUASCRIPTPTR &sr =  n->stateRef();
+                ns.setupLuaApi(sr); // access node set functions
             }
         }
         CATCH_DEF
@@ -958,30 +1089,7 @@ public:
      * \param data
      * \return
      */
-    virtual bool process(NodeSet &ns, unsigned nodeId, unsigned id, const VALUE &data)
-    {
-        NodePtr &n = ns.findNode(nodeId);
-        if(n && n->enabled())
-        {
-            switch(id)
-            {
-            case 0:
-            {
-                double vars = data[DATA_PAYLOAD].asDouble();
-                FunctionNode *fn = static_cast<FunctionNode *>(n.get());
-                double  r = fn->parser().Eval(&vars);
-                n->data()["OUT"] = r;
-                VALUE result;
-                setValueData(data,r,result);
-                return post(ns,nodeId,Output,result);
-            }
-            default:
-                break;
-            }
-        }
-        return false;
-    }
-
+    virtual bool process(NodeSet &ns, unsigned nodeId, unsigned id, const VALUE &data);
 
     /*!
      * \brief setupConnections
@@ -990,11 +1098,11 @@ public:
     {
         inputs().resize(1);
         //
-        inputs()[0] = Connection("in",Single,Float);
+        inputs()[0] = Connection("in",Multiple,Any);
         //
         // set up the outputs
         outputs().resize(1);
-        outputs()[0] = Connection("out",Multiple,Float);
+        outputs()[0] = Connection("out",Multiple,Any);
     }
 
 
@@ -1004,51 +1112,28 @@ public:
      * \param ns
      * \param p
      */
-    virtual void load(PropertiesEditorDialog &dlg,NodeSet &ns,MRL::PropertyPath p)
-    {
-        NodeType::load(dlg,ns,p);
-        //
-        std::string f = ns.data().getValue<std::string>(p,"Function");
-        dlg.loader().addStringProperty("Function","Function",wxString(f)); // field[2]
-    }
+    virtual void load(PropertiesEditorDialog &dlg,NodeSet &ns,MRL::PropertyPath p);
     /*!
      * \brief save
      * \param dlg
      * \param ns
      * \param p
      */
-    virtual void save(PropertiesEditorDialog &dlg,NodeSet &ns,MRL::PropertyPath p)
-    {
-        NodeType::save(dlg,ns,p);
-        wxVariant fv = dlg.loader().fields()[PropField1]->GetValue();
-        std::string f = fv.GetString().ToStdString();
-        ns.data().setValue(p,"Function",f);
-    }
-
+    virtual void save(PropertiesEditorDialog &dlg,NodeSet &ns,MRL::PropertyPath p);
     /*!
      * \brief load
      * \param dlg
      * \param ns
      * \param p
      */
-    void load(NODEFLOW::WebProperties *dlg,NODEFLOW::NodeSet &ns,MRL::PropertyPath p)
-    {
-        NodeType::load(dlg,ns,p);
-        dlg->addStringProperty("Function",ns.data().getValue<std::string>(p,"Function"));
-    }
+    void load(NODEFLOW::WebProperties *dlg,NODEFLOW::NodeSet &ns,MRL::PropertyPath p);
     /*!
      * \brief save
      * \param dlg
      * \param ns
      * \param p
      */
-    void save(NODEFLOW::WebProperties *dlg,NODEFLOW::NodeSet &ns,MRL::PropertyPath p)
-    {
-        NodeType::save(dlg,ns,p);
-        std::string v;
-        dlg->get(NODEFLOW::PropField1,v);
-        ns.data().setValue(p,"Function",v);
-    }
+    void save(NODEFLOW::WebProperties *dlg,NODEFLOW::NodeSet &ns,MRL::PropertyPath p);
 
 };
 

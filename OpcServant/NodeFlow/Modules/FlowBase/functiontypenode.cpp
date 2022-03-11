@@ -154,5 +154,97 @@ void addFunctionNodes()
 }
 
 
+/*!
+ * \brief NODEFLOW::FunctionTypeNode::process
+ * \param ns
+ * \param nodeId
+ * \param id
+ * \param data
+ * \return true if posted
+ */
+bool NODEFLOW::FunctionTypeNode::process(NodeSet &ns, unsigned nodeId, unsigned id, const VALUE &data)
+{
+    /*
+     *  The LUA function must have the form
+     *
+     function process(inputId)
+        local newValue
+        -- do processing etc - use get and set data functions
+        -- send new value to the output
+        Node.PostDouble(outId,"TopicName",newValue)
+        -- if the value is posted return true if nothing is posted return false
+        return true
+     end
+
+     Other functions are allowed and other modules can be pulled in
+     Use Selene to register C++ interfaces and functionality
+
+     TBD allow for dynamically selected number of inputs and outputs
+     Probably have to cache the layouts and have a node designer UI
+
+     */
+    bool res = false;
+    NodePtr &n = ns.findNode(nodeId);
+    if(n && n->enabled())
+    {
+        FunctionNode *fn = static_cast<FunctionNode *>(n.get());
+        fn->iData() = data;
+        res = fn->state()["process"](id);
+    }
+    return res;
+}
+
+
+/*!
+ * \brief load
+ * \param dlg
+ * \param ns
+ * \param p
+ */
+void NODEFLOW::FunctionTypeNode::load(PropertiesEditorDialog &dlg,NodeSet &ns,MRL::PropertyPath p)
+{
+    NodeType::load(dlg,ns,p);
+    wxString f(ns.data().getValue<std::string>(p,"Script"));
+    dlg.notes() = f; // the desktop interface uses the notes for the function script
+}
+/*!
+ * \brief save
+ * \param dlg
+ * \param ns
+ * \param p
+ */
+void NODEFLOW::FunctionTypeNode::save(PropertiesEditorDialog &dlg,NodeSet &ns,MRL::PropertyPath p)
+{
+    NodeType::save(dlg,ns,p);
+    wxString f = dlg.notes();
+    ns.data().setValue(p,"Script",f.ToStdString());
+}
+
+/*!
+ * \brief load
+ * \param dlg
+ * \param ns
+ * \param p
+ */
+void NODEFLOW::FunctionTypeNode::load(NODEFLOW::WebProperties *dlg,NODEFLOW::NodeSet &ns,MRL::PropertyPath p)
+{
+    NodeType::load(dlg,ns,p);
+    dlg->addStringProperty("Script",ns.data().getValue<std::string>(p,"Script")); // TBD extend so Wt interface include notes editor
+}
+/*!
+ * \brief save
+ * \param dlg
+ * \param ns
+ * \param p
+ */
+void NODEFLOW::FunctionTypeNode::save(NODEFLOW::WebProperties *dlg,NODEFLOW::NodeSet &ns,MRL::PropertyPath p)
+{
+    NodeType::save(dlg,ns,p);
+    std::string v;
+    dlg->get(NODEFLOW::PropField1,v);
+    ns.data().setValue(p,"Script",v);
+}
+
+
 
 

@@ -12,3 +12,17 @@
 
 #include "nodeflow.h"
 
+/*!
+ * \brief NODEFLOW::NodeFlow::_msgId
+ */
+int NODEFLOW::NodeFlow::_msgId = 0;
+
+/*!
+ * \brief NODEFLOW::NodeFlow::msgId
+ * \return
+ */
+int NODEFLOW::NodeFlow::msgId()
+{
+    return _msgId++;
+}
+

@@ -86,6 +86,7 @@ set(LIB_SOURCES
     Gui/UserConfigurationDialog.cpp
     Gui/PinEntryDialog.cpp
     Web/webuserconfigurationdialog.cpp
+    Daq/rtobjectscritped.cpp
         )
 
 set(PROJECT_LIB_FLAGS  MrlLib)

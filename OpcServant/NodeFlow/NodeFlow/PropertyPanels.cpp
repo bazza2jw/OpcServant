@@ -33,7 +33,7 @@ PropertiesEditorDialogBase::PropertiesEditorDialogBase(wxWindow* parent, wxWindo
     
     m_toolbar->AddTool(ID_NOTES, _("Notes"), wxArtProvider::GetBitmap(wxART_REPORT_VIEW, wxART_TOOLBAR, wxDefaultSize), wxNullBitmap, wxITEM_NORMAL, _("Notes for object"), _("Free text notes for object"), NULL);
     
-    m_toolbar->AddTool(ID_SETTINGS, _("Settings"), wxArtProvider::GetBitmap(wxART_INFORMATION, wxART_TOOLBAR, wxDefaultSize), wxNullBitmap, wxITEM_NORMAL, _("Settings"), _("Additional properties"), NULL);
+    m_toolbar->AddTool(ID_SETTINGS, _("Settings"), wxArtProvider::GetBitmap(wxART_PLUS, wxART_TOOLBAR, wxDefaultSize), wxNullBitmap, wxITEM_NORMAL, _("Settings"), _("Additional properties"), NULL);
     m_toolbar->Realize();
     
     wxArrayString m_propertiesArr;
@@ -210,4 +210,57 @@ PropertiesViewerDialogBase::~PropertiesViewerDialogBase()
     this->Disconnect(wxID_ANY, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler(PropertiesViewerDialogBase::OnNotes), NULL, this);
     m_button51->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(PropertiesViewerDialogBase::OnClose), NULL, this);
     
+}
+
+NotesEditorDialogBase::NotesEditorDialogBase(wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style)
+    : wxDialog(parent, id, title, pos, size, style)
+{
+    if ( !bBitmapLoaded ) {
+        // We need to initialise the default bitmap handler
+        wxXmlResource::Get()->AddHandler(new wxBitmapXmlHandler);
+        wxCrafterOa0GMGInitBitmapResources();
+        bBitmapLoaded = true;
+    }
+    
+    boxSizer148 = new wxBoxSizer(wxVERTICAL);
+    this->SetSizer(boxSizer148);
+    
+    m_notes = new wxTextCtrl(this, wxID_ANY, wxT(""), wxDefaultPosition, wxDLG_UNIT(this, wxSize(400,400)), wxTE_MULTILINE);
+    
+    boxSizer148->Add(m_notes, 1, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    m_notes->SetMinSize(wxSize(400,400));
+    
+    m_stdBtnSizer152 = new wxStdDialogButtonSizer();
+    
+    boxSizer148->Add(m_stdBtnSizer152, 0, wxALL, WXC_FROM_DIP(5));
+    
+    m_button154 = new wxButton(this, wxID_CANCEL, wxT(""), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1, -1)), 0);
+    m_stdBtnSizer152->AddButton(m_button154);
+    
+    m_button156 = new wxButton(this, wxID_OK, wxT(""), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1, -1)), 0);
+    m_stdBtnSizer152->AddButton(m_button156);
+    m_stdBtnSizer152->Realize();
+    
+    SetName(wxT("NotesEditorDialogBase"));
+    SetMinClientSize(wxSize(500,300));
+    SetSize(wxDLG_UNIT(this, wxSize(500,300)));
+    if (GetSizer()) {
+         GetSizer()->Fit(this);
+    }
+    if(GetParent()) {
+        CentreOnParent(wxBOTH);
+    } else {
+        CentreOnScreen(wxBOTH);
+    }
+#if wxVERSION_NUMBER >= 2900
+    if(!wxPersistenceManager::Get().Find(this)) {
+        wxPersistenceManager::Get().RegisterAndRestore(this);
+    } else {
+        wxPersistenceManager::Get().Restore(this);
+    }
+#endif
+}
+
+NotesEditorDialogBase::~NotesEditorDialogBase()
+{
 }

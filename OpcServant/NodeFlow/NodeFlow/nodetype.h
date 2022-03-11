@@ -15,6 +15,7 @@
 
 #include "node.h"
 #include "propertiesloader.h"
+#include <NodeFlow/NodeFlow/nodeflow.h>
 
 class PropertiesEditorDialog;
 
@@ -75,6 +76,41 @@ public:
         _type = t;
     }
 };
+
+
+template <typename T>
+/*!
+ * \brief setValueData
+ * \param topic
+ * \param v
+ * \param d
+ */
+inline void setValueData(const std::string &topic, const T &v, VALUE &d)
+{
+    // set up a data packet with the basic data
+    d[DATA_TOPIC] = topic;
+    d[DATA_PAYLOAD] = v;
+    d[DATA_MSGID] = NODEFLOW::NodeFlow::msgId();
+}
+
+
+template <typename T>
+/*!
+ * \brief setValueData
+ * \param topic
+ * \param v
+ * \param d
+ */
+inline void setValueData(const VALUE &in, const T &v, VALUE &out)
+{
+    // set up a data packet copying input data packet
+    out = in;
+    out[DATA_PAYLOAD] = v;
+}
+
+
+
+
 
 /*!
  * \brief The NodeLayout class
@@ -480,37 +516,6 @@ public:
      */
     virtual void trigger(NodeSet &, NodePtr & /*node*/ ) { }
 
-    template <typename T>
-    /*!
-     * \brief setValueData
-     * \param topic
-     * \param v
-     * \param d
-     */
-    void setValueData(const std::string &topic, const T &v, VALUE &d)
-    {
-        // set up a data packet with the basic data
-        d[DATA_TOPIC] = topic;
-        d[DATA_PAYLOAD] = v;
-        d[DATA_MSGID] = _msgId++;
-    }
-
-
-    template <typename T>
-    /*!
-     * \brief setValueData
-     * \param topic
-     * \param v
-     * \param d
-     */
-    void setValueData(const VALUE &in, const T &v, VALUE &out)
-    {
-        // set up a data packet copying input data packet
-        out = in;
-        out[DATA_PAYLOAD] = v;
-    }
-
-
     /*!
      * \brief process process data from an input - left to right flow evaluate outputs before inputs
      * \param nodeId this node to process the signal
@@ -582,7 +587,11 @@ public:
     virtual  std::vector<Connection> & outputs(unsigned /*nodeId */ = 0) {
         return _outputs;
     }
-    //
+    /*!
+     * \brief nodeLayout
+     * \param nodeId
+     * \return
+     */
     virtual NodeLayout & nodeLayout(unsigned nodeId = 0)
     {
         return _layout;

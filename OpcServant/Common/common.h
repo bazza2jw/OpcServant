@@ -21,6 +21,7 @@
 #include <MrlLib/mrlsignals.h>
 #include <Common/messages.h>
 #include <wx/html/htmprint.h>
+#include <MrlLib/luascript.h>
 
 #ifndef OPCSERVANT_DEF_APP_DIR
 //
@@ -31,6 +32,7 @@ namespace MRL {
 
     class DaqCommon;
     class OpcCommon;
+    //
     constexpr const char *DEFAULT_APPLICATION_DIR = OPCSERVANT_DEF_APP_DIR;
     constexpr const char *DEFAULT_SETTINGS_FILE = "data/settings.dat";
     //
@@ -403,6 +405,16 @@ namespace MRL {
              * \return true if the user, password and is an admin
              */
             static bool checkUserAdmin(const std::string &u);
+
+            /*!
+             * \brief setupLuaApi
+             */
+            void setupLuaApi(LUASCRIPTPTR &state);
+
+            void trace(const std::string &m)
+            {
+                std::cerr << m << std::endl;
+            }
     };
 
 

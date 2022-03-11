@@ -15,6 +15,7 @@
 #include <MrlLib/mrllib.h>
 #include <MrlLib/variantpropertytree.h>
 #include <MrlLib/sqlitedb.h>
+#include <MrlLib/luascript.h>
 //
 #include "node.h"
 #include "nodetype.h"
@@ -395,6 +396,28 @@ public:
      * \param start
      */
     void makeConnectionSelect(wxPoint &pt, wxPoint &startPoint, int state, NodeSet::HitStruct &start);
+
+
+    /*!
+     * \brief setupLuaApi
+     */
+    void setupLuaApi(LUASCRIPTPTR &state);
+    /*!
+     * \brief post
+     * \param nodeId
+     * \param id
+     * \param data
+     * \return
+     */
+    virtual bool post( unsigned nodeId, unsigned id, const VALUE &data );
+
+    template <typename T>
+    bool postSingle(unsigned nodeId, unsigned id, const std::string &tag, T v )
+    {
+        VALUE d;
+        setValueData(std::string(tag),v,d);
+        return post(nodeId,id,d);
+    }
 
 };
 

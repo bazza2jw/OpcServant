@@ -51,7 +51,7 @@ public:
             int r = std::rand();
             if(v > 1) r = r % v;
             NODEFLOW::VALUE result;
-            setValueData(data,double(r),result);
+            NODEFLOW::setValueData(data,double(r),result);
             return post(ns,nodeId,0,result);
         }
         return false;
@@ -219,7 +219,7 @@ public:
             if(n && n->enabled())
             {
                 NODEFLOW::VALUE d;
-                setValueData(std::string("Timer"), true, d);
+                NODEFLOW::setValueData(std::string("Timer"), true, d);
                 post(ns,n->id(),0,d);
             }
         }

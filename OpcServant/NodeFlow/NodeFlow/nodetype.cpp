@@ -124,40 +124,7 @@ bool NODEFLOW::NodeType::process(NodeSet &/*ns*/, unsigned /*nodeId*/, unsigned 
  */
 bool NODEFLOW::NodeType::post(NodeSet &ns, unsigned nodeId, unsigned id, const VALUE &data )
 {
-    bool ret = false;
-    try
-    {
-        NodePtr &n = ns.findNode(nodeId);
-        if(n)
-        {
-            // get the list of edges attached to the output
-            ItemListPtr &il = n->outputs()[id];
-            if(il->size() > 0) // connected to anything ?
-            {
-                for(auto i = il->begin(); i != il->end(); i++)
-                {
-                    EdgePtr &e = ns.findEdge(*i);
-                    if(e)
-                    {
-                        NodePtr &dn = ns.findNode(e->to().node());
-                        if(dn)
-                        {
-                            NodeType *t = NodeType::find(dn->type()); // get the destination type
-                            if(t)
-                            {
-                                // process each connection
-
-                                ret |= t->process(ns,dn->id(),e->to().id(),data);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-    CATCH_DEF
-
-    return ret;
+    return ns.post(nodeId,id,data);
 }
 
 /*!
@@ -267,7 +234,6 @@ void NODEFLOW::NodeType::save(PropertiesEditorDialog &dlg,NodeSet &ns,MRL::Prope
 //
 // Web properties dialog
 //
-#ifdef USE_WT
 /*!
  * \brief NODEFLOW::NodeType::properties
  * \param parent
@@ -312,6 +278,3 @@ void NODEFLOW::NodeType::save(WebProperties *dlg,NodeSet &ns,MRL::PropertyPath p
     ns.data().setValue(p,"Colour", cs);
 }
 
-
-
-#endif

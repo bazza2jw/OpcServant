@@ -24,20 +24,24 @@ class  PropertiesEditorDialog : public PropertiesEditorDialogBase
     PropertiesLoader _loader;
     MRL::VariantPropertyTree &_data;
     MRL::PropertyPath &_path;
+    wxString _notes;
 public:
     PropertiesEditorDialog(wxWindow* parent, MRL::VariantPropertyTree &data,  MRL::PropertyPath &p);
     virtual ~PropertiesEditorDialog();
     PropertiesLoader & loader() { return _loader;}
  protected:
     //
-    virtual void OnNotes(wxCommandEvent& event);
+    virtual void OnNotes(wxCommandEvent&);
     virtual void OnSettings(wxCommandEvent& event);
     virtual void OnOk(wxCommandEvent& event);
     //
     virtual void load() {} // read from tree
     virtual void save() {} // write to tree
     //
+public:
     MRL::VariantPropertyTree & data() { return _data;}
     MRL::PropertyPath & path() { return _path;}
+    wxString & notes() { return  _notes;}
+
 };
 #endif // PROPERTIESEDITORDIALOG_H

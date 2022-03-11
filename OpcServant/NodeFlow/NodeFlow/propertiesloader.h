@@ -34,7 +34,7 @@ public:
     void setProperties(wxArrayString &props);
     wxPGProperty * setProperty( const wxArrayString &spec);
     wxPGProperty * setProperty( const wxString &spec);
-
+    void addProperty(wxPGProperty *p);
     wxBoolProperty *addBoolProperty(const wxString &label, const wxString &name, bool f = false);
     wxIntProperty *addIntProperty(const wxString &label,const wxString &name, int value, int min = -10000000, int max = 10000000);
     wxIntProperty *addUIntProperty(const wxString &label,const wxString &name, unsigned value,unsigned min = 0, unsigned max = 10000000)

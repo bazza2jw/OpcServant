@@ -26,7 +26,7 @@ bool BuiApp::OnInit()
     wxApp::OnInit(); // parse the command line
     wxInitAllImageHandlers();
     wxXmlResource::Get()->InitAllHandlers();
-    NODEFLOW::Plugin::loadPlugins("/usr/local/NodeFlow/modules"); // load all plugins
+    NODEFLOW::Plugin::loadPlugins("/usr/local/OpcServant/modules"); // load all plugins
     auto w = new NodeEditorMainframe(nullptr);
     w->Show();
     NODEFLOW::Plugin::initialiseAll(); // call the initialise function
@@ -59,7 +59,7 @@ bool BuiApp::OnCmdLineParsed (wxCmdLineParser &parser)
  */
 int  BuiApp::OnExit()
 {
-    NODEFLOW::Plugin::terminateAll(); // call the plugin terminate function
+    //NODEFLOW::Plugin::terminateAll(); // call the plugin terminate function
     return wxApp::OnExit();
 }
 

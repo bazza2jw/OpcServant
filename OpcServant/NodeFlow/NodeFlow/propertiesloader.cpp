@@ -17,6 +17,19 @@
 #include <wx/propgrid/manager.h>
 
 /*!
+ * \brief PropertiesLoader::addProperty
+ * \param p
+ */
+void PropertiesLoader::addProperty(wxPGProperty *p)
+{
+    if(p)
+    {
+        _prop->Append(p);
+        _fields.push_back(p);
+    }
+}
+
+/*!
  * \brief setProperties
  * \param props
  */

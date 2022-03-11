@@ -12,6 +12,7 @@
 
 #include "PropertiesEditorDialog.h"
 #include "propertiesloader.h"
+#include "NotesEditorDialog.h"
 
 /*!
  * \brief PropertiesEditorDialog::PropertiesEditorDialog
@@ -42,9 +43,23 @@ void PropertiesEditorDialog::OnOk(wxCommandEvent& /*event*/)
 
     EndModal(wxID_OK);
 }
-void PropertiesEditorDialog::OnNotes(wxCommandEvent& event)
+/*!
+ * \brief PropertiesEditorDialog::OnNotes
+ */
+void PropertiesEditorDialog::OnNotes(wxCommandEvent& /*event*/)
 {
+      NotesEditorDialog dlg(this);
+      dlg.GetNotes()->SetValue(_notes);
+     if(dlg.ShowModal() == wxID_OK)
+     {
+        _notes = dlg.GetNotes()->GetValue();
+     }
 }
+/*!
+ * \brief PropertiesEditorDialog::OnSettings
+ * \param event
+ */
 void PropertiesEditorDialog::OnSettings(wxCommandEvent& event)
 {
+
 }

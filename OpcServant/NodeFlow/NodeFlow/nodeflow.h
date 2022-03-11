@@ -16,7 +16,12 @@
 #define NODEFLOW_ROOT_DIR "/usr/local/OpcServant"
 namespace NODEFLOW
 {
-
+    class NodeFlow
+    {
+        static int _msgId;
+    public:
+        static int msgId();
+    };
 
 }
 #endif // NODEFLOW_H
