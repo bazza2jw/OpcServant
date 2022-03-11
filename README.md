@@ -18,7 +18,7 @@ The application framework builds and runs on single board computers like the Ras
 
 When combined with Webmin fully headless systems can be deployed. 
 
-The VisualScriptEngine (https://github.com/kovacsv/VisualScriptEngine/wiki) has been adapted to behave like Node Red flows and included as a module. This is WIP. This is a way of doing visual programming and visual configuration.
+Procedural nodes are supported using the NodeFlow library (part of source). This is similar to Node Red. Function nodes support LUA scripting.
 
 Using Node Red with the Dashboard and SVG nodes, plus the "SCADA" nodes provided in the OpcServant distribution, allows for customisable user interfaces.
 
