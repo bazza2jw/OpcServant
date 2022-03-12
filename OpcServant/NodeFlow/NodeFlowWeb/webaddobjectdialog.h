@@ -1,5 +1,5 @@
-#ifndef WEBADDOBJECTDIALOG_H
-#define WEBADDOBJECTDIALOG_H
+#ifndef NODEFLOW_WEBADDOBJECTDIALOG_H
+#define NODEFLOW_WEBADDOBJECTDIALOG_H
 
 #include <NodeFlow/NodeFlow/webdialog.h>
 #include <Wt/WDialog.h>

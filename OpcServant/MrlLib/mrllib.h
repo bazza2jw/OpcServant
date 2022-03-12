@@ -228,6 +228,20 @@ namespace MRL {
     void bytesToString(uint8_t *b, int8_t *s, int l);
 
 
+    /*!
+     * \brief getFileList
+     * \param sp
+     * \return number of files
+     */
+    int getFileList(wxArrayString &sp,const wxString &dir, const wxString &filter);
+    /*!
+     * \brief getFileList
+     * \param sp
+     * \return number of files
+     */
+    int getFileList(std::list<std::string> &sp,const std::string &dir, const std::string &filter );
+
+
 
     /*!
      * \brief getSerialPortList
@@ -243,6 +257,8 @@ namespace MRL {
      * \return number of ports found
      */
     int getSerialPortList(std::list<std::string> &sp);
+
+
 
 
     typedef std::map<std::string, std::string> StringMap;

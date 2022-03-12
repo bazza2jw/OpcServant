@@ -92,6 +92,9 @@ namespace NODEFLOW
         unsigned addColourProperty(const std::string &label, const std::string &v);
 
         unsigned addChoiceProperty(const std::string &label, int v, const MRL::StringList &list);
+
+        unsigned addPageProperty(const std::string &label, const std::string &v);
+
         //
         void get(unsigned i, bool &v ) { v =  getBool(i);}
         void get(unsigned i, int &v ) { v = getInt(i);}
@@ -126,6 +129,14 @@ namespace NODEFLOW
             Wt::WLineEdit *p = dynamic_cast<Wt::WLineEdit *>(_table->elementAt(i,1)->widget(0));
             return p->text().toUTF8();
         }
+
+
+        std::string getPage(unsigned i)
+        {
+            Wt::WTextArea *p = dynamic_cast<Wt::WTextArea *>(_table->elementAt(i,1)->widget(0));
+            return p->text().toUTF8();
+        }
+
 
         std::string getColour(unsigned i)
         {

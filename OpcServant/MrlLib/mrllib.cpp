@@ -45,6 +45,51 @@ int MRL::getTextWidth(wxFont &f, int n)
 
 
 /*!
+ * \brief getFileList
+ * \param sp
+ * \return number of files
+ */
+int MRL::getFileList(wxArrayString &sp, const wxString &dir, const wxString &filter )
+{
+    wxDir d(dir);
+    int res = 0;
+    if (d.IsOpened()) {
+        wxString f;
+        if (d.GetFirst(&f, filter, wxDIR_FILES)) {
+            do {
+                sp.Add(f);
+                res++;
+            }
+            while (d.GetNext(&f));
+        }
+    }
+    return res;
+}
+/*!
+ * \brief getFileList
+ * \param sp
+ * \return number of files
+ */
+int MRL::getFileList(std::list<std::string> &sp, const std::string &dir, const std::string &filter)
+{
+    wxDir d(dir);
+    int res = 0;
+    if (d.IsOpened()) {
+        wxString f;
+        if (d.GetFirst(&f, filter, wxDIR_FILES)) {
+            do {
+                sp.push_back(f.ToStdString());
+                res++;
+            }
+            while (d.GetNext(&f));
+        }
+    }
+    return res;
+}
+
+
+
+/*!
  * \brief getSerialPortList
  * abstract for OS here
  * \param sp

@@ -1,5 +1,5 @@
-#ifndef WEBCANVAS_H
-#define WEBCANVAS_H
+#ifndef NODEFLOW_WEBCANVAS_H
+#define NODEFLOW_WEBCANVAS_H
 #include <Wt/WPaintedWidget.h>
 #include <NodeFlow/NodeFlow/nodeset.h>
 #include <Wt/WPoint.h>

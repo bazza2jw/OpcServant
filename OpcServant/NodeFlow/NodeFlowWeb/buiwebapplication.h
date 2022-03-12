@@ -9,8 +9,8 @@
  * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
  * A PARTICULAR PURPOSE.
  */
-#ifndef BUIWEBAPPLICATION_H
-#define BUIWEBAPPLICATION_H
+#ifndef NODEFLOW_BUIWEBAPPLICATION_H
+#define NODEFLOW_BUIWEBAPPLICATION_H
 
 #include <Wt/WApplication.h>
 #include <Wt/WEnvironment.h>

@@ -229,7 +229,7 @@ void NODEFLOW::FunctionTypeNode::save(PropertiesEditorDialog &dlg,NodeSet &ns,MR
 void NODEFLOW::FunctionTypeNode::load(NODEFLOW::WebProperties *dlg,NODEFLOW::NodeSet &ns,MRL::PropertyPath p)
 {
     NodeType::load(dlg,ns,p);
-    dlg->addStringProperty("Script",ns.data().getValue<std::string>(p,"Script")); // TBD extend so Wt interface include notes editor
+    dlg->addPageProperty("Script",ns.data().getValue<std::string>(p,"Script")); // TBD extend so Wt interface include notes editor
 }
 /*!
  * \brief save
@@ -241,7 +241,7 @@ void NODEFLOW::FunctionTypeNode::save(NODEFLOW::WebProperties *dlg,NODEFLOW::Nod
 {
     NodeType::save(dlg,ns,p);
     std::string v;
-    dlg->get(NODEFLOW::PropField1,v);
+    v = dlg->getPage(NODEFLOW::PropField1);
     ns.data().setValue(p,"Script",v);
 }
 

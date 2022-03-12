@@ -9,8 +9,8 @@
  * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
  * A PARTICULAR PURPOSE.
  */
-#ifndef BWEBUIMAIN_H
-#define BWEBUIMAIN_H
+#ifndef NODEFLOW_BWEBUIMAIN_H
+#define NODEFLOW_BWEBUIMAIN_H
 #include <Wt/WApplication.h>
 #include <Wt/WBreak.h>
 #include <Wt/WContainerWidget.h>

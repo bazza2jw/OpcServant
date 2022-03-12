@@ -1,5 +1,6 @@
 #include "webproperties.h"
 #include <Wt/WCssDecorationStyle.h>
+#include <Wt/WTextArea.h>
 
 /*!
  * \brief MRL::WebProperties::WebProperties
@@ -125,6 +126,20 @@ unsigned NODEFLOW::WebProperties::addStringProperty(const std::string &label, co
     _table->elementAt(_fieldId, 1)->addNew<Wt::WLineEdit>(v);
     return _fieldId++;
 }
+
+/*!
+ * \brief NODEFLOW::WebProperties::addStringProperty
+ * \param label
+ * \param v
+ */
+unsigned NODEFLOW::WebProperties::addPageProperty(const std::string &label, const std::string &v)
+{
+    _table->elementAt(_fieldId, 0)->addNew<Wt::WText>(label);
+    _table->elementAt(_fieldId, 1)->addNew<Wt::WTextArea>(v);
+    return _fieldId++;
+}
+
+
 /*!
  * \brief NODEFLOW::WebProperties::addBoolProperty
  * \param label

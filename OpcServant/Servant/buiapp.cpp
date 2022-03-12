@@ -28,6 +28,7 @@
 #include <Wt/Auth/PasswordService.h>
 #include <Wt/Auth/RegistrationModel.h>
 
+#include "../NodeFlow/NodeFlowWeb/buiwebapplication.h"
 
 /*!
     \brief OnInit
@@ -156,6 +157,16 @@ bool MRL::BuiApp::OnInit() {
                     return std::move(app);
                 },"/report");
                 //
+                _webThread->addEntryPoint(Wt::EntryPointType::Application,
+                [](const Wt::WEnvironment & env) {
+                    auto app = std::make_unique<NODEFLOW::BuiWebApplication>(NODEFLOW::UI_ADMIN,env);
+                    app->setTwoPhaseRenderingThreshold(0);
+                    app->setTitle("Node Flow");
+                    app->useStyleSheet("styles.css");
+                    app->messageResourceBundle().use(Wt::WApplication::appRoot() + "about");
+                    app->refresh();
+                    return std::move(app);
+                },"/flow");
                 // Set up the model for web interfaces
                 MRL::Plugin::initialiseAllWeb();
                 //

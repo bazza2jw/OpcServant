@@ -13,6 +13,7 @@ set(LIB_SOURCES
     NodeFlowUI.cpp
     NodeFlowUI_nodeflow_bitmaps.cpp
     FlowEditorDialog.cpp
+    nodeflowwebconfiguration.cpp
     )
 
 add_definitions(-DUSE_WT)
