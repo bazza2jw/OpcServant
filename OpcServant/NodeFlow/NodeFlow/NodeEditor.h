@@ -26,6 +26,10 @@
 #include <wx/spinctrl.h>
 #include <wx/timer.h>
 #include <wx/dialog.h>
+#include <wx/imaglist.h>
+#include <wx/bitmap.h>
+#include <map>
+#include <wx/icon.h>
 #if wxVERSION_NUMBER >= 2900
 #include <wx/persist.h>
 #include <wx/persist/toplevel.h>
@@ -137,6 +141,35 @@ public:
     wxToolBar* GetToolbar195() { return m_toolbar195; }
     NodeFlowEditorDialogBase(wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Edit Node Flow Set"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize(800,600), long style = wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER|wxMAXIMIZE_BOX);
     virtual ~NodeFlowEditorDialogBase();
+};
+
+
+class NodeImages : public wxImageList
+{
+protected:
+    // Maintain a map of all bitmaps representd by their name
+    std::map<wxString, wxBitmap> m_bitmaps;
+    // The requested image resolution (can be one of @2x, @1.5x, @1.25x or an empty string (the default)
+    wxString m_resolution;
+    int m_imagesWidth;
+    int m_imagesHeight;
+
+
+protected:
+
+public:
+    NodeImages();
+    const wxBitmap& Bitmap(const wxString &name) const {
+        if ( !m_bitmaps.count(name + m_resolution) )
+            return wxNullBitmap;
+        return m_bitmaps.find(name + m_resolution)->second;
+    }
+
+    void SetBitmapResolution(const wxString &res = wxEmptyString) {
+        m_resolution = res;
+    }
+
+    virtual ~NodeImages();
 };
 
 #endif

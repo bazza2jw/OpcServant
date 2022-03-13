@@ -14,6 +14,7 @@
 #include "canvaswindows.h"
 #include "../NodeFlow/nodetype.h"
 #include <MrlLib/mrllib.h>
+#include "NodeEditor.h"
 /*!
  * \brief NodeEditorPanel::NodeEditorPanel
  * \param parent
@@ -21,6 +22,7 @@
 NodeEditorPanel::NodeEditorPanel(wxWindow* parent, wxWindowID id, const wxPoint &pos, const wxSize &size, long style)
     : NodeEditorPanelBase(parent,id,pos,size,style)
 {
+    //
     _canvas = new CanvasWindows(GetSplitterRight(),1024,800,10);
     canvasSizer->Add(_canvas, 1, wxALL|wxEXPAND, WXC_FROM_DIP(5));
     // build the item tree
@@ -56,6 +58,7 @@ NodeEditorPanel::NodeEditorPanel(wxWindow* parent, wxWindowID id, const wxPoint 
         }
     }
     Connect(GetNodeTypes()->GetId(),wxEVT_COMMAND_TREE_BEGIN_DRAG,wxTreeEventHandler(NodeEditorPanel::onDragInit),NULL,this);
+    GetNodeTypes()->ExpandAll();
 }
 /*!
  * \brief NodeEditorPanel::~NodeEditorPanel
@@ -164,7 +167,6 @@ void NodeEditorPanel::onEditRun(wxCommandEvent& /*event*/)
  */
 void NodeEditorPanel::onStep(wxCommandEvent& /*event*/)
 {
-
     _canvas->nodeSet().step(_value);
     // now read the output queue and print it
     NODEFLOW::NodeSet &st = _canvas->nodeSet();
