@@ -19,6 +19,8 @@
 #include <Common/VirtualKeypad.h>
 #include <Common/Gui/PinEntryDialog.h>
 
+
+
 namespace MRL
 {
     class LogMessage;
@@ -48,13 +50,19 @@ class Mainframe : public MainframeBase, public MRL::BObject
     ReportGeneratorPanel * _reportPanel = nullptr;
     bool _inStartup = false;
     PinEntryDialog * _pinEntry = nullptr;
+    //
+    wxString _homePage;
+
 public:
     Mainframe(wxWindow* parent);
     virtual ~Mainframe();
     void logMessage(const std::string &s, const std::string &m, const std::string &st = "Ok");
     void clearTabs();
 protected:
-    virtual void onVisualCalc(wxCommandEvent& event);
+    virtual void onUrlEnter(wxCommandEvent& event);
+    virtual void onBack(wxCommandEvent& event);
+    virtual void onGo(wxCommandEvent& event);
+    virtual void onHome(wxCommandEvent& event);
     virtual void OnAliasConfigure(wxCommandEvent& event);
     virtual void onClose(wxCloseEvent& event);
     virtual void onUnlockNavigator(wxCommandEvent& event);

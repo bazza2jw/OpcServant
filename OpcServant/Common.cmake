@@ -34,7 +34,7 @@ IF( DEFINED CROSSBUILD )
      add_definitions(-DWXUSINGDLL -D__WXGTK3__ -D__WXGTK__)
     set(wxWidgets_LIBRARIES wx_gtk3u_xrc-3.1 wx_gtk3u_html-3.1 wx_gtk3u_qa-3.1
         wx_gtk3u_core-3.1 wx_baseu_xml-3.1 wx_baseu_net-3.1 wx_baseu-3.1
-        wx_gtk3u_propgrid-3.1 wx_gtk3u_richtext-3.1)
+        wx_gtk3u_propgrid-3.1 wx_gtk3u_richtext-3.1 wx_gtk3u_webview-3.1 )
 
 
     # Find BOOST seems to have problem with sysroots so explicitly set the libraries
@@ -64,7 +64,7 @@ ELSE( DEFINED CROSSBUILD )
     # Include wxWidgets directory
     set(wxWidgets_USE_UNICODE ON)
     set(wxWidgets_CONFIGURATION gtk3u)
-    find_package(wxWidgets REQUIRED html net core base xrc adv xml propgrid richtext)
+    find_package(wxWidgets REQUIRED html net core base xrc adv xml propgrid richtext webview)
     include(${wxWidgets_USE_FILE})
     add_definitions(-DMYSQLPP_MYSQL_HEADERS_BURIED)
 # Set a variable with all the required wxWdiget library linker flags

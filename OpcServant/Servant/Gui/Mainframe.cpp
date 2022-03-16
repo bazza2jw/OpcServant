@@ -20,6 +20,9 @@
 #include <Common/messageids.h>
 #include <Common/Gui/ReportGeneratorPanel.h>
 #include <Common/Gui/AliasConfigurationDialog.h>
+
+
+
 /*!
     \brief Mainframe::Mainframe
     \param parent
@@ -587,7 +590,28 @@ void Mainframe::OnAliasConfigure(wxCommandEvent& /*event*/)
     }
 }
 
-void Mainframe::onVisualCalc(wxCommandEvent& /*event*/)
-{
 
+void Mainframe::onGo(wxCommandEvent& event)
+{
+    wxString h = GetWebURL()->GetValue();
+    GetWebView()->LoadURL(h);
+}
+
+void Mainframe::onHome(wxCommandEvent& event)
+{
+    MRL::PropertyPath p;
+    p.push_back("System");
+    wxString h = MRL::SETTINGS().getAsWxString(p,"HomePage");
+    GetWebView()->LoadURL(h);
+}
+
+void Mainframe::onBack(wxCommandEvent& event)
+{
+    if(GetWebView()->CanGoBack()) GetWebView()->GoBack();
+
+}
+void Mainframe::onUrlEnter(wxCommandEvent& event)
+{
+    wxString h = GetWebURL()->GetValue();
+    GetWebView()->LoadURL(h);
 }

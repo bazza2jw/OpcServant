@@ -65,6 +65,7 @@ protected:
     wxPGProperty* m_enableVK;
     wxPGProperty* m_screenLock;
     wxPGProperty* m_screenLockPin;
+    wxPGProperty* m_homePage;
     wxPGProperty* m_pgProp87;
     wxPGProperty* m_opcPort;
     wxPGProperty* m_opcNamespace;

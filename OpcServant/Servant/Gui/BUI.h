@@ -22,6 +22,9 @@
 #include <wx/button.h>
 #include <wx/html/htmlwin.h>
 #include <wx/listbox.h>
+#include <wx/toolbar.h>
+#include <wx/textctrl.h>
+#include <wx/webview.h>
 #include <wx/timer.h>
 #include <wx/bitmap.h>
 #include <map>
@@ -74,6 +77,14 @@ protected:
     wxListBox* m_messages;
     wxGridSizer* gridSizer35;
     wxButton* m_buttonClearMessages;
+    wxPanel* m_panelWeb;
+    wxBoxSizer* webSizer;
+    wxToolBar* m_toolbar527;
+    wxTextCtrl* m_webURL;
+#if wxUSE_WEBVIEW
+    wxWebView* m_webView;
+#endif // wxUSE_WEBVIEW
+
     wxTimer* m_timer77;
     wxTimer* m_timerPeriodic;
 
@@ -85,6 +96,12 @@ protected:
     virtual void onProperties(wxCommandEvent& event) { event.Skip(); }
     virtual void OnAliasConfigure(wxCommandEvent& event) { event.Skip(); }
     virtual void OnClearMessages(wxCommandEvent& event) { event.Skip(); }
+    virtual void onHome(wxCommandEvent& event) { event.Skip(); }
+    virtual void onBack(wxCommandEvent& event) { event.Skip(); }
+    virtual void onUrlEnter(wxCommandEvent& event) { event.Skip(); }
+    virtual void onGo(wxCommandEvent& event) { event.Skip(); }
+    #if wxUSE_WEBVIEW
+    #endif // wxUSE_WEBVIEW
     virtual void OnStartupTimer(wxTimerEvent& event) { event.Skip(); }
     virtual void onPeriodicTimer(wxTimerEvent& event) { event.Skip(); }
 
@@ -107,6 +124,10 @@ public:
     wxListBox* GetMessages() { return m_messages; }
     wxButton* GetButtonClearMessages() { return m_buttonClearMessages; }
     wxPanel* GetMessagePanel() { return m_messagePanel; }
+    wxTextCtrl* GetWebURL() { return m_webURL; }
+    wxToolBar* GetToolbar527() { return m_toolbar527; }
+    wxWebView* GetWebView() { return m_webView; }
+    wxPanel* GetPanelWeb() { return m_panelWeb; }
     wxNotebook* GetNotebook() { return m_notebook; }
     wxTimer* GetTimer77() { return m_timer77; }
     wxTimer* GetTimerPeriodic() { return m_timerPeriodic; }

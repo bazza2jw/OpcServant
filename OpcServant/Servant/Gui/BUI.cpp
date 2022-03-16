@@ -31,14 +31,14 @@ MainframeBase::MainframeBase(wxWindow* parent, wxWindowID id, const wxString& ti
     m_notebookFont.SetWeight(wxFONTWEIGHT_BOLD);
     m_notebook->SetFont(m_notebookFont);
     m_notebook->SetName(wxT("m_notebook"));
-    wxImageList* m_notebook_il = new wxImageList(32, 32);
+    wxImageList* m_notebook_il = new wxImageList(34, 34);
     m_notebook->AssignImageList(m_notebook_il);
     
     boxSizer15->Add(m_notebook, 1, wxALL|wxEXPAND, WXC_FROM_DIP(1));
     
     m_navigationTab = new wxPanel(m_notebook, wxID_ANY, wxDefaultPosition, wxDLG_UNIT(m_notebook, wxSize(-1,-1)), wxTAB_TRAVERSAL);
     int m_navigationTabImgIndex;
-    m_navigationTabImgIndex = m_notebook_il->Add(wxXmlResource::Get()->LoadBitmap(wxT("ledlightblue")));
+    m_navigationTabImgIndex = m_notebook_il->Add(wxXmlResource::Get()->LoadBitmap(wxT("ledblue")));
     m_notebook->AddPage(m_navigationTab, _("System"), false, m_navigationTabImgIndex);
     
     boxSizer25 = new wxBoxSizer(wxVERTICAL);
@@ -171,6 +171,38 @@ MainframeBase::MainframeBase(wxWindow* parent, wxWindowID id, const wxString& ti
     
     gridSizer35->Add(m_buttonClearMessages, 0, wxALL, WXC_FROM_DIP(5));
     
+    m_panelWeb = new wxPanel(m_notebook, wxID_ANY, wxDefaultPosition, wxDLG_UNIT(m_notebook, wxSize(-1,-1)), wxTAB_TRAVERSAL);
+    int m_panelWebImgIndex;
+    m_panelWebImgIndex = m_notebook_il->Add(wxXmlResource::Get()->LoadBitmap(wxT("gohome")));
+    m_notebook->AddPage(m_panelWeb, _("HMI"), false, m_panelWebImgIndex);
+    
+    webSizer = new wxBoxSizer(wxVERTICAL);
+    m_panelWeb->SetSizer(webSizer);
+    
+    m_toolbar527 = new wxToolBar(m_panelWeb, wxID_ANY, wxDefaultPosition, wxDLG_UNIT(m_panelWeb, wxSize(-1,-1)), wxTB_FLAT);
+    m_toolbar527->SetToolBitmapSize(wxSize(16,16));
+    
+    webSizer->Add(m_toolbar527, 0, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    
+    m_toolbar527->AddTool(wxID_ANY, _("Home"), wxArtProvider::GetBitmap(wxART_GO_HOME, wxART_TOOLBAR, wxDefaultSize), wxNullBitmap, wxITEM_NORMAL, wxT(""), wxT(""), NULL);
+    
+    m_toolbar527->AddTool(wxID_ANY, _("Back"), wxArtProvider::GetBitmap(wxART_GO_BACK, wxART_TOOLBAR, wxDefaultSize), wxNullBitmap, wxITEM_NORMAL, wxT(""), wxT(""), NULL);
+    
+    m_webURL = new wxTextCtrl(m_toolbar527, wxID_ANY, wxT(""), wxDefaultPosition, wxDLG_UNIT(m_toolbar527, wxSize(300,-1)), wxTE_PROCESS_ENTER);
+    #if wxVERSION_NUMBER >= 3000
+    m_webURL->SetHint(wxT(""));
+    #endif
+    m_toolbar527->AddControl(m_webURL);
+    
+    m_toolbar527->AddTool(wxID_ANY, _("Go"), wxArtProvider::GetBitmap(wxART_FIND, wxART_TOOLBAR, wxDefaultSize), wxNullBitmap, wxITEM_NORMAL, wxT(""), wxT(""), NULL);
+    m_toolbar527->Realize();
+    
+    #if wxUSE_WEBVIEW
+    m_webView = wxWebView::New(m_panelWeb, wxID_ANY, _("about:blank"), wxDefaultPosition, wxDLG_UNIT(m_panelWeb, wxSize(-1,-1)), wxWebViewBackendDefault, 0);
+    
+    webSizer->Add(m_webView, 1, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    #endif // wxUSE_WEBVIEW
+    
     m_timer77 = new wxTimer;
     m_timer77->Start(1000, true);
     
@@ -219,6 +251,13 @@ MainframeBase::MainframeBase(wxWindow* parent, wxWindowID id, const wxString& ti
     m_buttonSysProps->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(MainframeBase::onProperties), NULL, this);
     m_aliasConfigure->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(MainframeBase::OnAliasConfigure), NULL, this);
     m_buttonClearMessages->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(MainframeBase::OnClearMessages), NULL, this);
+    this->Connect(wxID_ANY, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler(MainframeBase::onHome), NULL, this);
+    this->Connect(wxID_ANY, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler(MainframeBase::onBack), NULL, this);
+    m_webURL->Connect(wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler(MainframeBase::onUrlEnter), NULL, this);
+    this->Connect(wxID_ANY, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler(MainframeBase::onGo), NULL, this);
+    #if wxUSE_WEBVIEW
+    
+    #endif // wxUSE_WEBVIEW
     m_timer77->Connect(wxEVT_TIMER, wxTimerEventHandler(MainframeBase::OnStartupTimer), NULL, this);
     m_timerPeriodic->Connect(wxEVT_TIMER, wxTimerEventHandler(MainframeBase::onPeriodicTimer), NULL, this);
     
@@ -233,6 +272,13 @@ MainframeBase::~MainframeBase()
     m_buttonSysProps->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(MainframeBase::onProperties), NULL, this);
     m_aliasConfigure->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(MainframeBase::OnAliasConfigure), NULL, this);
     m_buttonClearMessages->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(MainframeBase::OnClearMessages), NULL, this);
+    this->Disconnect(wxID_ANY, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler(MainframeBase::onHome), NULL, this);
+    this->Disconnect(wxID_ANY, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler(MainframeBase::onBack), NULL, this);
+    m_webURL->Disconnect(wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler(MainframeBase::onUrlEnter), NULL, this);
+    this->Disconnect(wxID_ANY, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler(MainframeBase::onGo), NULL, this);
+    #if wxUSE_WEBVIEW
+    
+    #endif // wxUSE_WEBVIEW
     m_timer77->Disconnect(wxEVT_TIMER, wxTimerEventHandler(MainframeBase::OnStartupTimer), NULL, this);
     m_timerPeriodic->Disconnect(wxEVT_TIMER, wxTimerEventHandler(MainframeBase::onPeriodicTimer), NULL, this);
     

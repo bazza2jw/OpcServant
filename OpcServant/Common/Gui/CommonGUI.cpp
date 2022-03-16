@@ -63,6 +63,9 @@ SystemPropertiesDialogBase::SystemPropertiesDialogBase(wxWindow* parent, wxWindo
     m_screenLockPin = m_properties->Append(  new wxStringProperty( _("Screen Lock PIN"), wxPG_LABEL, wxT("")) );
     m_screenLockPin->SetHelpString(wxT(""));
     
+    m_homePage = m_properties->Append(  new wxStringProperty( _("Home Page"), wxPG_LABEL, wxT("")) );
+    m_homePage->SetHelpString(wxT(""));
+    
     m_pgProp87 = m_properties->Append(  new wxPropertyCategory( _("OPC") ) );
     m_pgProp87->SetHelpString(wxT(""));
     
