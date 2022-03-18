@@ -1,7 +1,7 @@
 
  #* Copyright (C) 2018 -  B. J. Hill
  #*
- #* This file is part of OpcServant. OpcServant C++ classes are free software: you can
+ #* This file is part of NodeFlow. NodeFlow C++ classes are free software: you can
  #* redistribute it and/or modify it under the terms of the Mozilla Public
  #* License v2.0 as stated in the LICENSE file
  #*
@@ -11,16 +11,11 @@
 #
 #
 cmake_minimum_required(VERSION 3.10)
-project(OpcServant)
-include (Common.cmake)
-add_subdirectory(MrlLib)
-add_subdirectory(reportdocument)
-add_subdirectory(Common)
-add_subdirectory(NodeFlow)
+project(Mimic)
 add_subdirectory(Mimic)
-add_subdirectory(Modules)
+add_subdirectory(MimicEditor)
+#add_subdirectory(Modules)
 
-add_subdirectory(Servant)
 #
 
 

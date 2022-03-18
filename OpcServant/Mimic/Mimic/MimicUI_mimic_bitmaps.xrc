@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resource xmlns="http://www.wxwidgets.org/wxxrc">
+  <!-- Handler Generation is ON -->
+  <object class="wxBitmap" name="m_LED0">/Development/Projects/MRL/Mimic/Mimic/Controls/images/d00_1.png</object>
+  <object class="wxBitmap" name="m_LED1">/Development/Projects/MRL/Mimic/Mimic/Controls/images/d01_1.png</object>
+  <object class="wxBitmap" name="m_LED2">/Development/Projects/MRL/Mimic/Mimic/Controls/images/d02_1.png</object>
+  <object class="wxBitmap" name="m_LED3">/Development/Projects/MRL/Mimic/Mimic/Controls/images/d03_1.png</object>
+  <object class="wxBitmap" name="m_LED4">/Development/Projects/MRL/Mimic/Mimic/Controls/images/d04_1.png</object>
+  <object class="wxBitmap" name="m_LED5">/Development/Projects/MRL/Mimic/Mimic/Controls/images/d05_1.png</object>
+  <object class="wxBitmap" name="m_LED6">/Development/Projects/MRL/Mimic/Mimic/Controls/images/d06_1.png</object>
+  <object class="wxBitmap" name="m_LED7">/Development/Projects/MRL/Mimic/Mimic/Controls/images/d07_1.png</object>
+  <object class="wxBitmap" name="m_LED8">/Development/Projects/MRL/Mimic/Mimic/Controls/images/d08_1.png</object>
+  <object class="wxBitmap" name="m_LED9">/Development/Projects/MRL/Mimic/Mimic/Controls/images/d09_1.png</object>
+  <object class="wxBitmap" name="m_LEDDP">/Development/Projects/MRL/Mimic/Mimic/Controls/images/dpoint_1.png</object>
+  <object class="wxBitmap" name="m_LEDMinus">/Development/Projects/MRL/Mimic/Mimic/Controls/images/dminus_1.png</object>
+  <object class="wxBitmap" name="m_LEDSP">/Development/Projects/MRL/Mimic/Mimic/Controls/images/dblank_1.png</object>
+  <object class="wxBitmap" name="m_Nixie0">/Development/Projects/MRL/Mimic/Mimic/Controls/images/n00_1.png</object>
+  <object class="wxBitmap" name="m_Nixie1">/Development/Projects/MRL/Mimic/Mimic/Controls/images/n01_1.png</object>
+  <object class="wxBitmap" name="m_Nixie2">/Development/Projects/MRL/Mimic/Mimic/Controls/images/n02_1.png</object>
+  <object class="wxBitmap" name="m_Nixie3">/Development/Projects/MRL/Mimic/Mimic/Controls/images/n03_1.png</object>
+  <object class="wxBitmap" name="m_Nixie4">/Development/Projects/MRL/Mimic/Mimic/Controls/images/n04_1.png</object>
+  <object class="wxBitmap" name="m_Nixie5">/Development/Projects/MRL/Mimic/Mimic/Controls/images/n05_1.png</object>
+  <object class="wxBitmap" name="m_Nixie6">/Development/Projects/MRL/Mimic/Mimic/Controls/images/n06_1.png</object>
+  <object class="wxBitmap" name="m_Nixie7">/Development/Projects/MRL/Mimic/Mimic/Controls/images/n07_1.png</object>
+  <object class="wxBitmap" name="m_Nixie8">/Development/Projects/MRL/Mimic/Mimic/Controls/images/n08_1.png</object>
+  <object class="wxBitmap" name="m_Nixie9">/Development/Projects/MRL/Mimic/Mimic/Controls/images/n09_1.png</object>
+  <object class="wxBitmap" name="m_NixieDP">/Development/Projects/MRL/Mimic/Mimic/Controls/images/npoint_1.png</object>
+  <object class="wxBitmap" name="m_NixieMinus">/Development/Projects/MRL/Mimic/Mimic/Controls/images/nminus_1.png</object>
+  <object class="wxBitmap" name="m_NixieSP">/Development/Projects/MRL/Mimic/Mimic/Controls/images/nblank_1.png</object>
+</resource>
