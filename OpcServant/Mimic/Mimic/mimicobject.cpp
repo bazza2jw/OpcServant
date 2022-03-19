@@ -16,7 +16,7 @@ void MIMIC::MimicObject::fromData(MimicSet *set)
     int h = set->data().getValue<int>(p,"H");
     //
     _rect = wxRect(x,y,w,h);
-    _type = set->data().getValue<int>(p,"TYPE");
+    _type = set->data().getValue<unsigned>(p,"TYPE");
     _name = set->data().getValue<std::string>(p,"NAME");
     _enabled = set->data().getValue<bool>(p,"ENABLED");
     //
@@ -42,6 +42,9 @@ void MIMIC::MimicObject::toData(MimicSet *set)
     set->data().setValue(p,"H",_rect.GetHeight());
     set->data().setValue(p,"TYPE",_type);
     set->data().setValue(p,"ID",_id);
+    set->data().setValue(p,"Colour","White");
+    set->data().setValue(p,"TextColour","Black");
+
     // colour is set by property sheets
 }
 /*!
@@ -129,10 +132,10 @@ void MIMIC::MimicObject::draw(wxDC &dc)
         wxDCBrushChanger br(dc,*wxBLACK_BRUSH);
         wxDCPenChanger pn(dc,*wxBLACK_PEN);
         //
-        dc.DrawCircle(rect().GetBottomLeft(),5);
-        dc.DrawCircle(rect().GetBottomRight(),5);
-        dc.DrawCircle(rect().GetTopLeft(),5);
-        dc.DrawCircle(rect().GetTopRight(),5);
+        dc.DrawCircle(rect().GetBottomLeft(),2);
+        dc.DrawCircle(rect().GetBottomRight(),2);
+        dc.DrawCircle(rect().GetTopLeft(),2);
+        dc.DrawCircle(rect().GetTopRight(),2);
     }
 }
 

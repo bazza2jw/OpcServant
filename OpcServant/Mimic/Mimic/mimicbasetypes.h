@@ -128,18 +128,22 @@ public:
     const std::string & icon() { return _icon;}
     void setIcon(const std::string &s)
     {
-        _icon = s;
-        if(_map.find(_icon) == _map.end())
+        if(!s.empty())
         {
-            std::string f = std::string(MIMIC_ROOT_DIR "/icons/")  + _icon;
-            wxBitmap b(f,wxBITMAP_TYPE_ANY);
-            _map[_icon] = b;
-            rect().SetSize(b.GetSize());
-        }
-        else
-        {
-            wxBitmap &b = _map[_icon];
-            rect().SetSize(b.GetSize());
+            _icon = s;
+            if(_map.find(_icon) == _map.end())
+            {
+                std::string f = std::string(MIMIC_ROOT_DIR "/icons/")  + _icon;
+                wxBitmap b;
+                b.LoadFile(f);
+                rect().SetSize(b.GetSize());
+                _map[_icon] = b;
+            }
+            else
+            {
+                wxBitmap &b = _map[_icon];
+                rect().SetSize(b.GetSize());
+            }
         }
     }
     wxBitmap & bitmap() { return  _map[_icon];}

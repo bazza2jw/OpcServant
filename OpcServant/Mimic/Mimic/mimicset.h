@@ -49,6 +49,20 @@ namespace MIMIC
             _nextId = 100;
             _data.clear();
         }
+        /*!
+         * \brief process
+         */
+        void process()
+        {
+            for(auto i = _objects.begin(); i != _objects.end(); i++)
+            {
+                MIMICOBJECTPTR &o = i->second;
+                if(o)
+                {
+                    o->process(this);
+                }
+            }
+        }
 
     };
 }

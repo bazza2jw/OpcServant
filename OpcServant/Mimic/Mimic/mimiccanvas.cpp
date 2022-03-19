@@ -42,9 +42,16 @@ void MimicCanvas::readSet(const std::string &f)
     _fileName = f;
     if(wxFile::Exists(f))
     {
+        _objects.clear();
         // proceed loading the file chosen by the user;
-        _objects.data().load(_fileName);
-        _objects.fromData();
+        if(_objects.data().load(_fileName))
+        {
+            _objects.fromData();
+        }
+        else
+        {
+            wxLogDebug("Failed to load mim file");
+        }
     }
     Refresh();
 
@@ -103,57 +110,61 @@ void MimicCanvas::onLeftDown(wxMouseEvent& event)
     case OBJECT_SELECT:
     case ANCHOR_SELECT:
     {
-        if(_currentObject)
+        if(editMode())
         {
-            int x,y,xx,yy ;
-            event.GetPosition(&x,&y);
-            CalcUnscrolledPosition( x, y, &xx, &yy );
-            _currentpoint = wxPoint( xx, yy ) ;
 
-            _rect = _currentObject->rect();
-            if(_currentObject->canResize())
+            if(_currentObject)
             {
-                _hitPoint = _objects.hitPoint(_currentpoint, _currentObject->rect());
-                //
-                switch(_hitPoint)
+                int x,y,xx,yy ;
+                event.GetPosition(&x,&y);
+                CalcUnscrolledPosition( x, y, &xx, &yy );
+                _currentpoint = wxPoint( xx, yy ) ;
+
+                _rect = _currentObject->rect();
+                if(_currentObject->canResize())
                 {
-                case MIMIC::MimicSet::HIT_OBJECT:
-                    _state = OBJECT_SELECT;
-                    if(!HasCapture())
+                    _hitPoint = _objects.hitPoint(_currentpoint, _currentObject->rect());
+                    //
+                    switch(_hitPoint)
                     {
-                        CaptureMouse() ;
-                        SetCursor(*wxCROSS_CURSOR);
+                    case MIMIC::MimicSet::HIT_OBJECT:
+                        _state = OBJECT_SELECT;
+                        if(!HasCapture())
+                        {
+                            CaptureMouse() ;
+                            SetCursor(*wxCROSS_CURSOR);
+                        }
+                        break;
+                    case MIMIC::MimicSet::HIT_ANCHOR1:
+                    case MIMIC::MimicSet::HIT_ANCHOR2:
+                    case MIMIC::MimicSet::HIT_ANCHOR3:
+                    case MIMIC::MimicSet::HIT_ANCHOR4:
+                        _state = ANCHOR_SELECT;
+                        if(!HasCapture())
+                        {
+                            CaptureMouse() ;
+                            SetCursor(*wxCROSS_CURSOR);
+                        }
+                        break;
+                    default:
+                        _state = NONE;
+                        _currentObject->setSelected(false);
+                        _currentObject = nullptr;
+                        break;
                     }
-                    break;
-                case MIMIC::MimicSet::HIT_ANCHOR1:
-                case MIMIC::MimicSet::HIT_ANCHOR2:
-                case MIMIC::MimicSet::HIT_ANCHOR3:
-                case MIMIC::MimicSet::HIT_ANCHOR4:
-                    _state = ANCHOR_SELECT;
-                    if(!HasCapture())
-                    {
-                        CaptureMouse() ;
-                        SetCursor(*wxCROSS_CURSOR);
-                    }
-                    break;
-                default:
-                    _state = NONE;
-                    _currentObject->setSelected(false);
-                    _currentObject = nullptr;
-                    break;
-                }
-            }
-            else
-            {
-                if(_objects.hitPoint(_currentpoint, _currentObject->rect()) == MIMIC::MimicSet::HIT_OBJECT)
-                {
-                    _state = OBJECT_SELECT;
                 }
                 else
                 {
-                    _state = NONE;
-                    _currentObject->setSelected(false);
-                    _currentObject = nullptr;
+                    if(_objects.hitPoint(_currentpoint, _currentObject->rect()) == MIMIC::MimicSet::HIT_OBJECT)
+                    {
+                        _state = OBJECT_SELECT;
+                    }
+                    else
+                    {
+                        _state = NONE;
+                        _currentObject->setSelected(false);
+                        _currentObject = nullptr;
+                    }
                 }
             }
         }
@@ -194,6 +205,18 @@ void MimicCanvas::onLeftDown(wxMouseEvent& event)
             else
             {
                 _state = NONE;
+            }
+        }
+        else
+        {
+            int x,y,xx,yy ;
+            event.GetPosition(&x,&y);
+            CalcUnscrolledPosition( x, y, &xx, &yy );
+            _currentpoint = wxPoint( xx, yy ) ;
+            MIMIC::MIMICOBJECTPTR &o = _objects.hitTest(_currentpoint);
+            if(o)
+            {
+                o->onClick(this,_currentpoint,&_objects);
             }
         }
     }

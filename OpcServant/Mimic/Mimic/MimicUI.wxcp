@@ -192,15 +192,15 @@
          "m_properties": [{
            "type": "winid",
            "m_label": "ID:",
-           "m_winid": "wxID_ANY"
+           "m_winid": "wxID_NEW"
           }, {
            "type": "string",
            "m_label": "Name:",
-           "m_value": "m_toolbarItem13"
+           "m_value": "m_toolbarNew"
           }, {
            "type": "string",
            "m_label": "Label:",
-           "m_value": "Tool Label"
+           "m_value": "New"
           }, {
            "type": "multi-string",
            "m_label": "Tooltip:",
@@ -247,15 +247,15 @@
          "m_properties": [{
            "type": "winid",
            "m_label": "ID:",
-           "m_winid": "wxID_ANY"
+           "m_winid": "wxID_OPEN"
           }, {
            "type": "string",
            "m_label": "Name:",
-           "m_value": "m_toolbarItem15"
+           "m_value": "m_toolbarOpen"
           }, {
            "type": "string",
            "m_label": "Label:",
-           "m_value": "Tool Label"
+           "m_value": "Open"
           }, {
            "type": "multi-string",
            "m_label": "Tooltip:",
@@ -302,15 +302,15 @@
          "m_properties": [{
            "type": "winid",
            "m_label": "ID:",
-           "m_winid": "wxID_ANY"
+           "m_winid": "wxID_SAVE"
           }, {
            "type": "string",
            "m_label": "Name:",
-           "m_value": "m_toolbarItem17"
+           "m_value": "m_toolbarSave"
           }, {
            "type": "string",
            "m_label": "Label:",
-           "m_value": "Tool Label"
+           "m_value": "Save"
           }, {
            "type": "multi-string",
            "m_label": "Tooltip:",
@@ -357,15 +357,15 @@
          "m_properties": [{
            "type": "winid",
            "m_label": "ID:",
-           "m_winid": "wxID_ANY"
+           "m_winid": "wxID_SAVEAS"
           }, {
            "type": "string",
            "m_label": "Name:",
-           "m_value": "m_toolbarItem19"
+           "m_value": "m_toolbarSaveAs"
           }, {
            "type": "string",
            "m_label": "Label:",
-           "m_value": "Tool Label"
+           "m_value": "Save As"
           }, {
            "type": "multi-string",
            "m_label": "Tooltip:",
@@ -412,11 +412,11 @@
          "m_properties": [{
            "type": "winid",
            "m_label": "ID:",
-           "m_winid": "wxID_ANY"
+           "m_winid": "wxID_ADD"
           }, {
            "type": "string",
            "m_label": "Name:",
-           "m_value": "m_toolbarItem59"
+           "m_value": "m_toolbarAddBackground"
           }, {
            "type": "string",
            "m_label": "Label:",

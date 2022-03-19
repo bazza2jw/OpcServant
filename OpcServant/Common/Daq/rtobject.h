@@ -191,7 +191,7 @@ namespace MRL {
                 \return the runtime data tree
             */
             VariantPropertyTree &runtime() {
-                return _runtime;   // tree of configuration values
+                return _runtime;   // tree of runtime values
             }
             /*!
                 \brief subscribe to object message handler
@@ -340,6 +340,13 @@ namespace MRL {
                 m.data().add(PARAMETERID::Status, state);
                 m.data().add(PARAMETERID::Timestamp, timeStamp);
                 //
+            }
+
+            std::string getInputAsString(const std::string &tag = VALUE_TAG)
+            {
+                PropertyPath p;
+                p.push_back(tag);
+                return runtime().getAsString(p,VALUE_TAG);
             }
 
             template <typename T>

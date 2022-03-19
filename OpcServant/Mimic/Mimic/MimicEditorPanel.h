@@ -8,10 +8,10 @@ class MimicEditorPanel : public MimicEditorPanelBase
     wxTreeItemId _root;
 
 public:
-    MimicEditorPanel(wxWindow* parent);
+    MimicEditorPanel(wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size =  wxSize(-1,-1), long style = wxTAB_TRAVERSAL);
     virtual ~MimicEditorPanel();
     void onDragInit(wxTreeEvent& event);
-
+    MimicCanvas * canvas() { return _canvas;}
 
     virtual void onNew(wxCommandEvent& event);
     virtual void onOpen(wxCommandEvent& event);

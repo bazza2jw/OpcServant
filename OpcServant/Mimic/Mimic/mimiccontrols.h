@@ -62,7 +62,7 @@ public:
         IconObject::load(dlg,ns,p);
         dlg.loader().addIntProperty("State","State",ns.data().getValue<int>(p,"STATE"),0,3); // field[5]
         dlg.loader().addBoolProperty("Ack","Ack",ns.data().getValue<bool>(p,"ACK")); // field[6]
-        dlg.loader().addStringProperty("Text","Text",_text); // field[4]
+        dlg.loader().addStringProperty("Text","Text",_text); // field[7]
 
     }
     virtual void save(PropertiesEditorDialog &dlg,MimicSet &ns,MRL::PropertyPath p)
@@ -157,7 +157,6 @@ public:
         wxPoint pt = rect().GetTopLeft(); // where we draw at
         for(int i = 0; i < _text.Length(); i++ )
         {
-            wxBitmap b;
             char c;
             _text.at(i).GetAsChar(&c);
             if(_nixieMode)
@@ -168,8 +167,6 @@ public:
             {
                 drawNumber(dc,_ledBitmap,pt,c);
             }
-            dc.DrawBitmap(b,pt);
-            pt.x += b.GetSize().GetWidth();
         }
     }
     virtual void load(PropertiesEditorDialog &dlg,MimicSet &ns,MRL::PropertyPath p)

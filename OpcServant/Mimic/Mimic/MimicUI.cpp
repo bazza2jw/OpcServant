@@ -31,15 +31,15 @@ MimicEditorPanelBase::MimicEditorPanelBase(wxWindow* parent, wxWindowID id, cons
     
     canvasSizerTop->Add(m_toolbar11, 0, wxALL|wxEXPAND, WXC_FROM_DIP(5));
     
-    m_toolbar11->AddTool(wxID_ANY, _("Tool Label"), wxArtProvider::GetBitmap(wxART_NEW, wxART_TOOLBAR, wxDefaultSize), wxNullBitmap, wxITEM_NORMAL, wxT(""), wxT(""), NULL);
+    m_toolbar11->AddTool(wxID_NEW, _("New"), wxArtProvider::GetBitmap(wxART_NEW, wxART_TOOLBAR, wxDefaultSize), wxNullBitmap, wxITEM_NORMAL, wxT(""), wxT(""), NULL);
     
-    m_toolbar11->AddTool(wxID_ANY, _("Tool Label"), wxArtProvider::GetBitmap(wxART_FILE_OPEN, wxART_TOOLBAR, wxDefaultSize), wxNullBitmap, wxITEM_NORMAL, wxT(""), wxT(""), NULL);
+    m_toolbar11->AddTool(wxID_OPEN, _("Open"), wxArtProvider::GetBitmap(wxART_FILE_OPEN, wxART_TOOLBAR, wxDefaultSize), wxNullBitmap, wxITEM_NORMAL, wxT(""), wxT(""), NULL);
     
-    m_toolbar11->AddTool(wxID_ANY, _("Tool Label"), wxArtProvider::GetBitmap(wxART_FILE_SAVE, wxART_TOOLBAR, wxDefaultSize), wxNullBitmap, wxITEM_NORMAL, wxT(""), wxT(""), NULL);
+    m_toolbar11->AddTool(wxID_SAVE, _("Save"), wxArtProvider::GetBitmap(wxART_FILE_SAVE, wxART_TOOLBAR, wxDefaultSize), wxNullBitmap, wxITEM_NORMAL, wxT(""), wxT(""), NULL);
     
-    m_toolbar11->AddTool(wxID_ANY, _("Tool Label"), wxArtProvider::GetBitmap(wxART_FILE_SAVE_AS, wxART_TOOLBAR, wxDefaultSize), wxNullBitmap, wxITEM_NORMAL, wxT(""), wxT(""), NULL);
+    m_toolbar11->AddTool(wxID_SAVEAS, _("Save As"), wxArtProvider::GetBitmap(wxART_FILE_SAVE_AS, wxART_TOOLBAR, wxDefaultSize), wxNullBitmap, wxITEM_NORMAL, wxT(""), wxT(""), NULL);
     
-    m_toolbar11->AddTool(wxID_ANY, _("Add Background"), wxArtProvider::GetBitmap(wxART_ADD_BOOKMARK, wxART_TOOLBAR, wxDefaultSize), wxNullBitmap, wxITEM_NORMAL, wxT(""), _("Add Background"), NULL);
+    m_toolbar11->AddTool(wxID_ADD, _("Add Background"), wxArtProvider::GetBitmap(wxART_ADD_BOOKMARK, wxART_TOOLBAR, wxDefaultSize), wxNullBitmap, wxITEM_NORMAL, wxT(""), _("Add Background"), NULL);
     m_toolbar11->Realize();
     
     m_splitter = new wxSplitterWindow(this, wxID_ANY, wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), wxSP_3D);
@@ -70,21 +70,21 @@ MimicEditorPanelBase::MimicEditorPanelBase(wxWindow* parent, wxWindowID id, cons
          GetSizer()->Fit(this);
     }
     // Connect events
-    this->Connect(wxID_ANY, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler(MimicEditorPanelBase::onNew), NULL, this);
-    this->Connect(wxID_ANY, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler(MimicEditorPanelBase::onOpen), NULL, this);
-    this->Connect(wxID_ANY, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler(MimicEditorPanelBase::onSave), NULL, this);
-    this->Connect(wxID_ANY, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler(MimicEditorPanelBase::onSaveAs), NULL, this);
-    this->Connect(wxID_ANY, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler(MimicEditorPanelBase::onAddBackground), NULL, this);
+    this->Connect(wxID_NEW, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler(MimicEditorPanelBase::onNew), NULL, this);
+    this->Connect(wxID_OPEN, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler(MimicEditorPanelBase::onOpen), NULL, this);
+    this->Connect(wxID_SAVE, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler(MimicEditorPanelBase::onSave), NULL, this);
+    this->Connect(wxID_SAVEAS, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler(MimicEditorPanelBase::onSaveAs), NULL, this);
+    this->Connect(wxID_ADD, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler(MimicEditorPanelBase::onAddBackground), NULL, this);
     
 }
 
 MimicEditorPanelBase::~MimicEditorPanelBase()
 {
-    this->Disconnect(wxID_ANY, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler(MimicEditorPanelBase::onNew), NULL, this);
-    this->Disconnect(wxID_ANY, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler(MimicEditorPanelBase::onOpen), NULL, this);
-    this->Disconnect(wxID_ANY, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler(MimicEditorPanelBase::onSave), NULL, this);
-    this->Disconnect(wxID_ANY, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler(MimicEditorPanelBase::onSaveAs), NULL, this);
-    this->Disconnect(wxID_ANY, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler(MimicEditorPanelBase::onAddBackground), NULL, this);
+    this->Disconnect(wxID_NEW, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler(MimicEditorPanelBase::onNew), NULL, this);
+    this->Disconnect(wxID_OPEN, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler(MimicEditorPanelBase::onOpen), NULL, this);
+    this->Disconnect(wxID_SAVE, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler(MimicEditorPanelBase::onSave), NULL, this);
+    this->Disconnect(wxID_SAVEAS, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler(MimicEditorPanelBase::onSaveAs), NULL, this);
+    this->Disconnect(wxID_ADD, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler(MimicEditorPanelBase::onAddBackground), NULL, this);
     
 }
 

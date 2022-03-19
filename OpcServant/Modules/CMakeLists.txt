@@ -18,7 +18,7 @@ add_subdirectory(Mics6814)
 add_subdirectory(Link)
 add_subdirectory(OpcClient)
 add_subdirectory(NodeFlow)
-
+add_subdirectory(MimicDisplay)
 
 
 

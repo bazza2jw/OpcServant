@@ -22,7 +22,9 @@ Procedural nodes are supported using the NodeFlow library (part of source). This
 
 Using Node Red with the Dashboard and SVG nodes, plus the "SCADA" nodes provided in the OpcServant distribution, allows for customisable user interfaces.
 
-Wordpress is another option.
+The Mimic library allows for the desktop interface to have SCADA type control displays. 
+
+Wordpress is another option for web based interface.
 
 Hopefully this is useful. If only as a range of examples for the use of wxWidgets, Wt and open62541 (OPC UA)
 

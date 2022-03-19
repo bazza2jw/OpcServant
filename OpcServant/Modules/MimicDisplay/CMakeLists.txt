@@ -4,6 +4,15 @@ project(${MODULE})
 
 set(CMAKE_CXX_STANDARD 17)
 set(LIB_SOURCES
+        MimicDisplayUI.cpp
+        MimicDisplayUI_mimicdisplay_bitmaps.cpp
+        MimicDisplayConfigurationDialog.cpp
+        MimicEditorDialog.cpp
+        mimicdisplayplugin.cpp
+        mimicdisplayobjectmanager.cpp
+        mimicdisplayrt.cpp
+        MimicTabDisplay.cpp
+        opcservantobjects.cpp
     )
 
 set(PROJECT_LIB_FLAGS Common MrlLib Mimic ${NODEFLOWLIBS})

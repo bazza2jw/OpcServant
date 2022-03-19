@@ -68,6 +68,7 @@ namespace MIMIC
         // Read & write to config
         virtual void fromData(MimicSet *);
         virtual void toData(MimicSet *);
+        //
         void toPath(MRL::PropertyPath &p) // path in tree to a node
         {
             p.clear();
@@ -81,12 +82,12 @@ namespace MIMIC
         virtual void load(PropertiesEditorDialog &dlg,MimicSet &ns,MRL::PropertyPath p);
         virtual void save(PropertiesEditorDialog &dlg,MimicSet &ns,MRL::PropertyPath p);
         //
-        virtual void onClick(wxPoint pt) {}
-        virtual void onMove(wxPoint pt) {}
+        virtual void onClick(wxWindow */*parent*/, wxPoint /*pt*/,MimicSet * /*set*/) {}
+        virtual void onMove(wxWindow */*parent*/,  wxPoint /*pt*/,MimicSet  * /*set*/) {}
         //
         virtual wxColour & colour() { return _colour;} // node colour
         virtual wxColour & textColour() { return _textColour;} // text node colour
-        virtual void process() {} // periodic processing
+        virtual void process(MimicSet *) {} // periodic processing
     };
     typedef std::unique_ptr<MimicObject> MIMICOBJECTPTR;
 }

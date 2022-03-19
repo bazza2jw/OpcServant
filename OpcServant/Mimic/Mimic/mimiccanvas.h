@@ -119,7 +119,7 @@ public:
     virtual void onMotion(wxMouseEvent& event);
     virtual void onRightDown(wxMouseEvent& event);
     void onPopupClick(wxCommandEvent &evt);
-
+    MIMIC::MimicSet & objects() { return  _objects;}
 };
 
 #endif // MIMICCANVAS_H

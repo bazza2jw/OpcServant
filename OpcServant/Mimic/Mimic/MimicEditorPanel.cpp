@@ -1,8 +1,8 @@
 #include "MimicEditorPanel.h"
 #include <wx/dnd.h>
 #include "mimictype.h"
-MimicEditorPanel::MimicEditorPanel(wxWindow* parent)
-    : MimicEditorPanelBase(parent)
+MimicEditorPanel::MimicEditorPanel(wxWindow* parent, wxWindowID id , const wxPoint& pos ,  const wxSize& size , long style )
+: MimicEditorPanelBase(parent,id,pos,size,style)
 {
 
     _canvas = new MimicCanvas(GetSplitterPageCanvas());
