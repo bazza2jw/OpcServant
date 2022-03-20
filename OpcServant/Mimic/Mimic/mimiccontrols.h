@@ -12,16 +12,24 @@ namespace MIMIC
 class LedObject : public CircleObject
 {
     bool _on = false; // boolean display
+    wxColour _currentColour = *wxLIGHT_GREY;
 public:
     LedObject(unsigned i = 0, unsigned t = 0) : CircleObject(i,t) {}
     void setOn(bool f) {
         _on = f;
+        if(_on)
+        {
+            _currentColour = MimicObject::colour();
+        }
+        else
+        {
+            _currentColour = *wxLIGHT_GREY;
+        }
     }
     //
     virtual wxColour & colour()
     {
-        if(_on)  return MimicObject::colour();
-        return MimicObject::colour().MakeDisabled(128);
+        return _currentColour;
     }
     //
 };
@@ -74,7 +82,7 @@ public:
         //
         v = dlg.loader().fields()[6]->GetValue();
         _ackOn = v.GetBool();
-        ns.data().setValue("ACK",_ackOn);
+        ns.data().setValue(p,"ACK",_ackOn);
         v = dlg.loader().fields()[7]->GetValue();
         _text = v.GetString();
     }
@@ -112,7 +120,9 @@ public:
      * \param t
      */
     LedDisplayObject(unsigned i = 0, unsigned t = 0);
-    bool canResize() const { return false;}
+    bool canResize() const {
+        return false;
+    }
     /*!
      * \brief setValue
      * \param v
@@ -124,7 +134,9 @@ public:
         rect().SetSize(sz);
     }
 
-    void setFormat(const wxString &s) { _format = s;}
+    void setFormat(const wxString &s) {
+        _format = s;
+    }
 
     void drawNumber(wxDC &dc, std::vector<wxBitmap> &l, wxPoint &p, char c)
     {
@@ -169,6 +181,12 @@ public:
             }
         }
     }
+    /*!
+     * \brief load
+     * \param dlg
+     * \param ns
+     * \param p
+     */
     virtual void load(PropertiesEditorDialog &dlg,MimicSet &ns,MRL::PropertyPath p)
     {
         RectObject::load(dlg,ns,p);
@@ -176,11 +194,18 @@ public:
         dlg.loader().addStringProperty("Format","Format",ns.data().getValue<std::string>(p,"FORMAT")); // field[5]
         dlg.loader().addBoolProperty("Use Nixie","Nixie",ns.data().getValue<bool>(p,"NIXIE")); // field[6]
     }
+    /*!
+     * \brief save
+     * \param dlg
+     * \param ns
+     * \param p
+     */
     virtual void save(PropertiesEditorDialog &dlg,MimicSet &ns,MRL::PropertyPath p)
     {
         RectObject::save(dlg,ns,p);
         wxVariant v = dlg.loader().fields()[4]->GetValue();
         _text = v.GetString();
+        if(_text.IsEmpty()) _text = "    0.0";
         v = dlg.loader().fields()[5]->GetValue();
         _format = v.GetString();
         v = dlg.loader().fields()[6]->GetValue();
@@ -191,6 +216,17 @@ public:
         ns.data().setValue(p,"NIXIE",_nixieMode);
         //
     }
+
+    virtual void toData(MimicSet *set)
+    {
+        RectObject::toData(set);
+        MRL::PropertyPath p;
+        toPath(p);
+        set->data().setValue(p,"TEXT",_text.ToStdString());
+        set->data().setValue(p,"FORMAT",_format.ToStdString());
+        set->data().setValue(p,"NIXIE",_nixieMode);
+    }
+
     virtual void fromData(MimicSet *set)
     {
         RectObject::fromData(set);

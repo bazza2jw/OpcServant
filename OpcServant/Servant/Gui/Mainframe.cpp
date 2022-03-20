@@ -341,7 +341,7 @@ void Mainframe::onPeriodicTimer(wxTimerEvent &/*event*/) {
         MRL::Message m(MESSAGEID::IdleTimeout);
         BObject::sendMessage(MRL::Daq::instance(),m); // hint for idle timeout - UIs switch to default - close admin pages
         setMainTab();
-        GetNavigation()->Disable();
+        //GetNavigation()->Disable();
     }
 }
 

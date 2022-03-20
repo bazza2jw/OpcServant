@@ -27,8 +27,6 @@ class MimicCanvas : public wxScrolled<wxWindow>
     wxRect _rect;
     wxPoint _currentpoint;
     wxPoint _startpoint;
-    std::string _fileName;
-    std::string _backgroundBitmap;
     wxPoint lastPt;
     wxOverlay _overlay;
     bool _editMode = true;
@@ -62,6 +60,10 @@ public:
         _dropTarget = new CanvasDropTarget(this);
         SetDropTarget 	( _dropTarget );
         SetCursor(*wxCROSS_CURSOR);
+        //
+        wxColour background(wxTheColourDatabase->Find("WHEAT"));
+        SetBackgroundColour(background);
+        //
         Connect(wxEVT_LEFT_DOWN, wxMouseEventHandler(MimicCanvas::onLeftDown), NULL, this);
         Connect(wxEVT_LEFT_UP, wxMouseEventHandler(MimicCanvas::onLeftUp), NULL, this);
         Connect(wxEVT_RIGHT_DOWN, wxMouseEventHandler(MimicCanvas::onRightDown), NULL, this);
@@ -99,6 +101,7 @@ public:
     void newMimic()
     {
         _objects.clear();
+        _backgroundImage = wxBitmap();
         Refresh();
     }
     //

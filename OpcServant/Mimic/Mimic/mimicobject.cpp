@@ -42,9 +42,12 @@ void MIMIC::MimicObject::toData(MimicSet *set)
     set->data().setValue(p,"H",_rect.GetHeight());
     set->data().setValue(p,"TYPE",_type);
     set->data().setValue(p,"ID",_id);
-    set->data().setValue(p,"Colour","White");
-    set->data().setValue(p,"TextColour","Black");
-
+    wxString c = _colour.GetAsString();
+    set->data().setValue(p,"Colour",c.ToStdString());
+    c = _textColour.GetAsString();
+    set->data().setValue(p,"TextColour",c.ToStdString());
+    set->data().setValue(p,"NAME",_name);
+    set->data().setValue(p,"ENABLED",_enabled);
     // colour is set by property sheets
 }
 /*!

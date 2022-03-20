@@ -12,6 +12,7 @@ void initialiseBaseTypes()
     (void) new MIMIC::MimicObjectType<MIMIC::RectObject>("Rectangle");
     (void) new MIMIC::MimicObjectType<MIMIC::TextObject>("Text");
     (void) new MIMIC::MimicObjectType<MIMIC::IconObject>("Icon");
+    (void) new MIMIC::MimicObjectType<MIMIC::GotoObject>("Goto");
 
 }
 
@@ -86,5 +87,46 @@ void MIMIC::IconObject::save(PropertiesEditorDialog &dlg,MimicSet &ns,MRL::Prope
         ns.data().setValue(p,"ICON",s);
         fromData(&ns);
     }
-
 }
+
+
+static  wxArrayString staticGotoList;
+
+void MIMIC::GotoObject::load(PropertiesEditorDialog &dlg,MimicSet &ns,MRL::PropertyPath p)
+{
+    IconObject::load(dlg,ns,p);
+    // list the icons directory
+    wxArrayString l;
+    MRL::getFileList(staticGotoList,MIMIC_ROOT_DIR "/mimic","*.mim");
+    wxString c(ns.data().getValue<std::string>(p,"LINK"));
+    int i = staticGotoList.Index(c);
+    if(i < 0) i = 0;
+    //
+    wxEnumProperty * e = dlg.loader().addChoiceProperty("Link", "Link", i, staticGotoList);
+    if(e)
+    {
+        e->SetChoiceSelection(i);
+    }
+}
+
+/*!
+ * \brief MIMIC::IconObject::save
+ * \param dlg
+ * \param ns
+ * \param p
+ */
+void MIMIC::GotoObject::save(PropertiesEditorDialog &dlg,MimicSet &ns,MRL::PropertyPath p)
+{
+    IconObject::save(dlg,ns,p);
+    wxEnumProperty *e = dynamic_cast<wxEnumProperty *>(dlg.loader().fields()[5]);
+    if(e)
+    {
+        std::string s = staticGotoList[e->GetChoiceSelection()].ToStdString();
+        ns.data().setValue(p,"LINK",s);
+        fromData(&ns);
+    }
+}
+
+
+
+

@@ -48,6 +48,8 @@ namespace MRL {
 
     constexpr const char *OBJECTDATABASE = "OBJECTDATABASE.DB";
     constexpr const char *FOLDER_TYPE = "Folder";
+    constexpr const char *SITE_TYPE = "Site";
+
 
     enum {
         ObjectManagerAdd = 2000,

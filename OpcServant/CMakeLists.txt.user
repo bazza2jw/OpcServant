@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 4.11.0, 2022-03-19T16:47:40. -->
+<!-- Written by QtCreator 4.11.0, 2022-03-20T16:15:41. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
@@ -541,7 +541,7 @@
     <value type="bool" key="RunConfiguration.UseMultiProcess">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory"></value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory">/usr/local/OpcServant/bin</value>
     <value type="QString" key="RunConfiguration.WorkingDirectory.default">/Development/Projects/MRL/OpcServant/build-OpcServant-Desktop-Debug/NodeFlow/NodeEditor</value>
    </valuemap>
    <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.4">
@@ -766,7 +766,7 @@
     <value type="bool" key="RunConfiguration.UseMultiProcess">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory"></value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory">/usr/local/OpcServant/bin</value>
     <value type="QString" key="RunConfiguration.WorkingDirectory.default">/Development/Projects/MRL/OpcServant/build-OpcServant-Desktop-Debug/Mimic/MimicEditor</value>
    </valuemap>
    <value type="int" key="ProjectExplorer.Target.RunConfigurationCount">7</value>

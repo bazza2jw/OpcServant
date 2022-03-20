@@ -174,8 +174,18 @@ MimicTabDisplayBase::MimicTabDisplayBase(wxWindow* parent, wxWindowID id, const 
     canvasSizer = new wxBoxSizer(wxVERTICAL);
     this->SetSizer(canvasSizer);
     
+    m_toolbar47 = new wxToolBar(this, wxID_ANY, wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), wxTB_FLAT);
+    m_toolbar47->SetToolBitmapSize(wxSize(16,16));
+    
+    canvasSizer->Add(m_toolbar47, 0, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    
+    m_toolbar47->AddTool(wxID_HOME, _("Home"), wxArtProvider::GetBitmap(wxART_GO_HOME, wxART_TOOLBAR, wxDefaultSize), wxNullBitmap, wxITEM_NORMAL, _("Reload Mimic"), wxT(""), NULL);
+    
+    m_toolbar47->AddTool(wxID_BACKWARD, _("Back"), wxArtProvider::GetBitmap(wxART_GO_BACK, wxART_TOOLBAR, wxDefaultSize), wxNullBitmap, wxITEM_NORMAL, wxT(""), wxT(""), NULL);
+    m_toolbar47->Realize();
+    
     m_timer = new wxTimer;
-    m_timer->Start(1000, false);
+    m_timer->Start(3000, false);
     
     SetName(wxT("MimicTabDisplayBase"));
     SetSize(wxDLG_UNIT(this, wxSize(600,400)));
@@ -183,12 +193,16 @@ MimicTabDisplayBase::MimicTabDisplayBase(wxWindow* parent, wxWindowID id, const 
          GetSizer()->Fit(this);
     }
     // Connect events
+    this->Connect(wxID_HOME, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler(MimicTabDisplayBase::onHome), NULL, this);
+    this->Connect(wxID_BACKWARD, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler(MimicTabDisplayBase::onBack), NULL, this);
     m_timer->Connect(wxEVT_TIMER, wxTimerEventHandler(MimicTabDisplayBase::onTimer), NULL, this);
     
 }
 
 MimicTabDisplayBase::~MimicTabDisplayBase()
 {
+    this->Disconnect(wxID_HOME, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler(MimicTabDisplayBase::onHome), NULL, this);
+    this->Disconnect(wxID_BACKWARD, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler(MimicTabDisplayBase::onBack), NULL, this);
     m_timer->Disconnect(wxEVT_TIMER, wxTimerEventHandler(MimicTabDisplayBase::onTimer), NULL, this);
     
     m_timer->Stop();

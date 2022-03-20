@@ -6,13 +6,11 @@
  * \param id
  */
 MimicTabDisplay::MimicTabDisplay(wxWindow* parent, unsigned id)
-    : MimicTabDisplayBase(parent), BObject(id)
+    : MimicTabDisplayBase(parent),_id(id)
 {
     // load the mimic
     _canvas = new MimicCanvas(this);
     canvasSizer->Add(_canvas, 1, wxALL|wxEXPAND, WXC_FROM_DIP(5));
-    join(MRL::Daq::instance()); // attach to the DAQ manager
-    MRL::BObject::setEnabled(true); // enable this object
     _canvas->setEditMode(false);
 }
 /*!
@@ -28,7 +26,7 @@ MimicTabDisplay::~MimicTabDisplay()
  */
 void MimicTabDisplay::load()
 {
-    MRL::RtObjectRef &r = MRL::Common::daq().objects()[dbId()];
+    MRL::RtObjectRef &r = MRL::Common::daq().objects()[_id];
     if(r && _canvas)
     {
         MRL::VariantPropertyTree &t = r->configuration();
@@ -50,49 +48,22 @@ void MimicTabDisplay::onTimer(wxTimerEvent& /*event*/)
     // drive the mimic updates
     _canvas->objects().process();
     if(!_loaded) load();
-    BObject::process();
     _canvas->Refresh();
 }
 
-
-bool MimicTabDisplay::processQueueItem(const MRL::Message &msg)
+/*!
+ * \brief MimicTabDisplay::onHome
+ * \param event
+ */
+void MimicTabDisplay::onHome(wxCommandEvent& event)
 {
-    if (!MRL::BObject::processQueueItem(msg)) {
-        // notifications from DAQ thread
-        switch (msg.id()) {
-        //
-        case MESSAGEID::Started: // object has started
-        {
-            if(msg.source() == dbId())
-            {
-                _loaded = false;
-            }
-            break;
-
-            case MESSAGEID::Stopped: // object has started
-            {
-                if(msg.source() == dbId())
-                {
-                }
-            }
-            break;
-
-            case MESSAGEID::IdleTimeout:
-
-                break;
-
-            case MESSAGEID::Update_Object:
-            {
-                if(msg.source() == dbId())
-                {
-                }
-            }
-            break;
-
-            default:
-                return false;
-            }
-        }
-    }
-    return true;
+    _loaded = false; // force a reload of the root mimic - in principle we could page in various mimics
+}
+/*!
+ * \brief MimicTabDisplay::onBack
+ * \param event
+ */
+void MimicTabDisplay::onBack(wxCommandEvent& event)
+{
+    // TBD - pop previous mimic
 }

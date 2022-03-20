@@ -1,6 +1,6 @@
 #include "mimicset.h"
 #include "mimictype.h"
-
+#include <wx/file.h>
 static MIMIC::MIMICOBJECTPTR nullObj;
 
 /*!
@@ -13,10 +13,12 @@ void MIMIC::MimicSet::addObject(const wxPoint &pt, const std::string &type)
     MimicType * t = MimicType::find(type);
     if(t)
     {
-        MimicObject * o = t->create(_nextId++);
+        MimicObject * o = t->create(_nextId);
         o->rect() = wxRect(pt,wxSize(50,50));
+        o->setName("N" + std::to_string(_nextId) );
         o->toData(this); // store it
         _objects[o->id()] = std::move(std::unique_ptr<MimicObject>(o));
+        _nextId++;
     }
 }
 /*!
@@ -153,4 +155,29 @@ void MIMIC::MimicSet::toData() // write to tree
         }
     }
 }
+
+/*!
+ * \brief MIMIC::MimicSet::readSet
+ * \param f
+ */
+bool MIMIC::MimicSet::readSet(const std::string &f)
+{
+    if(wxFile::Exists(f))
+    {
+        clear();
+        _fileName = f;
+        // proceed loading the file chosen by the user;
+        if(data().load(_fileName))
+        {
+            fromData();
+            return true;
+        }
+        else
+        {
+            wxLogDebug("Failed to load mim file");
+        }
+    }
+    return false;
+}
+
 

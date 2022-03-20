@@ -22,6 +22,7 @@
 #include <wx/button.h>
 #include <wx/panel.h>
 #include "Mimic/Mimic/MimicEditorPanel.h"
+#include <wx/toolbar.h>
 #include <wx/timer.h>
 #if wxVERSION_NUMBER >= 2900
 #include <wx/persist.h>
@@ -96,12 +97,16 @@ class MimicTabDisplayBase : public wxPanel
 {
 protected:
     wxBoxSizer* canvasSizer;
+    wxToolBar* m_toolbar47;
     wxTimer* m_timer;
 
 protected:
+    virtual void onHome(wxCommandEvent& event) { event.Skip(); }
+    virtual void onBack(wxCommandEvent& event) { event.Skip(); }
     virtual void onTimer(wxTimerEvent& event) { event.Skip(); }
 
 public:
+    wxToolBar* GetToolbar47() { return m_toolbar47; }
     wxTimer* GetTimer() { return m_timer; }
     MimicTabDisplayBase(wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize(600,400), long style = wxTAB_TRAVERSAL);
     virtual ~MimicTabDisplayBase();

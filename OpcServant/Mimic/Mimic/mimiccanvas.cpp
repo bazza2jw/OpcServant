@@ -14,20 +14,26 @@ void MimicCanvas::addObject(int x, int y, const std::string &key)
     int xx = 0;
     int yy = 0;
     CalcUnscrolledPosition( x, y, &xx, &yy );
-
     _objects.addObject(wxPoint(xx,yy),key);
     Refresh();
     Update();
-
 }
 
-
+/*!
+ * \brief MimicCanvas::setBackground
+ * \param s
+ */
 void MimicCanvas::setBackground(const std::string &s)
 {
-    _backgroundImage.LoadFile(s,wxBITMAP_TYPE_ANY);
+    wxBitmap b;
+    b.LoadFile(s,wxBITMAP_TYPE_ANY);
+    _backgroundImage = b;
+    _objects.setBackgroundImage(s);
     Refresh();
 }
-
+/*!
+ * \brief MimicCanvas::open
+ */
 void MimicCanvas::open()
 {
     wxFileDialog  openFileDialog(this, _("Open Mimic File"), "", "", "MIM files (*.mim)|*.mim", wxFD_OPEN|wxFD_FILE_MUST_EXIST);
@@ -36,51 +42,50 @@ void MimicCanvas::open()
     readSet(f);
 
 }
-
+/*!
+ * \brief MimicCanvas::readSet
+ * \param f
+ */
 void MimicCanvas::readSet(const std::string &f)
 {
-    _fileName = f;
-    if(wxFile::Exists(f))
+    if(_objects.readSet(f))
     {
-        _objects.clear();
-        // proceed loading the file chosen by the user;
-        if(_objects.data().load(_fileName))
-        {
-            _objects.fromData();
-        }
-        else
-        {
-            wxLogDebug("Failed to load mim file");
-        }
+        setBackground(_objects.backgroundImage());
     }
     Refresh();
-
 }
-
+/*!
+ * \brief MimicCanvas::save
+ */
 void MimicCanvas::save()
 {
-    if(_fileName.empty())
+    if(_objects.fileName().empty())
     {
         saveAs();
     }
     else
     {
         _objects.toData();
-        _objects.data().save(_fileName);
+        _objects.data().save(_objects.fileName());
     }
 
 }
-
+/*!
+ * \brief MimicCanvas::saveAs
+ */
 void MimicCanvas::saveAs()
 {
     wxFileDialog  saveFileDialog(this, _("Save Mimic File"), "", "", "MIM files (*.mim)|*.mim", wxFD_SAVE|wxFD_OVERWRITE_PROMPT);
     if (saveFileDialog.ShowModal() == wxID_CANCEL) return;     // the user changed idea...
-    _fileName = saveFileDialog.GetPath().ToStdString();
+    std::string f = saveFileDialog.GetPath().ToStdString();
     _objects.toData();
-    _objects.data().save(_fileName);
-
+    _objects.data().save(f);
+    _objects.setFileName(f);
 }
-//
+/*!
+/*! * \brief MimicCanvas::OnDraw
+/*! * \param dc
+/*! */
 void MimicCanvas::OnDraw (wxDC &dc)
 {
     wxRect r = this->GetRect(); // when pan and zoom added change to draw only in region
@@ -92,16 +97,28 @@ void MimicCanvas::OnDraw (wxDC &dc)
     _objects.draw(dc,r);
 
 }
+/*!
+ * \brief MimicCanvas::OnCaptureLost
+ * \param event
+ */
 void MimicCanvas::OnCaptureLost(wxMouseCaptureLostEvent& event)
 {
     _state = NONE;
     ReleaseMouse();
     Refresh();
 }
+/*!
+ * \brief MimicCanvas::onChar
+ * \param event
+ */
 void MimicCanvas::onChar(wxKeyEvent& event)
 {
 
 }
+/*!
+ * \brief MimicCanvas::onLeftDown
+ * \param event
+ */
 void MimicCanvas::onLeftDown(wxMouseEvent& event)
 {
     //
@@ -213,11 +230,7 @@ void MimicCanvas::onLeftDown(wxMouseEvent& event)
             event.GetPosition(&x,&y);
             CalcUnscrolledPosition( x, y, &xx, &yy );
             _currentpoint = wxPoint( xx, yy ) ;
-            MIMIC::MIMICOBJECTPTR &o = _objects.hitTest(_currentpoint);
-            if(o)
-            {
-                o->onClick(this,_currentpoint,&_objects);
-            }
+            _objects.onClick(this,_currentpoint);
         }
     }
     break;
@@ -225,6 +238,10 @@ void MimicCanvas::onLeftDown(wxMouseEvent& event)
     Refresh();
 
 }
+/*!
+ * \brief MimicCanvas::onLeftUp
+ * \param event
+ */
 void MimicCanvas::onLeftUp(wxMouseEvent& event)
 {
 
@@ -357,7 +374,10 @@ void MimicCanvas::onMotion(wxMouseEvent& event)
 }
 
 
-
+/*!
+ * \brief MimicCanvas::onPopupClick
+ * \param evt
+ */
 void MimicCanvas::onPopupClick(wxCommandEvent &evt)
 {
     if(_currentObject)

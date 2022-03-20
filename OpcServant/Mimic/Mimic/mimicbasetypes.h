@@ -52,6 +52,9 @@ public:
         MimicObject::draw(dc);
     }
 };
+
+
+
 /*!
  * \brief The TextObject class
  */
@@ -149,8 +152,34 @@ public:
     wxBitmap & bitmap() { return  _map[_icon];}
     //
 };
-
-
+//
+// link to another mimic - expect to push the current mimic and then make this mimic the current mimic
+// Better to use conventional dialogs for data entry etc
+//
+class GotoObject : public IconObject
+{
+    std::string _link;
+public:
+    GotoObject(unsigned i = 0, unsigned t = 0) : IconObject(i,t) {}
+    void setLink(const std::string &s) { _link = s;}
+    const std::string & link() { return _link;}
+    virtual void fromData(MimicSet *set)
+    {
+        IconObject::fromData(set);
+        MRL::PropertyPath p;
+        toPath(p);
+        _link = set->data().getValue<std::string>(p,"LINK");
+    }
+    //
+    virtual void load(PropertiesEditorDialog &dlg,MimicSet &ns,MRL::PropertyPath p);
+    virtual void save(PropertiesEditorDialog &dlg,MimicSet &ns,MRL::PropertyPath p);
+    //
+    virtual void onClick(wxWindow */*parent*/, wxPoint /*pt*/,MimicSet *set)
+    {
+        std::string f = std::string(MIMIC_ROOT_DIR "/mimic/")  + _link;
+        set->gotoSet(f); // object destroyed when return
+    }
+};
 
 
 

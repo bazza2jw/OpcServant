@@ -9,19 +9,21 @@
 #include <Mimic/Mimic/mimicset.h>
 #include <Common/common.h>
 
-class MimicTabDisplay : public MimicTabDisplayBase, public MRL::BObject
+class MimicTabDisplay : public MimicTabDisplayBase
 {
     std::string _fileName; // the file name of th emimic file
     MIMIC::MimicSet _objects;
     MimicCanvas * _canvas = nullptr;
     bool _loaded = false;
+    unsigned _id = 0;
 
 public:
     MimicTabDisplay(wxWindow* parent, unsigned id);
     virtual ~MimicTabDisplay();
-    bool processQueueItem(const MRL::Message &msg);
 
 protected:
+    virtual void onBack(wxCommandEvent& event);
+    virtual void onHome(wxCommandEvent& event);
     virtual void onTimer(wxTimerEvent& event);
     void load();
 };

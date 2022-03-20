@@ -20,6 +20,9 @@ namespace MIMIC
         MRL::VariantPropertyTree _data; // data tree
         MIMICOBJECTMAP _objects;
         std::string _backgroundImage; // path to the background
+        //
+        std::stack<std::string> _stack;
+        std::string _fileName;
 
     public:
         typedef enum
@@ -45,9 +48,12 @@ namespace MIMIC
         void draw(wxDC &dc, wxRect &r);
         void clear()
         {
+            _fileName.clear();
             _objects.clear();
             _nextId = 100;
             _data.clear();
+            _backgroundImage.clear();
+            toData();
         }
         /*!
          * \brief process
@@ -63,6 +69,40 @@ namespace MIMIC
                 }
             }
         }
+
+        const std::string & fileName() { return _fileName;}
+        void setFileName(const std::string &f) { _fileName = f;}
+
+        const std::string &backgroundImage() { return   _backgroundImage;}
+        void setBackgroundImage(const std::string &s){ _backgroundImage = s;}
+
+         void onClick(wxWindow *parent, wxPoint pt)
+         {
+             MIMIC::MIMICOBJECTPTR &o = hitTest(pt);
+             if(o)
+             {
+                 o->onClick(parent,pt,this);
+             }
+         }
+
+         bool readSet(const std::string &f);
+
+         void gotoSet(const std::string &s)
+         {
+            _stack.push(_fileName);
+            readSet(s);
+         }
+
+         void popSet()
+         {
+             if(!_stack.empty())
+             {
+                 clear();
+                 readSet(_stack.top());
+                 _stack.pop();
+             }
+         }
+
 
     };
 }
