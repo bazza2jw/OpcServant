@@ -26,6 +26,10 @@ public:
             _currentColour = *wxLIGHT_GREY;
         }
     }
+    bool canResize() const {
+        return false;
+    }
+
     //
     virtual wxColour & colour()
     {
@@ -52,8 +56,17 @@ public:
         Alert,
         Action
     };
+    /*!
+     * \brief TrafficLightObject
+     * \param i
+     * \param t
+     */
     TrafficLightObject(unsigned i = 0, unsigned t = 0) : IconObject(i,t) {}
     void draw(wxDC &dc);
+
+    bool canResize() const {
+        return false;
+    }
 
     void setState(unsigned v) {
         _state = v;
@@ -64,7 +77,12 @@ public:
     void setText(const std::string &s) {
         _text = s;
     }
-
+    /*!
+     * \brief load
+     * \param dlg
+     * \param ns
+     * \param p
+     */
     virtual void load(PropertiesEditorDialog &dlg,MimicSet &ns,MRL::PropertyPath p)
     {
         IconObject::load(dlg,ns,p);
@@ -73,6 +91,12 @@ public:
         dlg.loader().addStringProperty("Text","Text",_text); // field[7]
 
     }
+    /*!
+     * \brief save
+     * \param dlg
+     * \param ns
+     * \param p
+     */
     virtual void save(PropertiesEditorDialog &dlg,MimicSet &ns,MRL::PropertyPath p)
     {
         IconObject::save(dlg,ns,p);
@@ -86,6 +110,10 @@ public:
         v = dlg.loader().fields()[7]->GetValue();
         _text = v.GetString();
     }
+    /*!
+     * \brief fromData
+     * \param set
+     */
     virtual void fromData(MimicSet *set)
     {
         IconObject::fromData(set);
@@ -120,24 +148,35 @@ public:
      * \param t
      */
     LedDisplayObject(unsigned i = 0, unsigned t = 0);
-    bool canResize() const {
-        return false;
-    }
+    /*!
+     * \brief canResize
+     * \return
+     */
+    bool canResize() const { return false; }
     /*!
      * \brief setValue
      * \param v
      */
     void setValue(double v)
     {
-        _text = wxString::Format(_format);
+        _text = wxString::Format(_format,v);
         wxSize sz(_ledBitmap[0].GetSize().GetWidth() * _text.Length(), _ledBitmap[0].GetSize().GetHeight());
         rect().SetSize(sz);
     }
-
+    /*!
+     * \brief setFormat
+     * \param s
+     */
     void setFormat(const wxString &s) {
         _format = s;
     }
-
+    /*!
+     * \brief drawNumber
+     * \param dc
+     * \param l
+     * \param p
+     * \param c
+     */
     void drawNumber(wxDC &dc, std::vector<wxBitmap> &l, wxPoint &p, char c)
     {
         wxBitmap b;
@@ -216,7 +255,10 @@ public:
         ns.data().setValue(p,"NIXIE",_nixieMode);
         //
     }
-
+    /*!
+     * \brief toData
+     * \param set
+     */
     virtual void toData(MimicSet *set)
     {
         RectObject::toData(set);
@@ -226,7 +268,10 @@ public:
         set->data().setValue(p,"FORMAT",_format.ToStdString());
         set->data().setValue(p,"NIXIE",_nixieMode);
     }
-
+    /*!
+     * \brief fromData
+     * \param set
+     */
     virtual void fromData(MimicSet *set)
     {
         RectObject::fromData(set);

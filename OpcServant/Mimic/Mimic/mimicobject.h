@@ -61,7 +61,7 @@ namespace MIMIC
         bool selected() const { return _selected;}
         void setSelected(bool f) { _selected = f;}
         //
-        bool canResize() const { return true;}
+        virtual bool canResize() const { return true;}
         //
         wxRect  &rect() { return _rect;}
         //

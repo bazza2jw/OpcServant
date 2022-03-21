@@ -161,5 +161,5 @@ MIMIC::LedDisplayObject::LedDisplayObject(unsigned i , unsigned t ) : RectObject
         _nixieBitmap[12] = _nixieImageList->Bitmap("m_NixieDP");// -
 
     }
-
+    setValue(0.0);
 }

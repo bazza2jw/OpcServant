@@ -175,6 +175,11 @@ void MimicCanvas::onLeftDown(wxMouseEvent& event)
                     if(_objects.hitPoint(_currentpoint, _currentObject->rect()) == MIMIC::MimicSet::HIT_OBJECT)
                     {
                         _state = OBJECT_SELECT;
+                        if(!HasCapture())
+                        {
+                            CaptureMouse() ;
+                            SetCursor(*wxCROSS_CURSOR);
+                        }
                     }
                     else
                     {
@@ -196,32 +201,25 @@ void MimicCanvas::onLeftDown(wxMouseEvent& event)
         //
         if(editMode())
         {
-            if(_state == NONE)
+            int x,y,xx,yy ;
+            event.GetPosition(&x,&y);
+            CalcUnscrolledPosition( x, y, &xx, &yy );
+            _currentpoint = wxPoint( xx, yy ) ;
+            MIMIC::MIMICOBJECTPTR &o = _objects.hitTest(_currentpoint);
+            if(o)
             {
-                int x,y,xx,yy ;
-                event.GetPosition(&x,&y);
-                CalcUnscrolledPosition( x, y, &xx, &yy );
-                _currentpoint = wxPoint( xx, yy ) ;
-                MIMIC::MIMICOBJECTPTR &o = _objects.hitTest(_currentpoint);
-                if(o)
+                _currentObject = o.get();
+                _currentObject->setSelected(true);
+                _rect = o->rect();
+                _state = OBJECT_SELECT;
+                _currentpoint = o->rect().GetTopLeft();
+                WarpPointer(_currentpoint.x,_currentpoint.y);
+                if(!HasCapture())
                 {
-                    _currentObject = o.get();
-                    _currentObject->setSelected(true);
-                    _rect = o->rect();
-                    _state = OBJECT_SELECT;
-                    _currentpoint = o->rect().GetTopLeft();
-                    WarpPointer(_currentpoint.x,_currentpoint.y);
-                    if(!HasCapture())
-                    {
-                        CaptureMouse() ;
-                        SetCursor(*wxCROSS_CURSOR);
-                    }
-                    _startpoint = _currentpoint;
+                    CaptureMouse() ;
+                    SetCursor(*wxCROSS_CURSOR);
                 }
-            }
-            else
-            {
-                _state = NONE;
+                _startpoint = _currentpoint;
             }
         }
         else
@@ -326,47 +324,58 @@ void MimicCanvas::onMotion(wxMouseEvent& event)
             dc.SetPen( wxPen( *wxLIGHT_GREY, 2 ) );
             dc.SetBrush( *wxTRANSPARENT_BRUSH );
             //
-            switch(_state)
+            if(_currentObject &&_currentObject->canResize())
             {
-            case OBJECT_SELECT:
-                _rect.SetPosition(_currentpoint);
-                break;
-            case ANCHOR_SELECT:
-            {
-                switch(_hitPoint)
+
+                switch(_state)
                 {
-                case MIMIC::MimicSet::HIT_ANCHOR1:
-                {
-                    // move left and top
-                    wxRect r(_currentpoint, _rect.GetBottomRight());
-                    _rect = r;
-                }
-                break;
-                case MIMIC::MimicSet::HIT_ANCHOR2:
-                {
-                    // move right and top
-                    wxPoint tl(_rect.GetLeft(), _currentpoint.y);
-                    wxPoint br(_currentpoint.x,_rect.GetBottom());
-                    _rect = wxRect(tl,br);
-                }
-                break;
-                case MIMIC::MimicSet::HIT_ANCHOR3:
-                    _rect.SetRightBottom(_currentpoint);
+                case OBJECT_SELECT:
+                    _rect.SetPosition(_currentpoint);
                     break;
-                case MIMIC::MimicSet::HIT_ANCHOR4:
+                case ANCHOR_SELECT:
                 {
-                    wxPoint tl(_currentpoint.x, _rect.GetTop());
-                    wxPoint br(_rect.GetRight(),_currentpoint.y);
-                    _rect = wxRect(tl,br);
+                    switch(_hitPoint)
+                    {
+                    case MIMIC::MimicSet::HIT_ANCHOR1:
+                    {
+                        // move left and top
+                        wxRect r(_currentpoint, _rect.GetBottomRight());
+                        _rect = r;
+                    }
+                    break;
+                    case MIMIC::MimicSet::HIT_ANCHOR2:
+                    {
+                        // move right and top
+                        wxPoint tl(_rect.GetLeft(), _currentpoint.y);
+                        wxPoint br(_currentpoint.x,_rect.GetBottom());
+                        _rect = wxRect(tl,br);
+                    }
+                    break;
+                    case MIMIC::MimicSet::HIT_ANCHOR3:
+                        _rect.SetRightBottom(_currentpoint);
+                        break;
+                    case MIMIC::MimicSet::HIT_ANCHOR4:
+                    {
+                        wxPoint tl(_currentpoint.x, _rect.GetTop());
+                        wxPoint br(_rect.GetRight(),_currentpoint.y);
+                        _rect = wxRect(tl,br);
+                    }
+                    break;
+                    default:
+                        break;
+                    }
                 }
                 break;
                 default:
                     break;
                 }
             }
-            break;
-            default:
-                break;
+            else
+            {
+                if(_state == OBJECT_SELECT)
+                {
+                    _rect.SetPosition(_currentpoint);
+                }
             }
             dc.DrawRectangle( _rect );
         }
