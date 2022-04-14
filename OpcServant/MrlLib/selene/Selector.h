@@ -166,15 +166,7 @@ public:
             ResetStackOnScopeExit save(_state);
             _traverse();
             _get();
-            if (std::uncaught_exceptions())
-            {
-                try {
-                    _evaluate_function_call(0);
-                } catch (...) {
-                    // We are already unwinding, ignore further exceptions.
-                    // As of C++17 consider std::uncaught_exceptions()
-                }
-            } else {
+            if (uncaughtExceptionCount == std::uncaught_exceptions()) {
                 _evaluate_function_call(0);
             }
         }
@@ -412,6 +404,7 @@ public:
         return !lua_isnil(_state, -1);
     }
 private:
+    int uncaughtExceptionCount = std::uncaught_exceptions();
     std::string ToString() const {
         ResetStackOnScopeExit save(_state);
         _evaluate_retrieve(1);

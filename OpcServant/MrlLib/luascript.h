@@ -1,12 +1,7 @@
 #ifndef LUASCRIPT_H
 #define LUASCRIPT_H
 // get the Selene interface in
-#include <MrlLib/mrllib.h>
 #include <MrlLib/selene.h>
-namespace MRL
-{
+#include <MrlLib/mrllib.h>
 
-
-
-}
 #endif // LUASCRIPT_H

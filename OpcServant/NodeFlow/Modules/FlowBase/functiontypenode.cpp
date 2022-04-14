@@ -27,6 +27,13 @@ void addFunctionNodes()
     NODEFLOW::NodeType::addType<NODEFLOW::TopicFilterTypeNode>("TopicFilter");
     NODEFLOW::NodeType::addType<NODEFLOW::FunctionTypeNode>("Function");
     NODEFLOW::NodeType::addType<NODEFLOW::RbeTypeNode>("Report By Exception");
+    NODEFLOW::NodeType::addType<NODEFLOW::RouteTypeNode>("Route By Topic 8 Way"); // 8 way
+    NODEFLOW::NodeType::addType<NODEFLOW::RouteTypeNode>("Route By Topic 16 Way", new NODEFLOW::RouteTypeNode("Route By Topic 16 Way",16)); // 16 way
+    NODEFLOW::NodeType::addType<NODEFLOW::RouteTypeNode>("Route By Topic 4 Way", new NODEFLOW::RouteTypeNode("Route By Topic 4 Way",4)); // 4 way
+
+    NODEFLOW::NodeType::addType<NODEFLOW::RouteByPayloadTypeNode>("Route By Value 8 Way");
+    NODEFLOW::NodeType::addType<NODEFLOW::RouteByPayloadTypeNode>("Route By Value 16 Way", new NODEFLOW::RouteByPayloadTypeNode("Route By Value 16 Way",16));
+    NODEFLOW::NodeType::addType<NODEFLOW::RouteByPayloadTypeNode>("Route By Value 4 Way", new NODEFLOW::RouteByPayloadTypeNode("Route By Value 4 Way",4));
 //
 // instance the operators
 //
@@ -245,6 +252,134 @@ void NODEFLOW::FunctionTypeNode::save(NODEFLOW::WebProperties *dlg,NODEFLOW::Nod
     ns.data().setValue(p,"Script",v);
 }
 
+
+
+/*!
+ * \brief load
+ * \param dlg
+ * \param ns
+ * \param p
+ */
+void NODEFLOW::RouteTypeNode::load(PropertiesEditorDialog &dlg,NodeSet &ns,MRL::PropertyPath p)
+{
+    NodeType::load(dlg,ns,p);
+    for(int i = 0; i < _nroutes; i++)
+    {
+        std::string k = std::string("Select") + std::to_string(i);
+        dlg.loader().addStringProperty(k,k,ns.data().getValue<std::string>(p,k));
+    }
+
+}
+/*!
+ * \brief save
+ * \param dlg
+ * \param ns
+ * \param p
+ */
+void NODEFLOW::RouteTypeNode::save(PropertiesEditorDialog &dlg,NodeSet &ns,MRL::PropertyPath p)
+{
+    NodeType::save(dlg,ns,p);
+    for(int i = 0; i < _nroutes; i++)
+    {
+        std::string k = std::string("Select") + std::to_string(i);
+        ns.data().setValue(p,k,dlg.loader().get<wxString>(PropField1+ i).ToStdString());
+    }
+}
+/*!
+ * \brief load
+ * \param dlg
+ * \param ns
+ * \param p
+ */
+void NODEFLOW::RouteTypeNode::load(NODEFLOW::WebProperties *dlg,NODEFLOW::NodeSet &ns,MRL::PropertyPath p)
+{
+    NodeType::load(dlg,ns,p);
+    for(int i = 0; i < _nroutes; i++)
+    {
+        std::string k = std::string("Select") + std::to_string(i);
+        dlg->addStringProperty(k,ns.data().getValue<std::string>(p,k));
+    }
+}
+/*!
+ * \brief save
+ * \param dlg
+ * \param ns
+ * \param p
+ */
+void NODEFLOW::RouteTypeNode::save(NODEFLOW::WebProperties *dlg,NODEFLOW::NodeSet &ns,MRL::PropertyPath p)
+{
+    NodeType::save(dlg,ns,p);
+    for(int i = 0; i < _nroutes; i++)
+    {
+        std::string k = std::string("Select") + std::to_string(i);
+        std::string  v =  dlg->getString(NODEFLOW::PropField1 + i);
+        ns.data().setValue(p,k,v);
+    }
+}
+
+
+/*!
+ * \brief load
+ * \param dlg
+ * \param ns
+ * \param p
+ */
+void NODEFLOW::RouteByPayloadTypeNode::load(PropertiesEditorDialog &dlg,NodeSet &ns,MRL::PropertyPath p)
+{
+    NodeType::load(dlg,ns,p);
+    for(int i = 0; i < _nroutes; i++)
+    {
+        std::string k = std::string("Select") + std::to_string(i);
+        dlg.loader().addIntProperty(k,k,ns.data().getValue<int>(p,k));
+    }
+
+}
+/*!
+ * \brief save
+ * \param dlg
+ * \param ns
+ * \param p
+ */
+void NODEFLOW::RouteByPayloadTypeNode::save(PropertiesEditorDialog &dlg,NodeSet &ns,MRL::PropertyPath p)
+{
+    NodeType::save(dlg,ns,p);
+    for(int i = 0; i < _nroutes; i++)
+    {
+        std::string k = std::string("Select") + std::to_string(i);
+        ns.data().setValue(p,k,dlg.loader().get<int>(PropField1+ i));
+    }
+}
+/*!
+ * \brief load
+ * \param dlg
+ * \param ns
+ * \param p
+ */
+void NODEFLOW::RouteByPayloadTypeNode::load(NODEFLOW::WebProperties *dlg,NODEFLOW::NodeSet &ns,MRL::PropertyPath p)
+{
+    NodeType::load(dlg,ns,p);
+    for(int i = 0; i < _nroutes; i++)
+    {
+        std::string k = std::string("Select") + std::to_string(i);
+        dlg->addIntProperty(k,ns.data().getValue<int>(p,k));
+    }
+}
+/*!
+ * \brief save
+ * \param dlg
+ * \param ns
+ * \param p
+ */
+void NODEFLOW::RouteByPayloadTypeNode::save(NODEFLOW::WebProperties *dlg,NODEFLOW::NodeSet &ns,MRL::PropertyPath p)
+{
+    NodeType::save(dlg,ns,p);
+    for(int i = 0; i < _nroutes; i++)
+    {
+        std::string k = std::string("Select") + std::to_string(i);
+        int  v =  dlg->getInt(NODEFLOW::PropField1 + i);
+        ns.data().setValue(p,k,v);
+    }
+}
 
 
 

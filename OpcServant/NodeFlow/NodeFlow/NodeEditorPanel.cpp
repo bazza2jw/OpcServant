@@ -58,7 +58,7 @@ NodeEditorPanel::NodeEditorPanel(wxWindow* parent, wxWindowID id, const wxPoint 
         }
     }
     Connect(GetNodeTypes()->GetId(),wxEVT_COMMAND_TREE_BEGIN_DRAG,wxTreeEventHandler(NodeEditorPanel::onDragInit),NULL,this);
-    GetNodeTypes()->ExpandAll();
+    //GetNodeTypes()->ExpandAll();
 }
 /*!
  * \brief NodeEditorPanel::~NodeEditorPanel

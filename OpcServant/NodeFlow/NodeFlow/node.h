@@ -83,7 +83,8 @@ public:
     wxPoint location() const { return _location;}
     void setLocation(wxPoint pt) { _location = pt;}
     void setLocation(int x, int y) {_location.x = x; _location.y = y;}
-    const NodeLayout &layout();
+    virtual const NodeLayout &layout();
+
     NodeType * nodeType() const;
     //
     VALUE & data() { return _data;}

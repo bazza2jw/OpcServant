@@ -297,4 +297,6 @@ void addValueNodes()
     NODEFLOW::NodeType::addType<NODEFLOW::GlobalFloatNodeType>("GlobalFloat");
     NODEFLOW::NodeType::addType<NODEFLOW::GlobalStringNodeType>("GlobalString");
     //
+    NODEFLOW::NodeType::addType<NODEFLOW::RampNodeType<int, NODEFLOW::Integer> >("IntRamp");
+
 }

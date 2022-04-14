@@ -28,6 +28,29 @@ const char * NODEFLOW::NodeType::props[NODEFLOW::NumberConnectionType] =
     "Float,%s,%s,0.0,-10000000.0,10000000.0",
     "String,%s,%s, , , "
 };
+
+/*!
+ * \brief NODEFLOW::NodeLayout::generate
+ */
+void NODEFLOW::NodeLayout::generate(int in, int out)
+{
+    int h =  NODE_TITLE_BAR_HEIGHT + NODE_RECT_HEIGHT_MARGIN ; // title
+    h += CONNECTION_SPACE * std::max(in, out);
+    wxRect r(0,0,NODE_RECT_WIDTH,h);
+    setRect(r);
+    //
+    // set the connection positions
+    for(int i = 0 ; i < in; i++)
+    {
+        addInput(wxPoint(0,NODE_TITLE_BAR_HEIGHT + i *CONNECTION_SPACE), Any);
+    }
+
+    for(int i = 0; i < out; i++)
+    {
+        addOutput(wxPoint(NODE_RECT_WIDTH - CONNECTION_SIZE,NODE_TITLE_BAR_HEIGHT + i *CONNECTION_SPACE), Any);
+    }
+}
+
 //
 /*!
  * \brief calculate
@@ -149,25 +172,17 @@ void NODEFLOW::NodeType::setup()
     //
     setupConnections();
     //
-    _layout.setInputCount(inputs().size());
-    _layout.setOutputCount(outputs().size());
-
-    int h =  NODE_TITLE_BAR_HEIGHT + NODE_RECT_HEIGHT_MARGIN ; // title
-    h += CONNECTION_SPACE * ((inputs().size() > outputs().size())? inputs().size():outputs().size());
-    wxRect r(0,0,NODE_RECT_WIDTH,h);
-    _layout.setRect(r);
+    _layout.generate(inputs().size(),outputs().size());
     //
     // set the connection positions
     for(int i = 0 ; i < inputs().size(); i++)
     {
-        _layout.addInput(wxPoint(0,NODE_TITLE_BAR_HEIGHT + i *CONNECTION_SPACE),
-                         inputs()[i].type());
+        _layout.setInputType( i , inputs()[i].type());
     }
 
     for(int i = 0; i < outputs().size(); i++)
     {
-        _layout.addOutput(wxPoint(NODE_RECT_WIDTH - CONNECTION_SIZE,NODE_TITLE_BAR_HEIGHT + i *CONNECTION_SPACE),
-                          outputs()[i].type());
+        _layout.setOutputType( i , outputs()[i].type());
     }
 }
 

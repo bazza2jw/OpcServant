@@ -992,7 +992,7 @@ protected:
          * \brief load
          * \param file
          */
-        virtual void load(const NodeSet &ns, const std::string &script)
+        virtual void loadScript(const NodeSet &ns, const std::string &script)
         {
             _state.reset();
             _state = std::make_unique<sel::State>(true);
@@ -1011,8 +1011,8 @@ protected:
                                      "SetBool",&FunctionNodeInterface::setBool,
                                      "SetString",&FunctionNodeInterface::setString
                                     );
-
         }
+
 
         //
         VALUE & iData()
@@ -1033,6 +1033,7 @@ protected:
         LUASCRIPTPTR &stateRef() {
             return _state;
         }
+
 
     };
 
@@ -1065,6 +1066,7 @@ public:
      */
     virtual void start(NodeSet &ns,  NodePtr &node)
     {
+        NodeType::start(ns,node);
         try
         {
             if(node)
@@ -1073,7 +1075,7 @@ public:
                 node->toPath(p);
                 std::string f = ns.data().getValue<std::string>(p,"Script");
                 FunctionNode *n = static_cast<FunctionNode *>(node.get());
-                n->load(ns,f);
+                n->loadScript(ns,f);
                 LUASCRIPTPTR &sr =  n->stateRef();
                 ns.setupLuaApi(sr); // access node set functions
             }
@@ -1137,7 +1139,319 @@ public:
 
 };
 
+/*!
+ * \brief The RouteTypeNode class
+ * Route based on topic - multiway filter
+ */
+class RouteTypeNode : public NodeType // two inputs one output
+{
+    MRL::StringVector _outList;
+    int _nroutes = 8;
+public:
+    enum
+    {
+        InputA = 0,
+        Else = 0,
+        Output = 1
+    };
 
+public:
+    /*!
+     * \brief TopicChangeTypeNode
+     * \param s
+     */
+    RouteTypeNode(const std::string s, int nroutes = 8) : NodeType(s), _nroutes(nroutes)
+    {
+        if(_nroutes < 2) _nroutes = 8;
+        for(int i = 0; i < _nroutes; i++)
+        {
+            std::string s = std::string("Select") + std::to_string(i);
+            _outList.push_back(s);
+        }
+    }
+
+
+
+    virtual void start(NodeSet &ns,  NodePtr &node)
+    {
+        NodeType::start(ns,node);
+        try
+        {
+            if(node)
+            {
+                Json::Value arr_value(Json::arrayValue);
+                arr_value.resize(_nroutes);
+                MRL::PropertyPath p;
+                node->toPath(p);
+                for(int i = 0; i < _nroutes; i++)
+                {
+                    std::string s = ns.data().getValue<std::string>(p,_outList[i]);
+                    arr_value[i] = Json::Value(s);
+                }
+                node->data()["KEYS"] = arr_value; // store the array
+            }
+        }
+        CATCH_DEF
+    }
+
+
+
+    /*!
+     * \brief nodeClass
+     * \return
+     */
+    virtual const char * nodeClass() const {
+        return "Conditional Operators";
+    }
+
+
+
+    /*!
+     * \brief setupConnections
+     */
+    void setupConnections()
+    {
+        inputs().resize(1);
+        inputs()[0] = Connection("in",Multiple,Any);
+        //
+        // set up the outputs
+        outputs().resize(_nroutes + 1);
+        outputs()[0] = Connection("else",Multiple,Any);  // no match output - can chain
+        for(int i = 0; i < _nroutes; i++)
+        {
+            std::string o = std::string("out") + std::to_string(i);
+            outputs()[i+1] = Connection(o,Multiple,Any);
+        }
+    }
+
+
+    /*!
+     * \brief process
+     * \param ns
+     * \param nodeId
+     * \param id
+     * \param data
+     * \return true on success
+     */
+    virtual bool process(NodeSet &ns, unsigned nodeId, unsigned id, const VALUE &data)
+    {
+        NodePtr &n = ns.findNode(nodeId);
+        if(n && n->enabled())
+        {
+            switch(id)
+            {
+            case InputA:
+            {
+                Json::Value &a = n->data()["KEYS"];
+                if(a.isArray())
+                {
+                    const Json::Value &t  = data[DATA_TOPIC];
+                    for(int i = 0; i < _nroutes; i++)
+                    {
+                        if(a[i] == t)
+                        {
+                            return post(ns,nodeId,Output + i,data);
+                        }
+                    }
+                    return post(ns,nodeId,Else,data); // default
+                }
+            }
+            default:
+                break;
+            }
+        }
+        return false;
+    }
+
+    /*!
+     * \brief load
+     * \param dlg
+     * \param ns
+     * \param p
+     */
+    virtual void load(PropertiesEditorDialog &dlg,NodeSet &ns,MRL::PropertyPath p);
+    /*!
+     * \brief save
+     * \param dlg
+     * \param ns
+     * \param p
+     */
+    virtual void save(PropertiesEditorDialog &dlg,NodeSet &ns,MRL::PropertyPath p);
+    /*!
+     * \brief load
+     * \param dlg
+     * \param ns
+     * \param p
+     */
+    void load(NODEFLOW::WebProperties *dlg,NODEFLOW::NodeSet &ns,MRL::PropertyPath p);
+    /*!
+     * \brief save
+     * \param dlg
+     * \param ns
+     * \param p
+     */
+    void save(NODEFLOW::WebProperties *dlg,NODEFLOW::NodeSet &ns,MRL::PropertyPath p);
+
+};
+
+/*!
+ * \brief The RouteTypeNode class
+ * Route based on topic - multiway filter
+ */
+class RouteByPayloadTypeNode : public NodeType // two inputs one output
+{
+    MRL::StringVector _outList;
+    int _nroutes = 8;
+public:
+    enum
+    {
+        InputA = 0,
+        Else = 0,
+        Output = 1
+    };
+
+public:
+    /*!
+     * \brief TopicChangeTypeNode
+     * \param s
+     */
+    RouteByPayloadTypeNode(const std::string s, int nroutes = 8) : NodeType(s), _nroutes(nroutes)
+    {
+        if(_nroutes < 2) _nroutes = 8;
+        for(int i = 0; i < _nroutes; i++)
+        {
+            std::string s = std::string("Select") + std::to_string(i);
+            _outList.push_back(s);
+        }
+    }
+
+    /*!
+     * \brief start
+     * \param ns
+     * \param node
+     */
+
+    virtual void start(NodeSet &ns,  NodePtr &node)
+    {
+        NodeType::start(ns,node);
+        try
+        {
+            if(node)
+            {
+                Json::Value arr_value(Json::arrayValue);
+                arr_value.resize(_nroutes);
+                MRL::PropertyPath p;
+                node->toPath(p);
+                for(int i = 0; i < _nroutes; i++)
+                {
+                    int v = ns.data().getValue<int>(p,_outList[i]);
+                    arr_value[i] = Json::Value(v);
+                }
+                node->data()["KEYS"] = arr_value; // store the array
+            }
+        }
+        CATCH_DEF
+    }
+
+
+
+    /*!
+     * \brief nodeClass
+     * \return
+     */
+    virtual const char * nodeClass() const {
+        return "Conditional Operators";
+    }
+
+
+
+    /*!
+     * \brief setupConnections
+     */
+    void setupConnections()
+    {
+        inputs().resize(1);
+        inputs()[0] = Connection("in",Multiple,Integer);
+        //
+        // set up the outputs
+        outputs().resize(_nroutes + 1);
+        outputs()[0] = Connection("else",Multiple,Integer);  // no match output - can chain
+        for(int i = 0; i < _nroutes; i++)
+        {
+            std::string o = std::string("out") + std::to_string(i);
+            outputs()[i+1] = Connection(o,Multiple,Integer);
+        }
+    }
+
+
+    /*!
+     * \brief process
+     * \param ns
+     * \param nodeId
+     * \param id
+     * \param data
+     * \return true on success
+     */
+    virtual bool process(NodeSet &ns, unsigned nodeId, unsigned id, const VALUE &data)
+    {
+        NodePtr &n = ns.findNode(nodeId);
+        if(n && n->enabled())
+        {
+            switch(id)
+            {
+            case InputA:
+            {
+                Json::Value &a = n->data()["KEYS"];
+                if(a.isArray())
+                {
+                    const Json::Value &t  = data[DATA_PAYLOAD];
+                    for(int i = 0; i < _nroutes; i++)
+                    {
+                        if(a[i] == t)
+                        {
+                            return post(ns,nodeId,Output + i,data);
+                        }
+                    }
+                    return post(ns,nodeId,Else,data); // default
+                }
+            }
+            default:
+                break;
+            }
+        }
+        return false;
+    }
+
+    /*!
+     * \brief load
+     * \param dlg
+     * \param ns
+     * \param p
+     */
+    virtual void load(PropertiesEditorDialog &dlg,NodeSet &ns,MRL::PropertyPath p);
+    /*!
+     * \brief save
+     * \param dlg
+     * \param ns
+     * \param p
+     */
+    virtual void save(PropertiesEditorDialog &dlg,NodeSet &ns,MRL::PropertyPath p);
+    /*!
+     * \brief load
+     * \param dlg
+     * \param ns
+     * \param p
+     */
+    void load(NODEFLOW::WebProperties *dlg,NODEFLOW::NodeSet &ns,MRL::PropertyPath p);
+    /*!
+     * \brief save
+     * \param dlg
+     * \param ns
+     * \param p
+     */
+    void save(NODEFLOW::WebProperties *dlg,NODEFLOW::NodeSet &ns,MRL::PropertyPath p);
+
+};
 
 
 }

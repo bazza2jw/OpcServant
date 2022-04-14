@@ -119,8 +119,6 @@ inline void setValueData(const VALUE &in, const T &v, VALUE &out)
 class NodeLayout
 {
     wxRect _rect;
-    unsigned _inputCount = 1;
-    unsigned _outputCount = 1;
 
     std::vector<wxRect> _inputs;
     std::vector<wxRect> _outputs;
@@ -132,6 +130,8 @@ class NodeLayout
 public:
     NodeLayout() {}
     NodeLayout(const NodeLayout &) = default;
+    virtual ~NodeLayout() {}
+
     bool hit(wxPoint pt, const wxPoint location ) const
     {
         pt -= location; // translate to 0,0
@@ -143,7 +143,7 @@ public:
      * \param location
      * \return
      */
-    int hitInputConnector( wxPoint pt, wxPoint location) const
+    virtual int hitInputConnector( wxPoint pt, wxPoint location) const
     {
         int ret = -1;
         pt -= location; // translate to 0,0
@@ -162,7 +162,7 @@ public:
      * \param location
      * \return
      */
-    int hitOutputConnector(wxPoint pt, wxPoint location) const
+    virtual int hitOutputConnector(wxPoint pt, wxPoint location) const
     {
         int ret = -1;
         pt -= location; // translate to 0,0
@@ -183,26 +183,26 @@ public:
     void setRect(wxRect r) {
         _rect = r;
     }
-    unsigned inputCount() const {
-        return _inputCount;
+    virtual unsigned inputCount() const {
+        return _inputs.size();
     }
-    unsigned outputCount()const {
-        return  _outputCount;
+    virtual unsigned outputCount()const {
+        return  _outputs.size();
     }
-    void setInputCount(unsigned i)  {
-        _inputCount = i;
+    virtual void setInputCount(unsigned i)  {
+        _inputs.resize(i);
     }
-    void setOutputCount(unsigned i) {
-        _outputCount = i;
+    virtual void setOutputCount(unsigned i) {
+        _outputs.resize(i);
     }
-    void addInput(const wxPoint pt,ConnectionType t = Any)
+    virtual void addInput(const wxPoint pt,ConnectionType t = Any)
     {
         wxRect r(0,0,CONNECTION_SIZE,CONNECTION_SIZE);
         r.SetPosition(pt);
         _inputs.push_back(r);
         _inputTypes.push_back(t);
     }
-    void addOutput(const wxPoint pt,ConnectionType t = Any)
+    virtual void addOutput(const wxPoint pt,ConnectionType t = Any)
     {
         wxRect r(0,0,CONNECTION_SIZE,CONNECTION_SIZE);
         r.SetPosition(pt);
@@ -210,7 +210,7 @@ public:
         _outputTypes.push_back(t);
     }
 
-    wxRect input(size_t i) const
+    virtual wxRect input(size_t i) const
     {
         if(i < _inputs.size())
         {
@@ -219,7 +219,7 @@ public:
         return wxRect();
     }
 
-    wxRect output(size_t i) const
+    virtual wxRect output(size_t i) const
     {
         if(i < _outputs.size())
         {
@@ -228,7 +228,7 @@ public:
         return wxRect();
     }
 
-    ConnectionType inputType(size_t i) const
+    virtual ConnectionType inputType(size_t i) const
     {
         if(i < _inputTypes.size())
         {
@@ -237,7 +237,7 @@ public:
         return Any;
     }
 
-    ConnectionType outputType(size_t i) const
+    virtual ConnectionType outputType(size_t i) const
     {
         if(i < _outputTypes.size())
         {
@@ -246,9 +246,36 @@ public:
         return Any;
     }
 
+    virtual  void setInputType(size_t i, ConnectionType t)
+    {
+        if(i < _inputTypes.size())
+        {
+             _inputTypes[i] = t;
+        }
+    }
+
+    virtual void setOutputType(size_t i, ConnectionType t)
+    {
+        if(i < _outputTypes.size())
+        {
+            _outputTypes[i] = t;
+        }
+    }
 
 
+    virtual void clear()
+    {
+        _inputs.clear();
+        _outputs.clear();
+        _inputTypes.clear();
+        _outputTypes.clear();
+    }
+
+    virtual void generate(int in, int out);
 };
+
+
+
 
 /*!
  * \brief The NodeType class
@@ -477,15 +504,18 @@ public:
      * \brief addType
      * \param s
      */
-    static T * addType(const std::string &s)
+    static T * addType(const std::string &s, T * p = nullptr)
     {
-        T * p = new T(s);
+        if(!p) p = new T(s);
         if(p)
         {
             p->setup();
         }
         return p;
     }
+
+
+
     /*!
      * \brief name
      * \return name of object

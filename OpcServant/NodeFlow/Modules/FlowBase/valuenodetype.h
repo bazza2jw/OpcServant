@@ -97,6 +97,91 @@ namespace NODEFLOW
     };
 
 
+    template <typename T, ConnectionType outType = Any>
+/*!
+     * \brief The ValueNodeType class
+     */
+
+    class RampNodeType : public NodeType
+    {
+    public:
+        /*!
+         * \brief ValueNodeType
+         * \param s
+         */
+        RampNodeType(const std::string &s) : NodeType(s) {}
+
+        virtual const char * nodeClass() const { return "Source Values";}
+
+
+        virtual bool process(NodeSet &ns, unsigned nodeId, unsigned id, const VALUE &data)
+        {
+            NodePtr &n = ns.findNode(nodeId);
+            if(n && n->enabled())
+            {
+                MRL::PropertyPath p;
+                n->toPath(p);
+                T v = ns.data().getValue<T>(p,"Range");
+                T c = n->data()["V"].as<T>();
+                c++;
+                if(c > v) c = T(0);
+                n->data()["V"] = c;
+                VALUE result;
+                setValueData(data,c,result);
+                return post(ns,nodeId,Output,result);
+            }
+            return false;
+        }
+
+        virtual void start(NodeSet &/*ns*/,  NodePtr &node)
+        {
+            if(node)
+            {
+                node->data()["V"] = T(0);
+            }
+        }
+
+        void setupConnections()
+        {
+            inputs().resize(1);
+            inputs()[0] =  Connection("trig",Multiple,Bool);
+            // set up the outputs
+            outputs().resize(1);
+            outputs()[0] = Connection("out",Multiple,outType);
+        }
+
+
+        virtual void load(PropertiesEditorDialog &dlg,NODEFLOW::NodeSet &ns,MRL::PropertyPath p)
+        {
+            NodeType::load(dlg,ns,p);
+            dlg.loader().addProp("Range","Range",ns.data().getValue<T>(p,"Range"));
+        }
+        virtual void save(PropertiesEditorDialog &dlg,NODEFLOW::NodeSet &ns,MRL::PropertyPath p)
+        {
+            NodeType::save(dlg,ns,p);
+            T v = dlg.loader().get<T>(NODEFLOW::PropField1);
+            ns.data().setValue(p,"Range",v);
+        }
+
+        void load(NODEFLOW::WebProperties *dlg,NODEFLOW::NodeSet &ns,MRL::PropertyPath p)
+        {
+            NodeType::load(dlg,ns,p);
+            dlg->addProp("Range",ns.data().getValue<T>(p,"Value"));
+        }
+
+        void save(NODEFLOW::WebProperties *dlg,NODEFLOW::NodeSet &ns,MRL::PropertyPath p)
+        {
+            NodeType::save(dlg,ns,p);
+            T v;
+            dlg->get(NODEFLOW::PropField1,v);
+            ns.data().setValue(p,"Range",v);
+        }
+
+    };
+
+
+
+
 
     template <typename T, ConnectionType outType = Any>
     /*!
