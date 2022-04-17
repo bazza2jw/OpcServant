@@ -40,230 +40,233 @@ namespace MRL {
      * \param n
      * \return
      */
-    int getTextWidth(wxFont &f, int n);
+int getTextWidth(wxFont &f, int n);
 
-    template <typename T>
-    /*!
-        \brief stringToNumber
-        \param Text
-        \return
-    */
-    inline T stringToNumber(const std::string &Text) { //Text not by const reference so that the function can be used with a
-        if (!Text.empty()) {
-            //character array as argument
-            std::stringstream ss(Text);
-            T result;
-            return ss >> result ? result : T(0);
-        }MRLLIBSHARED_EXPORT
-        return T(0);
+template <typename T>
+/*!
+    \brief stringToNumber
+    \param Text
+    \return
+*/
+inline T stringToNumber(const std::string &Text) { //Text not by const reference so that the function can be used with a
+    if (!Text.empty()) {
+        //character array as argument
+        std::stringstream ss(Text);
+        T result;
+        return ss >> result ? result : T(0);
     }
+    MRLLIBSHARED_EXPORT
+    return T(0);
+}
 
-    template <typename T>
-    /*!
-        \brief isType
-        \param a
-        \return true if any type is type
-    */
-    inline bool isType(boost::any &a) {
-        return a.type().hash_code() == typeid(T).hash_code();
-    }
+template <typename T>
+/*!
+    \brief isType
+    \param a
+    \return true if any type is type
+*/
+inline bool isType(boost::any &a) {
+    return a.type().hash_code() == typeid(T).hash_code();
+}
 
-    /*!
-        \brief stringToBool
-        \param s
-        \return true on success
-    */
-    MRLLIBSHARED_EXPORT bool stringToBool(const std::string &s);
-    /*!
-     * \brief boolToString
-     * \param f
-     * \return True or False
-     */
-    inline const char * boolToString(bool f) { return f?"True":"False";}
+/*!
+    \brief stringToBool
+    \param s
+    \return true on success
+*/
+MRLLIBSHARED_EXPORT bool stringToBool(const std::string &s);
+/*!
+ * \brief boolToString
+ * \param f
+ * \return True or False
+ */
+inline const char * boolToString(bool f) {
+    return f?"True":"False";
+}
 
-    /*!
-        \brief stringToXml
-        \param s
-        \param doc
-        \return true on success
-    */
-    inline bool stringToXml(const std::string &s, wxXmlDocument &doc) {
-        wxString in(s);
-        wxStringInputStream is(in);
-        return doc.Load(is);
-    }
+/*!
+    \brief stringToXml
+    \param s
+    \param doc
+    \return true on success
+*/
+inline bool stringToXml(const std::string &s, wxXmlDocument &doc) {
+    wxString in(s);
+    wxStringInputStream is(in);
+    return doc.Load(is);
+}
 
-    /*!
-        \brief xmlToString
-        \param doc
-        \param s
-        \return true on success
-    */
-    inline bool xmlToString(wxXmlDocument &doc, std::string &s) {
-        wxString out;
-        wxStringOutputStream os(&out);
-        bool ret = doc.Save(os);
-        s = out.ToStdString();
-        return ret;
-    }
+/*!
+    \brief xmlToString
+    \param doc
+    \param s
+    \return true on success
+*/
+inline bool xmlToString(wxXmlDocument &doc, std::string &s) {
+    wxString out;
+    wxStringOutputStream os(&out);
+    bool ret = doc.Save(os);
+    s = out.ToStdString();
+    return ret;
+}
 
-    /*!
-        \brief stringToJson
-        \param s
-        \param v
-        \return true on success
-    */
-    inline bool stringToJson(const std::string &s, Json::Value &v) {
-        if (!s.empty()) {
-            try {
-                std::istringstream is;
-                is.str(s);
-                v.clear();
-                is >> v;
-                return true;
-            }
-            catch (...) {
-
-            }
-        }
-        return false;
-    }
-
-    /*!
-        \brief jsonToString
-        \param v
-        \param s
-        \return true on success
-    */
-    inline bool jsonToString(Json::Value &v, std::string &s) {
+/*!
+    \brief stringToJson
+    \param s
+    \param v
+    \return true on success
+*/
+inline bool stringToJson(const std::string &s, Json::Value &v) {
+    if (!s.empty()) {
         try {
-            std::ostringstream os;
-            os << v << std::endl;
-            s = os.str();
+            std::istringstream is;
+            is.str(s);
+            v.clear();
+            is >> v;
             return true;
         }
         catch (...) {
 
         }
-        return false;
     }
+    return false;
+}
 
-    /*!
-     * \brief toLong
-     * \param l
-     * \param h
-     * \return unsinged long
-     */
-    inline uint32_t  toLong(uint16_t l, uint16_t h)
-    {
-        return l | (h << 16);
+/*!
+    \brief jsonToString
+    \param v
+    \param s
+    \return true on success
+*/
+inline bool jsonToString(Json::Value &v, std::string &s) {
+    try {
+        std::ostringstream os;
+        os << v << std::endl;
+        s = os.str();
+        return true;
     }
+    catch (...) {
+
+    }
+    return false;
+}
+
+/*!
+ * \brief toLong
+ * \param l
+ * \param h
+ * \return unsinged long
+ */
+inline uint32_t  toLong(uint16_t l, uint16_t h)
+{
+    return l | (h << 16);
+}
 
 
 
 
 #define XML_MIN_SIZE (20)
 
-   // helpers for property grids
-   MRLLIBSHARED_EXPORT int stringTimeToInt(const std::string &s);
+// helpers for property grids
+MRLLIBSHARED_EXPORT int stringTimeToInt(const std::string &s);
 #ifdef USE_GUI
-    void SetChoice(wxChoice *w, const std::string &s);
-    std::string GetChoice(wxChoice *w);
-    void propertiesToJson(wxPropertyGridManager *manager, Json::Value &v);
-    void jsonToProperties(wxPropertyGridManager *manager, Json::Value &v);
-    void clearProperties(wxPropertyGridManager *manager);
-    wxPGProperty * findProperty(wxPropertyGridManager *manager, const std::string &name);
+void SetChoice(wxChoice *w, const std::string &s);
+std::string GetChoice(wxChoice *w);
+void propertiesToJson(wxPropertyGridManager *manager, Json::Value &v);
+void jsonToProperties(wxPropertyGridManager *manager, Json::Value &v);
+void clearProperties(wxPropertyGridManager *manager);
+wxPGProperty * findProperty(wxPropertyGridManager *manager, const std::string &name);
 #endif
-    /*!
-    * \brief SetChoice
-    * \param c
-    * \param s
-    */
-   void SetChoice(Wt::WComboBox *c, const std::string &s);
-   /*!
-    * \brief GetChoice
-    * \param c
-    * \return current selection
-    */
-   std::string GetChoice(Wt::WComboBox *c);
+/*!
+* \brief SetChoice
+* \param c
+* \param s
+*/
+void SetChoice(Wt::WComboBox *c, const std::string &s);
+/*!
+ * \brief GetChoice
+ * \param c
+ * \return current selection
+ */
+std::string GetChoice(Wt::WComboBox *c);
 
-   typedef std::vector<std::string> StringVector;
-   void toList(const std::string  &s, StringVector &l, const char *seperator = "/");
+typedef std::vector<std::string> StringVector;
+void toList(const std::string  &s, StringVector &l, const char *seperator = "/");
 
-   /*!
-     * \brief toFloat
-     * \param s
-     * \return float value
-     */
-    inline float toFloat(const wxString &s)
-    {
-        double v;
-        s.ToDouble(&v);
-        return (float)v;
-    }
-    /*!
-     * \brief toShort
-     * \param s
-     * \return short value
-     */
-    inline uint16_t toShort(const wxString &s)
-    {
-        long v;
-        s.ToLong(&v);
-        return (uint16_t)(v);
-    }
-    /*!
-     * \brief stringToBin
-     * \param s
-     * \param b
-     * \param l
-     */
-    void stringToBin(const int8_t *s, uint8_t *b, int l);
-    /*!
-     * \brief bytesToString
-     * \param b
-     * \param s
-     * \param l
-     */
-    void bytesToString(uint8_t *b, int8_t *s, int l);
-
-
-    /*!
-     * \brief getFileList
-     * \param sp
-     * \return number of files
-     */
-    int getFileList(wxArrayString &sp,const wxString &dir, const wxString &filter);
-    /*!
-     * \brief getFileList
-     * \param sp
-     * \return number of files
-     */
-    int getFileList(std::list<std::string> &sp,const std::string &dir, const std::string &filter );
+/*!
+  * \brief toFloat
+  * \param s
+  * \return float value
+  */
+inline float toFloat(const wxString &s)
+{
+    double v;
+    s.ToDouble(&v);
+    return (float)v;
+}
+/*!
+ * \brief toShort
+ * \param s
+ * \return short value
+ */
+inline uint16_t toShort(const wxString &s)
+{
+    long v;
+    s.ToLong(&v);
+    return (uint16_t)(v);
+}
+/*!
+ * \brief stringToBin
+ * \param s
+ * \param b
+ * \param l
+ */
+void stringToBin(const int8_t *s, uint8_t *b, int l);
+/*!
+ * \brief bytesToString
+ * \param b
+ * \param s
+ * \param l
+ */
+void bytesToString(uint8_t *b, int8_t *s, int l);
 
 
-
-    /*!
-     * \brief getSerialPortList
-     * abstract for OS here
-     * \param sp
-     * \return number of ports found
-     */
-    int getSerialPortList(wxArrayString &sp);
-
-    /*!
-     * \brief getSerialPortList
-     * \param sp
-     * \return number of ports found
-     */
-    int getSerialPortList(std::list<std::string> &sp);
+/*!
+ * \brief getFileList
+ * \param sp
+ * \return number of files
+ */
+int getFileList(wxArrayString &sp,const wxString &dir, const wxString &filter);
+/*!
+ * \brief getFileList
+ * \param sp
+ * \return number of files
+ */
+int getFileList(std::list<std::string> &sp,const std::string &dir, const std::string &filter );
 
 
 
+/*!
+ * \brief getSerialPortList
+ * abstract for OS here
+ * \param sp
+ * \return number of ports found
+ */
+int getSerialPortList(wxArrayString &sp);
 
-    typedef std::map<std::string, std::string> StringMap;
+/*!
+ * \brief getSerialPortList
+ * \param sp
+ * \return number of ports found
+ */
+int getSerialPortList(std::list<std::string> &sp);
 
-    // separator used to separate path and input
+
+
+
+typedef std::map<std::string, std::string> StringMap;
+
+// separator used to separate path and input
 #define TAG_SEPERATOR ":"
 
 
