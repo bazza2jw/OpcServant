@@ -16,6 +16,7 @@
 #include <Common/bobject.h>
 #include <Common/Opc/opccommon.h>
 #include <Common/messageids.h>
+#include <MrlLib/costate.h>
 
 MRL::StringVector MRL::RTObject::_emptyList;
 

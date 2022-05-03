@@ -10,19 +10,12 @@
  * A PARTICULAR PURPOSE.
  */
 
-#ifndef NODEFLOW_H
-#define NODEFLOW_H
-
-#define NODEFLOW_ROOT_DIR "/usr/local/OpcServant"
-namespace NODEFLOW
+#include "controlnodetype.h"
+/*!
+ * \brief addControlNodes
+ */
+void addControlNodes()
 {
-    class NodeFlow
-    {
-        static int _msgId;
-    public:
-        static int msgId();
-        static void initialiseNodes();
-    };
-
+    NODEFLOW::NodeType::addType<NODEFLOW::ElseIfNodeType>("ElseIf");
+    NODEFLOW::NodeType::addType<NODEFLOW::IfElseNodeType>("IfElse");
 }
-#endif // NODEFLOW_H

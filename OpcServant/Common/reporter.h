@@ -104,10 +104,10 @@ public:
     bool createGraph(ReportGroup &rg, Graph &w); // plot all data on one graph
 
     static void itemToFilename(std::string &i){
-        int n = i.find(":");
-        if(unsigned(n) != std::string::npos) i[n] = '_';
+        auto n = i.find(":");
+        if(n != std::string::npos) i[n] = '_';
         n = i.find("/");
-        while(unsigned(n) != std::string::npos)
+        while(n != std::string::npos)
         {
             i[n] = '_';
             n = i.find("/");

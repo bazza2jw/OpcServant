@@ -164,6 +164,7 @@ namespace MRL {
         {
             runtime().setValue("FaultReason",s);
             runtime().setValue("Fault",true);
+            MRL::Common::instance()->logMessage(__FUNCTION__,s,STATES::STATE_FAULT);
             _errorWait = TIMEOUT_7017 * 1000;
             _state = STATE_ERROR;
              _nodeOk = false;
@@ -179,6 +180,7 @@ namespace MRL {
         {
             runtime().setValue("FaultReason",std::string("OK"));
             runtime().setValue("Fault",false);
+            MRL::Common::instance()->logMessage(__FUNCTION__,"Working",STATES::STATE_OK);
             _nodeOk = true;
             _secondFlag = false;
         }

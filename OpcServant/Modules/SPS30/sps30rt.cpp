@@ -172,7 +172,7 @@ void MRL::SPS30RT::onOneSecond(time_t t)
             }
             else
             {
-                wxLogDebug(" Failed to initialise SPS30");
+                MRL::Common::instance()->logMessage(__FUNCTION__," Failed to initialise SPS30",STATES::STATE_FAULT);
             }
             break;
         case STATE_WAIT:
@@ -185,7 +185,7 @@ void MRL::SPS30RT::onOneSecond(time_t t)
         {
             int ret = sps30_read_measurement(&_m);
             if (ret < 0) {
-                wxLogDebug("error reading measurement\n");
+                MRL::Common::instance()->logMessage(__FUNCTION__,"error reading measurement",STATES::STATE_FAULT);
                 _state = STATE_FAIL;
 
             } else {

@@ -30,5 +30,6 @@ public:
        NODEFLOW::NodeType::addType<NODEFLOW::NodeSetType>("NodeSet");
        NODEFLOW::NodeType::addType<NODEFLOW::NodeSetOutputNodeType>("NodeSetOutput");
        NODEFLOW::NodeType::addType<NODEFLOW::NodeSetInputNodeType>("NodeSetInput");
+       NODEFLOW::NodeFlow::initialiseNodes();
     }
 } _instance __attribute__ ((init_priority (2000)));

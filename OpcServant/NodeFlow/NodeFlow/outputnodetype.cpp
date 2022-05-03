@@ -10,19 +10,9 @@
  * A PARTICULAR PURPOSE.
  */
 
-#ifndef NODEFLOW_H
-#define NODEFLOW_H
+#include "outputnodetype.h"
 
-#define NODEFLOW_ROOT_DIR "/usr/local/OpcServant"
-namespace NODEFLOW
+void addOutputs()
 {
-    class NodeFlow
-    {
-        static int _msgId;
-    public:
-        static int msgId();
-        static void initialiseNodes();
-    };
-
+    NODEFLOW::NodeType::addType<NODEFLOW::TraceNodeType>("Trace");
 }
-#endif // NODEFLOW_H

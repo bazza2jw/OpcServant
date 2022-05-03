@@ -11,7 +11,6 @@
  */
 #include "buiapp.h"
 #include "../NodeFlow/NodeEditorMainframe.h"
-#include "../NodeFlow/nodeflowplugin.h"
 
 BuiApp::BuiApp() : wxApp ()
 {
@@ -26,10 +25,8 @@ bool BuiApp::OnInit()
     wxApp::OnInit(); // parse the command line
     wxInitAllImageHandlers();
     wxXmlResource::Get()->InitAllHandlers();
-    NODEFLOW::Plugin::loadPlugins("/usr/local/OpcServant/modules"); // load all plugins
     auto w = new NodeEditorMainframe(nullptr);
     w->Show();
-    NODEFLOW::Plugin::initialiseAll(); // call the initialise function
     return true;
 }
 
@@ -59,7 +56,6 @@ bool BuiApp::OnCmdLineParsed (wxCmdLineParser &parser)
  */
 int  BuiApp::OnExit()
 {
-    //NODEFLOW::Plugin::terminateAll(); // call the plugin terminate function
     return wxApp::OnExit();
 }
 

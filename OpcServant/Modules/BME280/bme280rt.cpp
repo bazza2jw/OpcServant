@@ -93,7 +93,7 @@ void MRL::BME280RT::onOneSecond(time_t t)
                 uint8_t t_id = 0;
                 if (_i2c->read( 0xD0, t_id)) {
                     if (t_id != 0x60) {
-                        wxLogDebug("BME 280 Not Found");
+                        MRL::Common::instance()->logMessage(__FUNCTION__,"BME 280 Not Found",STATES::STATE_FAULT);
                         _ok = false;
                         _state = STATE_FAULT;
                     } else {
@@ -186,7 +186,7 @@ void MRL::BME280RT::initialiseBme280() {
     uint8_t id = 0;
     if (_i2c && _i2c->read(0xD0, id)) {
         if (id != 0x60) {
-            wxLogDebug("BME 280 Not Found");
+            MRL::Common::instance()->logMessage(__FUNCTION__,"BME 280 Not Found",STATES::STATE_FAULT);
         } else {
             _i2c->write(0xE0, (uint8_t)0xB6); // soft reset
             //
@@ -195,14 +195,13 @@ void MRL::BME280RT::initialiseBme280() {
             //
             // configure the device
             if (!_i2c->write( 0xF5, (uint8_t)0x04)) {
-                wxLogDebug("F5 Fail");
+                MRL::Common::instance()->logMessage(__FUNCTION__,"F5 Fail",STATES::STATE_FAULT);
                 return;
             }
             _i2c->write(0xF2, (uint8_t)5);
             _i2c->write(0xF4, (uint8_t)0xB4);
             //
             readBmeCal();
-            wxLogDebug("BME 280 Initialise Complete");
         }
     }
 }

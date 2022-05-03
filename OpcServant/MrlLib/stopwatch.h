@@ -17,24 +17,17 @@
 namespace stopwatch{
 
 class Stopwatch{
+
 public:
+   typedef std::chrono::time_point<std::chrono::high_resolution_clock> time_pt;
    enum TimeFormat{ NANOSECONDS, MICROSECONDS, MILLISECONDS, SECONDS };
 
-   Stopwatch(): start_time(), laps({}) {
-      start();
-   }
+   Stopwatch() { }
+   Stopwatch(const Stopwatch &) = default;
+   virtual ~Stopwatch() {}
 
-   void start(){
-      start_time = std::chrono::high_resolution_clock::now();
-      laps = {start_time};
-   }
-
-   template<TimeFormat fmt = TimeFormat::MILLISECONDS>
-   std::uint64_t lap(){
-      const auto t = std::chrono::high_resolution_clock::now();
-      const auto last_r = laps.back();
-      laps.push_back( t );
-      return ticks<fmt>(last_r, t);
+   virtual void start(time_pt t = std::chrono::high_resolution_clock::now()){
+      start_time = t;
    }
 
    template<TimeFormat fmt = TimeFormat::MILLISECONDS>
@@ -42,21 +35,6 @@ public:
       const auto end_time = std::chrono::high_resolution_clock::now();
       return ticks<fmt>(start_time, end_time);
    }
-
-   template<TimeFormat fmt_total = TimeFormat::MILLISECONDS, TimeFormat fmt_lap = fmt_total>
-   std::pair<std::uint64_t, std::vector<std::uint64_t>> elapsed_laps(){
-      std::vector<std::uint64_t> lap_times;
-      lap_times.reserve(laps.size()-1);
-
-      for( std::size_t idx = 0; idx <= laps.size()-2; idx++){
-         const auto lap_end = laps[idx+1];
-         const auto lap_start = laps[idx];
-         lap_times.push_back( ticks<fmt_lap>(lap_start, lap_end) );
-      }
-
-      return { ticks<fmt_total>(start_time, laps.back()), lap_times };
-   }
-
     //
     // report time in useful units
     //
@@ -69,11 +47,30 @@ public:
     // .. in seconds
     std::uint64_t elapsed_s() { return elapsed<Stopwatch::TimeFormat::SECONDS>();}
 
-private:
-   typedef std::chrono::time_point<std::chrono::high_resolution_clock> time_pt;
-   time_pt start_time;
-   std::vector<time_pt> laps;
+    template<TimeFormat fmt = TimeFormat::MILLISECONDS>
+    /*!
+     * \brief hasElapsed
+     * \param t
+     * \return true if elapsed time >= the time
+     */
+    bool hasElapsed(std::uint64_t t)
+    {
+        return (elapsed<fmt>() >= t);
+    }
 
+
+    static std::string show_times( const std::vector<std::uint64_t>& times ){
+        std::string result("{");
+        for( const auto& t : times ){
+            result += std::to_string(t) + ",";
+        }
+        result.back() = static_cast<char>('}');
+        return result;
+    }
+
+private:
+   time_pt start_time;
+   //
    template<TimeFormat fmt = TimeFormat::MILLISECONDS>
    static std::uint64_t ticks( const time_pt& start_time, const time_pt& end_time){
       const auto duration = end_time - start_time;
@@ -106,20 +103,47 @@ private:
     }
 };
 
+class LapStopwatch : public Stopwatch
+{
+    std::vector<time_pt> laps;
+public:
+    LapStopwatch() {}
+    virtual void start(time_pt t = std::chrono::high_resolution_clock::now())
+    {
+        Stopwatch::start(t);
+        laps = {t};
+    }
+
+    template<TimeFormat fmt = TimeFormat::MILLISECONDS>
+    std::uint64_t lap(){
+       const auto t = std::chrono::high_resolution_clock::now();
+       const auto last_r = laps.back();
+       laps.push_back( t );
+       return ticks<fmt>(last_r, t);
+    }
+
+    template<TimeFormat fmt_total = TimeFormat::MILLISECONDS, TimeFormat fmt_lap = fmt_total>
+    std::pair<std::uint64_t, std::vector<std::uint64_t>> elapsed_laps(){
+       std::vector<std::uint64_t> lap_times;
+       lap_times.reserve(laps.size()-1);
+
+       for( std::size_t idx = 0; idx <= laps.size()-2; idx++){
+          const auto lap_end = laps[idx+1];
+          const auto lap_start = laps[idx];
+          lap_times.push_back( ticks<fmt_lap>(lap_start, lap_end) );
+       }
+
+       return { ticks<fmt_total>(start_time, laps.back()), lap_times };
+    }
+
+};
+
+
 
 constexpr Stopwatch::TimeFormat ns = Stopwatch::TimeFormat::NANOSECONDS;
 constexpr Stopwatch::TimeFormat mus = Stopwatch::TimeFormat::MICROSECONDS;
 constexpr Stopwatch::TimeFormat ms = Stopwatch::TimeFormat::MILLISECONDS;
 constexpr Stopwatch::TimeFormat s = Stopwatch::TimeFormat::SECONDS;
-
-std::string show_times( const std::vector<std::uint64_t>& times ){
-    std::string result("{");
-    for( const auto& t : times ){
-        result += std::to_string(t) + ",";
-    }
-    result.back() = static_cast<char>('}');
-    return result;
-}
 
 
 
