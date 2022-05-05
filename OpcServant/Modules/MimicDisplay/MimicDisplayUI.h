@@ -24,6 +24,11 @@
 #include "Mimic/Mimic/MimicEditorPanel.h"
 #include <wx/toolbar.h>
 #include <wx/timer.h>
+#include <wx/notebook.h>
+#include <wx/imaglist.h>
+#include <wx/html/htmlwin.h>
+#include "Common/graphwindow.h"
+#include <wx/listbox.h>
 #if wxVERSION_NUMBER >= 2900
 #include <wx/persist.h>
 #include <wx/persist/toplevel.h>
@@ -110,6 +115,46 @@ public:
     wxTimer* GetTimer() { return m_timer; }
     MimicTabDisplayBase(wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize(600,400), long style = wxTAB_TRAVERSAL);
     virtual ~MimicTabDisplayBase();
+};
+
+
+class InputViewerBase : public wxDialog
+{
+protected:
+    wxBoxSizer* boxSizer55;
+    wxNotebook* m_tabs;
+    wxPanel* m_panelCurrent;
+    wxBoxSizer* boxSizer63;
+    wxHtmlWindow* m_currentStatus;
+    wxTimer* m_timer83;
+
+protected:
+    virtual void DriveProcess(wxTimerEvent& event) { event.Skip(); }
+
+public:
+    wxHtmlWindow* GetCurrentStatus() { return m_currentStatus; }
+    wxPanel* GetPanelCurrent() { return m_panelCurrent; }
+    wxNotebook* GetTabs() { return m_tabs; }
+    wxTimer* GetTimer83() { return m_timer83; }
+    InputViewerBase(wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Input Viewer"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize(800,600), long style = wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER);
+    virtual ~InputViewerBase();
+};
+
+
+class InputViewerHistoryBase : public wxPanel
+{
+protected:
+    wxBoxSizer* boxSizer75;
+    MRL::GraphWindow* m_graph;
+    wxListBox* m_history;
+
+protected:
+
+public:
+    MRL::GraphWindow* GetGraph() { return m_graph; }
+    wxListBox* GetHistory() { return m_history; }
+    InputViewerHistoryBase(wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize(500,300), long style = wxTAB_TRAVERSAL);
+    virtual ~InputViewerHistoryBase();
 };
 
 #endif

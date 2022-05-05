@@ -453,10 +453,12 @@ bool Mainframe::processQueueItem(const MRL::Message &msg) {
                         auto o = MRL::ObjectManager::find(t);
                         if (o) {
                             wxWindow *w = o->createTabWindow(GetNotebook(), id);
-                            //
-                            MRL::Common::daq().tabWindows()[id] = w;
-                            GetNotebook()->AddPage(w, r->path().back(), false, 0);
-                            setMainTab();
+                            if(w)
+                            {
+                                MRL::Common::daq().tabWindows()[id] = w;
+                                GetNotebook()->AddPage(w, r->path().back(), false, 0);
+                                setMainTab();
+                            }
                         }
                     }
                 }

@@ -299,6 +299,12 @@ class  MRLLIBSHARED_EXPORT States {
                 @return String
             */
             static std::string  StatisticStateToState(MRL::StatisticsThresholdSet &st);
+            /*!
+             * \brief toName
+             * \param state index
+             * \return name of state
+             */
+            static std::string toName(unsigned state);
     };
 
 }

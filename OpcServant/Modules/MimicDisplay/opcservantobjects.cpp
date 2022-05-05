@@ -2,7 +2,7 @@
 #include <Common/Daq/rtobject.h>
 #include <Common/Daq/daq.h>
 #include <Common/Daq/daqcommon.h>
-
+#include "InputViewer.h"
 static  wxArrayString staticList;
 
 template <typename T>
@@ -100,9 +100,11 @@ void MIMIC::OpcServantInputObject::process(MimicSet *set)
 /*!
  * \brief MIMIC::OpcServantInputObject::onClick
  */
-void MIMIC::OpcServantInputObject::onClick(wxWindow *parent, wxPoint pt,MimicSet * /*set*/)
+void MIMIC::OpcServantInputObject::onClick(wxWindow *parent, wxPoint pt, MimicSet *set)
 {
-        wxTextEntryDialog dlg(parent, "", wxGetTextFromUserPromptStr, "", wxTextEntryDialogStyle, pt);
-        dlg.ShowModal();
+    InputViewer * dlg = new InputViewer(parent,_id);
+    wxSize sz(300,200);
+    dlg->SetSize(sz);
+    dlg->Show();
 }
 

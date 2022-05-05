@@ -32,10 +32,21 @@ void MimicTabDisplay::load()
         MRL::VariantPropertyTree &t = r->configuration();
         GetTimer()->Stop();
         GetTimer()->Start(t.getInt("/UpdateInterval") * 1000);
-        _fileName = MRL::Common::baseDir() + "/mimic/"  + t.getString("/Filename");
-        _canvas->readSet(_fileName);
-        _canvas->setEditMode(false);
-        _loaded = true;
+        std::string f =  t.getString("/Filename");
+
+        _loaded = false;
+        _canvas->newMimic();
+        if(!f.empty())
+        {
+            _fileName = MRL::Common::baseDir() + "/mimic/"  + f;
+            _canvas->readSet(_fileName);
+            _canvas->setEditMode(false);
+            _loaded = true;
+        }
+        else
+        {
+            GetTimer()->Stop();
+        }
     }
 }
 

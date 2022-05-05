@@ -203,23 +203,7 @@ void MRL::LocalDb::publishQueueItem(const MRL::Message &msg) {
                         m.data().get(PARAMETERID::Timestamp, ts);
 
                         // get the state as a string
-                        std::string st = _("Ok").ToStdString();
-                        switch (state) {
-                            case STATES::States::StateFault: {
-                                st = _("Fault").ToStdString();
-                            }
-                            break;
-                            case STATES::States::StateAction: {
-                                st = _("Action").ToStdString();
-                            }
-                            break;
-                            case STATES::States::StateAlert: {
-                                st = _("Alert").ToStdString();
-                            }
-                            default:
-                                break;
-                        }
-
+                        std::string st = STATES::States::toName(state);
                         writeRecord(ts, src, o->name(), st, v);
                     }
                 }
@@ -253,18 +237,7 @@ void MRL::LocalDb::publishQueueItem(const MRL::Message &msg) {
                     auto o =  ObjectManager::find(d->data().type());
                     if (o) {
                         std::string src;
-                        std::string st = _("Ok").ToStdString();
-                        switch (state) {
-                            case STATES::States::StateAction: {
-                                st = _("Action").ToStdString();
-                            }
-                            break;
-                            case STATES::States::StateAlert: {
-                                st = _("Alert").ToStdString();
-                            }
-                            default:
-                                break;
-                        }
+                        std::string st = STATES::States::toName(state);
 
                         //
                         RtObjectRef &j = MRL::Common::daq().objects()[id];

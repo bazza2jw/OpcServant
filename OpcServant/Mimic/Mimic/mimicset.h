@@ -35,7 +35,10 @@ namespace MIMIC
             HIT_ANCHOR4
         } HitPoint;
 
-        MimicSet() {}
+        MimicSet()
+        {
+            clear();
+        }
         MRL::VariantPropertyTree &data() { return  _data;}
         MIMICOBJECTMAP &objects() { return _objects;}
         void fromData(); // read from tree

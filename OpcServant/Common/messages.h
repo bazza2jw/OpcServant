@@ -43,7 +43,7 @@ namespace MRL {
             \param i
             \return
         */
-        bool isType(int i)  {
+        bool isType(int i)   {
             if (contains(i)) {
                 return (*this)[i].type().hash_code() == typeid(T).hash_code();
             }

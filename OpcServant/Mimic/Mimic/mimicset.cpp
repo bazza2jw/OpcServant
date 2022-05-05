@@ -145,6 +145,7 @@ void MIMIC::MimicSet::toData() // write to tree
     //
     data().setValue("/NextId",_nextId);
     data().setValue("/Background",_backgroundImage);
+    data().setValue("/Objects",false);
     //
     for(auto i = _objects.begin(); i != _objects.end(); i++)
     {
