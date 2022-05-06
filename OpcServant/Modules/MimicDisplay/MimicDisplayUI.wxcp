@@ -1,7 +1,7 @@
 {
  "metadata": {
   "m_generatedFilesDir": ".",
-  "m_objCounter": 83,
+  "m_objCounter": 85,
   "m_includeFiles": [],
   "m_bitmapFunction": "wxCrafteranM2fBInitBitmapResources",
   "m_bitmapsFile": "MimicDisplayUI_mimicdisplay_bitmaps.cpp",
@@ -1837,12 +1837,12 @@
             }],
            "m_events": [],
            "m_children": [{
-             "m_type": 4423,
+             "m_type": 4424,
              "proportion": 1,
              "border": 5,
              "gbSpan": "1,1",
              "gbPosition": "0,0",
-             "m_styles": ["wxHW_SCROLLBAR_AUTO"],
+             "m_styles": ["wxTE_MULTILINE", "wxTE_PROCESS_TAB", "wxTE_PROCESS_ENTER", "wxWANTS_CHARS"],
              "m_sizerFlags": ["wxALL", "wxLEFT", "wxRIGHT", "wxTOP", "wxBOTTOM", "wxEXPAND"],
              "m_properties": [{
                "type": "winid",
@@ -1902,12 +1902,8 @@
                "m_value": ""
               }, {
                "type": "string",
-               "m_label": "HTML Code:",
-               "m_value": "<b>wxHtmlWindow control!</b>"
-              }, {
-               "type": "string",
-               "m_label": "URL:",
-               "m_value": ""
+               "m_label": "Value:",
+               "m_value": "Waiting"
               }],
              "m_events": [],
              "m_children": []

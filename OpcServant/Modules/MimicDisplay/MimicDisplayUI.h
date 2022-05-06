@@ -26,7 +26,7 @@
 #include <wx/timer.h>
 #include <wx/notebook.h>
 #include <wx/imaglist.h>
-#include <wx/html/htmlwin.h>
+#include <wx/richtext/richtextctrl.h>
 #include "Common/graphwindow.h"
 #include <wx/listbox.h>
 #if wxVERSION_NUMBER >= 2900
@@ -125,14 +125,14 @@ protected:
     wxNotebook* m_tabs;
     wxPanel* m_panelCurrent;
     wxBoxSizer* boxSizer63;
-    wxHtmlWindow* m_currentStatus;
+    wxRichTextCtrl* m_currentStatus;
     wxTimer* m_timer83;
 
 protected:
     virtual void DriveProcess(wxTimerEvent& event) { event.Skip(); }
 
 public:
-    wxHtmlWindow* GetCurrentStatus() { return m_currentStatus; }
+    wxRichTextCtrl* GetCurrentStatus() { return m_currentStatus; }
     wxPanel* GetPanelCurrent() { return m_panelCurrent; }
     wxNotebook* GetTabs() { return m_tabs; }
     wxTimer* GetTimer83() { return m_timer83; }

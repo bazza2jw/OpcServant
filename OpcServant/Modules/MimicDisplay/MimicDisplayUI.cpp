@@ -234,8 +234,7 @@ InputViewerBase::InputViewerBase(wxWindow* parent, wxWindowID id, const wxString
     boxSizer63 = new wxBoxSizer(wxVERTICAL);
     m_panelCurrent->SetSizer(boxSizer63);
     
-    m_currentStatus = new wxHtmlWindow(m_panelCurrent, wxID_ANY, wxDefaultPosition, wxDLG_UNIT(m_panelCurrent, wxSize(-1,-1)), wxHW_SCROLLBAR_AUTO);
-    m_currentStatus->SetPage(wxT("<b>wxHtmlWindow control!</b>"));
+    m_currentStatus = new wxRichTextCtrl(m_panelCurrent, wxID_ANY, wxT("Waiting"), wxDefaultPosition, wxDLG_UNIT(m_panelCurrent, wxSize(-1,-1)), wxTE_MULTILINE|wxTE_PROCESS_TAB|wxTE_PROCESS_ENTER|wxWANTS_CHARS);
     
     boxSizer63->Add(m_currentStatus, 1, wxALL|wxEXPAND, WXC_FROM_DIP(5));
     

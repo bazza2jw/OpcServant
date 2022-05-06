@@ -195,6 +195,7 @@ bool MRL::Daq::processQueueItem(const Message &msg) { //!< process an item in th
             break;
             case MESSAGEID::IdleTimeout:
             case MESSAGEID::Update_Object:
+            case MESSAGEID::Update_Value:
             case MESSAGEID::CreateTopView:
             case MESSAGEID::CreateTabView:
                 message().emit(m); // forward the message to any listeners
