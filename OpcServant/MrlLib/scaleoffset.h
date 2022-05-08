@@ -43,6 +43,17 @@ struct ScaleOffset
     void setScale(double v) { _scale = v;}
     void setOffset(double v) {_offset = v;}
 
+    // syntax sugar
+    double operator * (double v)
+    {
+        return v * _scale + _offset;
+    }
+
+    double operator / (double v)
+    {
+        return unscale(v);
+    }
+
 };
 
 /*!

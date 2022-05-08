@@ -136,8 +136,7 @@ void MRL::Graph::scaleGraph()
         int npts = 0;
         DataMapPtr &ms = (*plotMap.begin()).second;
         //
-        minTime = ms->front().t;
-        maxTime = ms->front().t;
+        minTime = maxTime = ms->front().t;
         minY = maxY = ms->front().v;
 
         //
@@ -280,6 +279,9 @@ void  MRL::Graph::update(const std::string &tag,const time_t dt, double v)
         };
         LastDateTime = dt;
         last_v = v;
+        maxTime = dt;
+        if(m->front().t > minTime)
+            minTime = m->front().t;
     }
 }
 
@@ -565,8 +567,10 @@ void MRL::Graph::drawLimitLines(wxDC &DC)
                     y = (limits[j].value - scaleMin) * dy;
                 };
                 //
-                DC.DrawLine(plotRect.GetLeft(),plotRect.GetBottom() - (int)y,
-                            plotRect.GetRight(),plotRect.GetBottom() - (int)y);
+                DC.DrawLine(plotRect.GetLeft(),
+                            plotRect.GetBottom() - (int)y,
+                            plotRect.GetRight(),
+                            plotRect.GetBottom() - (int)y);
                 //
             };
         };

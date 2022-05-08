@@ -49,15 +49,17 @@ class Reporter
     ReportGraph * _graph = nullptr;
     int _currentPage = 0;
     bool _addPageBreaks = false;
-    std::string itemNameToFileName(const std::string &item)
-    {
-        std::string s = item;
-        std::replace(s.begin(), s.end(), '/','_');
-        return s;
-    }
+
 public:
     Reporter(const std::string &name, const std::string &dir, const std::string &file);
-    virtual ~Reporter() {}
+    virtual ~Reporter()
+    {
+        std::string l = "/REPORT_LOCK/" + _name;
+        if(MRL::RUNTIME().getBool(l))
+        {
+            MRL::RUNTIME().setBool(l,true); // unlock if locked on exit
+        }
+    }
     bool lock() // lock access - avoid contention
     {
         std::string l = "/REPORT_LOCK/" + _name;
@@ -103,15 +105,16 @@ public:
     bool createGraph( const std::string &item, Graph &w); // create graph with one data set
     bool createGraph(ReportGroup &rg, Graph &w); // plot all data on one graph
 
+    static std::string itemNameToFileName(const std::string &item)
+    {
+        std::string s = item;
+        std::replace(s.begin(), s.end(), '/','_');
+        return s;
+    }
     static void itemToFilename(std::string &i){
         auto n = i.find(":");
         if(n != std::string::npos) i[n] = '_';
-        n = i.find("/");
-        while(n != std::string::npos)
-        {
-            i[n] = '_';
-            n = i.find("/");
-        }
+        i = itemNameToFileName(i);
     }
 
     //

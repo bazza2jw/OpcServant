@@ -41,6 +41,9 @@ namespace MRL{
             data.push_back(wxVariant(_state.c_str())); // state
             data.push_back(wxVariant(wxString::Format("%8.2f",_value))); // formated value
         }
+        //
+        ReporterItem() {}
+        ReporterItem(const ReporterItem &) = default;
     };
 
     typedef std::list<ReporterItem> ReportItemList;

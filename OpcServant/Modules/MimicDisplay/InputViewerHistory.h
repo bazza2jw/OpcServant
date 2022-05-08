@@ -4,6 +4,7 @@
 
 class InputViewerHistory : public InputViewerHistoryBase
 {
+    static constexpr int VIEW_MAX_POINTS = 1000;
 public:
     InputViewerHistory(wxWindow* parent);
     virtual ~InputViewerHistory();

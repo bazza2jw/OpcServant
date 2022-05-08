@@ -29,12 +29,11 @@ int MRL::Reporter::_reportNo = 0;
  */
 MRL::Reporter::Reporter(const std::string &name, const std::string &dir, const std::string &file) : _name(name), _dir(dir), _file(file)
 {
-    //
-    //_db = std::make_unique<SQLiteDB>();
     std::string d = MRL::Common::baseDir()  + ReportConfig::reportDir;
-    std::string s = name ;
     _rdb = std::make_unique<ReportResultDatabase>(d,name); // where the results go
 }
+
+
 /*!
  * \brief MRL::Reporter::getReportList
  * \param l

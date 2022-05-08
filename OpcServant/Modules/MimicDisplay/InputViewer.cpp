@@ -2,6 +2,11 @@
 #include <Common/Daq/daqcommon.h>
 #include <MrlLib/states.h>
 #include <Common/messageids.h>
+#include <Common/reporter.h>
+#include <Common/reportconfig.h>
+
+
+int InputViewer::_rId = 0;
 
 /*!
  * \brief InputViewer::InputViewer
@@ -22,12 +27,16 @@ InputViewer::InputViewer(wxWindow* parent, unsigned id)
     {
         MRL::VariantPropertyTree &t = r->runtime();
         MRL::StringVector &l = r->inputs();
+        const std::string &p = r->pathAsString();
+        //
         for(auto i = l.begin(); i != l.end(); i++)
         {
             InputViewerHistory *w = new InputViewerHistory(GetTabs());
-            _history[*i] = w;
+             std::string k = p + ":" + *i; // source name in database
+            _history[k] = w;
             GetTabs()->AddPage(w, *i);
         }
+        fetch(r);
     }
 }
 /*!
@@ -37,6 +46,66 @@ InputViewer::~InputViewer()
 {
 
 }
+
+/*!
+ * \brief InputViewer::fetch
+ */
+void InputViewer::fetch(MRL::RtObjectRef &r)
+{
+    //
+    // fetch data from the results database
+    // construct the query
+    // do the fetch
+    // add results to graph
+    // add results to table
+    //
+    MRL::ReportGroup rg;
+    rg._end = time(nullptr) - 10;
+    rg._start = rg._end - 3600;
+    rg._items.resize(r->inputs().size());
+    //
+    int j = 0;
+    //
+    for(auto i = _history.begin(); i != _history.end(); i++, j++)
+    {
+        rg._items[j] = i->first;
+    }
+    //
+    std::string rn = "_T" + std::to_string(_rId++);
+    std::string rd = MRL::Common::baseDir() + MRL::ReportConfig::reportDir + "/" + rn;
+    if(!wxDir::Exists(rd)) wxDir::Make(rd); // create the directory if necessary
+    //
+    MRL::Reporter rr(rn, MRL::LocalDb::LOCAL_DB_DIR, MRL::LOCAL_DB_NAME);
+    rr.setOutputDir(rd);
+    //
+    if(rr.lock()) // it is possible for multiple accesses to the same report - eg desktop and web or multiple web accesses
+    {
+        if(rr.fetch(rg))// generate the tables and the stats to a SQLITE database
+        {
+           // we have a result set
+
+           // walk it
+            for(int i = 0; i < int(rg._items.size()); i++)
+            {
+                InputViewerHistory *w = _history[rg._items[i]];
+                if(w)
+                {
+                    MRL::ReportItemList l;
+                    rr.resultsdb().getPage(rg._items[i],0,l,250);
+                    for(auto k = l.begin(); k != l.end(); k++)
+                    {
+                        MRL::ReporterItem &ri = *k;
+                        wxString item = wxString::Format("%s %8.8s %s",ri._timeStamp.FormatISOCombined(' '),ri._state,ri._valueStr);
+                        w->GetHistory()->Append(item);
+                    }
+                    rr.createGraph(rg._items[i], w->GetGraph()->graph());
+                }
+            }
+        }
+        rr.unlock();
+    }
+}
+
 /*!
  * \brief InputViewer::processQueueItem
  * \param msg
@@ -86,7 +155,9 @@ bool InputViewer::processQueueItem(const MRL::Message &msg)
                     m.get(PARAMETERID::Status, state);
                     m.get(PARAMETERID::Timestamp,timeStamp);
                     //
-                    InputViewerHistory *w = _history[tag];
+                    const std::string &p = r->pathAsString();
+                    std::string k = p + ":" + tag; // source name in database
+                    InputViewerHistory *w = _history[k];
                     //
                     if(w)
                     {
@@ -97,7 +168,8 @@ bool InputViewer::processQueueItem(const MRL::Message &msg)
                         while(w->GetHistory()->GetCount() > MaxHistorySize) {
                             w->GetHistory()->Delete(0);
                         }
-                        w->GetGraph()->graph().update(tag,timeStamp,v); // add the graph lines
+                        w->GetGraph()->graph().update(k,timeStamp,v); // add the graph lines
+                        w->GetGraph()->redraw();
                         //
                         GetCurrentStatus()->Clear();
                         GetCurrentStatus()->BeginAlignment(wxTEXT_ALIGNMENT_CENTRE);
