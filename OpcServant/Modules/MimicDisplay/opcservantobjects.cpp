@@ -2,7 +2,7 @@
 #include <Common/Daq/rtobject.h>
 #include <Common/Daq/daq.h>
 #include <Common/Daq/daqcommon.h>
-#include "InputViewer.h"
+#include <Common/Gui/InputViewer.h>
 static  wxArrayString staticList;
 
 template <typename T>

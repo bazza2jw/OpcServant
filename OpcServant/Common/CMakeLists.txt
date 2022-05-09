@@ -22,6 +22,10 @@ set(LIB_SOURCES
     Gui/AddObjectDialog.cpp
     Gui/BourbonCommonUI.cpp
     Gui/BourbonCommonUI_bourboncommon_bitmaps.cpp 
+    Gui/InputViewer.cpp
+    Gui/InputViewerHistory.cpp
+    Gui/InputViewUI.cpp
+    Gui/InputViewUI_bitmaps.cpp
     objectdataitem.cpp 
     objectdatavalidator.cpp 
     Opc/opcserver.cpp 

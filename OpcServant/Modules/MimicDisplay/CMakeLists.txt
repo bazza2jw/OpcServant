@@ -13,8 +13,6 @@ set(LIB_SOURCES
         mimicdisplayrt.cpp
         MimicTabDisplay.cpp
         opcservantobjects.cpp
-        InputViewer.cpp
-        InputViewerHistory.cpp
     )
 
 set(PROJECT_LIB_FLAGS Common MrlLib Mimic ${NODEFLOWLIBS})
