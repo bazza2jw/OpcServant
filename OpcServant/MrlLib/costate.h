@@ -137,7 +137,7 @@ public:
 // how to yield
 #define COYIELD  __state__.next(__LINE__ + 1000);  } break; case (__LINE__ + 1000): {
 // wait for milli-seconds
-#define COWAIT(t) __state__.wait(t);COYIELD
+#define COWAIT(t) __state__.next(__LINE__ + 1000); __state__.wait(t); } break; case (__LINE__ + 1000): {
 // goto a state / COLABEL
 #define COGOTO(l) __state__.next(l);break;
 //
@@ -145,7 +145,7 @@ public:
 #define COPUSH(l) __state__.next(__LINE__ + 1000);__state__.push(l);};break;case (__LINE__ + 1000): {
 // in effect a return from a call
 #define COPOP __state__.pop();break;
-//
+// Reset the state and clear stacks
 #define CORESET __state__.reset();break;
 // Goto idle , process next event - this is the end of an event process sequence
 #define COIDLE  __state__.next(0);break;

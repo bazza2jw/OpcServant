@@ -384,10 +384,10 @@ public:
 
             for (int i = 1; i < _numberRetries; i++) {
                 if ((_lastError = modbus_write_and_read_registers(handle(),
-                                                                  write_addr,
-                                                                  writeReg.size(),
-                                                                  (const uint16_t *)p,
-                                                                  read_addr, readReg.size(),q)) >= 0) break;
+                                  write_addr,
+                                  writeReg.size(),
+                                  (const uint16_t *)p,
+                                  read_addr, readReg.size(),q)) >= 0) break;
             }
         }
         return _lastError >= 0;
@@ -409,6 +409,100 @@ public:
         return false;
     }
 
+};
+
+/*!
+ * \brief The ModbusSlave class
+ */
+class ModbusSlave {
+    uint8_t _request[MODBUS_RTU_MAX_ADU_LENGTH];//Will contain internal libmodubs data from a request that must be given back to answer
+    modbus_t *_ctx = nullptr;
+    modbus_mapping_t *_mb_mapping = nullptr;
+    int _lastError = 0;
+public:
+    /*!
+     * \brief ModbusSlave
+     */
+    ModbusSlave() {}
+
+
+    ~ModbusSlave()
+    {
+        close();
+        if(_mb_mapping) modbus_mapping_free(_mb_mapping);
+    }
+
+    /*!
+     * \brief setMapping
+     * \param nb_bits
+     * \param nb_input_bits
+     * \param nb_registers
+     * \param nb_input_registers
+     * \return true on sucess
+     */
+    bool setMapping(int nb_bits = 256, int nb_input_bits = 256,
+                    int nb_registers = 256, int nb_input_registers = 256)
+    {
+        // useful defaults
+        if(_mb_mapping) modbus_mapping_free(_mb_mapping);
+        _mb_mapping = modbus_mapping_new(nb_bits,nb_input_bits,nb_registers,nb_input_registers);
+        return _mb_mapping != nullptr;
+    }
+
+    /*!
+     * \brief open
+     * \param port
+     * \param baudRate
+     * \return
+     */
+    bool open(const std::string &port, int baudRate = 115200 )
+    {
+        close();
+        _ctx = modbus_new_rtu(port.c_str(), baudRate, 'N', 8, 1);
+        if (_ctx == NULL) {
+            return false;
+        }
+        _lastError = modbus_connect(_ctx);
+        return (_lastError >= 0);
+    }
+    /*!
+     * \brief close
+     */
+    void close()
+    {
+        if(_ctx)
+        {
+            modbus_close(_ctx);
+            modbus_free(_ctx);
+        }
+        _ctx = nullptr;
+    }
+    /*!
+     * \brief setSlave
+     * \param slave
+     * \return  true on success
+     */
+    bool setSlave(int slave) {
+        _lastError = -1;
+        return _ctx && ((_lastError = modbus_set_slave(_ctx, slave)) == 0);
+    }
+    /*!
+     * \brief process
+     */
+    virtual void process()
+    {
+        if(_ctx)
+        {
+            int rc = modbus_receive(_ctx, _request); // rx a record
+            if(rc > 0)
+            {
+                _lastError = modbus_reply(_ctx,_request,rc,_mb_mapping); // post the reply
+            }
+        }
+    }
+    // accessors
+    modbus_t * handle() const { return _ctx;}
+    modbus_mapping_t * mapping() const { return _mb_mapping;}
 };
 
 }

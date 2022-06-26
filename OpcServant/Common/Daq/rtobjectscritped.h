@@ -4,7 +4,9 @@
 #include <MrlLib/luascript.h>
 namespace MRL {
 
-
+/*!
+ * \brief The RTObjectScritped class
+ */
 class RTObjectScritped : public RTObject
 {
     std::string _script;
