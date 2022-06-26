@@ -238,12 +238,12 @@ MRL::Graph::DataMapPtr &MRL::Graph::addLine(const std::string &tag, wxColour c)
 {
     static const char * colour_list[] =
     {
-        "MEDIUM FOREST GREEN",
-        "MEDIUM GOLDENROD",
-        "MEDIUM ORCHID",
-        "MEDIUM SEA GREEN",
-        "MEDIUM SLATE BLUE",
-        "MEDIUM SPRING GREEN",
+        "YELLOW",
+        "RED",
+        "CYAN",
+        "MAGENTA",
+        "ORANGE",
+        "BLUE",
         "MEDIUM TURQUOISE",
         "MEDIUM VIOLET RED",
         "MIDNIGHT BLUE"
@@ -261,28 +261,24 @@ MRL::Graph::DataMapPtr &MRL::Graph::addLine(const std::string &tag, wxColour c)
 */
 void  MRL::Graph::update(const std::string &tag,const time_t dt, double v)
 {
-    if(dt > (time_t)maxTime)
-    {
         if(!hasLine(tag))
         {
             addLine(tag);
         };
         //
+
         DataMapPtr &m =  plotMap[tag];
-        dataPt pt((double)dt,v);
-        //
-        m->push_back(pt);
-        //
-        while(m->size() > maxPointsPerLine)
+        if(m->back().t < dt)
         {
-            m->pop_front();
-        };
-        LastDateTime = dt;
-        last_v = v;
-        maxTime = dt;
-        if(m->front().t > minTime)
-            minTime = m->front().t;
-    }
+            dataPt pt((double)dt,v);
+            //
+            m->push_back(pt);
+            //
+            while(m->size() > maxPointsPerLine)
+            {
+                m->pop_front();
+            };
+        }
 }
 
 /*
@@ -425,7 +421,7 @@ void MRL::Graph::addLogYlegend(wxDC &DC)
         DC.DrawText(s,timeSize.GetWidth()/8,plotRect.GetTop());
         //
         wxPen spen(*wxBLACK_PEN);
-        wxPen dpen(*wxBLACK_DASHED_PEN);
+        wxPen dpen(*wxMEDIUM_GREY_PEN);
         //
         for(int k = 1 ; k < nsteps; k++)
         {
