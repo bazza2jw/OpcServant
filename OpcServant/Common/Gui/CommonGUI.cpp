@@ -284,7 +284,7 @@ ReportGeneratorPanelBase::ReportGeneratorPanelBase(wxWindow* parent, wxWindowID 
     boxSizerGraph = new wxBoxSizer(wxVERTICAL);
     m_panelGraph->SetSizer(boxSizerGraph);
     
-    m_graphBitmap = new wxStaticBitmap(m_panelGraph, wxID_ANY, wxNullBitmap, wxDefaultPosition, wxDLG_UNIT(m_panelGraph, wxSize(-1,-1)), 0 );
+    m_graphBitmap = new wxStaticBitmap(m_panelGraph, wxID_ANY, wxArtProvider::GetBitmap(wxART_REPORT_VIEW, wxART_TOOLBAR, wxDefaultSize), wxDefaultPosition, wxDLG_UNIT(m_panelGraph, wxSize(-1,-1)), 0 );
     
     boxSizerGraph->Add(m_graphBitmap, 1, wxALL|wxEXPAND, WXC_FROM_DIP(5));
     
@@ -296,7 +296,7 @@ ReportGeneratorPanelBase::ReportGeneratorPanelBase(wxWindow* parent, wxWindowID 
     
     m_statsTable = new wxDataViewListCtrl(m_panelStatistics, wxID_ANY, wxDefaultPosition, wxDLG_UNIT(m_panelStatistics, wxSize(-1,-1)), wxDV_ROW_LINES|wxDV_SINGLE);
     
-    boxSizer251->Add(m_statsTable, 0, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    boxSizer251->Add(m_statsTable, 1, wxALL|wxEXPAND, WXC_FROM_DIP(5));
     
     m_statsTable->AppendTextColumn(_("Item"), wxDATAVIEW_CELL_INERT, WXC_FROM_DIP(-2), wxALIGN_LEFT, wxDATAVIEW_COL_RESIZABLE);
     m_statsTable->AppendTextColumn(_("Mean"), wxDATAVIEW_CELL_INERT, WXC_FROM_DIP(-2), wxALIGN_LEFT, wxDATAVIEW_COL_RESIZABLE);
@@ -383,7 +383,7 @@ ReportTablePageBase::ReportTablePageBase(wxWindow* parent, wxWindowID id, const 
     
     m_itemName = new wxStaticText(this, wxID_ANY, _("Item Name"), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), 0);
     
-    boxSizer341->Add(m_itemName, 0, wxALL, WXC_FROM_DIP(5));
+    boxSizer341->Add(m_itemName, 0, wxALL|wxEXPAND, WXC_FROM_DIP(5));
     
     boxSizer349 = new wxBoxSizer(wxHORIZONTAL);
     
