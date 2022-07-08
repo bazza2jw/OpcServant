@@ -55,7 +55,9 @@ namespace MRL {
         ObjectManagerAdd = 2000,
         ObjectManagerDelete,
         ObjectManagerProperties,
-        ObjectManagerView
+        ObjectManagerView,
+        ObjectManagerImport,
+        ObjectManagerExport,
     };
 
     class ObjectDataValidator;

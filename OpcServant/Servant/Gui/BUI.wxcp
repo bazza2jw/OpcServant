@@ -2031,7 +2031,7 @@
           }, {
            "type": "string",
            "m_label": "Label:",
-           "m_value": "HMI"
+           "m_value": "Web"
           }, {
            "type": "bitmapPicker",
            "m_label": "Bitmap File:",

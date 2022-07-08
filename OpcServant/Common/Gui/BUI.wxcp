@@ -1289,7 +1289,7 @@
         }, {
          "type": "string",
          "m_label": "# Columns:",
-         "m_value": "2"
+         "m_value": "4"
         }, {
          "type": "string",
          "m_label": "# Rows:",

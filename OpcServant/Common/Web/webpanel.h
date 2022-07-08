@@ -32,8 +32,101 @@
 #include <Common/Daq/rtobject.h>
 #include <Common/Daq/daqcommon.h>
 #include <MrlLib/scaleoffset.h>
+#include <Wt/WSelectionBox.h>
+#include <Wt/WDialog.h>
+#include <Wt/WLink.h>
+#include <Wt/WComboBox.h>
+
 
 namespace MRL {
+
+class WebDownloadDialog : public Wt::WDialog
+{
+    Wt::WLink _link;
+public:
+    /*!
+     * \brief WebReportCompleteDialog
+     * \param url
+     */
+    WebDownloadDialog( const std::string &url) : Wt::WDialog("Export"), _link(url)
+    {
+        setClosable(true);
+        setResizable(true);
+        setTitleBarEnabled(true);
+        setMovable(true);
+        setVerticalAlignment (Wt::AlignmentFlag::Middle);
+        Wt::WPushButton *ok = footer()->addWidget(std::make_unique<Wt::WPushButton>("Export"));
+        ok->setDefault(true);
+        Wt::WPushButton *cancel = footer()->addWidget(std::make_unique<Wt::WPushButton>("Cancel"));
+        rejectWhenEscapePressed();
+        /*
+            Accept the dialog
+        */
+        ok->clicked().connect([ = ] {
+            accept();
+        });
+
+        _link.setTarget(Wt::LinkTarget::NewWindow); // open in new tab on browser
+        ok->setLink(_link);
+
+        /*
+            Reject the dialog
+        */
+        cancel->clicked().connect(this, &Wt::WDialog::reject);
+    }
+};
+
+
+/*!
+ * \brief The WebGetFile class
+ * Choose a file in a given directory
+ */
+class WebGetFile : public Wt::WDialog
+{
+    Wt::WString _prompt;
+    Wt::WComboBox * _input = nullptr;
+    Wt::WString _dir;
+    Wt::WString _filter;
+public:
+    WebGetFile(const Wt::WString &s, const Wt::WString &dir, const Wt::WString & filter) :
+        _prompt(s),_dir(dir),_filter(filter)
+    {
+        setup();
+    }
+
+    void setup();
+
+    void ok()
+    {
+
+    }
+    /*!
+     * \brief input
+     * \return
+     */
+    const Wt::WString input()
+    {
+        return _input->currentText();
+    }
+    /*!
+     * \brief getInput
+     * \param owner
+     * \param prompt
+     * \param resString
+     * \return
+     */
+    static bool getFile(Wt::WWidget *owner , const Wt::WString &prompt, const Wt::WString &dir, const Wt::WString &filter,Wt::WString &resString)
+    {
+        WebGetFile dlg(prompt,dir,filter);
+        bool res = dlg.exec() == Wt::DialogCode::Accepted;
+        resString = dlg.input();
+        return res;
+    }
+
+};
+
+
+
 /*!
  * \brief The WebPanel class
  */
@@ -91,7 +184,9 @@ public:
         return _labels;
     }
     void setLabels();
-    ScaleOffsetMap & map() { return _map;}
+    ScaleOffsetMap & map() {
+        return _map;
+    }
 };
 
 /*!
@@ -216,7 +311,9 @@ public:
     virtual void write(MRL::VariantPropertyTree &,MRL::PropertyPath &) {} // write panel data to the configuration - called by onOK
     void setup(); // setup the dialog fields
     void onOk(); // when OK
-    PropertyPath & dataPath() { return _dataPath;} // usually empty but can be a sub directory in the configuration tree
+    PropertyPath & dataPath() {
+        return _dataPath;   // usually empty but can be a sub directory in the configuration tree
+    }
     MRL::VariantPropertyTree & configuration() {
         return  _configuration;
     }
@@ -251,8 +348,12 @@ public:
     } // write panel data to the configuration - called by onOK
 
     // this may be shadowed - I know
-    T * panel() { return _panel;}
-    void setPanel(T * p) { _panel = p;}
+    T * panel() {
+        return _panel;
+    }
+    void setPanel(T * p) {
+        _panel = p;
+    }
 
 
 };
@@ -292,8 +393,12 @@ public:
         _panel->write(c,p);
     } // write panel data to the configuration - called by onOK
 
-    T * panel() { return _panel;}
-    void setPanel(T * p) { _panel = p;}
+    T * panel() {
+        return _panel;
+    }
+    void setPanel(T * p) {
+        _panel = p;
+    }
 
 };
 

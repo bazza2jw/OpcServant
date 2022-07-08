@@ -522,3 +522,51 @@ void MRL::ConfigureNetworkWebPanel::write(VariantPropertyTree &c,MRL::PropertyPa
 }
 
 
+
+/*!
+ * \brief MRL::WebGetFile::setup
+ */
+void MRL::WebGetFile::setup()
+{
+    setClosable(true);
+    setResizable(true);
+    setTitleBarEnabled(true);
+    setMovable(true);
+    setVerticalAlignment (Wt::AlignmentFlag::Middle);
+    Wt::WPushButton *ok = footer()->addWidget(std::make_unique<Wt::WPushButton>(_TR("OK")));
+    ok->setDefault(true);
+    //if (wApp->environment().ajax())
+    //    ok->disable();
+    Wt::WPushButton *cancel = footer()->addWidget(std::make_unique<Wt::WPushButton>(_TR("Cancel")));
+    rejectWhenEscapePressed();
+    auto layout = contents()->setLayout(std::make_unique<Wt::WGridLayout>()); // a bag grid layout
+    // add the items to the grid
+    layout->addWidget(std::make_unique<Wt::WLabel>(_prompt), 0, 0);
+    _input = layout->addWidget(std::make_unique<Wt::WComboBox>(), 0, 1);
+    // get the report list
+    std::string rd = _dir.toUTF8();
+    std::string flt = _filter.toUTF8();
+    //
+    wxArrayString files;
+    wxDir::GetAllFiles 	(rd,&files, flt);
+    if(files.Count() > 0)
+    {
+        for(int i = 0; i < int(files.Count()); i++)
+        {
+            wxFileName fn(files[i]);
+            std::string rn = fn.GetName().ToStdString();
+            _input->addItem(rn);
+        }
+    }
+    /*
+        Accept the dialog
+    */
+    ok->clicked().connect(this, &Wt::WDialog::accept);
+
+    /*
+        Reject the dialog
+    */
+    cancel->clicked().connect(this, &Wt::WDialog::reject);
+
+}
+
