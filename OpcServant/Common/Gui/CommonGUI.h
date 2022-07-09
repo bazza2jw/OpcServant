@@ -60,6 +60,7 @@ protected:
     wxPGProperty* m_enableGui;
     wxPGProperty* m_enableWeb;
     wxPGProperty* m_enableOpc;
+    wxPGProperty* m_useSSL;
     wxPGProperty* m_mainTab;
     wxPGProperty* m_autoPurge;
     wxPGProperty* m_enableVK;

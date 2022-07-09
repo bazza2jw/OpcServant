@@ -76,12 +76,13 @@ namespace MRL {
             std::unique_ptr<LastActivityTimeDetector> _inactivity; // detect keystokes and mouse presses
             Mainframe *_mainFrame = nullptr;
 
-            bool _enableGui = true; // which sub systems are enabled - No GUI if running as deamon
-            bool _enableWeb = true; // Web application
-            bool _enableOpc = true; // OPC interface
+            bool _enableGui = false; // which sub systems are enabled - No GUI if running as deamon
+            bool _enableWeb = false; // Web application
+            bool _enableOpc = false; // OPC interface
             bool _disableExit = false; // is exit disabled on the main window - if true the main window is hidden
             bool _enableErrorLog = false;
             bool _shutdownOnExit = false;
+            bool _useSSL = false; // flag for using SSL
             //
             //
             std::unique_ptr<ServerObject> _serverObject ;

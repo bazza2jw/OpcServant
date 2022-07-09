@@ -39,6 +39,7 @@ void SystemPropertiesDialog::setup()
     m_enableOpc->SetValue(_settings.getValue<bool>(p, "EnableOpc"));
     m_enableWeb->SetValue(_settings.getValue<bool>(p, "EnableWeb"));
     m_enableVK->SetValue(_settings.getValue<bool>(p, "EnableVK"));
+    m_useSSL->SetValue(_settings.getValue<bool>(p, "UseSSL"));
     m_screenLock->SetValue(_settings.getValue<bool>(p, "ScreenLock"));
     m_screenLockPin->SetValue(_settings.getValue<std::string>(p, "ScreenLockPin"));
     m_homePage->SetValue(_settings.getValue<std::string>(p, "HomePage"));
@@ -71,6 +72,8 @@ void SystemPropertiesDialog::OnOK(wxCommandEvent & /*event*/) {
     _settings.setValue(p, "EnableOpc", m_enableOpc->GetValue().GetBool());
     _settings.setValue(p, "EnableWeb", m_enableWeb->GetValue().GetBool());
     _settings.setValue(p, "EnableVK", m_enableVK->GetValue().GetBool());
+    _settings.setValue(p, "UseSSL", m_useSSL->GetValue().GetBool());
+    //
     _settings.setValue(p, "AutoPurge", m_autoPurge->GetValue().GetBool());
     _settings.setValue(p, "ScreenLock", m_screenLock->GetValue().GetBool());
     _settings.setValue(p, "ScreenLockPin", m_screenLockPin->GetValueAsString().ToStdString());

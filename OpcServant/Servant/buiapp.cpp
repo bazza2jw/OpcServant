@@ -37,14 +37,14 @@
 bool MRL::BuiApp::OnInit() {
     try {
         // Building without GUI means smaller executable and smaller wx libraries
-        #ifdef USE_GUI
+#ifdef USE_GUI
         wxApp::OnInit(); // parse the command line
         wxInitAllImageHandlers();
         wxXmlResource::Get()->InitAllHandlers();
         _inactivity.reset(new LastActivityTimeDetector()); // add the message filter
-        #else
+#else
         wxAppConsole::OnInit(); // parse the command line
-        #endif
+#endif
         // comment out to enable error message from wx - esp load library errors
 #ifndef TRACE_ON
         if(!_enableErrorLog) _nullLog.reset(new wxLogNull()); // switches off warning dialogs
@@ -58,9 +58,11 @@ bool MRL::BuiApp::OnInit() {
             PropertyPath p;
             p.push_back("System");
             // What sub systems do we enable
-            _enableGui |= stringToBool(SETTINGS().getValue<std::string>(p, "EnableGui"));
-            _enableWeb |= stringToBool(SETTINGS().getValue<std::string>(p, "EnableWeb"));
-            _enableOpc |= stringToBool(SETTINGS().getValue<std::string>(p, "EnableOpc"));
+            _enableGui |= SETTINGS().getValue<bool>(p, "EnableGui");
+            _enableWeb |= SETTINGS().getValue<bool>(p, "EnableWeb");
+            _enableOpc |= SETTINGS().getValue<bool>(p, "EnableOpc");
+            _useSSL    |= SETTINGS().getValue<bool>(p, "UseSSL");
+
             //
             //
             // Load plugin modules
@@ -91,7 +93,7 @@ bool MRL::BuiApp::OnInit() {
             }
             //
             //
-            #ifdef USE_GUI
+#ifdef USE_GUI
             if (_enableGui) {
                 TRC("Starting GUI")
                 // GUI is not needed (wanted) if running as a service
@@ -111,7 +113,7 @@ bool MRL::BuiApp::OnInit() {
                 //
                 ProcessPendingEvents();
             }
-            #endif
+#endif
             //
 
 
@@ -121,9 +123,31 @@ bool MRL::BuiApp::OnInit() {
                 // Now start the web thread
                 static const char *av[] = {"OpcServant", "--docroot=.;/resources", "--http-address=0.0.0.0", "--http-port=8082","--resources-dir=./resources"};
                 //
+                // the ssl sub-directory has all the SSL files for this application
+                // Note if the certificates fail then the server fails and there may be a crash
+                //
+                static const char *avSsl[] = {"OpcServant",
+                                              "--docroot=.;/resources",
+                                              "--https-address=0.0.0.0",
+                                              "--https-port=8082",
+                                              "--ssl-certificate=./ssl/server.pem",
+                                              "--ssl-private-key=./ssl/server.key",
+                                              "--ssl-tmp-dh=./ssl/dh2048.pem",
+                                              //"--ssl-cipherlist='ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES256-GCM-SHA384:DHE-RSA-AES128-GCM-SHA256:DHE-DSS-AES128-GCM-SHA256:kEDH+AESGCM:ECDHE-RSA-AES128-SHA256:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA:ECDHE-ECDSA-AES128-SHA:ECDHE-RSA-AES256-SHA384:ECDHE-ECDSA-AES256-SHA384:ECDHE-RSA-AES256-SHA:ECDHE-ECDSA-AES256-SHA:DHE-RSA-AES128-SHA256:DHE-RSA-AES128-SHA:DHE-DSS-AES128-SHA256:DHE-RSA-AES256-SHA256:DHE-DSS-AES256-SHA:DHE-RSA-AES256-SHA:AES128-GCM-SHA256:AES256-GCM-SHA384:AES128-SHA256:AES256-SHA256:AES128-SHA:AES256-SHA:AES:CAMELLIA:DES-CBC3-SHA:!aNULL:!eNULL:!EXPORT:!DES:!RC4:!MD5:!PSK:!aECDH:!EDH-DSS-DES-CBC3-SHA:!EDH-RSA-DES-CBC3-SHA:!KRB5-DES-CBC3-SHA'",
+                                              "--resources-dir=./resources"
+                                             };
+
+                //
                 std::string av0 = wxAppConsole::argv[0].ToStdString();
                 _webThread = std::make_unique<Wt::WServer>(av0);
-                _webThread->setServerConfiguration(5, (char **)(av), WTHTTP_CONFIGURATION);
+                if(_useSSL)
+                {
+                    _webThread->setServerConfiguration(8, (char **)(avSsl), WTHTTP_CONFIGURATION);
+                }
+                else
+                {
+                    _webThread->setServerConfiguration(5, (char **)(av), WTHTTP_CONFIGURATION);
+                }
                 _webThread->addEntryPoint(Wt::EntryPointType::Application,
                 [](const Wt::WEnvironment & env) {
                     auto app = std::make_unique<MRL::BuiWebApplication>(UI_USER,env);
@@ -169,15 +193,17 @@ bool MRL::BuiApp::OnInit() {
                 },"/flow");
                 // Set up the model for web interfaces
                 MRL::Plugin::initialiseAllWeb();
-                //
-
-                //
                 // initialise the model for the Wt model and link to the configuration and runtime
                 _webThread->start(); // start the server thread
             }
             //
-            wxThread::Sleep(100); // give everything a chance to get going
+            wxThread::Sleep(1000); // give everything a chance to get going
             //
+            if(!_webThread->isRunning())
+            {
+                // did it start ?
+                return false;
+            }
             //
             // Start the DAQ thread
             TRC("Starting DAQ")
@@ -189,22 +215,25 @@ bool MRL::BuiApp::OnInit() {
             _serverObject = std::make_unique<ServerObject>();
         }
         else {
-            #ifdef USE_GUI
+#ifdef USE_GUI
             auto w = new SystemPropertiesDialog(nullptr);
             w->ShowModal();
-            #else
+#else
             wxLogDebug("Failed to initialise Common");
-            #endif
+#endif
         }
     }
     catch (Wt::WException &e) {
         wxLogDebug("Web Exception %s", e.what());
+        return false;
     }
     catch (std::exception &e) {
         EXCEPT_TRC;
+        return false;
     }
     catch (...) {
         EXCEPT_DEF;
+        return false;
     }
     //
     return true;
@@ -215,17 +244,18 @@ bool MRL::BuiApp::OnInit() {
     \param parser
 */
 void MRL::BuiApp::OnInitCmdLine(wxCmdLineParser &parser) {
-    #ifdef USE_GUI
+#ifdef USE_GUI
     wxApp::OnInitCmdLine(parser);
-    #else
+#else
     wxAppConsole::OnInitCmdLine(parser);
-    #endif
+#endif
     //
     parser.AddSwitch("web");
     parser.AddSwitch("gui");
     parser.AddSwitch("opc");
     parser.AddSwitch("disableExit"); // if running views a top level window we do not want the app to exit
     parser.AddSwitch("enableErrorLog"); // enable the system warning messages
+    parser.AddSwitch("useSSL");
 }
 
 /*!
@@ -240,6 +270,7 @@ bool MRL::BuiApp::OnCmdLineParsed(wxCmdLineParser &parser) {
     _enableOpc |= parser.Found("opc");
     _disableExit = parser.Found("disableExit");
     _enableErrorLog = parser.Found("enableErrorLog");
+    _useSSL |= parser.Found("useSSL");
     return true;
 }
 
@@ -315,10 +346,10 @@ int  MRL::BuiApp::OnExit() {
     //
     if(_shutdownOnExit) wxShutdown();
     //
-    #ifdef USE_GUI
+#ifdef USE_GUI
     return wxApp::OnExit();
-    #else
+#else
     return wxAppConsole::OnExit();
-    #endif
+#endif
 }
 

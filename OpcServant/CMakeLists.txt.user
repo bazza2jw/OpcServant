@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 4.11.0, 2022-07-08T10:17:07. -->
+<!-- Written by QtCreator 4.11.0, 2022-07-09T17:47:37. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
@@ -613,7 +613,7 @@
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">Servant</value>
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">CMakeProjectManager.CMakeRunConfiguration.Servant</value>
     <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">Servant</value>
-    <value type="QString" key="RunConfiguration.Arguments"></value>
+    <value type="QString" key="RunConfiguration.Arguments">-useSSL</value>
     <value type="bool" key="RunConfiguration.Arguments.multi">false</value>
     <value type="QString" key="RunConfiguration.OverrideDebuggerStartup"></value>
     <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>

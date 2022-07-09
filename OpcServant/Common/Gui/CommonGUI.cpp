@@ -47,6 +47,9 @@ SystemPropertiesDialogBase::SystemPropertiesDialogBase(wxWindow* parent, wxWindo
     m_enableOpc = m_properties->Append(  new wxBoolProperty( _("Enable OPC"), wxPG_LABEL, 1) );
     m_enableOpc->SetHelpString(_("Enable OPC server"));
     
+    m_useSSL = m_properties->Append(  new wxBoolProperty( _("Use SSL"), wxPG_LABEL, 1) );
+    m_useSSL->SetHelpString(wxT(""));
+    
     m_mainTab = m_properties->Append(  new wxStringProperty( _("Main Tab"), wxPG_LABEL, _("System")) );
     m_mainTab->SetHelpString(wxT(""));
     
@@ -85,7 +88,7 @@ SystemPropertiesDialogBase::SystemPropertiesDialogBase(wxWindow* parent, wxWindo
     m_opcPassword = m_properties->Append(  new wxStringProperty( _("OPC Password"), wxPG_LABEL, _("password")) );
     m_opcPassword->SetHelpString(wxT(""));
     
-    gridSizer161 = new wxGridSizer(0, 2, 0, 0);
+    gridSizer161 = new wxGridSizer(0, 4, 0, 0);
     
     boxSizer55->Add(gridSizer161, 0, wxALL|wxEXPAND, WXC_FROM_DIP(5));
     
