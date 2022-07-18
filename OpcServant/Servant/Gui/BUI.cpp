@@ -174,7 +174,7 @@ MainframeBase::MainframeBase(wxWindow* parent, wxWindowID id, const wxString& ti
     m_panelWeb = new wxPanel(m_notebook, wxID_ANY, wxDefaultPosition, wxDLG_UNIT(m_notebook, wxSize(-1,-1)), wxTAB_TRAVERSAL);
     int m_panelWebImgIndex;
     m_panelWebImgIndex = m_notebook_il->Add(wxXmlResource::Get()->LoadBitmap(wxT("gohome")));
-    m_notebook->AddPage(m_panelWeb, _("HMI"), false, m_panelWebImgIndex);
+    m_notebook->AddPage(m_panelWeb, _("Web"), false, m_panelWebImgIndex);
     
     webSizer = new wxBoxSizer(wxVERTICAL);
     m_panelWeb->SetSizer(webSizer);

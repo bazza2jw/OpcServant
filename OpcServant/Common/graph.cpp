@@ -513,7 +513,7 @@ void  MRL::Graph::plotLines(wxDC &DC)
             if(int((*i).first.length()) > maxLen) maxLen = (*i).first.length();
         }
         //
-        wxRect bkg(plotRect.GetLeft(),plotRect.GetTop(),(maxLen + 2) * timeSize.GetWidth()/8, plotMap.size() * (timeSize.GetHeight()+2) + 6  );
+        wxRect bkg(plotRect.GetLeft(),plotRect.GetTop(),(maxLen + 8) * timeSize.GetWidth()/8, plotMap.size() * (timeSize.GetHeight()+2) + 6  );
         DC.SetBrush(*wxWHITE_BRUSH);
         DC.SetPen(*wxBLACK_PEN);
         DC.DrawRectangle(bkg);
