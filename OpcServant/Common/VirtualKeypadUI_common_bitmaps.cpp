@@ -239,7 +239,7 @@ static unsigned char xml_res_file_1[] = {
 110,107,115,99,97,112,101,46,111,114,103,155,238,60,26,0,0,0,0,73,69,78,
 68,174,66,96,130};
 
-static size_t xml_res_size_2 = 473;
+static size_t xml_res_size_2 = 441;
 static unsigned char xml_res_file_2[] = {
 60,63,120,109,108,32,118,101,114,115,105,111,110,61,34,49,46,48,34,32,101,
 110,99,111,100,105,110,103,61,34,85,84,70,45,56,34,63,62,10,60,114,101,
@@ -250,21 +250,19 @@ static unsigned char xml_res_file_2[] = {
 45,62,10,32,32,60,111,98,106,101,99,116,32,99,108,97,115,115,61,34,119,
 120,66,105,116,109,97,112,34,32,110,97,109,101,61,34,109,95,111,102,102,
 34,62,86,105,114,116,117,97,108,75,101,121,112,97,100,85,73,95,99,111,109,
-109,111,110,95,98,105,116,109,97,112,115,46,99,112,112,36,95,104,111,109,
-101,95,98,97,114,114,121,95,87,111,114,107,95,68,101,118,101,108,111,112,
-109,101,110,116,95,80,114,111,106,101,99,116,115,95,77,82,76,95,79,112,
-99,83,101,114,118,97,110,116,95,79,112,99,83,101,114,118,97,110,116,95,
-67,111,109,109,111,110,95,73,99,111,110,115,95,79,102,102,46,112,110,103,
-60,47,111,98,106,101,99,116,62,10,32,32,60,111,98,106,101,99,116,32,99,
-108,97,115,115,61,34,119,120,66,105,116,109,97,112,34,32,110,97,109,101,
-61,34,109,95,111,110,34,62,86,105,114,116,117,97,108,75,101,121,112,97,
-100,85,73,95,99,111,109,109,111,110,95,98,105,116,109,97,112,115,46,99,
-112,112,36,95,104,111,109,101,95,98,97,114,114,121,95,87,111,114,107,95,
-68,101,118,101,108,111,112,109,101,110,116,95,80,114,111,106,101,99,116,
-115,95,77,82,76,95,79,112,99,83,101,114,118,97,110,116,95,79,112,99,83,
-101,114,118,97,110,116,95,67,111,109,109,111,110,95,73,99,111,110,115,95,
-79,107,46,112,110,103,60,47,111,98,106,101,99,116,62,10,60,47,114,101,115,
-111,117,114,99,101,62,10};
+109,111,110,95,98,105,116,109,97,112,115,46,99,112,112,36,95,68,101,118,
+101,108,111,112,109,101,110,116,95,80,114,111,106,101,99,116,115,95,77,
+82,76,95,79,112,99,83,101,114,118,97,110,116,95,79,112,99,83,101,114,118,
+97,110,116,95,67,111,109,109,111,110,95,73,99,111,110,115,95,79,102,102,
+46,112,110,103,60,47,111,98,106,101,99,116,62,10,32,32,60,111,98,106,101,
+99,116,32,99,108,97,115,115,61,34,119,120,66,105,116,109,97,112,34,32,110,
+97,109,101,61,34,109,95,111,110,34,62,86,105,114,116,117,97,108,75,101,
+121,112,97,100,85,73,95,99,111,109,109,111,110,95,98,105,116,109,97,112,
+115,46,99,112,112,36,95,68,101,118,101,108,111,112,109,101,110,116,95,80,
+114,111,106,101,99,116,115,95,77,82,76,95,79,112,99,83,101,114,118,97,110,
+116,95,79,112,99,83,101,114,118,97,110,116,95,67,111,109,109,111,110,95,
+73,99,111,110,115,95,79,107,46,112,110,103,60,47,111,98,106,101,99,116,
+62,10,60,47,114,101,115,111,117,114,99,101,62,10};
 
 void wxCrafter7TPDlEInitBitmapResources()
 {
@@ -279,8 +277,8 @@ void wxCrafter7TPDlEInitBitmapResources()
         else wxFileSystem::AddHandler(new wxMemoryFSHandlerBase);
     }
 
-    XRC_ADD_FILE(wxT("XRC_resource/VirtualKeypadUI_common_bitmaps.cpp$_home_barry_Work_Development_Projects_MRL_OpcServant_OpcServant_Common_Icons_Off.png"), xml_res_file_0, xml_res_size_0, wxT("image/png"));
-    XRC_ADD_FILE(wxT("XRC_resource/VirtualKeypadUI_common_bitmaps.cpp$_home_barry_Work_Development_Projects_MRL_OpcServant_OpcServant_Common_Icons_Ok.png"), xml_res_file_1, xml_res_size_1, wxT("image/png"));
-    XRC_ADD_FILE(wxT("XRC_resource/VirtualKeypadUI_common_bitmaps.cpp$_home_barry_Work_Development_Projects_MRL_OpcServant_OpcServant_Common_VirtualKeypadUI_common_bitmaps.xrc"), xml_res_file_2, xml_res_size_2, wxT("text/xml"));
-    wxXmlResource::Get()->Load(wxT("memory:XRC_resource/VirtualKeypadUI_common_bitmaps.cpp$_home_barry_Work_Development_Projects_MRL_OpcServant_OpcServant_Common_VirtualKeypadUI_common_bitmaps.xrc"));
+    XRC_ADD_FILE(wxT("XRC_resource/VirtualKeypadUI_common_bitmaps.cpp$_Development_Projects_MRL_OpcServant_OpcServant_Common_Icons_Off.png"), xml_res_file_0, xml_res_size_0, wxT("image/png"));
+    XRC_ADD_FILE(wxT("XRC_resource/VirtualKeypadUI_common_bitmaps.cpp$_Development_Projects_MRL_OpcServant_OpcServant_Common_Icons_Ok.png"), xml_res_file_1, xml_res_size_1, wxT("image/png"));
+    XRC_ADD_FILE(wxT("XRC_resource/VirtualKeypadUI_common_bitmaps.cpp$_Development_Projects_MRL_OpcServant_OpcServant_Common_VirtualKeypadUI_common_bitmaps.xrc"), xml_res_file_2, xml_res_size_2, wxT("text/xml"));
+    wxXmlResource::Get()->Load(wxT("memory:XRC_resource/VirtualKeypadUI_common_bitmaps.cpp$_Development_Projects_MRL_OpcServant_OpcServant_Common_VirtualKeypadUI_common_bitmaps.xrc"));
 }

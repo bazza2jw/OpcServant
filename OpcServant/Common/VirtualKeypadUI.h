@@ -21,6 +21,9 @@
 #include <map>
 #include <wx/icon.h>
 #include <wx/panel.h>
+#include <wx/stattext.h>
+#include <wx/tglbtn.h>
+#include "sliderswitch.h"
 #if wxVERSION_NUMBER >= 2900
 #include <wx/persist.h>
 #include <wx/persist/toplevel.h>
@@ -96,7 +99,7 @@ public:
     wxButton* GetButton37() { return m_button37; }
     wxButton* GetButton50() { return m_button50; }
     wxButton* GetButton54() { return m_button54; }
-    VirtualKeypadBase(wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Keypad"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize(500,400), long style = wxBORDER_SIMPLE);
+    VirtualKeypadBase(wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Keypad"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize(500,500), long style = wxBORDER_SIMPLE);
     virtual ~VirtualKeypadBase();
 };
 
@@ -143,8 +146,176 @@ protected:
 public:
     wxTextCtrl* GetText() { return m_text; }
     wxButton* GetButton67() { return m_button67; }
-    VkTextControlBase(wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize(128,48), long style = wxTAB_TRAVERSAL);
+    VkTextControlBase(wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize(-1,-1), long style = wxTAB_TRAVERSAL);
     virtual ~VkTextControlBase();
+};
+
+
+class VKeyboardPanelBase : public wxPanel
+{
+protected:
+    wxBoxSizer* boxSizer71;
+    wxBoxSizer* boxSizer75;
+    wxTextCtrl* m_textEntry;
+    wxButton* m_button81;
+    wxGridSizer* gridSizer77;
+    wxButton* n_key1;
+    wxButton* m_key2;
+    wxButton* m_key3;
+    wxButton* m_key4;
+    wxButton* m_key5;
+    wxButton* m_key6;
+    wxButton* m_key7;
+    wxButton* m_key8;
+    wxButton* m_key9;
+    wxButton* m_key0;
+    wxButton* m_keyA;
+    wxButton* m_keyB;
+    wxButton* m_keyC;
+    wxButton* m_keyD;
+    wxButton* m_keyE;
+    wxButton* m_keyF;
+    wxButton* m_keyG;
+    wxButton* m_keyH;
+    wxButton* m_keyI;
+    wxButton* m_keyJ;
+    wxButton* m_keyK;
+    wxButton* m_keyL;
+    wxButton* m_keyM;
+    wxButton* m_keyN;
+    wxButton* m_keyO;
+    wxButton* m_keyP;
+    wxButton* m_keyQ;
+    wxButton* m_keyR;
+    wxButton* m_keyS;
+    wxButton* m_keyT;
+    wxButton* m_keyU;
+    wxButton* m_keyV;
+    wxButton* m_keyW;
+    wxButton* m_keyX;
+    wxButton* m_keyY;
+    wxButton* m_keyZ;
+    wxButton* m_keyDot;
+    wxButton* m_keyMinus;
+    wxButton* m_keyUS;
+    wxButton* m_keySlash;
+    wxGridSizer* gridSizer227;
+    wxButton* m_button229;
+    wxButton* m_space;
+    wxButton* m_button233;
+
+protected:
+    virtual void onDelete(wxCommandEvent& event) { event.Skip(); }
+    virtual void onChar(wxCommandEvent& event) { event.Skip(); }
+    virtual void onCancel(wxCommandEvent& event) { event.Skip(); }
+    virtual void onOK(wxCommandEvent& event) { event.Skip(); }
+
+public:
+    wxTextCtrl* GetTextEntry() { return m_textEntry; }
+    wxButton* GetButton81() { return m_button81; }
+    wxButton* GetN_key1() { return n_key1; }
+    wxButton* GetKey2() { return m_key2; }
+    wxButton* GetKey3() { return m_key3; }
+    wxButton* GetKey4() { return m_key4; }
+    wxButton* GetKey5() { return m_key5; }
+    wxButton* GetKey6() { return m_key6; }
+    wxButton* GetKey7() { return m_key7; }
+    wxButton* GetKey8() { return m_key8; }
+    wxButton* GetKey9() { return m_key9; }
+    wxButton* GetKey0() { return m_key0; }
+    wxButton* GetKeyA() { return m_keyA; }
+    wxButton* GetKeyB() { return m_keyB; }
+    wxButton* GetKeyC() { return m_keyC; }
+    wxButton* GetKeyD() { return m_keyD; }
+    wxButton* GetKeyE() { return m_keyE; }
+    wxButton* GetKeyF() { return m_keyF; }
+    wxButton* GetKeyG() { return m_keyG; }
+    wxButton* GetKeyH() { return m_keyH; }
+    wxButton* GetKeyI() { return m_keyI; }
+    wxButton* GetKeyJ() { return m_keyJ; }
+    wxButton* GetKeyK() { return m_keyK; }
+    wxButton* GetKeyL() { return m_keyL; }
+    wxButton* GetKeyM() { return m_keyM; }
+    wxButton* GetKeyN() { return m_keyN; }
+    wxButton* GetKeyO() { return m_keyO; }
+    wxButton* GetKeyP() { return m_keyP; }
+    wxButton* GetKeyQ() { return m_keyQ; }
+    wxButton* GetKeyR() { return m_keyR; }
+    wxButton* GetKeyS() { return m_keyS; }
+    wxButton* GetKeyT() { return m_keyT; }
+    wxButton* GetKeyU() { return m_keyU; }
+    wxButton* GetKeyV() { return m_keyV; }
+    wxButton* GetKeyW() { return m_keyW; }
+    wxButton* GetKeyX() { return m_keyX; }
+    wxButton* GetKeyY() { return m_keyY; }
+    wxButton* GetKeyZ() { return m_keyZ; }
+    wxButton* GetKeyDot() { return m_keyDot; }
+    wxButton* GetKeyMinus() { return m_keyMinus; }
+    wxButton* GetKeyUS() { return m_keyUS; }
+    wxButton* GetKeySlash() { return m_keySlash; }
+    wxButton* GetButton229() { return m_button229; }
+    wxButton* GetSpace() { return m_space; }
+    wxButton* GetButton233() { return m_button233; }
+    VKeyboardPanelBase(wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize(700,400), long style = wxTAB_TRAVERSAL);
+    virtual ~VKeyboardPanelBase();
+};
+
+
+class TextEntryBase : public wxPanel
+{
+protected:
+    wxFlexGridSizer* flexGridSizer237;
+    wxStaticText* m_label;
+    wxTextCtrl* m_text;
+
+protected:
+    virtual void onFocus(wxFocusEvent& event) { event.Skip(); }
+
+public:
+    wxStaticText* GetLabel() { return m_label; }
+    wxTextCtrl* GetText() { return m_text; }
+    TextEntryBase(wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize(300,64), long style = wxTAB_TRAVERSAL);
+    virtual ~TextEntryBase();
+};
+
+
+class TextSpinBase : public wxPanel
+{
+protected:
+    wxFlexGridSizer* flexGridSizer245;
+    wxStaticText* m_label;
+    wxTextCtrl* m_text;
+    wxButton* m_up;
+    wxButton* m_down;
+
+protected:
+    virtual void onUp(wxCommandEvent& event) { event.Skip(); }
+    virtual void onDown(wxCommandEvent& event) { event.Skip(); }
+
+public:
+    wxStaticText* GetLabel() { return m_label; }
+    wxTextCtrl* GetText() { return m_text; }
+    wxButton* GetUp() { return m_up; }
+    wxButton* GetDown() { return m_down; }
+    TextSpinBase(wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize(500,64), long style = wxTAB_TRAVERSAL);
+    virtual ~TextSpinBase();
+};
+
+
+class ToggleOptionBase : public wxPanel
+{
+protected:
+    wxFlexGridSizer* flexGridSizer257;
+    wxStaticText* m_label;
+    SliderSwitch* m_button;
+
+protected:
+
+public:
+    wxStaticText* GetLabel() { return m_label; }
+    SliderSwitch* GetButton() { return m_button; }
+    ToggleOptionBase(wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize(300,64), long style = wxTAB_TRAVERSAL);
+    virtual ~ToggleOptionBase();
 };
 
 #endif

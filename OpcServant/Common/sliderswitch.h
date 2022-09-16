@@ -52,6 +52,14 @@ class SliderSwitch :   public wxControl {
             _checked = f;
             Refresh();
         }
+
+        void SetValue(bool f)
+        {
+            SetChecked(f);
+        }
+
+        bool GetValue() const { return IsChecked();}
+
     protected:
         bool Create(wxWindow *parent, wxWindowID id, const wxPoint &pos = wxDefaultPosition,
                     const wxSize &size = wxDefaultSize, long style = 0,

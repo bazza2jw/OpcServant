@@ -43,6 +43,7 @@ set(LIB_SOURCES
     MQTT/mqttconnection.cpp 
     togglebutton.cpp 
     VirtualKeypad.cpp
+    VKeyboardPanel.cpp
     VirtualKeypadUI.cpp
     VirtualKeypadUI_common_bitmaps.cpp
     mathplot.cpp
@@ -91,6 +92,10 @@ set(LIB_SOURCES
     Gui/PinEntryDialog.cpp
     Web/webuserconfigurationdialog.cpp
     Daq/rtobjectscritped.cpp
+    TextEntry.cpp
+    TextSpin.cpp
+    ToggleOption.cpp
+    VKeyboardPanel.cpp
         )
 
 set(PROJECT_LIB_FLAGS  MrlLib)

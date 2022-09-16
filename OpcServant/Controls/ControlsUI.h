@@ -4,8 +4,8 @@
 // Do not modify this file by hand!
 //////////////////////////////////////////////////////////////////////
 
-#ifndef _CONTROLLER_CONTROLS_CONTROLSUI_BASE_CLASSES_H
-#define _CONTROLLER_CONTROLS_CONTROLSUI_BASE_CLASSES_H
+#ifndef _OPCSERVANT_CONTROLS_CONTROLSUI_BASE_CLASSES_H
+#define _OPCSERVANT_CONTROLS_CONTROLSUI_BASE_CLASSES_H
 
 #include <wx/settings.h>
 #include <wx/xrc/xmlres.h>
@@ -67,7 +67,7 @@ public:
 class TouchSpinBase : public wxPanel
 {
 protected:
-    wxBoxSizer* boxSizer19;
+    wxFlexGridSizer* flexGridSizer28;
     wxBitmapButton* m_down;
     wxTextCtrl* m_value;
     wxBitmapButton* m_up;
@@ -78,7 +78,7 @@ public:
     wxBitmapButton* GetDown() { return m_down; }
     wxTextCtrl* GetValue() { return m_value; }
     wxBitmapButton* GetUp() { return m_up; }
-    TouchSpinBase(wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize(200,64), long style = wxTAB_TRAVERSAL);
+    TouchSpinBase(wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize(-1,-1), long style = wxTAB_TRAVERSAL);
     virtual ~TouchSpinBase();
 };
 

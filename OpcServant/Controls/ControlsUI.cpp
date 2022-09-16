@@ -41,28 +41,32 @@ TouchSpinBase::TouchSpinBase(wxWindow* parent, wxWindowID id, const wxPoint& pos
         bBitmapLoaded = true;
     }
     
-    boxSizer19 = new wxBoxSizer(wxHORIZONTAL);
-    this->SetSizer(boxSizer19);
+    flexGridSizer28 = new wxFlexGridSizer(0, 3, 0, 0);
+    flexGridSizer28->SetFlexibleDirection( wxBOTH );
+    flexGridSizer28->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
+    this->SetSizer(flexGridSizer28);
     
     m_down = new wxBitmapButton(this, wxID_ANY, wxXmlResource::Get()->LoadBitmap(wxT("file-zoom-out")), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), wxBU_AUTODRAW);
     
-    boxSizer19->Add(m_down, 1, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    flexGridSizer28->Add(m_down, 0, wxALL|wxEXPAND, WXC_FROM_DIP(5));
     m_down->SetMinSize(wxSize(-1,48));
     
-    m_value = new wxTextCtrl(this, wxID_ANY, wxT(""), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), 0);
+    m_value = new wxTextCtrl(this, wxID_ANY, wxT("012345"), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), 0);
+    wxFont m_valueFont(16, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("Ubuntu"));
+    m_value->SetFont(m_valueFont);
     #if wxVERSION_NUMBER >= 3000
     m_value->SetHint(wxT(""));
     #endif
     
-    boxSizer19->Add(m_value, 3, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    flexGridSizer28->Add(m_value, 1, wxALL|wxEXPAND, WXC_FROM_DIP(5));
     
     m_up = new wxBitmapButton(this, wxID_ANY, wxXmlResource::Get()->LoadBitmap(wxT("file-zoom-in")), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), wxBU_AUTODRAW);
     
-    boxSizer19->Add(m_up, 1, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    flexGridSizer28->Add(m_up, 0, wxALL|wxEXPAND, WXC_FROM_DIP(5));
     m_up->SetMinSize(wxSize(-1,48));
     
     SetName(wxT("TouchSpinBase"));
-    SetSize(200,64);
+    SetSize(wxDLG_UNIT(this, wxSize(-1,-1)));
     if (GetSizer()) {
          GetSizer()->Fit(this);
     }
