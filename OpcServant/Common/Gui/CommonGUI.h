@@ -67,6 +67,7 @@ protected:
     wxPGProperty* m_screenLock;
     wxPGProperty* m_screenLockPin;
     wxPGProperty* m_homePage;
+    wxPGProperty* m_showUrlToolbar;
     wxPGProperty* m_pgProp87;
     wxPGProperty* m_opcPort;
     wxPGProperty* m_opcNamespace;
@@ -407,6 +408,21 @@ public:
     wxButton* GetButton589() { return m_button589; }
     PinEntryDialogBase(wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("PIN Entry"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize(500,500), long style = wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER);
     virtual ~PinEntryDialogBase();
+};
+
+
+class SecondReportPanelBase : public wxPanel
+{
+protected:
+    wxBoxSizer* boxSizer603;
+    wxNotebook* m_notebook605;
+
+protected:
+
+public:
+    wxNotebook* GetNotebook605() { return m_notebook605; }
+    SecondReportPanelBase(wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize(500,300), long style = wxTAB_TRAVERSAL);
+    virtual ~SecondReportPanelBase();
 };
 
 #endif

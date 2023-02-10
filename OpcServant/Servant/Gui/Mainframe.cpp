@@ -36,10 +36,14 @@ Mainframe::Mainframe(wxWindow *parent)
 #endif
     _autoLogoutTime(0, 5) {
     //
-    //
+    GetNotebook()->AssignImageList(new ImageList());
     _reportPanel = new ReportGeneratorPanel(GetNotebook());
-    GetNotebook()->InsertPage(1,_reportPanel, _("Report"));
+    GetNotebook()->InsertPage(1,_reportPanel, _(""),false,2);
     //
+    if(!MRL::SETTINGS().getBool("/System/ShowUrlToolbar"))
+    {
+        GetUrlToolBar()->Hide();
+    }
     // Connect to the DAQ
     join(MRL::Daq::instance());
     BObject::setEnabled(true);
@@ -94,7 +98,7 @@ void Mainframe::OnPopupClick(wxCommandEvent &evt) {
                         r.get()->start();
                     }
                 }
-                if(_reportPanel) _reportPanel->setValueList();
+               // if(_reportPanel) _reportPanel->setValueList();
                 wxLogDebug("Added");
             }
         }
@@ -110,7 +114,7 @@ void Mainframe::OnPopupClick(wxCommandEvent &evt) {
                 if (r) r.get()->stop();
             }
             o->remove(_currentPath);
-            if(_reportPanel) _reportPanel->setValueList();
+            //if(_reportPanel) _reportPanel->setValueList();
         }
 
     }
@@ -315,6 +319,7 @@ void Mainframe::onProperties(wxCommandEvent &/*event*/) {
             p.push_back("System");
             _mainTab = MRL::SETTINGS().getValue<std::string>(p, "MainTab");
             setMainTab();
+            GetUrlToolBar()->Show(MRL::SETTINGS().getValue<bool>(p,"ShowUrlToolbar"));
         }
     }
 }
@@ -382,7 +387,7 @@ bool Mainframe::processQueueItem(const MRL::Message &msg) {
             switch (msg.id()) {
 
             case MESSAGEID::Started: { // DAQ thread is running - show the window
-                if(_reportPanel) _reportPanel->setValueList();
+                //if(_reportPanel) _reportPanel->setValueList();
             }
             break;
 

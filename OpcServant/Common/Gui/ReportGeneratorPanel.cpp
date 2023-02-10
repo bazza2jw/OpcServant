@@ -233,7 +233,6 @@ void ReportGeneratorPanel::toConfig()
             _config.config().setValue(p,n,GetAliasList()->GetString(i).ToStdString());
         }
     }
-
 }
 
 /*!
@@ -241,7 +240,6 @@ void ReportGeneratorPanel::toConfig()
  */
 void ReportGeneratorPanel::onLoadReport(wxCommandEvent& /*event*/)
 {
-
     if(GetListDataPoints()->GetCount() > 0)
     {
         if(GetListDataPoints()->GetSelection() >= 0)

@@ -14,20 +14,22 @@
 #include <wx/iconbndl.h>
 #include <wx/artprov.h>
 #include <wx/sizer.h>
-#include <wx/notebook.h>
+#include <wx/toolbook.h>
 #include <wx/panel.h>
 #include <wx/imaglist.h>
-#include <wx/splitter.h>
-#include <wx/dataview.h>
-#include <wx/button.h>
-#include <wx/html/htmlwin.h>
-#include <wx/listbox.h>
 #include <wx/toolbar.h>
 #include <wx/textctrl.h>
 #include <wx/webview.h>
+#include <wx/splitter.h>
+#include <wx/dataview.h>
+#include <wx/button.h>
+#include <wx/notebook.h>
+#include <wx/html/htmlwin.h>
+#include <wx/listbox.h>
 #include <wx/timer.h>
 #include <wx/bitmap.h>
 #include <map>
+#include <wx/icon.h>
 #if wxVERSION_NUMBER >= 2900
 #include <wx/persist.h>
 #include <wx/persist/toplevel.h>
@@ -49,7 +51,15 @@ class MainframeBase : public wxFrame
 {
 protected:
     wxBoxSizer* boxSizer15;
-    wxNotebook* m_notebook;
+    wxToolbook* m_notebook;
+    wxPanel* m_panelWeb;
+    wxBoxSizer* webSizer;
+    wxToolBar* m_urlToolBar;
+    wxTextCtrl* m_webURL;
+#if wxUSE_WEBVIEW
+    wxWebView* m_webView;
+#endif // wxUSE_WEBVIEW
+
     wxPanel* m_navigationTab;
     wxBoxSizer* boxSizer25;
     wxSplitterWindow* m_splitter111;
@@ -77,35 +87,31 @@ protected:
     wxListBox* m_messages;
     wxGridSizer* gridSizer35;
     wxButton* m_buttonClearMessages;
-    wxPanel* m_panelWeb;
-    wxBoxSizer* webSizer;
-    wxToolBar* m_toolbar527;
-    wxTextCtrl* m_webURL;
-#if wxUSE_WEBVIEW
-    wxWebView* m_webView;
-#endif // wxUSE_WEBVIEW
-
     wxTimer* m_timer77;
     wxTimer* m_timerPeriodic;
 
 protected:
     virtual void onClose(wxCloseEvent& event) { event.Skip(); }
-    virtual void OnContextMenu(wxDataViewEvent& event) { event.Skip(); }
-    virtual void OnSelChanged(wxDataViewEvent& event) { event.Skip(); }
-    virtual void onUnlockNavigator(wxCommandEvent& event) { event.Skip(); }
-    virtual void onProperties(wxCommandEvent& event) { event.Skip(); }
-    virtual void OnAliasConfigure(wxCommandEvent& event) { event.Skip(); }
-    virtual void OnClearMessages(wxCommandEvent& event) { event.Skip(); }
     virtual void onHome(wxCommandEvent& event) { event.Skip(); }
     virtual void onBack(wxCommandEvent& event) { event.Skip(); }
     virtual void onUrlEnter(wxCommandEvent& event) { event.Skip(); }
     virtual void onGo(wxCommandEvent& event) { event.Skip(); }
     #if wxUSE_WEBVIEW
     #endif // wxUSE_WEBVIEW
+    virtual void OnContextMenu(wxDataViewEvent& event) { event.Skip(); }
+    virtual void OnSelChanged(wxDataViewEvent& event) { event.Skip(); }
+    virtual void onUnlockNavigator(wxCommandEvent& event) { event.Skip(); }
+    virtual void onProperties(wxCommandEvent& event) { event.Skip(); }
+    virtual void OnAliasConfigure(wxCommandEvent& event) { event.Skip(); }
+    virtual void OnClearMessages(wxCommandEvent& event) { event.Skip(); }
     virtual void OnStartupTimer(wxTimerEvent& event) { event.Skip(); }
     virtual void onPeriodicTimer(wxTimerEvent& event) { event.Skip(); }
 
 public:
+    wxTextCtrl* GetWebURL() { return m_webURL; }
+    wxToolBar* GetUrlToolBar() { return m_urlToolBar; }
+    wxWebView* GetWebView() { return m_webView; }
+    wxPanel* GetPanelWeb() { return m_panelWeb; }
     wxDataViewTreeCtrl* GetNavigation() { return m_Navigation; }
     wxButton* GetUnlockNavigator() { return m_unlockNavigator; }
     wxButton* GetButtonSysProps() { return m_buttonSysProps; }
@@ -124,11 +130,7 @@ public:
     wxListBox* GetMessages() { return m_messages; }
     wxButton* GetButtonClearMessages() { return m_buttonClearMessages; }
     wxPanel* GetMessagePanel() { return m_messagePanel; }
-    wxTextCtrl* GetWebURL() { return m_webURL; }
-    wxToolBar* GetToolbar527() { return m_toolbar527; }
-    wxWebView* GetWebView() { return m_webView; }
-    wxPanel* GetPanelWeb() { return m_panelWeb; }
-    wxNotebook* GetNotebook() { return m_notebook; }
+    wxToolbook* GetNotebook() { return m_notebook; }
     wxTimer* GetTimer77() { return m_timer77; }
     wxTimer* GetTimerPeriodic() { return m_timerPeriodic; }
     MainframeBase(wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Navigator"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize(700,480), long style = wxRESIZE_BORDER|wxBORDER_NONE);
@@ -162,6 +164,26 @@ public:
     }
 
     virtual ~ImageList();
+};
+
+
+class MainFrameToolBoxBase : public wxFrame
+{
+protected:
+    wxBoxSizer* boxSizer541;
+    wxToolbook* m_toolbook543;
+    wxPanel* m_panel545;
+    wxBoxSizer* boxSizer547;
+    wxPanel* m_panel549;
+
+protected:
+
+public:
+    wxPanel* GetPanel545() { return m_panel545; }
+    wxPanel* GetPanel549() { return m_panel549; }
+    wxToolbook* GetToolbook543() { return m_toolbook543; }
+    MainFrameToolBoxBase(wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("MainFrameToolBook"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize(800,600), long style = wxDEFAULT_FRAME_STYLE);
+    virtual ~MainFrameToolBoxBase();
 };
 
 #endif

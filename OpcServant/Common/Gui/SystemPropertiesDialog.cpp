@@ -51,6 +51,7 @@ void SystemPropertiesDialog::setup()
     m_opcUsername->SetValue(_settings.getValue<std::string>(p, "OpcUsername"));
     m_opcPassword->SetValue(_settings.getValue<std::string>(p, "OpcPassword"));
     m_autoPurge->SetValue(_settings.getValue<bool>(p, "AutoPurge"));
+    m_showUrlToolbar->SetValue(_settings.getValue<bool>(p, "ShowUrlToolbar"));
 
 }
 /*!
@@ -85,6 +86,7 @@ void SystemPropertiesDialog::OnOK(wxCommandEvent & /*event*/) {
     _settings.setValue(p, "LoginRequired", m_loginRequired->GetValue().GetBool());
     _settings.setValue(p, "OpcUsername", m_opcUsername->GetValueAsString().ToStdString());
     _settings.setValue(p, "OpcPassword", m_opcPassword->GetValueAsString().ToStdString());
+    _settings.setValue(p, "ShowUrlToolbar",  m_showUrlToolbar->GetValue().GetBool());
     //
     _settings.save(MRL::Common::instance()->configFileName());
     EndModal(wxID_OK);

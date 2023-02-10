@@ -69,6 +69,10 @@ SystemPropertiesDialogBase::SystemPropertiesDialogBase(wxWindow* parent, wxWindo
     m_homePage = m_properties->Append(  new wxStringProperty( _("Home Page"), wxPG_LABEL, wxT("")) );
     m_homePage->SetHelpString(wxT(""));
     
+    m_showUrlToolbar = m_properties->Append(  new wxBoolProperty( _("Show URL Toolbar"), wxPG_LABEL, 1) );
+    m_showUrlToolbar->SetHelpString(wxT(""));
+    m_showUrlToolbar->SetEditor( wxT("CheckBox") );
+    
     m_pgProp87 = m_properties->Append(  new wxPropertyCategory( _("OPC") ) );
     m_pgProp87->SetHelpString(wxT(""));
     
@@ -163,7 +167,7 @@ ReportGeneratorPanelBase::ReportGeneratorPanelBase(wxWindow* parent, wxWindowID 
     
     boxSizer185->Add(m_notebook, 1, wxALL|wxEXPAND, WXC_FROM_DIP(5));
     
-    m_panelSetup = new wxPanel(m_notebook, wxID_ANY, wxDefaultPosition, wxDLG_UNIT(m_notebook, wxSize(-1,-1)), wxTAB_TRAVERSAL);
+    m_panelSetup = new wxPanel(m_notebook, wxID_ANY, wxDefaultPosition, wxDLG_UNIT(m_notebook, wxSize(640,480)), wxTAB_TRAVERSAL);
     m_notebook->AddPage(m_panelSetup, _("Setup"), false);
     
     boxSizer197 = new wxBoxSizer(wxVERTICAL);
@@ -182,6 +186,11 @@ ReportGeneratorPanelBase::ReportGeneratorPanelBase(wxWindow* parent, wxWindowID 
     flexGridSizer199->SetFlexibleDirection( wxBOTH );
     flexGridSizer199->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
     flexGridSizer199->AddGrowableCol(1);
+    flexGridSizer199->AddGrowableRow(0);
+    flexGridSizer199->AddGrowableRow(1);
+    flexGridSizer199->AddGrowableRow(2);
+    flexGridSizer199->AddGrowableRow(3);
+    flexGridSizer199->AddGrowableRow(4);
     
     boxSizer215->Add(flexGridSizer199, 3, wxALL|wxEXPAND, WXC_FROM_DIP(5));
     
@@ -207,7 +216,7 @@ ReportGeneratorPanelBase::ReportGeneratorPanelBase(wxWindow* parent, wxWindowID 
     m_timeStart = new wxTimePickerCtrl(m_panelSetup, wxID_ANY, wxDefaultDateTime, wxDefaultPosition, wxDLG_UNIT(m_panelSetup, wxSize(-1,-1)), wxTP_DEFAULT);
     m_timeStart->Enable(false);
     
-    flexGridSizer199->Add(m_timeStart, 0, wxALL, WXC_FROM_DIP(5));
+    flexGridSizer199->Add(m_timeStart, 1, wxALL, WXC_FROM_DIP(5));
     m_timeStart->SetMinSize(wxSize(200,-1));
     
     m_staticText275 = new wxStaticText(m_panelSetup, wxID_ANY, _("Start Date"), wxDefaultPosition, wxDLG_UNIT(m_panelSetup, wxSize(-1,-1)), 0);
@@ -226,7 +235,7 @@ ReportGeneratorPanelBase::ReportGeneratorPanelBase(wxWindow* parent, wxWindowID 
     m_timeEnd = new wxTimePickerCtrl(m_panelSetup, wxID_ANY, wxDefaultDateTime, wxDefaultPosition, wxDLG_UNIT(m_panelSetup, wxSize(-1,-1)), wxTP_DEFAULT);
     m_timeEnd->Enable(false);
     
-    flexGridSizer199->Add(m_timeEnd, 0, wxALL, WXC_FROM_DIP(5));
+    flexGridSizer199->Add(m_timeEnd, 1, wxALL, WXC_FROM_DIP(5));
     m_timeEnd->SetMinSize(wxSize(200,-1));
     
     m_staticText279 = new wxStaticText(m_panelSetup, wxID_ANY, _("End Date"), wxDefaultPosition, wxDLG_UNIT(m_panelSetup, wxSize(-1,-1)), 0);
@@ -287,9 +296,10 @@ ReportGeneratorPanelBase::ReportGeneratorPanelBase(wxWindow* parent, wxWindowID 
     boxSizerGraph = new wxBoxSizer(wxVERTICAL);
     m_panelGraph->SetSizer(boxSizerGraph);
     
-    m_graphBitmap = new wxStaticBitmap(m_panelGraph, wxID_ANY, wxArtProvider::GetBitmap(wxART_REPORT_VIEW, wxART_TOOLBAR, wxDefaultSize), wxDefaultPosition, wxDLG_UNIT(m_panelGraph, wxSize(-1,-1)), 0 );
+    m_graphBitmap = new wxStaticBitmap(m_panelGraph, wxID_ANY, wxNullBitmap, wxDefaultPosition, wxDLG_UNIT(m_panelGraph, wxSize(400,400)), 0 );
     
     boxSizerGraph->Add(m_graphBitmap, 1, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    m_graphBitmap->SetMinSize(wxSize(200,200));
     
     m_panelStatistics = new wxPanel(m_notebook, wxID_ANY, wxDefaultPosition, wxDLG_UNIT(m_notebook, wxSize(-1,-1)), wxTAB_TRAVERSAL);
     m_notebook->AddPage(m_panelStatistics, _("Statistics"), false);
@@ -968,4 +978,33 @@ PinEntryDialogBase::~PinEntryDialogBase()
     m_button587->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(PinEntryDialogBase::on0), NULL, this);
     m_button589->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(PinEntryDialogBase::onOk), NULL, this);
     
+}
+
+SecondReportPanelBase::SecondReportPanelBase(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style)
+    : wxPanel(parent, id, pos, size, style)
+{
+    if ( !bBitmapLoaded ) {
+        // We need to initialise the default bitmap handler
+        wxXmlResource::Get()->AddHandler(new wxBitmapXmlHandler);
+        wxCrafterCommonInitBitmapResources();
+        bBitmapLoaded = true;
+    }
+    
+    boxSizer603 = new wxBoxSizer(wxVERTICAL);
+    this->SetSizer(boxSizer603);
+    
+    m_notebook605 = new wxNotebook(this, wxID_ANY, wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), wxBK_DEFAULT);
+    m_notebook605->SetName(wxT("m_notebook605"));
+    
+    boxSizer603->Add(m_notebook605, 0, wxALL, WXC_FROM_DIP(5));
+    
+    SetName(wxT("SecondReportPanelBase"));
+    SetSize(wxDLG_UNIT(this, wxSize(500,300)));
+    if (GetSizer()) {
+         GetSizer()->Fit(this);
+    }
+}
+
+SecondReportPanelBase::~SecondReportPanelBase()
+{
 }

@@ -26,20 +26,49 @@ MainframeBase::MainframeBase(wxWindow* parent, wxWindowID id, const wxString& ti
     boxSizer15 = new wxBoxSizer(wxVERTICAL);
     this->SetSizer(boxSizer15);
     
-    m_notebook = new wxNotebook(this, wxID_ANY, wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), wxBK_RIGHT|wxBK_DEFAULT);
-    wxFont m_notebookFont = wxSystemSettings::GetFont(wxSYS_DEVICE_DEFAULT_FONT);
-    m_notebookFont.SetWeight(wxFONTWEIGHT_BOLD);
-    m_notebook->SetFont(m_notebookFont);
+    m_notebook = new wxToolbook(this, wxID_ANY, wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), wxTBK_HORZ_LAYOUT|wxTBK_BUTTONBAR|wxBK_BOTTOM|wxBK_DEFAULT);
     m_notebook->SetName(wxT("m_notebook"));
-    wxImageList* m_notebook_il = new wxImageList(34, 34);
+    wxImageList* m_notebook_il = new wxImageList(16, 16);
     m_notebook->AssignImageList(m_notebook_il);
     
     boxSizer15->Add(m_notebook, 1, wxALL|wxEXPAND, WXC_FROM_DIP(1));
     
+    m_panelWeb = new wxPanel(m_notebook, wxID_ANY, wxDefaultPosition, wxDLG_UNIT(m_notebook, wxSize(-1,-1)), wxTAB_TRAVERSAL);
+    int m_panelWebImgIndex;
+    m_panelWebImgIndex = m_notebook_il->Add(wxXmlResource::Get()->LoadBitmap(wxT("monitor")));
+    m_notebook->AddPage(m_panelWeb, wxT(""), true, m_panelWebImgIndex);
+    
+    webSizer = new wxBoxSizer(wxVERTICAL);
+    m_panelWeb->SetSizer(webSizer);
+    
+    m_urlToolBar = new wxToolBar(m_panelWeb, wxID_ANY, wxDefaultPosition, wxDLG_UNIT(m_panelWeb, wxSize(-1,-1)), wxTB_FLAT);
+    m_urlToolBar->SetToolBitmapSize(wxSize(16,16));
+    
+    webSizer->Add(m_urlToolBar, 0, wxALL|wxEXPAND, WXC_FROM_DIP(1));
+    
+    m_urlToolBar->AddTool(wxID_ANY, _("Home"), wxArtProvider::GetBitmap(wxART_GO_HOME, wxART_TOOLBAR, wxDefaultSize), wxNullBitmap, wxITEM_NORMAL, wxT(""), wxT(""), NULL);
+    
+    m_urlToolBar->AddTool(wxID_ANY, _("Back"), wxArtProvider::GetBitmap(wxART_GO_BACK, wxART_TOOLBAR, wxDefaultSize), wxNullBitmap, wxITEM_NORMAL, wxT(""), wxT(""), NULL);
+    
+    m_webURL = new wxTextCtrl(m_urlToolBar, wxID_ANY, wxT(""), wxDefaultPosition, wxDLG_UNIT(m_urlToolBar, wxSize(300,-1)), wxTE_PROCESS_ENTER);
+    #if wxVERSION_NUMBER >= 3000
+    m_webURL->SetHint(wxT(""));
+    #endif
+    m_urlToolBar->AddControl(m_webURL);
+    
+    m_urlToolBar->AddTool(wxID_ANY, _("Go"), wxArtProvider::GetBitmap(wxART_FIND, wxART_TOOLBAR, wxDefaultSize), wxNullBitmap, wxITEM_NORMAL, wxT(""), wxT(""), NULL);
+    m_urlToolBar->Realize();
+    
+    #if wxUSE_WEBVIEW
+    m_webView = wxWebView::New(m_panelWeb, wxID_ANY, _("about:blank"), wxDefaultPosition, wxDLG_UNIT(m_panelWeb, wxSize(-1,-1)), wxWebViewBackendDefault, 0);
+    
+    webSizer->Add(m_webView, 1, wxALL|wxEXPAND, WXC_FROM_DIP(1));
+    #endif // wxUSE_WEBVIEW
+    
     m_navigationTab = new wxPanel(m_notebook, wxID_ANY, wxDefaultPosition, wxDLG_UNIT(m_notebook, wxSize(-1,-1)), wxTAB_TRAVERSAL);
     int m_navigationTabImgIndex;
-    m_navigationTabImgIndex = m_notebook_il->Add(wxXmlResource::Get()->LoadBitmap(wxT("ledblue")));
-    m_notebook->AddPage(m_navigationTab, _("System"), false, m_navigationTabImgIndex);
+    m_navigationTabImgIndex = m_notebook_il->Add(wxXmlResource::Get()->LoadBitmap(wxT("cog")));
+    m_notebook->AddPage(m_navigationTab, wxT(""), false, m_navigationTabImgIndex);
     
     boxSizer25 = new wxBoxSizer(wxVERTICAL);
     m_navigationTab->SetSizer(boxSizer25);
@@ -149,8 +178,8 @@ MainframeBase::MainframeBase(wxWindow* parent, wxWindowID id, const wxString& ti
     
     m_messagePanel = new wxPanel(m_notebook, wxID_ANY, wxDefaultPosition, wxDLG_UNIT(m_notebook, wxSize(-1,-1)), wxTAB_TRAVERSAL);
     int m_messagePanelImgIndex;
-    m_messagePanelImgIndex = m_notebook_il->Add(wxXmlResource::Get()->LoadBitmap(wxT("ledlightblue")));
-    m_notebook->AddPage(m_messagePanel, _("Trace"), false, m_messagePanelImgIndex);
+    m_messagePanelImgIndex = m_notebook_il->Add(wxXmlResource::Get()->LoadBitmap(wxT("application_side_list")));
+    m_notebook->AddPage(m_messagePanel, wxT(""), false, m_messagePanelImgIndex);
     
     boxSizer31 = new wxBoxSizer(wxVERTICAL);
     m_messagePanel->SetSizer(boxSizer31);
@@ -170,38 +199,6 @@ MainframeBase::MainframeBase(wxWindow* parent, wxWindowID id, const wxString& ti
     m_buttonClearMessages->SetToolTip(_("Clear Message Display"));
     
     gridSizer35->Add(m_buttonClearMessages, 0, wxALL, WXC_FROM_DIP(5));
-    
-    m_panelWeb = new wxPanel(m_notebook, wxID_ANY, wxDefaultPosition, wxDLG_UNIT(m_notebook, wxSize(-1,-1)), wxTAB_TRAVERSAL);
-    int m_panelWebImgIndex;
-    m_panelWebImgIndex = m_notebook_il->Add(wxXmlResource::Get()->LoadBitmap(wxT("gohome")));
-    m_notebook->AddPage(m_panelWeb, _("Web"), false, m_panelWebImgIndex);
-    
-    webSizer = new wxBoxSizer(wxVERTICAL);
-    m_panelWeb->SetSizer(webSizer);
-    
-    m_toolbar527 = new wxToolBar(m_panelWeb, wxID_ANY, wxDefaultPosition, wxDLG_UNIT(m_panelWeb, wxSize(-1,-1)), wxTB_FLAT);
-    m_toolbar527->SetToolBitmapSize(wxSize(16,16));
-    
-    webSizer->Add(m_toolbar527, 0, wxALL|wxEXPAND, WXC_FROM_DIP(5));
-    
-    m_toolbar527->AddTool(wxID_ANY, _("Home"), wxArtProvider::GetBitmap(wxART_GO_HOME, wxART_TOOLBAR, wxDefaultSize), wxNullBitmap, wxITEM_NORMAL, wxT(""), wxT(""), NULL);
-    
-    m_toolbar527->AddTool(wxID_ANY, _("Back"), wxArtProvider::GetBitmap(wxART_GO_BACK, wxART_TOOLBAR, wxDefaultSize), wxNullBitmap, wxITEM_NORMAL, wxT(""), wxT(""), NULL);
-    
-    m_webURL = new wxTextCtrl(m_toolbar527, wxID_ANY, wxT(""), wxDefaultPosition, wxDLG_UNIT(m_toolbar527, wxSize(300,-1)), wxTE_PROCESS_ENTER);
-    #if wxVERSION_NUMBER >= 3000
-    m_webURL->SetHint(wxT(""));
-    #endif
-    m_toolbar527->AddControl(m_webURL);
-    
-    m_toolbar527->AddTool(wxID_ANY, _("Go"), wxArtProvider::GetBitmap(wxART_FIND, wxART_TOOLBAR, wxDefaultSize), wxNullBitmap, wxITEM_NORMAL, wxT(""), wxT(""), NULL);
-    m_toolbar527->Realize();
-    
-    #if wxUSE_WEBVIEW
-    m_webView = wxWebView::New(m_panelWeb, wxID_ANY, _("about:blank"), wxDefaultPosition, wxDLG_UNIT(m_panelWeb, wxSize(-1,-1)), wxWebViewBackendDefault, 0);
-    
-    webSizer->Add(m_webView, 1, wxALL|wxEXPAND, WXC_FROM_DIP(5));
-    #endif // wxUSE_WEBVIEW
     
     m_timer77 = new wxTimer;
     m_timer77->Start(1000, true);
@@ -245,12 +242,6 @@ MainframeBase::MainframeBase(wxWindow* parent, wxWindowID id, const wxString& ti
 #endif
     // Connect events
     this->Connect(wxEVT_CLOSE_WINDOW, wxCloseEventHandler(MainframeBase::onClose), NULL, this);
-    m_Navigation->Connect(wxEVT_COMMAND_DATAVIEW_ITEM_CONTEXT_MENU, wxDataViewEventHandler(MainframeBase::OnContextMenu), NULL, this);
-    m_Navigation->Connect(wxEVT_COMMAND_DATAVIEW_SELECTION_CHANGED, wxDataViewEventHandler(MainframeBase::OnSelChanged), NULL, this);
-    m_unlockNavigator->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(MainframeBase::onUnlockNavigator), NULL, this);
-    m_buttonSysProps->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(MainframeBase::onProperties), NULL, this);
-    m_aliasConfigure->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(MainframeBase::OnAliasConfigure), NULL, this);
-    m_buttonClearMessages->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(MainframeBase::OnClearMessages), NULL, this);
     this->Connect(wxID_ANY, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler(MainframeBase::onHome), NULL, this);
     this->Connect(wxID_ANY, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler(MainframeBase::onBack), NULL, this);
     m_webURL->Connect(wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler(MainframeBase::onUrlEnter), NULL, this);
@@ -258,6 +249,12 @@ MainframeBase::MainframeBase(wxWindow* parent, wxWindowID id, const wxString& ti
     #if wxUSE_WEBVIEW
     
     #endif // wxUSE_WEBVIEW
+    m_Navigation->Connect(wxEVT_COMMAND_DATAVIEW_ITEM_CONTEXT_MENU, wxDataViewEventHandler(MainframeBase::OnContextMenu), NULL, this);
+    m_Navigation->Connect(wxEVT_COMMAND_DATAVIEW_SELECTION_CHANGED, wxDataViewEventHandler(MainframeBase::OnSelChanged), NULL, this);
+    m_unlockNavigator->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(MainframeBase::onUnlockNavigator), NULL, this);
+    m_buttonSysProps->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(MainframeBase::onProperties), NULL, this);
+    m_aliasConfigure->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(MainframeBase::OnAliasConfigure), NULL, this);
+    m_buttonClearMessages->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(MainframeBase::OnClearMessages), NULL, this);
     m_timer77->Connect(wxEVT_TIMER, wxTimerEventHandler(MainframeBase::OnStartupTimer), NULL, this);
     m_timerPeriodic->Connect(wxEVT_TIMER, wxTimerEventHandler(MainframeBase::onPeriodicTimer), NULL, this);
     
@@ -266,12 +263,6 @@ MainframeBase::MainframeBase(wxWindow* parent, wxWindowID id, const wxString& ti
 MainframeBase::~MainframeBase()
 {
     this->Disconnect(wxEVT_CLOSE_WINDOW, wxCloseEventHandler(MainframeBase::onClose), NULL, this);
-    m_Navigation->Disconnect(wxEVT_COMMAND_DATAVIEW_ITEM_CONTEXT_MENU, wxDataViewEventHandler(MainframeBase::OnContextMenu), NULL, this);
-    m_Navigation->Disconnect(wxEVT_COMMAND_DATAVIEW_SELECTION_CHANGED, wxDataViewEventHandler(MainframeBase::OnSelChanged), NULL, this);
-    m_unlockNavigator->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(MainframeBase::onUnlockNavigator), NULL, this);
-    m_buttonSysProps->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(MainframeBase::onProperties), NULL, this);
-    m_aliasConfigure->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(MainframeBase::OnAliasConfigure), NULL, this);
-    m_buttonClearMessages->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(MainframeBase::OnClearMessages), NULL, this);
     this->Disconnect(wxID_ANY, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler(MainframeBase::onHome), NULL, this);
     this->Disconnect(wxID_ANY, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler(MainframeBase::onBack), NULL, this);
     m_webURL->Disconnect(wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler(MainframeBase::onUrlEnter), NULL, this);
@@ -279,6 +270,12 @@ MainframeBase::~MainframeBase()
     #if wxUSE_WEBVIEW
     
     #endif // wxUSE_WEBVIEW
+    m_Navigation->Disconnect(wxEVT_COMMAND_DATAVIEW_ITEM_CONTEXT_MENU, wxDataViewEventHandler(MainframeBase::OnContextMenu), NULL, this);
+    m_Navigation->Disconnect(wxEVT_COMMAND_DATAVIEW_SELECTION_CHANGED, wxDataViewEventHandler(MainframeBase::OnSelChanged), NULL, this);
+    m_unlockNavigator->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(MainframeBase::onUnlockNavigator), NULL, this);
+    m_buttonSysProps->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(MainframeBase::onProperties), NULL, this);
+    m_aliasConfigure->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(MainframeBase::OnAliasConfigure), NULL, this);
+    m_buttonClearMessages->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(MainframeBase::OnClearMessages), NULL, this);
     m_timer77->Disconnect(wxEVT_TIMER, wxTimerEventHandler(MainframeBase::OnStartupTimer), NULL, this);
     m_timerPeriodic->Disconnect(wxEVT_TIMER, wxTimerEventHandler(MainframeBase::onPeriodicTimer), NULL, this);
     
@@ -302,8 +299,112 @@ ImageList::ImageList()
         bBitmapLoaded = true;
     }
     
+    {
+        wxBitmap bmp;
+        wxIcon icn;
+        bmp = wxXmlResource::Get()->LoadBitmap(wxT("m_bmp553"));
+        if(bmp.IsOk()) {
+            if((m_imagesWidth == bmp.GetWidth()) && (m_imagesHeight == bmp.GetHeight())){
+                icn.CopyFromBitmap(bmp);
+                this->Add(icn);
+            }
+            m_bitmaps.insert(std::make_pair(wxT("m_bmp553"), bmp));
+        }
+    }
+    
+    {
+        wxBitmap bmp;
+        wxIcon icn;
+        bmp = wxXmlResource::Get()->LoadBitmap(wxT("m_bmp555"));
+        if(bmp.IsOk()) {
+            if((m_imagesWidth == bmp.GetWidth()) && (m_imagesHeight == bmp.GetHeight())){
+                icn.CopyFromBitmap(bmp);
+                this->Add(icn);
+            }
+            m_bitmaps.insert(std::make_pair(wxT("m_bmp555"), bmp));
+        }
+    }
+    
+    {
+        wxBitmap bmp;
+        wxIcon icn;
+        bmp = wxXmlResource::Get()->LoadBitmap(wxT("m_bmp557"));
+        if(bmp.IsOk()) {
+            if((m_imagesWidth == bmp.GetWidth()) && (m_imagesHeight == bmp.GetHeight())){
+                icn.CopyFromBitmap(bmp);
+                this->Add(icn);
+            }
+            m_bitmaps.insert(std::make_pair(wxT("m_bmp557"), bmp));
+        }
+    }
+    
 }
 
 ImageList::~ImageList()
+{
+}
+
+MainFrameToolBoxBase::MainFrameToolBoxBase(wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style)
+    : wxFrame(parent, id, title, pos, size, style)
+{
+    if ( !bBitmapLoaded ) {
+        // We need to initialise the default bitmap handler
+        wxXmlResource::Get()->AddHandler(new wxBitmapXmlHandler);
+        wxCrafterW2Fln4InitBitmapResources();
+        bBitmapLoaded = true;
+    }
+    
+    boxSizer541 = new wxBoxSizer(wxVERTICAL);
+    this->SetSizer(boxSizer541);
+    
+    m_toolbook543 = new wxToolbook(this, wxID_ANY, wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), wxTBK_HORZ_LAYOUT|wxBK_BOTTOM|wxBK_DEFAULT);
+    m_toolbook543->SetName(wxT("m_toolbook543"));
+    wxImageList* m_toolbook543_il = new wxImageList(16, 16);
+    m_toolbook543->AssignImageList(m_toolbook543_il);
+    
+    boxSizer541->Add(m_toolbook543, 1, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    
+    m_panel545 = new wxPanel(m_toolbook543, wxID_ANY, wxDefaultPosition, wxDLG_UNIT(m_toolbook543, wxSize(-1,-1)), wxTAB_TRAVERSAL);
+    int m_panel545ImgIndex;
+    m_panel545ImgIndex = m_toolbook543_il->Add(wxXmlResource::Get()->LoadBitmap(wxT("cog")));
+    m_toolbook543->AddPage(m_panel545, wxT(""), false, m_panel545ImgIndex);
+    
+    boxSizer547 = new wxBoxSizer(wxVERTICAL);
+    m_panel545->SetSizer(boxSizer547);
+    
+    m_panel549 = new wxPanel(m_toolbook543, wxID_ANY, wxDefaultPosition, wxDLG_UNIT(m_toolbook543, wxSize(-1,-1)), wxTAB_TRAVERSAL);
+    int m_panel549ImgIndex;
+    m_panel549ImgIndex = m_toolbook543_il->Add(wxXmlResource::Get()->LoadBitmap(wxT("monitor")));
+    m_toolbook543->AddPage(m_panel549, wxT(""), false, m_panel549ImgIndex);
+    
+    
+    #if wxVERSION_NUMBER >= 2900
+    if(!wxPersistenceManager::Get().Find(m_toolbook543)){
+        wxPersistenceManager::Get().RegisterAndRestore(m_toolbook543);
+    } else {
+        wxPersistenceManager::Get().Restore(m_toolbook543);
+    }
+    #endif
+    
+    SetName(wxT("MainFrameToolBoxBase"));
+    SetSize(wxDLG_UNIT(this, wxSize(800,600)));
+    if (GetSizer()) {
+         GetSizer()->Fit(this);
+    }
+    if(GetParent()) {
+        CentreOnParent(wxBOTH);
+    } else {
+        CentreOnScreen(wxBOTH);
+    }
+#if wxVERSION_NUMBER >= 2900
+    if(!wxPersistenceManager::Get().Find(this)) {
+        wxPersistenceManager::Get().RegisterAndRestore(this);
+    } else {
+        wxPersistenceManager::Get().Restore(this);
+    }
+#endif
+}
+
+MainFrameToolBoxBase::~MainFrameToolBoxBase()
 {
 }
