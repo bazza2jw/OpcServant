@@ -403,7 +403,7 @@
                "m_properties": [{
                  "type": "winid",
                  "m_label": "ID:",
-                 "m_winid": "wxID_ANY"
+                 "m_winid": "wxID_HOME"
                 }, {
                  "type": "string",
                  "m_label": "Name:",
@@ -458,7 +458,7 @@
                "m_properties": [{
                  "type": "winid",
                  "m_label": "ID:",
-                 "m_winid": "wxID_ANY"
+                 "m_winid": "wxID_BACKWARD"
                 }, {
                  "type": "string",
                  "m_label": "Name:",
@@ -607,7 +607,7 @@
                "m_properties": [{
                  "type": "winid",
                  "m_label": "ID:",
-                 "m_winid": "wxID_ANY"
+                 "m_winid": "wxID_EXECUTE"
                 }, {
                  "type": "string",
                  "m_label": "Name:",

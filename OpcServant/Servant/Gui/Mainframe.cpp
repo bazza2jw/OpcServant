@@ -262,6 +262,9 @@ void Mainframe::OnStartupTimer(wxTimerEvent & /*event*/) {
         p.push_back("System");
         _mainTab =  MRL::SETTINGS().getValue<std::string>(p, "MainTab");
         //
+        wxString h = MRL::SETTINGS().getAsWxString(p,"HomePage");
+        GetWebView()->LoadURL(h);
+        //
 #ifdef RASPBERRY_PI_BUILD
         Maximize(true); // gives access to top menu on Pi
         //ShowFullScreen(true); // occupies all of display
@@ -320,6 +323,8 @@ void Mainframe::onProperties(wxCommandEvent &/*event*/) {
             _mainTab = MRL::SETTINGS().getValue<std::string>(p, "MainTab");
             setMainTab();
             GetUrlToolBar()->Show(MRL::SETTINGS().getValue<bool>(p,"ShowUrlToolbar"));
+            wxString h = MRL::SETTINGS().getAsWxString(p,"HomePage");
+            GetWebView()->LoadURL(h);
         }
     }
 }

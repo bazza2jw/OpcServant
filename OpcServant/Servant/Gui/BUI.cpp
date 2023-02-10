@@ -46,9 +46,9 @@ MainframeBase::MainframeBase(wxWindow* parent, wxWindowID id, const wxString& ti
     
     webSizer->Add(m_urlToolBar, 0, wxALL|wxEXPAND, WXC_FROM_DIP(1));
     
-    m_urlToolBar->AddTool(wxID_ANY, _("Home"), wxArtProvider::GetBitmap(wxART_GO_HOME, wxART_TOOLBAR, wxDefaultSize), wxNullBitmap, wxITEM_NORMAL, wxT(""), wxT(""), NULL);
+    m_urlToolBar->AddTool(wxID_HOME, _("Home"), wxArtProvider::GetBitmap(wxART_GO_HOME, wxART_TOOLBAR, wxDefaultSize), wxNullBitmap, wxITEM_NORMAL, wxT(""), wxT(""), NULL);
     
-    m_urlToolBar->AddTool(wxID_ANY, _("Back"), wxArtProvider::GetBitmap(wxART_GO_BACK, wxART_TOOLBAR, wxDefaultSize), wxNullBitmap, wxITEM_NORMAL, wxT(""), wxT(""), NULL);
+    m_urlToolBar->AddTool(wxID_BACKWARD, _("Back"), wxArtProvider::GetBitmap(wxART_GO_BACK, wxART_TOOLBAR, wxDefaultSize), wxNullBitmap, wxITEM_NORMAL, wxT(""), wxT(""), NULL);
     
     m_webURL = new wxTextCtrl(m_urlToolBar, wxID_ANY, wxT(""), wxDefaultPosition, wxDLG_UNIT(m_urlToolBar, wxSize(300,-1)), wxTE_PROCESS_ENTER);
     #if wxVERSION_NUMBER >= 3000
@@ -56,7 +56,7 @@ MainframeBase::MainframeBase(wxWindow* parent, wxWindowID id, const wxString& ti
     #endif
     m_urlToolBar->AddControl(m_webURL);
     
-    m_urlToolBar->AddTool(wxID_ANY, _("Go"), wxArtProvider::GetBitmap(wxART_FIND, wxART_TOOLBAR, wxDefaultSize), wxNullBitmap, wxITEM_NORMAL, wxT(""), wxT(""), NULL);
+    m_urlToolBar->AddTool(wxID_EXECUTE, _("Go"), wxArtProvider::GetBitmap(wxART_FIND, wxART_TOOLBAR, wxDefaultSize), wxNullBitmap, wxITEM_NORMAL, wxT(""), wxT(""), NULL);
     m_urlToolBar->Realize();
     
     #if wxUSE_WEBVIEW
@@ -242,10 +242,10 @@ MainframeBase::MainframeBase(wxWindow* parent, wxWindowID id, const wxString& ti
 #endif
     // Connect events
     this->Connect(wxEVT_CLOSE_WINDOW, wxCloseEventHandler(MainframeBase::onClose), NULL, this);
-    this->Connect(wxID_ANY, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler(MainframeBase::onHome), NULL, this);
-    this->Connect(wxID_ANY, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler(MainframeBase::onBack), NULL, this);
+    this->Connect(wxID_HOME, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler(MainframeBase::onHome), NULL, this);
+    this->Connect(wxID_BACKWARD, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler(MainframeBase::onBack), NULL, this);
     m_webURL->Connect(wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler(MainframeBase::onUrlEnter), NULL, this);
-    this->Connect(wxID_ANY, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler(MainframeBase::onGo), NULL, this);
+    this->Connect(wxID_EXECUTE, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler(MainframeBase::onGo), NULL, this);
     #if wxUSE_WEBVIEW
     
     #endif // wxUSE_WEBVIEW
@@ -263,10 +263,10 @@ MainframeBase::MainframeBase(wxWindow* parent, wxWindowID id, const wxString& ti
 MainframeBase::~MainframeBase()
 {
     this->Disconnect(wxEVT_CLOSE_WINDOW, wxCloseEventHandler(MainframeBase::onClose), NULL, this);
-    this->Disconnect(wxID_ANY, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler(MainframeBase::onHome), NULL, this);
-    this->Disconnect(wxID_ANY, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler(MainframeBase::onBack), NULL, this);
+    this->Disconnect(wxID_HOME, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler(MainframeBase::onHome), NULL, this);
+    this->Disconnect(wxID_BACKWARD, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler(MainframeBase::onBack), NULL, this);
     m_webURL->Disconnect(wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler(MainframeBase::onUrlEnter), NULL, this);
-    this->Disconnect(wxID_ANY, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler(MainframeBase::onGo), NULL, this);
+    this->Disconnect(wxID_EXECUTE, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler(MainframeBase::onGo), NULL, this);
     #if wxUSE_WEBVIEW
     
     #endif // wxUSE_WEBVIEW
