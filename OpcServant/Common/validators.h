@@ -11,12 +11,15 @@
  */
 #ifndef VALIDATORS_H
 #define VALIDATORS_H
-#include "wxmrlcommon.h"
+#include "common.h"
 //
 // Some validator helpers
 //
 
 namespace MRL {
+
+
+
 /*!
      * \brief The Validators struct
      */

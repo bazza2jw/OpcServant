@@ -99,7 +99,7 @@ public:
     wxButton* GetButton37() { return m_button37; }
     wxButton* GetButton50() { return m_button50; }
     wxButton* GetButton54() { return m_button54; }
-    VirtualKeypadBase(wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Keypad"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize(500,500), long style = wxBORDER_SIMPLE);
+    VirtualKeypadBase(wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Keypad"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize(500,500), long style = wxCAPTION|wxRESIZE_BORDER|wxCLOSE_BOX|wxBORDER_SIMPLE);
     virtual ~VirtualKeypadBase();
 };
 
@@ -200,15 +200,11 @@ protected:
     wxButton* m_keyUS;
     wxButton* m_keySlash;
     wxGridSizer* gridSizer227;
-    wxButton* m_button229;
     wxButton* m_space;
-    wxButton* m_button233;
 
 protected:
     virtual void onDelete(wxCommandEvent& event) { event.Skip(); }
     virtual void onChar(wxCommandEvent& event) { event.Skip(); }
-    virtual void onCancel(wxCommandEvent& event) { event.Skip(); }
-    virtual void onOK(wxCommandEvent& event) { event.Skip(); }
 
 public:
     wxTextCtrl* GetTextEntry() { return m_textEntry; }
@@ -253,29 +249,9 @@ public:
     wxButton* GetKeyMinus() { return m_keyMinus; }
     wxButton* GetKeyUS() { return m_keyUS; }
     wxButton* GetKeySlash() { return m_keySlash; }
-    wxButton* GetButton229() { return m_button229; }
     wxButton* GetSpace() { return m_space; }
-    wxButton* GetButton233() { return m_button233; }
     VKeyboardPanelBase(wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize(700,400), long style = wxTAB_TRAVERSAL);
     virtual ~VKeyboardPanelBase();
-};
-
-
-class TextEntryBase : public wxPanel
-{
-protected:
-    wxFlexGridSizer* flexGridSizer237;
-    wxStaticText* m_label;
-    wxTextCtrl* m_text;
-
-protected:
-    virtual void onFocus(wxFocusEvent& event) { event.Skip(); }
-
-public:
-    wxStaticText* GetLabel() { return m_label; }
-    wxTextCtrl* GetText() { return m_text; }
-    TextEntryBase(wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize(300,64), long style = wxTAB_TRAVERSAL);
-    virtual ~TextEntryBase();
 };
 
 
@@ -316,6 +292,226 @@ public:
     SliderSwitch* GetButton() { return m_button; }
     ToggleOptionBase(wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize(300,64), long style = wxTAB_TRAVERSAL);
     virtual ~ToggleOptionBase();
+};
+
+
+class VirtualKeypadTimeBase : public wxDialog
+{
+protected:
+    wxBoxSizer* boxSizer31;
+    wxFlexGridSizer* flexGridSizer72;
+    wxTextCtrl* m_hour;
+    wxStaticText* m_staticText324;
+    wxTextCtrl* m_minute;
+    wxStaticText* m_staticText328;
+    wxTextCtrl* m_second;
+    wxFlexGridSizer* flexGridSizer482;
+    wxButton* m_buttonHoursUp;
+    wxButton* m_buttonHoursDown;
+    wxStaticText* m_staticText488;
+    wxButton* m_buttonMinUp;
+    wxButton* m_buttonMinDown;
+    wxStaticText* m_staticText494;
+    wxButton* m_buttonSecUp;
+    wxButton* m_buttonSecDown;
+    wxGridSizer* gridSizer918;
+    wxButton* m_button5019;
+    wxButton* m_button5421;
+
+protected:
+    virtual void onHourUp(wxCommandEvent& event) { event.Skip(); }
+    virtual void onHourDown(wxCommandEvent& event) { event.Skip(); }
+    virtual void onMinUp(wxCommandEvent& event) { event.Skip(); }
+    virtual void onMinDown(wxCommandEvent& event) { event.Skip(); }
+    virtual void onSecUp(wxCommandEvent& event) { event.Skip(); }
+    virtual void onSecDown(wxCommandEvent& event) { event.Skip(); }
+
+public:
+    wxTextCtrl* GetHour() { return m_hour; }
+    wxStaticText* GetStaticText324() { return m_staticText324; }
+    wxTextCtrl* GetMinute() { return m_minute; }
+    wxStaticText* GetStaticText328() { return m_staticText328; }
+    wxTextCtrl* GetSecond() { return m_second; }
+    wxButton* GetButtonHoursUp() { return m_buttonHoursUp; }
+    wxButton* GetButtonHoursDown() { return m_buttonHoursDown; }
+    wxStaticText* GetStaticText488() { return m_staticText488; }
+    wxButton* GetButtonMinUp() { return m_buttonMinUp; }
+    wxButton* GetButtonMinDown() { return m_buttonMinDown; }
+    wxStaticText* GetStaticText494() { return m_staticText494; }
+    wxButton* GetButtonSecUp() { return m_buttonSecUp; }
+    wxButton* GetButtonSecDown() { return m_buttonSecDown; }
+    wxButton* GetButton5019() { return m_button5019; }
+    wxButton* GetButton5421() { return m_button5421; }
+    VirtualKeypadTimeBase(wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Time Entry"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize(800,600), long style = wxCAPTION|wxRESIZE_BORDER|wxCLOSE_BOX|wxBORDER_SIMPLE);
+    virtual ~VirtualKeypadTimeBase();
+};
+
+
+class VirtualKeypadDateBase : public wxDialog
+{
+protected:
+    wxBoxSizer* boxSizer3122;
+    wxFlexGridSizer* flexGridSizer7223;
+    wxTextCtrl* m_year;
+    wxStaticText* m_staticText330;
+    wxTextCtrl* m_month;
+    wxStaticText* m_staticText332;
+    wxTextCtrl* m_day;
+    wxStaticText* m_staticText334;
+    wxStaticText* m_staticText336;
+    wxStaticText* m_staticText338;
+    wxFlexGridSizer* flexGridSizer464;
+    wxButton* m_buttonYearUp;
+    wxButton* m_buttonYearDown;
+    wxStaticText* m_staticText470;
+    wxButton* m_buttonMonthUp;
+    wxButton* m_buttonMonthDown;
+    wxStaticText* m_staticText476;
+    wxButton* m_buttonDayUp;
+    wxButton* m_buttonDayDown;
+    wxGridSizer* gridSizer91838;
+    wxButton* m_button501939;
+    wxButton* m_button542141;
+
+protected:
+    virtual void onYearUp(wxCommandEvent& event) { event.Skip(); }
+    virtual void onYearDown(wxCommandEvent& event) { event.Skip(); }
+    virtual void onMonthUp(wxCommandEvent& event) { event.Skip(); }
+    virtual void onMonthDown(wxCommandEvent& event) { event.Skip(); }
+    virtual void onDayUp(wxCommandEvent& event) { event.Skip(); }
+    virtual void onDayDown(wxCommandEvent& event) { event.Skip(); }
+
+public:
+    wxTextCtrl* GetYear() { return m_year; }
+    wxStaticText* GetStaticText330() { return m_staticText330; }
+    wxTextCtrl* GetMonth() { return m_month; }
+    wxStaticText* GetStaticText332() { return m_staticText332; }
+    wxTextCtrl* GetDay() { return m_day; }
+    wxStaticText* GetStaticText334() { return m_staticText334; }
+    wxStaticText* GetStaticText336() { return m_staticText336; }
+    wxStaticText* GetStaticText338() { return m_staticText338; }
+    wxButton* GetButtonYearUp() { return m_buttonYearUp; }
+    wxButton* GetButtonYearDown() { return m_buttonYearDown; }
+    wxStaticText* GetStaticText470() { return m_staticText470; }
+    wxButton* GetButtonMonthUp() { return m_buttonMonthUp; }
+    wxButton* GetButtonMonthDown() { return m_buttonMonthDown; }
+    wxStaticText* GetStaticText476() { return m_staticText476; }
+    wxButton* GetButtonDayUp() { return m_buttonDayUp; }
+    wxButton* GetButtonDayDown() { return m_buttonDayDown; }
+    wxButton* GetButton501939() { return m_button501939; }
+    wxButton* GetButton542141() { return m_button542141; }
+    VirtualKeypadDateBase(wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Date Entry"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize(800,600), long style = wxCAPTION|wxRESIZE_BORDER|wxCLOSE_BOX|wxBORDER_SIMPLE);
+    virtual ~VirtualKeypadDateBase();
+};
+
+
+class VTextEntryDialogBase : public wxDialog
+{
+protected:
+    wxBoxSizer* boxSizer711;
+    wxBoxSizer* boxSizer752;
+    wxTextCtrl* m_textEntry;
+    wxButton* m_button814;
+    wxGridSizer* gridSizer775;
+    wxButton* n_key16;
+    wxButton* m_key27;
+    wxButton* m_key38;
+    wxButton* m_key49;
+    wxButton* m_key510;
+    wxButton* m_key611;
+    wxButton* m_key712;
+    wxButton* m_key813;
+    wxButton* m_key914;
+    wxButton* m_key015;
+    wxButton* m_keyA16;
+    wxButton* m_keyB17;
+    wxButton* m_keyC18;
+    wxButton* m_keyD19;
+    wxButton* m_keyE20;
+    wxButton* m_keyF21;
+    wxButton* m_keyG22;
+    wxButton* m_keyH23;
+    wxButton* m_keyI24;
+    wxButton* m_keyJ25;
+    wxButton* m_keyK26;
+    wxButton* m_keyL27;
+    wxButton* m_keyM28;
+    wxButton* m_keyN29;
+    wxButton* m_keyO30;
+    wxButton* m_keyP31;
+    wxButton* m_keyQ32;
+    wxButton* m_keyR33;
+    wxButton* m_keyS34;
+    wxButton* m_keyT35;
+    wxButton* m_keyU36;
+    wxButton* m_keyV37;
+    wxButton* m_keyW38;
+    wxButton* m_keyX39;
+    wxButton* m_keyY40;
+    wxButton* m_keyZ41;
+    wxButton* m_keyDot42;
+    wxButton* m_keyMinus43;
+    wxButton* m_keyUS44;
+    wxButton* m_keySlash45;
+    wxGridSizer* gridSizer22746;
+    wxButton* m_space47;
+    wxButton* m_button460;
+    wxButton* m_button462;
+
+protected:
+    virtual void onDelete(wxCommandEvent& event) { event.Skip(); }
+    virtual void onChar(wxCommandEvent& event) { event.Skip(); }
+    virtual void onCancel(wxCommandEvent& event) { event.Skip(); }
+    virtual void onOK(wxCommandEvent& event) { event.Skip(); }
+
+public:
+    wxTextCtrl* GetTextEntry() { return m_textEntry; }
+    wxButton* GetButton814() { return m_button814; }
+    wxButton* GetN_key16() { return n_key16; }
+    wxButton* GetKey27() { return m_key27; }
+    wxButton* GetKey38() { return m_key38; }
+    wxButton* GetKey49() { return m_key49; }
+    wxButton* GetKey510() { return m_key510; }
+    wxButton* GetKey611() { return m_key611; }
+    wxButton* GetKey712() { return m_key712; }
+    wxButton* GetKey813() { return m_key813; }
+    wxButton* GetKey914() { return m_key914; }
+    wxButton* GetKey015() { return m_key015; }
+    wxButton* GetKeyA16() { return m_keyA16; }
+    wxButton* GetKeyB17() { return m_keyB17; }
+    wxButton* GetKeyC18() { return m_keyC18; }
+    wxButton* GetKeyD19() { return m_keyD19; }
+    wxButton* GetKeyE20() { return m_keyE20; }
+    wxButton* GetKeyF21() { return m_keyF21; }
+    wxButton* GetKeyG22() { return m_keyG22; }
+    wxButton* GetKeyH23() { return m_keyH23; }
+    wxButton* GetKeyI24() { return m_keyI24; }
+    wxButton* GetKeyJ25() { return m_keyJ25; }
+    wxButton* GetKeyK26() { return m_keyK26; }
+    wxButton* GetKeyL27() { return m_keyL27; }
+    wxButton* GetKeyM28() { return m_keyM28; }
+    wxButton* GetKeyN29() { return m_keyN29; }
+    wxButton* GetKeyO30() { return m_keyO30; }
+    wxButton* GetKeyP31() { return m_keyP31; }
+    wxButton* GetKeyQ32() { return m_keyQ32; }
+    wxButton* GetKeyR33() { return m_keyR33; }
+    wxButton* GetKeyS34() { return m_keyS34; }
+    wxButton* GetKeyT35() { return m_keyT35; }
+    wxButton* GetKeyU36() { return m_keyU36; }
+    wxButton* GetKeyV37() { return m_keyV37; }
+    wxButton* GetKeyW38() { return m_keyW38; }
+    wxButton* GetKeyX39() { return m_keyX39; }
+    wxButton* GetKeyY40() { return m_keyY40; }
+    wxButton* GetKeyZ41() { return m_keyZ41; }
+    wxButton* GetKeyDot42() { return m_keyDot42; }
+    wxButton* GetKeyMinus43() { return m_keyMinus43; }
+    wxButton* GetKeyUS44() { return m_keyUS44; }
+    wxButton* GetKeySlash45() { return m_keySlash45; }
+    wxButton* GetSpace47() { return m_space47; }
+    wxButton* GetButton460() { return m_button460; }
+    wxButton* GetButton462() { return m_button462; }
+    VTextEntryDialogBase(wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Text Entry"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize(500,300), long style = wxCAPTION|wxRESIZE_BORDER|wxCLOSE_BOX);
+    virtual ~VTextEntryDialogBase();
 };
 
 #endif

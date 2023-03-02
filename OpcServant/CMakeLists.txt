@@ -21,6 +21,8 @@ add_subdirectory(Mimic)
 add_subdirectory(Modules)
 
 add_subdirectory(Servant)
+# The test harness for UI components etc - enable as required
+add_subdirectory(Harness)
 #
 
 

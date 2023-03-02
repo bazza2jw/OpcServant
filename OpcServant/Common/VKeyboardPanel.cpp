@@ -1,19 +1,26 @@
 #include "VKeyboardPanel.h"
 
-VKeyboardPanel * VKeyboardPanel::_keyboard = nullptr;
 
 
+/*!
+ * \brief VKeyboardPanel::VKeyboardPanel
+ * \param parent
+ */
 VKeyboardPanel::VKeyboardPanel(wxWindow* parent)
     : VKeyboardPanelBase(parent)
 {
     memset(_inbuffer,0,sizeof(_inbuffer));
-    _keyboard = this;
 }
-
+/*!
+ * \brief VKeyboardPanel::~VKeyboardPanel
+ */
 VKeyboardPanel::~VKeyboardPanel()
 {
 }
-
+/*!
+ * \brief VKeyboardPanel::onChar
+ * \param event
+ */
 void VKeyboardPanel::onChar(wxCommandEvent& event)
 {
     static const char * keys = "1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ.-_/ ";
@@ -25,7 +32,9 @@ void VKeyboardPanel::onChar(wxCommandEvent& event)
         GetTextEntry()->SetValue(_inbuffer);
     }
 }
-
+/*!
+ * \brief VKeyboardPanel::onDelete
+ */
 void VKeyboardPanel::onDelete(wxCommandEvent& /*event*/)
 {
     if(_in > 0)
@@ -35,17 +44,3 @@ void VKeyboardPanel::onDelete(wxCommandEvent& /*event*/)
     }
 }
 
-void VKeyboardPanel::onCancel(wxCommandEvent& /*event*/)
-{
-    _control = nullptr;
-    GetTextEntry()->Clear();
-    Show(false);
-}
-
-void VKeyboardPanel::onOK(wxCommandEvent& /*event*/)
-{
-    _control->SetValue(GetTextEntry()->GetValue());
-    _control = nullptr;
-    GetTextEntry()->Clear();
-    Show(false);
-}

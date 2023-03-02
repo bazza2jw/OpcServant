@@ -1,13 +1,17 @@
 #include "TextEntry.h"
-#include "VKeyboardPanel.h"
+#include "VTextEntryDialog.h"
+#include "virtualkeypaddate.h"
+#include "virtualkeypadtime.h"
+#include "VirtualKeypad.h"
 
 /*!
  * \brief TextEntry::TextEntry
  * \param parent
  */
 TextEntry::TextEntry(wxWindow* parent, wxWindowID id)
-    : TextEntryBase(parent,id)
+    : wxTextCtrl(parent,id)
 {
+    Connect(wxEVT_LEFT_DOWN, wxMouseEventHandler(TextEntry::onClick), NULL, this);
 }
 
 /*!
@@ -15,9 +19,73 @@ TextEntry::TextEntry(wxWindow* parent, wxWindowID id)
  */
 TextEntry::~TextEntry()
 {
+    Disconnect(wxEVT_LEFT_DOWN, wxMouseEventHandler(TextEntry::onClick), NULL, this);
 }
 
-void TextEntry::onFocus(wxFocusEvent& /*event*/)
+/*!
+ * \brief TextEntry::openKeyPad
+ */
+void TextEntry::openKeyPad()
 {
-    VKeyboardPanel::keyboard()->setControl(GetText());
+    // open the virtual keyboard dialog
+    VTextEntryDialog dlg(this);
+    dlg.setText(GetValue());
+    if(dlg.ShowModal() == wxID_OK)
+    {
+        SetValue(dlg.getText());
+    }
 }
+
+/*!
+ * \brief DateEntry::openKeyPad
+ */
+void DateEntry::openKeyPad()
+{
+    VirtualKeypadDate dlg(this);
+    dlg.setDate(_date);
+    // set the date
+    if(dlg.ShowModal() == wxID_OK)
+    {
+        // get the date
+        SetDate(dlg.getDate());
+    }
+}
+/*!
+ * \brief TimeEntry::openKeyPad
+ */
+void TimeEntry::openKeyPad()
+{
+    VirtualKeypadTime dlg(this);
+    dlg.setTime(_time);
+    if(dlg.ShowModal() == wxID_OK)
+    {
+        SetTime(dlg.getTime());
+    }
+}
+/*!
+ * \brief IntEntry::openKeyPad
+ */
+void IntEntry::openKeyPad()
+{
+    VirtualKeypad dlg(this);
+    if(dlg.ShowModal() == wxID_OK)
+    {
+        int i;
+        dlg.GetTextEntry()->GetValue().ToInt(&i);
+        SetValue(i);
+    }
+}
+/*!
+ * \brief DoubleEntry::openKeyPad
+ */
+void DoubleEntry::openKeyPad()
+{
+    VirtualKeypad dlg(this);
+    if(dlg.ShowModal() == wxID_OK)
+    {
+        double i;
+        dlg.GetTextEntry()->GetValue().ToDouble(&i);
+        SetValue(i);
+    }
+}
+

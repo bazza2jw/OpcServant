@@ -22,7 +22,6 @@ VirtualKeypadBase::VirtualKeypadBase(wxWindow* parent, wxWindowID id, const wxSt
         wxCrafter7TPDlEInitBitmapResources();
         bBitmapLoaded = true;
     }
-    this->Hide();
     
     boxSizer3 = new wxBoxSizer(wxVERTICAL);
     this->SetSizer(boxSizer3);
@@ -43,7 +42,7 @@ VirtualKeypadBase::VirtualKeypadBase(wxWindow* parent, wxWindowID id, const wxSt
     
     flexGridSizer7->Add(m_textEntry, 1, wxALL|wxEXPAND, WXC_FROM_DIP(5));
     
-    m_button13 = new wxButton(this, wxID_ANY, _("DEL"), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), 0);
+    m_button13 = new wxButton(this, wxID_ANY, _("<-"), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), 0);
     wxFont m_button13Font(20, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD, false, wxT("Noto Sans"));
     m_button13->SetFont(m_button13Font);
     
@@ -476,17 +475,9 @@ VKeyboardPanelBase::VKeyboardPanelBase(wxWindow* parent, wxWindowID id, const wx
     
     boxSizer71->Add(gridSizer227, 1, wxALL|wxEXPAND, WXC_FROM_DIP(5));
     
-    m_button229 = new wxButton(this, wxID_CANCEL, _("Cancel"), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), 0);
-    
-    gridSizer227->Add(m_button229, 0, wxALL|wxALIGN_CENTER|wxALIGN_LEFT, WXC_FROM_DIP(5));
-    
     m_space = new wxButton(this, 20040, _("Space"), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), 0);
     
-    gridSizer227->Add(m_space, 0, wxALL|wxALIGN_CENTER|wxALIGN_CENTER_HORIZONTAL, WXC_FROM_DIP(5));
-    
-    m_button233 = new wxButton(this, wxID_OK, _("OK"), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), 0);
-    
-    gridSizer227->Add(m_button233, 1, wxALL|wxALIGN_CENTER|wxALIGN_RIGHT, WXC_FROM_DIP(5));
+    gridSizer227->Add(m_space, 1, wxALL|wxEXPAND|wxALIGN_CENTER|wxALIGN_CENTER_HORIZONTAL, WXC_FROM_DIP(5));
     
     SetName(wxT("VKeyboardPanelBase"));
     SetSize(wxDLG_UNIT(this, wxSize(700,400)));
@@ -535,9 +526,7 @@ VKeyboardPanelBase::VKeyboardPanelBase(wxWindow* parent, wxWindowID id, const wx
     m_keyMinus->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VKeyboardPanelBase::onChar), NULL, this);
     m_keyUS->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VKeyboardPanelBase::onChar), NULL, this);
     m_keySlash->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VKeyboardPanelBase::onChar), NULL, this);
-    m_button229->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VKeyboardPanelBase::onCancel), NULL, this);
     m_space->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VKeyboardPanelBase::onChar), NULL, this);
-    m_button233->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VKeyboardPanelBase::onOK), NULL, this);
     
 }
 
@@ -584,58 +573,7 @@ VKeyboardPanelBase::~VKeyboardPanelBase()
     m_keyMinus->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VKeyboardPanelBase::onChar), NULL, this);
     m_keyUS->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VKeyboardPanelBase::onChar), NULL, this);
     m_keySlash->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VKeyboardPanelBase::onChar), NULL, this);
-    m_button229->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VKeyboardPanelBase::onCancel), NULL, this);
     m_space->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VKeyboardPanelBase::onChar), NULL, this);
-    m_button233->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VKeyboardPanelBase::onOK), NULL, this);
-    
-}
-
-TextEntryBase::TextEntryBase(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style)
-    : wxPanel(parent, id, pos, size, style)
-{
-    if ( !bBitmapLoaded ) {
-        // We need to initialise the default bitmap handler
-        wxXmlResource::Get()->AddHandler(new wxBitmapXmlHandler);
-        wxCrafter7TPDlEInitBitmapResources();
-        bBitmapLoaded = true;
-    }
-    this->SetBackgroundColour(wxColour(wxT("rgb(52,127,230)")));
-    this->SetForegroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_HIGHLIGHTTEXT));
-    wxFont thisFont(16, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("Ubuntu"));
-    this->SetFont(thisFont);
-    
-    flexGridSizer237 = new wxFlexGridSizer(0, 2, 0, 0);
-    flexGridSizer237->SetFlexibleDirection( wxBOTH );
-    flexGridSizer237->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
-    flexGridSizer237->AddGrowableCol(1);
-    this->SetSizer(flexGridSizer237);
-    
-    m_label = new wxStaticText(this, wxID_ANY, _("Static Text Label"), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), 0);
-    
-    flexGridSizer237->Add(m_label, 0, wxALL|wxEXPAND, WXC_FROM_DIP(5));
-    
-    m_text = new wxTextCtrl(this, wxID_ANY, wxT(""), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), wxTE_READONLY);
-    #if wxVERSION_NUMBER >= 3000
-    m_text->SetHint(wxT(""));
-    #endif
-    
-    flexGridSizer237->Add(m_text, 1, wxALL|wxEXPAND, WXC_FROM_DIP(5));
-    
-    SetBackgroundColour(wxColour(wxT("rgb(52,127,230)")));
-    SetForegroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_HIGHLIGHTTEXT));
-    SetName(wxT("TextEntryBase"));
-    SetSize(wxDLG_UNIT(this, wxSize(300,64)));
-    if (GetSizer()) {
-         GetSizer()->Fit(this);
-    }
-    // Connect events
-    m_text->Connect(wxEVT_SET_FOCUS, wxFocusEventHandler(TextEntryBase::onFocus), NULL, this);
-    
-}
-
-TextEntryBase::~TextEntryBase()
-{
-    m_text->Disconnect(wxEVT_SET_FOCUS, wxFocusEventHandler(TextEntryBase::onFocus), NULL, this);
     
 }
 
@@ -648,8 +586,6 @@ TextSpinBase::TextSpinBase(wxWindow* parent, wxWindowID id, const wxPoint& pos, 
         wxCrafter7TPDlEInitBitmapResources();
         bBitmapLoaded = true;
     }
-    this->SetBackgroundColour(wxColour(wxT("rgb(52,127,230)")));
-    this->SetForegroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_HIGHLIGHTTEXT));
     
     flexGridSizer245 = new wxFlexGridSizer(1, 4, 0, 0);
     flexGridSizer245->SetFlexibleDirection( wxBOTH );
@@ -661,7 +597,7 @@ TextSpinBase::TextSpinBase(wxWindow* parent, wxWindowID id, const wxPoint& pos, 
     wxFont m_labelFont(16, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("Ubuntu"));
     m_label->SetFont(m_labelFont);
     
-    flexGridSizer245->Add(m_label, 0, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    flexGridSizer245->Add(m_label, 0, wxALL|wxEXPAND|wxALIGN_CENTER_VERTICAL, WXC_FROM_DIP(5));
     
     m_text = new wxTextCtrl(this, wxID_ANY, wxT(""), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), wxTE_READONLY);
     #if wxVERSION_NUMBER >= 3000
@@ -681,8 +617,6 @@ TextSpinBase::TextSpinBase(wxWindow* parent, wxWindowID id, const wxPoint& pos, 
     flexGridSizer245->Add(m_down, 0, wxALL, WXC_FROM_DIP(5));
     m_down->SetMinSize(wxSize(-1,48));
     
-    SetBackgroundColour(wxColour(wxT("rgb(52,127,230)")));
-    SetForegroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_HIGHLIGHTTEXT));
     SetName(wxT("TextSpinBase"));
     SetSize(wxDLG_UNIT(this, wxSize(500,64)));
     if (GetSizer()) {
@@ -710,8 +644,6 @@ ToggleOptionBase::ToggleOptionBase(wxWindow* parent, wxWindowID id, const wxPoin
         wxCrafter7TPDlEInitBitmapResources();
         bBitmapLoaded = true;
     }
-    this->SetBackgroundColour(wxColour(wxT("rgb(52,127,230)")));
-    this->SetForegroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_HIGHLIGHTTEXT));
     
     flexGridSizer257 = new wxFlexGridSizer(0, 2, 0, 0);
     flexGridSizer257->SetFlexibleDirection( wxBOTH );
@@ -723,7 +655,7 @@ ToggleOptionBase::ToggleOptionBase(wxWindow* parent, wxWindowID id, const wxPoin
     wxFont m_labelFont(16, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("Ubuntu"));
     m_label->SetFont(m_labelFont);
     
-    flexGridSizer257->Add(m_label, 0, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    flexGridSizer257->Add(m_label, 0, wxALL|wxALIGN_CENTER, WXC_FROM_DIP(5));
     
     m_button = new SliderSwitch(this, wxID_ANY, _("On"), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), 0);
     m_button->SetValue(true);
@@ -731,8 +663,6 @@ ToggleOptionBase::ToggleOptionBase(wxWindow* parent, wxWindowID id, const wxPoin
     flexGridSizer257->Add(m_button, 1, wxALL|wxEXPAND, WXC_FROM_DIP(5));
     m_button->SetMinSize(wxSize(-1,48));
     
-    SetBackgroundColour(wxColour(wxT("rgb(52,127,230)")));
-    SetForegroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_HIGHLIGHTTEXT));
     SetName(wxT("ToggleOptionBase"));
     SetSize(wxDLG_UNIT(this, wxSize(300,64)));
     if (GetSizer()) {
@@ -742,4 +672,707 @@ ToggleOptionBase::ToggleOptionBase(wxWindow* parent, wxWindowID id, const wxPoin
 
 ToggleOptionBase::~ToggleOptionBase()
 {
+}
+
+VirtualKeypadTimeBase::VirtualKeypadTimeBase(wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style)
+    : wxDialog(parent, id, title, pos, size, style)
+{
+    if ( !bBitmapLoaded ) {
+        // We need to initialise the default bitmap handler
+        wxXmlResource::Get()->AddHandler(new wxBitmapXmlHandler);
+        wxCrafter7TPDlEInitBitmapResources();
+        bBitmapLoaded = true;
+    }
+    this->Hide();
+    
+    boxSizer31 = new wxBoxSizer(wxVERTICAL);
+    this->SetSizer(boxSizer31);
+    
+    flexGridSizer72 = new wxFlexGridSizer(0, 5, 0, 0);
+    flexGridSizer72->SetFlexibleDirection( wxBOTH );
+    flexGridSizer72->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
+    flexGridSizer72->AddGrowableCol(0);
+    flexGridSizer72->AddGrowableCol(2);
+    flexGridSizer72->AddGrowableCol(4);
+    flexGridSizer72->AddGrowableRow(0);
+    
+    boxSizer31->Add(flexGridSizer72, 1, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    
+    m_hour = new wxTextCtrl(this, wxID_ANY, wxT("00"), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), wxTE_READONLY|wxTE_CENTRE);
+    wxFont m_hourFont(20, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD, false, wxT("Noto Sans"));
+    m_hour->SetFont(m_hourFont);
+    #if wxVERSION_NUMBER >= 3000
+    m_hour->SetHint(wxT(""));
+    #endif
+    
+    flexGridSizer72->Add(m_hour, 0, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    
+    m_staticText324 = new wxStaticText(this, wxID_ANY, _(":"), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), 0);
+    wxFont m_staticText324Font(20, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD, false, wxT("Ubuntu"));
+    m_staticText324->SetFont(m_staticText324Font);
+    
+    flexGridSizer72->Add(m_staticText324, 0, wxALL|wxALIGN_CENTER_VERTICAL, WXC_FROM_DIP(5));
+    
+    m_minute = new wxTextCtrl(this, wxID_ANY, wxT("00"), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), wxTE_READONLY|wxTE_CENTRE);
+    wxFont m_minuteFont(20, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD, false, wxT("Ubuntu"));
+    m_minute->SetFont(m_minuteFont);
+    #if wxVERSION_NUMBER >= 3000
+    m_minute->SetHint(wxT(""));
+    #endif
+    
+    flexGridSizer72->Add(m_minute, 0, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    
+    m_staticText328 = new wxStaticText(this, wxID_ANY, _(":"), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), 0);
+    wxFont m_staticText328Font(20, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD, false, wxT("Ubuntu"));
+    m_staticText328->SetFont(m_staticText328Font);
+    
+    flexGridSizer72->Add(m_staticText328, 0, wxALL|wxALIGN_CENTER_VERTICAL, WXC_FROM_DIP(5));
+    
+    m_second = new wxTextCtrl(this, wxID_ANY, wxT("00"), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), wxTE_READONLY|wxTE_CENTRE);
+    wxFont m_secondFont(20, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD, false, wxT("Ubuntu"));
+    m_second->SetFont(m_secondFont);
+    #if wxVERSION_NUMBER >= 3000
+    m_second->SetHint(wxT(""));
+    #endif
+    
+    flexGridSizer72->Add(m_second, 0, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    
+    flexGridSizer482 = new wxFlexGridSizer(0, 8, 0, 0);
+    flexGridSizer482->SetFlexibleDirection( wxBOTH );
+    flexGridSizer482->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
+    flexGridSizer482->AddGrowableCol(0);
+    flexGridSizer482->AddGrowableCol(1);
+    flexGridSizer482->AddGrowableCol(3);
+    flexGridSizer482->AddGrowableCol(4);
+    flexGridSizer482->AddGrowableCol(6);
+    flexGridSizer482->AddGrowableCol(7);
+    flexGridSizer482->AddGrowableRow(0);
+    
+    boxSizer31->Add(flexGridSizer482, 1, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    
+    m_buttonHoursUp = new wxButton(this, wxID_ANY, wxT(""), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), 0);
+    #if wxVERSION_NUMBER >= 2904
+    m_buttonHoursUp->SetBitmap(wxArtProvider::GetBitmap(wxART_GO_UP, wxART_TOOLBAR, wxDefaultSize), wxLEFT);
+    m_buttonHoursUp->SetBitmapMargins(2,2);
+    #endif
+    
+    flexGridSizer482->Add(m_buttonHoursUp, 1, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    
+    m_buttonHoursDown = new wxButton(this, wxID_ANY, wxT(""), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), 0);
+    #if wxVERSION_NUMBER >= 2904
+    m_buttonHoursDown->SetBitmap(wxArtProvider::GetBitmap(wxART_GO_DOWN, wxART_TOOLBAR, wxDefaultSize), wxLEFT);
+    m_buttonHoursDown->SetBitmapMargins(2,2);
+    #endif
+    
+    flexGridSizer482->Add(m_buttonHoursDown, 1, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    
+    m_staticText488 = new wxStaticText(this, wxID_ANY, _("."), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), 0);
+    
+    flexGridSizer482->Add(m_staticText488, 0, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    
+    m_buttonMinUp = new wxButton(this, wxID_ANY, wxT(""), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), 0);
+    #if wxVERSION_NUMBER >= 2904
+    m_buttonMinUp->SetBitmap(wxArtProvider::GetBitmap(wxART_GO_UP, wxART_TOOLBAR, wxDefaultSize), wxLEFT);
+    m_buttonMinUp->SetBitmapMargins(2,2);
+    #endif
+    
+    flexGridSizer482->Add(m_buttonMinUp, 1, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    
+    m_buttonMinDown = new wxButton(this, wxID_ANY, wxT(""), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), 0);
+    #if wxVERSION_NUMBER >= 2904
+    m_buttonMinDown->SetBitmap(wxArtProvider::GetBitmap(wxART_GO_DOWN, wxART_TOOLBAR, wxDefaultSize), wxLEFT);
+    m_buttonMinDown->SetBitmapMargins(2,2);
+    #endif
+    
+    flexGridSizer482->Add(m_buttonMinDown, 1, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    
+    m_staticText494 = new wxStaticText(this, wxID_ANY, _("."), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), 0);
+    
+    flexGridSizer482->Add(m_staticText494, 0, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    
+    m_buttonSecUp = new wxButton(this, wxID_ANY, wxT(""), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), 0);
+    #if wxVERSION_NUMBER >= 2904
+    m_buttonSecUp->SetBitmap(wxArtProvider::GetBitmap(wxART_GO_UP, wxART_TOOLBAR, wxDefaultSize), wxLEFT);
+    m_buttonSecUp->SetBitmapMargins(2,2);
+    #endif
+    
+    flexGridSizer482->Add(m_buttonSecUp, 0, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    
+    m_buttonSecDown = new wxButton(this, wxID_ANY, wxT(""), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), 0);
+    #if wxVERSION_NUMBER >= 2904
+    m_buttonSecDown->SetBitmap(wxArtProvider::GetBitmap(wxART_GO_DOWN, wxART_TOOLBAR, wxDefaultSize), wxLEFT);
+    m_buttonSecDown->SetBitmapMargins(2,2);
+    #endif
+    
+    flexGridSizer482->Add(m_buttonSecDown, 0, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    
+    gridSizer918 = new wxGridSizer(0, 3, 0, 0);
+    
+    boxSizer31->Add(gridSizer918, 1, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    
+    m_button5019 = new wxButton(this, wxID_OK, _("OK"), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), 0);
+    wxFont m_button5019Font(20, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD, false, wxT("Noto Sans"));
+    m_button5019->SetFont(m_button5019Font);
+    
+    gridSizer918->Add(m_button5019, 0, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    
+    gridSizer918->Add(0, 0, 1, wxALL, WXC_FROM_DIP(5));
+    
+    m_button5421 = new wxButton(this, wxID_CANCEL, _("Cancel"), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), 0);
+    wxFont m_button5421Font(20, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD, false, wxT("Noto Sans"));
+    m_button5421->SetFont(m_button5421Font);
+    
+    gridSizer918->Add(m_button5421, 0, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    
+    SetName(wxT("VirtualKeypadTimeBase"));
+    SetSize(wxDLG_UNIT(this, wxSize(800,600)));
+    if (GetSizer()) {
+         GetSizer()->Fit(this);
+    }
+    if(GetParent()) {
+        CentreOnParent(wxHORIZONTAL);
+    } else {
+        CentreOnScreen(wxHORIZONTAL);
+    }
+    // Connect events
+    m_buttonHoursUp->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VirtualKeypadTimeBase::onHourUp), NULL, this);
+    m_buttonHoursDown->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VirtualKeypadTimeBase::onHourDown), NULL, this);
+    m_buttonMinUp->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VirtualKeypadTimeBase::onMinUp), NULL, this);
+    m_buttonMinDown->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VirtualKeypadTimeBase::onMinDown), NULL, this);
+    m_buttonSecUp->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VirtualKeypadTimeBase::onSecUp), NULL, this);
+    m_buttonSecDown->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VirtualKeypadTimeBase::onSecDown), NULL, this);
+    
+}
+
+VirtualKeypadTimeBase::~VirtualKeypadTimeBase()
+{
+    m_buttonHoursUp->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VirtualKeypadTimeBase::onHourUp), NULL, this);
+    m_buttonHoursDown->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VirtualKeypadTimeBase::onHourDown), NULL, this);
+    m_buttonMinUp->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VirtualKeypadTimeBase::onMinUp), NULL, this);
+    m_buttonMinDown->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VirtualKeypadTimeBase::onMinDown), NULL, this);
+    m_buttonSecUp->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VirtualKeypadTimeBase::onSecUp), NULL, this);
+    m_buttonSecDown->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VirtualKeypadTimeBase::onSecDown), NULL, this);
+    
+}
+
+VirtualKeypadDateBase::VirtualKeypadDateBase(wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style)
+    : wxDialog(parent, id, title, pos, size, style)
+{
+    if ( !bBitmapLoaded ) {
+        // We need to initialise the default bitmap handler
+        wxXmlResource::Get()->AddHandler(new wxBitmapXmlHandler);
+        wxCrafter7TPDlEInitBitmapResources();
+        bBitmapLoaded = true;
+    }
+    this->Hide();
+    
+    boxSizer3122 = new wxBoxSizer(wxVERTICAL);
+    this->SetSizer(boxSizer3122);
+    
+    flexGridSizer7223 = new wxFlexGridSizer(0, 5, 0, 0);
+    flexGridSizer7223->SetFlexibleDirection( wxBOTH );
+    flexGridSizer7223->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
+    flexGridSizer7223->AddGrowableCol(0);
+    flexGridSizer7223->AddGrowableCol(2);
+    flexGridSizer7223->AddGrowableCol(4);
+    flexGridSizer7223->AddGrowableRow(0);
+    
+    boxSizer3122->Add(flexGridSizer7223, 3, wxEXPAND, WXC_FROM_DIP(5));
+    
+    m_year = new wxTextCtrl(this, wxID_ANY, wxT("2000"), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), wxTE_READONLY|wxTE_CENTRE);
+    wxFont m_yearFont(20, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD, false, wxT("Noto Sans"));
+    m_year->SetFont(m_yearFont);
+    m_year->SetToolTip(_("Year"));
+    #if wxVERSION_NUMBER >= 3000
+    m_year->SetHint(wxT(""));
+    #endif
+    
+    flexGridSizer7223->Add(m_year, 1, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    
+    m_staticText330 = new wxStaticText(this, wxID_ANY, _("-"), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), 0);
+    wxFont m_staticText330Font(20, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD, false, wxT("Ubuntu"));
+    m_staticText330->SetFont(m_staticText330Font);
+    
+    flexGridSizer7223->Add(m_staticText330, 1, wxALL|wxALIGN_CENTER_VERTICAL, WXC_FROM_DIP(5));
+    
+    m_month = new wxTextCtrl(this, wxID_ANY, wxT("Jan"), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), wxTE_READONLY|wxTE_CENTRE);
+    wxFont m_monthFont(20, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD, false, wxT("Ubuntu"));
+    m_month->SetFont(m_monthFont);
+    m_month->SetToolTip(_("Month"));
+    #if wxVERSION_NUMBER >= 3000
+    m_month->SetHint(wxT(""));
+    #endif
+    
+    flexGridSizer7223->Add(m_month, 0, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    
+    m_staticText332 = new wxStaticText(this, wxID_ANY, _("-"), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), 0);
+    wxFont m_staticText332Font(20, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD, false, wxT("Ubuntu"));
+    m_staticText332->SetFont(m_staticText332Font);
+    
+    flexGridSizer7223->Add(m_staticText332, 0, wxALL|wxALIGN_CENTER_VERTICAL, WXC_FROM_DIP(5));
+    
+    m_day = new wxTextCtrl(this, wxID_ANY, wxT("01"), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), wxTE_READONLY|wxTE_CENTRE);
+    wxFont m_dayFont(20, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD, false, wxT("Ubuntu"));
+    m_day->SetFont(m_dayFont);
+    m_day->SetToolTip(_("Day"));
+    #if wxVERSION_NUMBER >= 3000
+    m_day->SetHint(wxT(""));
+    #endif
+    
+    flexGridSizer7223->Add(m_day, 0, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    
+    m_staticText334 = new wxStaticText(this, wxID_ANY, _("Year"), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), 0);
+    
+    flexGridSizer7223->Add(m_staticText334, 0, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, WXC_FROM_DIP(5));
+    
+    flexGridSizer7223->Add(0, 0, 1, wxALL, WXC_FROM_DIP(5));
+    
+    m_staticText336 = new wxStaticText(this, wxID_ANY, _("Month"), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), 0);
+    
+    flexGridSizer7223->Add(m_staticText336, 0, wxALL|wxALIGN_CENTER_HORIZONTAL, WXC_FROM_DIP(5));
+    
+    flexGridSizer7223->Add(0, 0, 1, wxALL, WXC_FROM_DIP(5));
+    
+    m_staticText338 = new wxStaticText(this, wxID_ANY, _("Day"), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), 0);
+    
+    flexGridSizer7223->Add(m_staticText338, 0, wxALL|wxEXPAND|wxALIGN_CENTER_HORIZONTAL, WXC_FROM_DIP(5));
+    
+    flexGridSizer464 = new wxFlexGridSizer(0, 8, 0, 0);
+    flexGridSizer464->SetFlexibleDirection( wxBOTH );
+    flexGridSizer464->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
+    flexGridSizer464->AddGrowableCol(0);
+    flexGridSizer464->AddGrowableCol(1);
+    flexGridSizer464->AddGrowableCol(3);
+    flexGridSizer464->AddGrowableCol(4);
+    flexGridSizer464->AddGrowableCol(6);
+    flexGridSizer464->AddGrowableCol(7);
+    flexGridSizer464->AddGrowableRow(0);
+    
+    boxSizer3122->Add(flexGridSizer464, 1, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    
+    m_buttonYearUp = new wxButton(this, wxID_ANY, wxT(""), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), 0);
+    #if wxVERSION_NUMBER >= 2904
+    m_buttonYearUp->SetBitmap(wxArtProvider::GetBitmap(wxART_GO_UP, wxART_OTHER, wxDefaultSize), wxLEFT);
+    m_buttonYearUp->SetBitmapMargins(2,2);
+    #endif
+    
+    flexGridSizer464->Add(m_buttonYearUp, 1, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    
+    m_buttonYearDown = new wxButton(this, wxID_ANY, wxT(""), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), 0);
+    #if wxVERSION_NUMBER >= 2904
+    m_buttonYearDown->SetBitmap(wxArtProvider::GetBitmap(wxART_GO_DOWN, wxART_TOOLBAR, wxDefaultSize), wxLEFT);
+    m_buttonYearDown->SetBitmapMargins(2,2);
+    #endif
+    
+    flexGridSizer464->Add(m_buttonYearDown, 0, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    
+    m_staticText470 = new wxStaticText(this, wxID_ANY, _("."), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), 0);
+    
+    flexGridSizer464->Add(m_staticText470, 0, wxALL, WXC_FROM_DIP(5));
+    
+    m_buttonMonthUp = new wxButton(this, wxID_ANY, wxT(""), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), 0);
+    #if wxVERSION_NUMBER >= 2904
+    m_buttonMonthUp->SetBitmap(wxArtProvider::GetBitmap(wxART_GO_UP, wxART_TOOLBAR, wxDefaultSize), wxLEFT);
+    m_buttonMonthUp->SetBitmapMargins(2,2);
+    #endif
+    
+    flexGridSizer464->Add(m_buttonMonthUp, 0, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    
+    m_buttonMonthDown = new wxButton(this, wxID_ANY, wxT(""), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), 0);
+    #if wxVERSION_NUMBER >= 2904
+    m_buttonMonthDown->SetBitmap(wxArtProvider::GetBitmap(wxART_GO_DOWN, wxART_TOOLBAR, wxDefaultSize), wxLEFT);
+    m_buttonMonthDown->SetBitmapMargins(2,2);
+    #endif
+    
+    flexGridSizer464->Add(m_buttonMonthDown, 0, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    
+    m_staticText476 = new wxStaticText(this, wxID_ANY, _("."), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), 0);
+    
+    flexGridSizer464->Add(m_staticText476, 0, wxALL, WXC_FROM_DIP(5));
+    
+    m_buttonDayUp = new wxButton(this, wxID_ANY, wxT(""), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), 0);
+    #if wxVERSION_NUMBER >= 2904
+    m_buttonDayUp->SetBitmap(wxArtProvider::GetBitmap(wxART_GO_UP, wxART_TOOLBAR, wxDefaultSize), wxLEFT);
+    m_buttonDayUp->SetBitmapMargins(2,2);
+    #endif
+    
+    flexGridSizer464->Add(m_buttonDayUp, 0, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    
+    m_buttonDayDown = new wxButton(this, wxID_ANY, wxT(""), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), 0);
+    #if wxVERSION_NUMBER >= 2904
+    m_buttonDayDown->SetBitmap(wxArtProvider::GetBitmap(wxART_GO_DOWN, wxART_TOOLBAR, wxDefaultSize), wxLEFT);
+    m_buttonDayDown->SetBitmapMargins(2,2);
+    #endif
+    
+    flexGridSizer464->Add(m_buttonDayDown, 0, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    
+    gridSizer91838 = new wxGridSizer(0, 3, 0, 0);
+    
+    boxSizer3122->Add(gridSizer91838, 1, wxEXPAND, WXC_FROM_DIP(5));
+    
+    m_button501939 = new wxButton(this, wxID_OK, _("OK"), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), 0);
+    wxFont m_button501939Font(20, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD, false, wxT("Noto Sans"));
+    m_button501939->SetFont(m_button501939Font);
+    
+    gridSizer91838->Add(m_button501939, 0, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    
+    gridSizer91838->Add(0, 0, 1, wxALL, WXC_FROM_DIP(5));
+    
+    m_button542141 = new wxButton(this, wxID_CANCEL, _("Cancel"), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), 0);
+    wxFont m_button542141Font(20, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD, false, wxT("Noto Sans"));
+    m_button542141->SetFont(m_button542141Font);
+    
+    gridSizer91838->Add(m_button542141, 0, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    
+    SetName(wxT("VirtualKeypadDateBase"));
+    SetSize(wxDLG_UNIT(this, wxSize(800,600)));
+    if (GetSizer()) {
+         GetSizer()->Fit(this);
+    }
+    if(GetParent()) {
+        CentreOnParent(wxHORIZONTAL);
+    } else {
+        CentreOnScreen(wxHORIZONTAL);
+    }
+    // Connect events
+    m_buttonYearUp->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VirtualKeypadDateBase::onYearUp), NULL, this);
+    m_buttonYearDown->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VirtualKeypadDateBase::onYearDown), NULL, this);
+    m_buttonMonthUp->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VirtualKeypadDateBase::onMonthUp), NULL, this);
+    m_buttonMonthDown->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VirtualKeypadDateBase::onMonthDown), NULL, this);
+    m_buttonDayUp->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VirtualKeypadDateBase::onDayUp), NULL, this);
+    m_buttonDayDown->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VirtualKeypadDateBase::onDayDown), NULL, this);
+    
+}
+
+VirtualKeypadDateBase::~VirtualKeypadDateBase()
+{
+    m_buttonYearUp->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VirtualKeypadDateBase::onYearUp), NULL, this);
+    m_buttonYearDown->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VirtualKeypadDateBase::onYearDown), NULL, this);
+    m_buttonMonthUp->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VirtualKeypadDateBase::onMonthUp), NULL, this);
+    m_buttonMonthDown->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VirtualKeypadDateBase::onMonthDown), NULL, this);
+    m_buttonDayUp->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VirtualKeypadDateBase::onDayUp), NULL, this);
+    m_buttonDayDown->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VirtualKeypadDateBase::onDayDown), NULL, this);
+    
+}
+
+VTextEntryDialogBase::VTextEntryDialogBase(wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style)
+    : wxDialog(parent, id, title, pos, size, style)
+{
+    if ( !bBitmapLoaded ) {
+        // We need to initialise the default bitmap handler
+        wxXmlResource::Get()->AddHandler(new wxBitmapXmlHandler);
+        wxCrafter7TPDlEInitBitmapResources();
+        bBitmapLoaded = true;
+    }
+    
+    boxSizer711 = new wxBoxSizer(wxVERTICAL);
+    this->SetSizer(boxSizer711);
+    
+    boxSizer752 = new wxBoxSizer(wxHORIZONTAL);
+    
+    boxSizer711->Add(boxSizer752, 1, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    
+    m_textEntry = new wxTextCtrl(this, wxID_ANY, wxT(""), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), wxTE_READONLY);
+    #if wxVERSION_NUMBER >= 3000
+    m_textEntry->SetHint(wxT(""));
+    #endif
+    
+    boxSizer752->Add(m_textEntry, 1, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    
+    m_button814 = new wxButton(this, wxID_DELETE, _("Del"), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), 0);
+    
+    boxSizer752->Add(m_button814, 0, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    
+    gridSizer775 = new wxGridSizer(0, 10, 0, 0);
+    
+    boxSizer711->Add(gridSizer775, 3, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    
+    n_key16 = new wxButton(this, 20000, _("1"), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), 0);
+    
+    gridSizer775->Add(n_key16, 0, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    
+    m_key27 = new wxButton(this, 20001, _("2"), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), 0);
+    
+    gridSizer775->Add(m_key27, 0, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    
+    m_key38 = new wxButton(this, 20002, _("3"), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), 0);
+    
+    gridSizer775->Add(m_key38, 0, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    
+    m_key49 = new wxButton(this, 20003, _("4"), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), 0);
+    
+    gridSizer775->Add(m_key49, 0, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    
+    m_key510 = new wxButton(this, 20004, _("5"), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), 0);
+    
+    gridSizer775->Add(m_key510, 0, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    
+    m_key611 = new wxButton(this, 20005, _("6"), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), 0);
+    
+    gridSizer775->Add(m_key611, 0, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    
+    m_key712 = new wxButton(this, 20006, _("7"), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), 0);
+    
+    gridSizer775->Add(m_key712, 0, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    
+    m_key813 = new wxButton(this, 20007, _("8"), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), 0);
+    
+    gridSizer775->Add(m_key813, 0, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    
+    m_key914 = new wxButton(this, 20008, _("9"), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), 0);
+    
+    gridSizer775->Add(m_key914, 0, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    
+    m_key015 = new wxButton(this, 20009, _("0"), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), 0);
+    
+    gridSizer775->Add(m_key015, 0, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    
+    m_keyA16 = new wxButton(this, 20010, _("A"), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), 0);
+    
+    gridSizer775->Add(m_keyA16, 0, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    
+    m_keyB17 = new wxButton(this, 20011, _("B"), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), 0);
+    
+    gridSizer775->Add(m_keyB17, 0, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    
+    m_keyC18 = new wxButton(this, 20012, _("C"), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), 0);
+    
+    gridSizer775->Add(m_keyC18, 0, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    
+    m_keyD19 = new wxButton(this, 20013, _("D"), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), 0);
+    
+    gridSizer775->Add(m_keyD19, 0, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    
+    m_keyE20 = new wxButton(this, 20014, _("E"), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), 0);
+    
+    gridSizer775->Add(m_keyE20, 0, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    
+    m_keyF21 = new wxButton(this, 20015, _("F"), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), 0);
+    
+    gridSizer775->Add(m_keyF21, 0, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    
+    m_keyG22 = new wxButton(this, 20016, _("G"), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), 0);
+    
+    gridSizer775->Add(m_keyG22, 0, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    
+    m_keyH23 = new wxButton(this, 20017, _("H"), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), 0);
+    
+    gridSizer775->Add(m_keyH23, 0, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    
+    m_keyI24 = new wxButton(this, 20018, _("I"), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), 0);
+    
+    gridSizer775->Add(m_keyI24, 0, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    
+    m_keyJ25 = new wxButton(this, 20019, _("J"), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), 0);
+    
+    gridSizer775->Add(m_keyJ25, 0, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    
+    m_keyK26 = new wxButton(this, 20020, _("K"), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), 0);
+    
+    gridSizer775->Add(m_keyK26, 0, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    
+    m_keyL27 = new wxButton(this, 20021, _("L"), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), 0);
+    
+    gridSizer775->Add(m_keyL27, 0, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    
+    m_keyM28 = new wxButton(this, 20022, _("M"), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), 0);
+    
+    gridSizer775->Add(m_keyM28, 0, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    
+    m_keyN29 = new wxButton(this, 20023, _("N"), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), 0);
+    
+    gridSizer775->Add(m_keyN29, 0, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    
+    m_keyO30 = new wxButton(this, 20024, _("O"), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), 0);
+    
+    gridSizer775->Add(m_keyO30, 0, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    
+    m_keyP31 = new wxButton(this, 20025, _("P"), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), 0);
+    
+    gridSizer775->Add(m_keyP31, 0, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    
+    m_keyQ32 = new wxButton(this, 20026, _("Q"), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), 0);
+    
+    gridSizer775->Add(m_keyQ32, 0, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    
+    m_keyR33 = new wxButton(this, 20027, _("R"), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), 0);
+    
+    gridSizer775->Add(m_keyR33, 0, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    
+    m_keyS34 = new wxButton(this, 20028, _("S"), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), 0);
+    
+    gridSizer775->Add(m_keyS34, 0, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    
+    m_keyT35 = new wxButton(this, 20029, _("T"), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), 0);
+    
+    gridSizer775->Add(m_keyT35, 0, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    
+    m_keyU36 = new wxButton(this, 20030, _("U"), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), 0);
+    
+    gridSizer775->Add(m_keyU36, 0, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    
+    m_keyV37 = new wxButton(this, 20031, _("V"), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), 0);
+    
+    gridSizer775->Add(m_keyV37, 0, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    
+    m_keyW38 = new wxButton(this, 20032, _("W"), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), 0);
+    
+    gridSizer775->Add(m_keyW38, 0, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    
+    m_keyX39 = new wxButton(this, 20033, _("X"), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), 0);
+    
+    gridSizer775->Add(m_keyX39, 0, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    
+    m_keyY40 = new wxButton(this, 20034, _("Y"), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), 0);
+    
+    gridSizer775->Add(m_keyY40, 0, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    
+    m_keyZ41 = new wxButton(this, 20035, _("Z"), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), 0);
+    
+    gridSizer775->Add(m_keyZ41, 0, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    
+    m_keyDot42 = new wxButton(this, 20036, _("."), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), 0);
+    
+    gridSizer775->Add(m_keyDot42, 0, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    
+    m_keyMinus43 = new wxButton(this, 20037, _("-"), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), 0);
+    
+    gridSizer775->Add(m_keyMinus43, 0, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    
+    m_keyUS44 = new wxButton(this, 20038, _("_"), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), 0);
+    
+    gridSizer775->Add(m_keyUS44, 0, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    
+    m_keySlash45 = new wxButton(this, 20039, _("/"), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), 0);
+    
+    gridSizer775->Add(m_keySlash45, 0, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    
+    gridSizer22746 = new wxGridSizer(0, 3, 0, 0);
+    
+    boxSizer711->Add(gridSizer22746, 1, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    
+    m_space47 = new wxButton(this, 20040, _("Space"), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), 0);
+    
+    gridSizer22746->Add(m_space47, 1, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    
+    m_button460 = new wxButton(this, wxID_CANCEL, _("Cancel"), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), 0);
+    
+    gridSizer22746->Add(m_button460, 1, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    
+    m_button462 = new wxButton(this, wxID_OK, _("OK"), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), 0);
+    
+    gridSizer22746->Add(m_button462, 1, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    
+    SetName(wxT("VTextEntryDialogBase"));
+    SetSize(wxDLG_UNIT(this, wxSize(500,300)));
+    if (GetSizer()) {
+         GetSizer()->Fit(this);
+    }
+    if(GetParent()) {
+        CentreOnParent(wxBOTH);
+    } else {
+        CentreOnScreen(wxBOTH);
+    }
+#if wxVERSION_NUMBER >= 2900
+    if(!wxPersistenceManager::Get().Find(this)) {
+        wxPersistenceManager::Get().RegisterAndRestore(this);
+    } else {
+        wxPersistenceManager::Get().Restore(this);
+    }
+#endif
+    // Connect events
+    m_button814->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onDelete), NULL, this);
+    n_key16->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
+    m_key27->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
+    m_key38->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
+    m_key49->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
+    m_key510->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
+    m_key611->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
+    m_key712->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
+    m_key813->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
+    m_key914->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
+    m_key015->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
+    m_keyA16->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
+    m_keyB17->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
+    m_keyC18->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
+    m_keyD19->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
+    m_keyE20->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
+    m_keyF21->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
+    m_keyG22->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
+    m_keyH23->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
+    m_keyI24->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
+    m_keyJ25->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
+    m_keyK26->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
+    m_keyL27->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
+    m_keyM28->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
+    m_keyN29->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
+    m_keyO30->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
+    m_keyP31->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
+    m_keyQ32->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
+    m_keyR33->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
+    m_keyS34->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
+    m_keyT35->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
+    m_keyU36->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
+    m_keyV37->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
+    m_keyW38->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
+    m_keyX39->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
+    m_keyY40->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
+    m_keyZ41->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
+    m_keyDot42->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
+    m_keyMinus43->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
+    m_keyUS44->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
+    m_keySlash45->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
+    m_space47->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
+    m_button460->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onCancel), NULL, this);
+    m_button462->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onOK), NULL, this);
+    
+}
+
+VTextEntryDialogBase::~VTextEntryDialogBase()
+{
+    m_button814->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onDelete), NULL, this);
+    n_key16->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
+    m_key27->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
+    m_key38->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
+    m_key49->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
+    m_key510->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
+    m_key611->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
+    m_key712->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
+    m_key813->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
+    m_key914->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
+    m_key015->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
+    m_keyA16->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
+    m_keyB17->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
+    m_keyC18->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
+    m_keyD19->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
+    m_keyE20->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
+    m_keyF21->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
+    m_keyG22->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
+    m_keyH23->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
+    m_keyI24->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
+    m_keyJ25->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
+    m_keyK26->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
+    m_keyL27->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
+    m_keyM28->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
+    m_keyN29->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
+    m_keyO30->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
+    m_keyP31->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
+    m_keyQ32->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
+    m_keyR33->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
+    m_keyS34->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
+    m_keyT35->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
+    m_keyU36->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
+    m_keyV37->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
+    m_keyW38->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
+    m_keyX39->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
+    m_keyY40->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
+    m_keyZ41->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
+    m_keyDot42->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
+    m_keyMinus43->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
+    m_keyUS44->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
+    m_keySlash45->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
+    m_space47->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
+    m_button460->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onCancel), NULL, this);
+    m_button462->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onOK), NULL, this);
+    
 }

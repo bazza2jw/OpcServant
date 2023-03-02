@@ -96,6 +96,9 @@ set(LIB_SOURCES
     TextSpin.cpp
     ToggleOption.cpp
     VKeyboardPanel.cpp
+    virtualkeypaddate.cpp
+    virtualkeypadtime.cpp
+    VTextEntryDialog.cpp
         )
 
 set(PROJECT_LIB_FLAGS  MrlLib)
