@@ -258,8 +258,7 @@ public:
 class TextSpinBase : public wxPanel
 {
 protected:
-    wxFlexGridSizer* flexGridSizer245;
-    wxStaticText* m_label;
+    wxBoxSizer* boxSizer499;
     wxTextCtrl* m_text;
     wxButton* m_up;
     wxButton* m_down;
@@ -269,7 +268,6 @@ protected:
     virtual void onDown(wxCommandEvent& event) { event.Skip(); }
 
 public:
-    wxStaticText* GetLabel() { return m_label; }
     wxTextCtrl* GetText() { return m_text; }
     wxButton* GetUp() { return m_up; }
     wxButton* GetDown() { return m_down; }

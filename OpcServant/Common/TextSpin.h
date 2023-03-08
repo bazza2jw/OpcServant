@@ -21,6 +21,7 @@ public:
     {
         _items = a;
         _current = 0;
+        setCurrent();
     }
 
     void SetValue(int i)
@@ -86,7 +87,10 @@ class NumberSpin : public TextSpinBase
     wxString _format = "%d";
 
     public:
-    NumberSpin(wxWindow* parent, wxWindowID id = wxID_ANY): TextSpinBase(parent,id) {}
+    NumberSpin(wxWindow* parent, wxWindowID id = wxID_ANY): TextSpinBase(parent,id)
+    {
+        setCurrent();
+    }
 protected:
     void setCurrent()
     {
@@ -117,7 +121,11 @@ protected:
     void setMaximum(int i) {_maximum = i;}
     int maximum() { return _maximum;}
     //
-    void setFormat(const wxString &f) { _format = f;}
+    void setFormat(const wxString &f)
+    {
+        _format = f;
+        setCurrent();
+    }
     //
 };
 

@@ -48,6 +48,12 @@ HarnessTestDialogBase::HarnessTestDialogBase(wxWindow* parent, wxWindowID id, co
     timeF = new TimeEntry(m_panel5,wxID_ANY);
     boxSizer15->Add(timeF, 1, wxALL|wxEXPAND, WXC_FROM_DIP(5));
     
+    m_textSpin = new TextSpin(m_panel5,wxID_ANY);
+    boxSizer15->Add(m_textSpin, 1, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    
+    m_numberSpin = new NumberSpin(m_panel5, wxID_ANY);
+    boxSizer15->Add(m_numberSpin, 1, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    
     m_stdBtnSizer9 = new wxStdDialogButtonSizer();
     
     boxSizer3->Add(m_stdBtnSizer9, 0, wxALL, WXC_FROM_DIP(5));

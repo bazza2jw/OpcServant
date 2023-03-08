@@ -3,6 +3,11 @@
 HarnessTestDialog::HarnessTestDialog(wxWindow* parent)
     : HarnessTestDialogBase(parent)
 {
+    wxArrayString a;
+    a.Add("Yes");
+    a.Add("No");
+    a.Add("Maybe");
+    GetTextSpin()->setItems(a);
 }
 
 HarnessTestDialog::~HarnessTestDialog()

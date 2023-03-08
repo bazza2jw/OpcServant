@@ -16,6 +16,7 @@
 #include <wx/sizer.h>
 #include <wx/panel.h>
 #include <Common/TextEntry.h>
+#include <Common/TextSpin.h>
 #include <wx/button.h>
 #if wxVERSION_NUMBER >= 2900
 #include <wx/persist.h>
@@ -45,6 +46,8 @@ protected:
     IntEntry* intF;
     TextEntry* textF;
     TimeEntry* timeF;
+    TextSpin* m_textSpin;
+    NumberSpin* m_numberSpin;
     wxStdDialogButtonSizer* m_stdBtnSizer9;
     wxButton* m_button11;
     wxButton* m_button13;
@@ -59,6 +62,8 @@ public:
     IntEntry* GetIntF() { return intF; }
     TextEntry* GetTextF() { return textF; }
     TimeEntry* GetTimeF() { return timeF; }
+    TextSpin* GetTextSpin() { return m_textSpin; }
+    NumberSpin* GetNumberSpin() { return m_numberSpin; }
     wxPanel* GetPanel5() { return m_panel5; }
     HarnessTestDialogBase(wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Harness"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize(800,600), long style = wxDEFAULT_DIALOG_STYLE);
     virtual ~HarnessTestDialogBase();

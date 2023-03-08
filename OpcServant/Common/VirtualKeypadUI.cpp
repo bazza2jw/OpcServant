@@ -587,34 +587,33 @@ TextSpinBase::TextSpinBase(wxWindow* parent, wxWindowID id, const wxPoint& pos, 
         bBitmapLoaded = true;
     }
     
-    flexGridSizer245 = new wxFlexGridSizer(1, 4, 0, 0);
-    flexGridSizer245->SetFlexibleDirection( wxBOTH );
-    flexGridSizer245->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
-    flexGridSizer245->AddGrowableCol(1);
-    this->SetSizer(flexGridSizer245);
-    
-    m_label = new wxStaticText(this, wxID_ANY, _("Label Text"), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), 0);
-    wxFont m_labelFont(16, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("Ubuntu"));
-    m_label->SetFont(m_labelFont);
-    
-    flexGridSizer245->Add(m_label, 0, wxALL|wxEXPAND|wxALIGN_CENTER_VERTICAL, WXC_FROM_DIP(5));
+    boxSizer499 = new wxBoxSizer(wxHORIZONTAL);
+    this->SetSizer(boxSizer499);
     
     m_text = new wxTextCtrl(this, wxID_ANY, wxT(""), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), wxTE_READONLY);
     #if wxVERSION_NUMBER >= 3000
     m_text->SetHint(wxT(""));
     #endif
     
-    flexGridSizer245->Add(m_text, 1, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    boxSizer499->Add(m_text, 1, wxALL|wxEXPAND, WXC_FROM_DIP(5));
     m_text->SetMinSize(wxSize(-1,60));
     
-    m_up = new wxButton(this, wxID_ANY, _("+"), wxDefaultPosition, wxDLG_UNIT(this, wxSize(32,32)), 0);
+    m_up = new wxButton(this, wxID_ANY, wxT(""), wxDefaultPosition, wxDLG_UNIT(this, wxSize(32,32)), 0);
+    #if wxVERSION_NUMBER >= 2904
+    m_up->SetBitmap(wxArtProvider::GetBitmap(wxART_GO_UP, wxART_TOOLBAR, wxDefaultSize), wxLEFT);
+    m_up->SetBitmapMargins(2,2);
+    #endif
     
-    flexGridSizer245->Add(m_up, 0, wxALL, WXC_FROM_DIP(5));
+    boxSizer499->Add(m_up, 0, wxALL, WXC_FROM_DIP(5));
     m_up->SetMinSize(wxSize(-1,48));
     
-    m_down = new wxButton(this, wxID_ANY, _("-"), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), 0);
+    m_down = new wxButton(this, wxID_ANY, wxT(""), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), 0);
+    #if wxVERSION_NUMBER >= 2904
+    m_down->SetBitmap(wxArtProvider::GetBitmap(wxART_GO_DOWN, wxART_TOOLBAR, wxDefaultSize), wxLEFT);
+    m_down->SetBitmapMargins(2,2);
+    #endif
     
-    flexGridSizer245->Add(m_down, 0, wxALL, WXC_FROM_DIP(5));
+    boxSizer499->Add(m_down, 0, wxALL, WXC_FROM_DIP(5));
     m_down->SetMinSize(wxSize(-1,48));
     
     SetName(wxT("TextSpinBase"));
