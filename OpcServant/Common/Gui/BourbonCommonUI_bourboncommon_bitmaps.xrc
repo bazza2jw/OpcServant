@@ -2,5 +2,5 @@
 <resource xmlns="http://www.wxwidgets.org/wxxrc">
   <!-- Handler Generation is ON -->
   <object class="wxBitmap" name="m_Default">/Development/Projects/MRL/OpcServant/OpcServant/Common/Gui/Icons/gear.png</object>
-  <object class="wxBitmap" name="m_Folder">/Development/Projects/MRL/OpcServant/OpcServant/Common/Gui/Icons/emblem-generic.png</object>
+  <object class="wxBitmap" name="m_Folder">/Development/Projects/MRL/OpcServant/OpcServant/Common/Gui/Icons/fsview.png</object>
 </resource>

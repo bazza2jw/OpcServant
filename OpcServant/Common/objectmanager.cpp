@@ -33,7 +33,7 @@ static CommonImageList *commonImages;
 MRL::ObjectManager::MAP  MRL::ObjectManager::_map; // the lookup map
 MRL::ObjectManager::IDMAP  MRL::ObjectManager::_idmap; // the lookup map
 #ifdef USE_GUI
-wxImageList MRL::ObjectManager::_imageList; //!< image list for tree items
+wxImageList MRL::ObjectManager::_imageList(32,32,true); //!< image list for tree items
 #endif
 
 /*!

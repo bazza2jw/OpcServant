@@ -70,9 +70,11 @@ void IntEntry::openKeyPad()
     VirtualKeypad dlg(this);
     if(dlg.ShowModal() == wxID_OK)
     {
-        int i;
+        int i = 0;
         dlg.GetTextEntry()->GetValue().ToInt(&i);
-        SetValue(i);
+        if(i < _minimum) i = _minimum;
+        if(i > _maximum) i = _maximum;
+        SetValue( i );
     }
 }
 /*!
@@ -83,9 +85,11 @@ void DoubleEntry::openKeyPad()
     VirtualKeypad dlg(this);
     if(dlg.ShowModal() == wxID_OK)
     {
-        double i;
+        double i = 0.0;
         dlg.GetTextEntry()->GetValue().ToDouble(&i);
-        SetValue(i);
+        if(i < _minimum) i = _minimum;
+        if(i > _maximum) i = _maximum;
+        SetValue( i );
     }
 }
 

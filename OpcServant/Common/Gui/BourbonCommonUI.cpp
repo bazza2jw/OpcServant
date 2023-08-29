@@ -858,9 +858,9 @@ ConfigurationPropertySheetBase::~ConfigurationPropertySheetBase()
 }
 
 CommonImageList::CommonImageList()
-    : wxImageList(16, 16, true)
-    , m_imagesWidth(16)
-    , m_imagesHeight(16)
+    : wxImageList(32, 32, true)
+    , m_imagesWidth(32)
+    , m_imagesHeight(32)
 {
     if ( !bBitmapLoaded ) {
         // We need to initialise the default bitmap handler

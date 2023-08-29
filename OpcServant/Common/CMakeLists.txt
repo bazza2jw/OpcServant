@@ -99,6 +99,7 @@ set(LIB_SOURCES
     virtualkeypaddate.cpp
     virtualkeypadtime.cpp
     VTextEntryDialog.cpp
+    SliderEntry.cpp
         )
 
 set(PROJECT_LIB_FLAGS  MrlLib)

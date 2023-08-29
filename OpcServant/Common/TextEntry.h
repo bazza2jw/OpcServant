@@ -70,10 +70,13 @@ public:
 /*!
  * \brief The IntEntry class
  */
-class IntEntry : public wxSpinCtrl
+class IntEntry : public wxTextCtrl
 {
+    int _minimum = 0;
+    int _maximum = 100;
+    int _value = 0;
 public:
-    IntEntry(wxWindow* parent, wxWindowID id = wxID_ANY) : wxSpinCtrl(parent,id)
+    IntEntry(wxWindow* parent, wxWindowID id = wxID_ANY) : wxTextCtrl(parent,id)
     {
         Connect(wxEVT_LEFT_DOWN, wxMouseEventHandler(IntEntry::onClick), NULL, this);
     }
@@ -87,17 +90,28 @@ public:
         openKeyPad();
         SetFocus();
     }
-
+    void SetMinimum(int v) { _minimum = v;}
+    void SetMaximum(int v) {_maximum = v;}
+    void SetValue(int v) {
+        wxString s = wxString::Format("%d",v);
+        wxTextCtrl::SetValue(s);
+        _value = v;
+    }
+    int Value() const  { return _value;}
     virtual void openKeyPad();
 };
 
 /*!
  * \brief The DoubleEntry class
  */
-class DoubleEntry : public wxSpinCtrlDouble
+class DoubleEntry : public wxTextCtrl
 {
+   double _minimum = 0.0;
+   double _maximum = 1.0;
+   wxString _format = "%8.3f";
+   double _value = 0.0;
 public:
-    DoubleEntry(wxWindow* parent, wxWindowID id = wxID_ANY) : wxSpinCtrlDouble(parent,id)
+    DoubleEntry(wxWindow* parent, wxWindowID id = wxID_ANY) : wxTextCtrl(parent,id)
     {
         Connect(wxEVT_LEFT_DOWN, wxMouseEventHandler(DoubleEntry::onClick), NULL, this);
     }
@@ -105,12 +119,21 @@ public:
     {
         Disconnect(wxEVT_LEFT_DOWN, wxMouseEventHandler(DoubleEntry::onClick), NULL, this);
     }
-    virtual void onClick(wxMouseEvent& ) // text field has been clicked open the entry dialog
+    virtual void onClick(wxMouseEvent & ) // text field has been clicked open the entry dialog
     {
         SetFocus();
         openKeyPad();
         SetFocus();
     }
+    void SetMinimum(double v) { _minimum = v;}
+    void SetMaximum(double v) {_maximum = v;}
+    void SetFormat(const wxString &v) { _format = v;}
+    virtual void SetValue(double v) {
+        wxString s = wxString::Format(_format,v);
+        wxTextCtrl::SetValue(s);
+        _value = v;
+    }
+    int Value() const { return _value;}
     virtual void openKeyPad();
 };
 

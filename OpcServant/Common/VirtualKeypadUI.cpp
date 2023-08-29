@@ -951,7 +951,7 @@ VirtualKeypadDateBase::VirtualKeypadDateBase(wxWindow* parent, wxWindowID id, co
     
     m_buttonYearUp = new wxButton(this, wxID_ANY, wxT(""), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), 0);
     #if wxVERSION_NUMBER >= 2904
-    m_buttonYearUp->SetBitmap(wxArtProvider::GetBitmap(wxART_GO_UP, wxART_OTHER, wxDefaultSize), wxLEFT);
+    m_buttonYearUp->SetBitmap(wxArtProvider::GetBitmap(wxART_GO_UP, wxART_TOOLBAR, wxDefaultSize), wxLEFT);
     m_buttonYearUp->SetBitmapMargins(2,2);
     #endif
     
@@ -1373,5 +1373,45 @@ VTextEntryDialogBase::~VTextEntryDialogBase()
     m_space47->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
     m_button460->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onCancel), NULL, this);
     m_button462->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onOK), NULL, this);
+    
+}
+
+SliderEntryBase::SliderEntryBase(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style)
+    : wxPanel(parent, id, pos, size, style)
+{
+    if ( !bBitmapLoaded ) {
+        // We need to initialise the default bitmap handler
+        wxXmlResource::Get()->AddHandler(new wxBitmapXmlHandler);
+        wxCrafter7TPDlEInitBitmapResources();
+        bBitmapLoaded = true;
+    }
+    
+    boxSizer503 = new wxBoxSizer(wxVERTICAL);
+    this->SetSizer(boxSizer503);
+    
+    m_text = new wxTextCtrl(this, wxID_ANY, wxT("0.0"), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), wxTE_READONLY);
+    #if wxVERSION_NUMBER >= 3000
+    m_text->SetHint(wxT(""));
+    #endif
+    
+    boxSizer503->Add(m_text, 0, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    
+    m_slider = new wxSlider(this, wxID_ANY, 50, 0, 100, wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), wxSL_AUTOTICKS|wxSL_HORIZONTAL);
+    
+    boxSizer503->Add(m_slider, 0, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    
+    SetName(wxT("SliderEntryBase"));
+    SetSize(wxDLG_UNIT(this, wxSize(200,80)));
+    if (GetSizer()) {
+         GetSizer()->Fit(this);
+    }
+    // Connect events
+    m_slider->Connect(wxEVT_SCROLL_CHANGED, wxScrollEventHandler(SliderEntryBase::onChanged), NULL, this);
+    
+}
+
+SliderEntryBase::~SliderEntryBase()
+{
+    m_slider->Disconnect(wxEVT_SCROLL_CHANGED, wxScrollEventHandler(SliderEntryBase::onChanged), NULL, this);
     
 }

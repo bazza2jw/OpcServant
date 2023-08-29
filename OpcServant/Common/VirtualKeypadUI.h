@@ -24,6 +24,7 @@
 #include <wx/stattext.h>
 #include <wx/tglbtn.h>
 #include "sliderswitch.h"
+#include <wx/slider.h>
 #if wxVERSION_NUMBER >= 2900
 #include <wx/persist.h>
 #include <wx/persist/toplevel.h>
@@ -510,6 +511,24 @@ public:
     wxButton* GetButton462() { return m_button462; }
     VTextEntryDialogBase(wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Text Entry"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize(500,300), long style = wxCAPTION|wxRESIZE_BORDER|wxCLOSE_BOX);
     virtual ~VTextEntryDialogBase();
+};
+
+
+class SliderEntryBase : public wxPanel
+{
+protected:
+    wxBoxSizer* boxSizer503;
+    wxTextCtrl* m_text;
+    wxSlider* m_slider;
+
+protected:
+    virtual void onChanged(wxScrollEvent& event) { event.Skip(); }
+
+public:
+    wxTextCtrl* GetText() { return m_text; }
+    wxSlider* GetSlider() { return m_slider; }
+    SliderEntryBase(wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize(200,80), long style = wxTAB_TRAVERSAL);
+    virtual ~SliderEntryBase();
 };
 
 #endif
