@@ -25,6 +25,7 @@
 #include <wx/tglbtn.h>
 #include "sliderswitch.h"
 #include <wx/slider.h>
+#include <wx/listbox.h>
 #if wxVERSION_NUMBER >= 2900
 #include <wx/persist.h>
 #include <wx/persist/toplevel.h>
@@ -527,8 +528,27 @@ protected:
 public:
     wxTextCtrl* GetText() { return m_text; }
     wxSlider* GetSlider() { return m_slider; }
-    SliderEntryBase(wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize(200,80), long style = wxTAB_TRAVERSAL);
+    SliderEntryBase(wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize(200,130), long style = wxTAB_TRAVERSAL);
     virtual ~SliderEntryBase();
+};
+
+
+class TextChoiceBase : public wxDialog
+{
+protected:
+    wxBoxSizer* boxSizer511;
+    wxListBox* m_listBox;
+    wxStdDialogButtonSizer* m_stdBtnSizer517;
+    wxButton* m_button519;
+    wxButton* m_button521;
+
+protected:
+    virtual void onOK(wxCommandEvent& event) { event.Skip(); }
+
+public:
+    wxListBox* GetListBox() { return m_listBox; }
+    TextChoiceBase(wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("TextChoice"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize(500,300), long style = 0);
+    virtual ~TextChoiceBase();
 };
 
 #endif

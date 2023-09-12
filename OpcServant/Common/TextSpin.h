@@ -71,12 +71,6 @@ protected:
         }
         setCurrent();
     }
-    virtual void onUp(wxCommandEvent& event)
-    {
-        _current++;
-        if(_current >= _items.GetCount()) _current = 0;
-        setCurrent();
-    }
 };
 
 class NumberSpin : public TextSpinBase

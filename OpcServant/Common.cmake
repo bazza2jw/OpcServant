@@ -95,7 +95,7 @@ endif()
 ENDIF( DEFINED CROSSBUILD )
 
 # flag a unix build
-add_definitions(-D_UNIX)
+add_definitions(-D_UNIX -DBOOST_BIND_GLOBAL_PLACEHOLDERS)
 #enable debug tracing
 #add_definitions(-DTRACE_ON)
 #

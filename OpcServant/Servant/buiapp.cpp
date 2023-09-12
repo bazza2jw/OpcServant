@@ -127,7 +127,7 @@ bool MRL::BuiApp::OnInit() {
                 // Note if the certificates fail then the server fails and there may be a crash
                 //
                 static const char *avSsl[] = {"OpcServant",
-                                              "--docroot=.;/resources",
+                                     "--docroot=.;/resources",
                                               "--https-address=0.0.0.0",
                                               "--https-port=8082",
                                               "--ssl-certificate=./ssl/server.pem",

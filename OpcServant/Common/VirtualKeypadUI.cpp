@@ -260,7 +260,7 @@ VkTextControlBase::VkTextControlBase(wxWindow* parent, wxWindowID id, const wxPo
     
     m_button67 = new wxButton(this, wxID_ANY, _("^"), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), 0);
     
-    flexGridSizer63->Add(m_button67, 0, wxALL, WXC_FROM_DIP(1));
+    flexGridSizer63->Add(m_button67, 0, wxALL|wxEXPAND, WXC_FROM_DIP(1));
     m_button67->SetMinSize(wxSize(32,32));
     
     SetName(wxT("VkTextControlBase"));
@@ -590,31 +590,28 @@ TextSpinBase::TextSpinBase(wxWindow* parent, wxWindowID id, const wxPoint& pos, 
     boxSizer499 = new wxBoxSizer(wxHORIZONTAL);
     this->SetSizer(boxSizer499);
     
-    m_text = new wxTextCtrl(this, wxID_ANY, wxT(""), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), wxTE_READONLY);
+    m_text = new wxTextCtrl(this, wxID_ANY, wxT(""), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), 0);
     #if wxVERSION_NUMBER >= 3000
     m_text->SetHint(wxT(""));
     #endif
     
-    boxSizer499->Add(m_text, 1, wxALL|wxEXPAND, WXC_FROM_DIP(5));
-    m_text->SetMinSize(wxSize(-1,60));
+    boxSizer499->Add(m_text, 2, wxALL|wxEXPAND, WXC_FROM_DIP(5));
     
-    m_up = new wxButton(this, wxID_ANY, wxT(""), wxDefaultPosition, wxDLG_UNIT(this, wxSize(32,32)), 0);
+    m_up = new wxButton(this, wxID_ANY, wxT(""), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), 0);
     #if wxVERSION_NUMBER >= 2904
-    m_up->SetBitmap(wxArtProvider::GetBitmap(wxART_GO_UP, wxART_TOOLBAR, wxDefaultSize), wxLEFT);
+    m_up->SetBitmap(wxXmlResource::Get()->LoadBitmap(wxT("up")), wxLEFT);
     m_up->SetBitmapMargins(2,2);
     #endif
     
-    boxSizer499->Add(m_up, 0, wxALL, WXC_FROM_DIP(5));
-    m_up->SetMinSize(wxSize(-1,48));
+    boxSizer499->Add(m_up, 0, wxALL|wxEXPAND, WXC_FROM_DIP(5));
     
     m_down = new wxButton(this, wxID_ANY, wxT(""), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), 0);
     #if wxVERSION_NUMBER >= 2904
-    m_down->SetBitmap(wxArtProvider::GetBitmap(wxART_GO_DOWN, wxART_TOOLBAR, wxDefaultSize), wxLEFT);
+    m_down->SetBitmap(wxXmlResource::Get()->LoadBitmap(wxT("down")), wxLEFT);
     m_down->SetBitmapMargins(2,2);
     #endif
     
-    boxSizer499->Add(m_down, 0, wxALL, WXC_FROM_DIP(5));
-    m_down->SetMinSize(wxSize(-1,48));
+    boxSizer499->Add(m_down, 0, wxALL|wxEXPAND, WXC_FROM_DIP(5));
     
     SetName(wxT("TextSpinBase"));
     SetSize(wxDLG_UNIT(this, wxSize(500,64)));
@@ -1390,18 +1387,21 @@ SliderEntryBase::SliderEntryBase(wxWindow* parent, wxWindowID id, const wxPoint&
     this->SetSizer(boxSizer503);
     
     m_text = new wxTextCtrl(this, wxID_ANY, wxT("0.0"), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), wxTE_READONLY);
+    wxFont m_textFont(16, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("Arial Black"));
+    m_text->SetFont(m_textFont);
     #if wxVERSION_NUMBER >= 3000
     m_text->SetHint(wxT(""));
     #endif
     
-    boxSizer503->Add(m_text, 0, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    boxSizer503->Add(m_text, 1, wxALL|wxEXPAND, WXC_FROM_DIP(5));
     
     m_slider = new wxSlider(this, wxID_ANY, 50, 0, 100, wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), wxSL_AUTOTICKS|wxSL_HORIZONTAL);
     
-    boxSizer503->Add(m_slider, 0, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    boxSizer503->Add(m_slider, 2, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    m_slider->SetMinSize(wxSize(100,32));
     
     SetName(wxT("SliderEntryBase"));
-    SetSize(wxDLG_UNIT(this, wxSize(200,80)));
+    SetSize(wxDLG_UNIT(this, wxSize(200,130)));
     if (GetSizer()) {
          GetSizer()->Fit(this);
     }
@@ -1413,5 +1413,62 @@ SliderEntryBase::SliderEntryBase(wxWindow* parent, wxWindowID id, const wxPoint&
 SliderEntryBase::~SliderEntryBase()
 {
     m_slider->Disconnect(wxEVT_SCROLL_CHANGED, wxScrollEventHandler(SliderEntryBase::onChanged), NULL, this);
+    
+}
+
+TextChoiceBase::TextChoiceBase(wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style)
+    : wxDialog(parent, id, title, pos, size, style)
+{
+    if ( !bBitmapLoaded ) {
+        // We need to initialise the default bitmap handler
+        wxXmlResource::Get()->AddHandler(new wxBitmapXmlHandler);
+        wxCrafter7TPDlEInitBitmapResources();
+        bBitmapLoaded = true;
+    }
+    
+    boxSizer511 = new wxBoxSizer(wxVERTICAL);
+    this->SetSizer(boxSizer511);
+    
+    wxArrayString m_listBoxArr;
+    m_listBox = new wxListBox(this, wxID_ANY, wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), m_listBoxArr, wxLB_SINGLE);
+    
+    boxSizer511->Add(m_listBox, 1, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    
+    m_stdBtnSizer517 = new wxStdDialogButtonSizer();
+    
+    boxSizer511->Add(m_stdBtnSizer517, 0, wxALL, WXC_FROM_DIP(5));
+    
+    m_button519 = new wxButton(this, wxID_CANCEL, wxT(""), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1, -1)), 0);
+    m_stdBtnSizer517->AddButton(m_button519);
+    
+    m_button521 = new wxButton(this, wxID_OK, wxT(""), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1, -1)), 0);
+    m_stdBtnSizer517->AddButton(m_button521);
+    m_stdBtnSizer517->Realize();
+    
+    SetName(wxT("TextChoiceBase"));
+    SetSize(wxDLG_UNIT(this, wxSize(500,300)));
+    if (GetSizer()) {
+         GetSizer()->Fit(this);
+    }
+    if(GetParent()) {
+        CentreOnParent(wxBOTH);
+    } else {
+        CentreOnScreen(wxBOTH);
+    }
+#if wxVERSION_NUMBER >= 2900
+    if(!wxPersistenceManager::Get().Find(this)) {
+        wxPersistenceManager::Get().RegisterAndRestore(this);
+    } else {
+        wxPersistenceManager::Get().Restore(this);
+    }
+#endif
+    // Connect events
+    m_button519->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(TextChoiceBase::onOK), NULL, this);
+    
+}
+
+TextChoiceBase::~TextChoiceBase()
+{
+    m_button519->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(TextChoiceBase::onOK), NULL, this);
     
 }
