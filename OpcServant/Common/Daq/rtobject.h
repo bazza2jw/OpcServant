@@ -498,7 +498,7 @@ namespace MRL {
              * \param tag
              * \param v
              */
-            void updateValue(const std::string &tag, Open62541::Variant& v);
+            void updateValue(const std::string &tag, const Open62541::Variant& vIn);
 
             /*!
              * \brief toUpdateValue
@@ -506,7 +506,7 @@ namespace MRL {
              * \param tag
              * \param v
              */
-            void toUpdateValue(Message &m, const std::string &tag, Open62541::Variant& v);
+            void toUpdateValue(Message &m, const std::string &tag, const Open62541::Variant &vIn);
 
             /*!
              * \brief publishHtmlPage

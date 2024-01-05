@@ -3,7 +3,7 @@
 # Get the common definitons at the higher level - BOOST
 #
 # Common CMAKE definitions
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 # Set project vaiables
 set(PROJECT_DIR ${CMAKE_CURRENT_SOURCE_DIR})  # Set the project source code location (location of this file)
 # If the install dir changes check Common/common.h

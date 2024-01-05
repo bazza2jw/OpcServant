@@ -25,9 +25,10 @@ MRL::StringVector MRL::RTObject::_emptyList;
  * \brief MRL::RTObject::toUpdateValue
  * \param v
  */
-void MRL::RTObject::updateValue(const std::string &tag, Open62541::Variant& v)
+void MRL::RTObject::updateValue(const std::string &tag, const Open62541::Variant &vIn)
 {
     std::string ret;
+    Open62541::Variant & v = const_cast<Open62541::Variant &>(vIn);
     const UA_DataType *t = v.dataType();
 
     switch (t->typeKind) {
@@ -149,9 +150,11 @@ void MRL::RTObject::updateValue(const std::string &tag, Open62541::Variant& v)
  * \brief MRL::RTObject::toUpdateValue
  * \param v
  */
-void MRL::RTObject::toUpdateValue(Message &m, const std::string &tag, Open62541::Variant& v)
+void MRL::RTObject::toUpdateValue(Message &m, const std::string &tag, const Open62541::Variant& vIn)
 {
     std::string ret;
+    Open62541::Variant & v = const_cast<Open62541::Variant &>(vIn);
+
     const UA_DataType *t = v.dataType();
 
     switch (t->typeKind) {

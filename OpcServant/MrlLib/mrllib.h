@@ -12,6 +12,7 @@
  * A PARTICULAR PURPOSE.
  */
 #include "mrllib_global.h"
+#include  <stdexcept>
 #include <vector>
 #include <list>
 #include <memory>
@@ -27,6 +28,7 @@
 #include <Wt/WComboBox.h>
 #include <wx/dir.h>
 #include <boost/bimap.hpp>
+
 //
 #define ISO_DATE_FMT "yyyy-MM-dd HH:mm:ss"
 #define ISO_DATE_Q_FMT "yyyy-MM-ddTHH:mm:ss"
