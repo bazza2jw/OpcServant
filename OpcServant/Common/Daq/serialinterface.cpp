@@ -18,12 +18,12 @@
 bool MRL::SerialInterface::gotStart()
 {
     int c = getChar();
-    bool ret =  ((_start == 0) && (c > ' '))|| (c == _start);
-    if(ret)
+    _hasStart =  ((_start == 0) && (c > ' '))|| (c == _start);
+    if(_hasStart)
     {
         _buffer.push_back(c);
     }
-    return ret;
+    return _hasStart;
 }
 
 /*!
@@ -33,20 +33,16 @@ bool MRL::SerialInterface::gotStart()
 bool MRL::SerialInterface::gotEnd()
 {
     int c;
-    bool ret = false;
     while((c = getChar()) >= 0)
     {
-        ret =  (c == _end);
-        if(!ret)
-        {
-            _buffer.push_back(c);
-        }
-        else
+        _hasEnd =  (c == _end);
+        _buffer.push_back(c);
+        if(_hasEnd)
         {
             break;
         }
     }
-    return ret;
+    return _hasEnd;
 }
 
 /*!
@@ -95,6 +91,7 @@ bool MRL::SerialInterface::packetDrive()
             if(timedOut())
             {
                 _statePacket = StateNone;
+                _hasTimedOut = true;
                 ret = true;
             }
         }
@@ -110,6 +107,7 @@ bool MRL::SerialInterface::packetDrive()
             if(timedOut())
             {
                 _statePacket = StateNone;
+                _hasTimedOut = true;
                 ret = true;
             }
         }
@@ -130,5 +128,25 @@ void MRL::SerialInterface::startPacket(const std::string &s)
     flush();
     writeString(s);
     _statePacket = StateWaitStart;
+    _hasStart = false;
+    _hasEnd = false;
+    _hasTimedOut = false;
+
 }
 
+/*!
+ * \brief MRL::SerialInterface::startPacket
+ * \param s
+ * \param l
+ */
+void MRL::SerialInterface::startPacket(const char * s, size_t l)
+{
+    clearTimeout();
+    flush();
+    std::string b(s,l);
+    writeString(b);
+    _statePacket = StateWaitStart;
+    _hasStart = false;
+    _hasEnd = false;
+    _hasTimedOut = false;
+}

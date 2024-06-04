@@ -41,7 +41,7 @@ namespace MRL {
                 \param parity
                 \return true if serial port opened
             */
-            bool openSerial(const std::string port, int baud, int data, int stopbits, int parity) {
+            bool openSerial(const std::string port, int baud, int data = SC_8DATA, int stopbits = SC_1STOP, int parity = SC_NOPARITY) {
                 bool ret = false;
                 if (!isOpen()) {
                     ret = open(port);

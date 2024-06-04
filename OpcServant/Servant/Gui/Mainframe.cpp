@@ -105,18 +105,20 @@ void Mainframe::OnPopupClick(wxCommandEvent &evt) {
     }
     break;
     case MRL::ObjectManagerDelete: {
-        unsigned t = MRL::Common::configuration().typeId(_currentPath);
-        auto o = MRL::ObjectManager::find(t); // find the handler by type id
-        if (o) {
-            int id = MRL::Common::configuration().find(_currentPath);
-            if (id > 0) {
-                MRL::RtObjectRef &r =  MRL::Common::daq().objects()[id];
-                if (r) r.get()->stop();
+        if(wxMessageBox("Delete Object","Are You Sure?",wxYES_NO | wxCENTER,this) == wxYES)
+        {
+            unsigned t = MRL::Common::configuration().typeId(_currentPath);
+            auto o = MRL::ObjectManager::find(t); // find the handler by type id
+            if (o) {
+                int id = MRL::Common::configuration().find(_currentPath);
+                if (id > 0) {
+                    MRL::RtObjectRef &r =  MRL::Common::daq().objects()[id];
+                    if (r) r.get()->stop();
+                }
+                o->remove(_currentPath);
+                //if(_reportPanel) _reportPanel->setValueList();
             }
-            o->remove(_currentPath);
-            //if(_reportPanel) _reportPanel->setValueList();
         }
-
     }
     break;
     case MRL::ObjectManagerProperties: {
@@ -134,7 +136,6 @@ void Mainframe::OnPopupClick(wxCommandEvent &evt) {
                 }
             }
         }
-
     }
     break;
     case MRL::ObjectManagerView: {

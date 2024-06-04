@@ -32,6 +32,10 @@ namespace MRL {
                 StateWaitStart,
                 StateWaitEnd
             };
+            //
+            bool _hasStart = false;
+            bool _hasEnd = false;
+            bool _hasTimedOut = false;
 
         public:
 
@@ -189,6 +193,12 @@ namespace MRL {
                 \param s
             */
             void startPacket(const std::string &s);
+            void startPacket(const char * s, size_t l);
+
+            bool hasStart() const { return _hasStart;}
+            bool hasEnd() const { return _hasEnd;}
+            bool hasTimedOut() const { return _hasTimedOut;}
+
     };
 }
 #endif // SERIALINTERFACE_H
