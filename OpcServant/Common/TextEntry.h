@@ -3,8 +3,9 @@
 #include "VirtualKeypadUI.h"
 #include <wx/spinctrl.h>
 //
-// Fields that have virtual key pads tailored to the imput type. Independent of the
+// Fields that have virtual key pads tailored to the input type. Independent of the
 // These are intended for instrument UIs that have a (small) touch screen. "Chunky Monkey" for ease of use.
+wxDECLARE_EVENT(wxEVT_FIELD_UPDATED, wxCommandEvent);
 //
 class TextEntry : public wxTextCtrl
 {
@@ -13,13 +14,21 @@ public:
     virtual ~TextEntry();
     //
     //
-    virtual void openKeyPad();
+    virtual bool openKeyPad();
 protected:
     virtual void onClick(wxMouseEvent& ) // text field has been clicked open the entry dialog
     {
         SetFocus();
-        openKeyPad();
+        if(openKeyPad())
+        {
+            notify();
+        }
         SetFocus();
+    }
+    void notify()
+    {
+        wxCommandEvent eventCustom(wxEVT_FIELD_UPDATED);
+        wxPostEvent(this, eventCustom);
     }
 };
 
@@ -42,7 +51,7 @@ public:
 
     wxDateTime & GetDate() { return _date;}
 
-    virtual void openKeyPad();
+    virtual bool openKeyPad();
 };
 
 
@@ -65,7 +74,7 @@ public:
     }
 
     wxDateTime & GetTime() { return _time;}
-    virtual void openKeyPad();
+    virtual bool openKeyPad();
 };
 /*!
  * \brief The IntEntry class
@@ -98,7 +107,7 @@ public:
         _value = v;
     }
     int Value() const  { return _value;}
-    virtual void openKeyPad();
+    virtual bool openKeyPad();
 };
 
 /*!
@@ -134,7 +143,7 @@ public:
         _value = v;
     }
     int Value() const { return _value;}
-    virtual void openKeyPad();
+    virtual bool openKeyPad();
 };
 
 

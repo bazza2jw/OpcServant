@@ -100,6 +100,7 @@ set(LIB_SOURCES
     virtualkeypadtime.cpp
     VTextEntryDialog.cpp
     SliderEntry.cpp
+    Daq/tcpserver.cpp
         )
 
 set(PROJECT_LIB_FLAGS  MrlLib)

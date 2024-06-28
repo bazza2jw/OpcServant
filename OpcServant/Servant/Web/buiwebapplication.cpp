@@ -21,6 +21,7 @@
 #include <Common/objectmanager.h>
 #include <Common/Web/weblogindialog.h>
 #include <Common/Web/weblogindialog.h>
+#include <Wt/WBootstrap5Theme.h>
 /*!
    * \brief MRL::BuiWebApplication::BuiWebApplication
    * \param env

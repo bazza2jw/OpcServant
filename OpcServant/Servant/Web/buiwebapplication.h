@@ -17,6 +17,7 @@
 #include <Wt/WBootstrapTheme.h>
 #include <Wt/Auth/AuthWidget.h>
 #include <Wt/Auth/Login.h>
+#include <Wt/WBootstrap5Theme.h>
 
 namespace Wt
 {

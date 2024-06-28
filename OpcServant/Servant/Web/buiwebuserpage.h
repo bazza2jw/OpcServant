@@ -64,7 +64,7 @@ public:
 
     void createColorButton(const char *className, const Wt::WString& text)
     {
-        auto button = Wt::cpp14::make_unique<Wt::WPushButton>();
+        auto button = std::make_unique<Wt::WPushButton>();
         button->setTextFormat(Wt::TextFormat::XHTML);
         button->setText(text);
         button->addStyleClass(className);

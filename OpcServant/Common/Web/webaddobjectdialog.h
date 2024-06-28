@@ -53,7 +53,7 @@ namespace MRL {
      */
     inline Wt::WPushButton * createColorButton(Wt::WToolBar * toolBar, const char *className, const std::string & text)
     {
-        auto button = Wt::cpp14::make_unique<Wt::WPushButton>();
+        auto button = std::make_unique<Wt::WPushButton>();
         button->setTextFormat(Wt::TextFormat::XHTML);
         button->setText(text);
         button->addStyleClass(className);

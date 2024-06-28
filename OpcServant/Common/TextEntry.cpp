@@ -4,6 +4,8 @@
 #include "virtualkeypadtime.h"
 #include "VirtualKeypad.h"
 
+
+wxDEFINE_EVENT(wxEVT_FIELD_UPDATED, wxCommandEvent);
 /*!
  * \brief TextEntry::TextEntry
  * \param parent
@@ -25,21 +27,24 @@ TextEntry::~TextEntry()
 /*!
  * \brief TextEntry::openKeyPad
  */
-void TextEntry::openKeyPad()
+bool TextEntry::openKeyPad()
 {
     // open the virtual keyboard dialog
     VTextEntryDialog dlg(this);
     dlg.setText(GetValue());
     if(dlg.ShowModal() == wxID_OK)
     {
-        SetValue(dlg.getText());
+        wxString s = dlg.getText();
+        SetValue(s);
+        return true;
     }
+    return false;
 }
 
 /*!
  * \brief DateEntry::openKeyPad
  */
-void DateEntry::openKeyPad()
+bool DateEntry::openKeyPad()
 {
     VirtualKeypadDate dlg(this);
     dlg.setDate(_date);
@@ -48,24 +53,28 @@ void DateEntry::openKeyPad()
     {
         // get the date
         SetDate(dlg.getDate());
+        return true;
     }
+    return false;
 }
 /*!
  * \brief TimeEntry::openKeyPad
  */
-void TimeEntry::openKeyPad()
+bool TimeEntry::openKeyPad()
 {
     VirtualKeypadTime dlg(this);
     dlg.setTime(_time);
     if(dlg.ShowModal() == wxID_OK)
     {
         SetTime(dlg.getTime());
+        return true;
     }
+    return false;
 }
 /*!
  * \brief IntEntry::openKeyPad
  */
-void IntEntry::openKeyPad()
+bool IntEntry::openKeyPad()
 {
     VirtualKeypad dlg(this);
     if(dlg.ShowModal() == wxID_OK)
@@ -75,12 +84,14 @@ void IntEntry::openKeyPad()
         if(i < _minimum) i = _minimum;
         if(i > _maximum) i = _maximum;
         SetValue( i );
+        return true;
     }
+    return false;
 }
 /*!
  * \brief DoubleEntry::openKeyPad
  */
-void DoubleEntry::openKeyPad()
+bool DoubleEntry::openKeyPad()
 {
     VirtualKeypad dlg(this);
     if(dlg.ShowModal() == wxID_OK)
@@ -90,6 +101,8 @@ void DoubleEntry::openKeyPad()
         if(i < _minimum) i = _minimum;
         if(i > _maximum) i = _maximum;
         SetValue( i );
+        return true;
     }
+    return false;
 }
 
