@@ -68,6 +68,7 @@ protected:
     wxPGProperty* m_screenLockPin;
     wxPGProperty* m_homePage;
     wxPGProperty* m_showUrlToolbar;
+    wxPGProperty* m_dataDirectory;
     wxPGProperty* m_pgProp87;
     wxPGProperty* m_opcPort;
     wxPGProperty* m_opcNamespace;

@@ -73,6 +73,9 @@ SystemPropertiesDialogBase::SystemPropertiesDialogBase(wxWindow* parent, wxWindo
     m_showUrlToolbar->SetHelpString(wxT(""));
     m_showUrlToolbar->SetEditor( wxT("CheckBox") );
     
+    m_dataDirectory = m_properties->Append(  new wxDirProperty( _("Data Directory"), wxPG_LABEL, _("/usr/local/OpcServant/data")) );
+    m_dataDirectory->SetHelpString(wxT(""));
+    
     m_pgProp87 = m_properties->Append(  new wxPropertyCategory( _("OPC") ) );
     m_pgProp87->SetHelpString(wxT(""));
     
