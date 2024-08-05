@@ -48,6 +48,7 @@ void VTextEntryDialog::onChar(wxCommandEvent& event)
     char c = keys[i];
     wxKeyEvent e(wxEVT_KEY_DOWN);
     e.m_keyCode = c;
+    e.SetShiftDown(GetCapsLock()->GetValue());
     GetTextEntry()->EmulateKeyPress(e);
 }
 /*!
@@ -56,7 +57,7 @@ void VTextEntryDialog::onChar(wxCommandEvent& event)
 void VTextEntryDialog::onDelete(wxCommandEvent& /*event*/)
 {
     wxKeyEvent e(wxEVT_KEY_DOWN);
-    e.m_keyCode = WXK_DELETE;
+    e.m_keyCode = WXK_BACK;
     GetTextEntry()->EmulateKeyPress(e);
 }
 /*!
@@ -66,4 +67,12 @@ void VTextEntryDialog::onDelete(wxCommandEvent& /*event*/)
 void VTextEntryDialog::onCancel(wxCommandEvent& event)
 {
     EndModal(wxID_CANCEL);
+}
+/*!
+ * \brief VTextEntryDialog::onCapsLock
+ * \param event
+ */
+void VTextEntryDialog::onCapsLock(wxCommandEvent& event)
+{
+    _capsLock = GetCapsLock()->GetValue();
 }

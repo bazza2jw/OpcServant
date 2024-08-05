@@ -454,13 +454,16 @@ protected:
     wxButton* m_keyUS44;
     wxButton* m_keySlash45;
     wxGridSizer* gridSizer22746;
+    wxToggleButton* m_capsLock;
     wxButton* m_space47;
+    wxButton* m_button541;
     wxButton* m_button460;
     wxButton* m_button462;
 
 protected:
     virtual void onDelete(wxCommandEvent& event) { event.Skip(); }
     virtual void onChar(wxCommandEvent& event) { event.Skip(); }
+    virtual void onCapsLock(wxCommandEvent& event) { event.Skip(); }
     virtual void onCancel(wxCommandEvent& event) { event.Skip(); }
     virtual void onOK(wxCommandEvent& event) { event.Skip(); }
 
@@ -507,10 +510,12 @@ public:
     wxButton* GetKeyMinus43() { return m_keyMinus43; }
     wxButton* GetKeyUS44() { return m_keyUS44; }
     wxButton* GetKeySlash45() { return m_keySlash45; }
+    wxToggleButton* GetCapsLock() { return m_capsLock; }
     wxButton* GetSpace47() { return m_space47; }
+    wxButton* GetButton541() { return m_button541; }
     wxButton* GetButton460() { return m_button460; }
     wxButton* GetButton462() { return m_button462; }
-    VTextEntryDialogBase(wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Text Entry"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize(500,300), long style = wxCAPTION|wxRESIZE_BORDER|wxCLOSE_BOX);
+    VTextEntryDialogBase(wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Text Entry"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize(500,500), long style = wxCAPTION|wxRESIZE_BORDER|wxCLOSE_BOX);
     virtual ~VTextEntryDialogBase();
 };
 

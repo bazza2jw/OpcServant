@@ -12,6 +12,7 @@ namespace MRL {
 class TCPServer :  public wxSocketServer
 {
     wxEvtHandler * _handler = nullptr;
+    wxIPV4address _address;
 public:
     wxEvtHandler * handler() { return _handler;}
 
@@ -65,11 +66,18 @@ public:
 
     TCPServer(wxIPV4address &la ) : wxSocketServer(la,wxSOCKET_NOWAIT|wxSOCKET_REUSEADDR)
     {
+        _address = la;
         if (!IsOk())
         {
             throw std::runtime_error("Cannot bind listening socket");
         }
     }
+
+    /*!
+     * \brief address
+     * \return
+     */
+    wxIPV4address &address() { return _address;}
     /*!
      * \brief bind
      * \param handler

@@ -82,7 +82,15 @@ void MRL::TCPServer::OnSocketEvent(wxSocketEvent& pEvent)
         Connection *c = _connections[pEvent.GetSocket()];
         if(c)
         {
-            c->onSocketEvent(pEvent);
+            if(pEvent.GetSocketEvent() == wxSOCKET_LOST)
+            {
+                _connections.erase(pEvent.GetSocket());
+                delete c;
+            }
+            else
+            {
+                c->onSocketEvent(pEvent);
+            }
         }
     }
 }
@@ -96,6 +104,7 @@ void MRL::TCPServer::Connection::onSocketEvent(wxSocketEvent& pEvent)
     switch(pEvent.GetSocketEvent())
     {
     case wxSOCKET_INPUT:
+        // process input
         break;
     case wxSOCKET_OUTPUT:
         break;
@@ -103,6 +112,7 @@ void MRL::TCPServer::Connection::onSocketEvent(wxSocketEvent& pEvent)
         break;
     case wxSOCKET_LOST:
         // request delete
+        delete this; // self delete - removes from parent
         break;
     }
 }

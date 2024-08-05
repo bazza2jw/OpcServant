@@ -7,6 +7,7 @@ class VTextEntryDialog : public VTextEntryDialogBase
     int _in = 0;
     constexpr static int MaxBufferLen = 100;
     char _inbuffer[MaxBufferLen+1];
+    bool _capsLock = false;
 
 public:
     VTextEntryDialog(wxWindow* parent);
@@ -14,6 +15,7 @@ public:
     void setText(const wxString &s);
     wxString getText();
 protected:
+    virtual void onCapsLock(wxCommandEvent& event);
     virtual void onCancel(wxCommandEvent& event);
     virtual void onDelete(wxCommandEvent& event);
     virtual void onChar(wxCommandEvent& event);

@@ -52,12 +52,15 @@ public:
 
     uint16_t getHoldingRegisterValue(int registerNumber);
     float getHoldingRegisterFloatValue(int registerStartaddress);
+    uint32_t getHoldingRegisterLongValue(int registerStartaddress);
 
     bool setHoldingRegisterValue(int registerNumber, uint16_t Value);
     bool setHoldingRegisterValue(int registerNumber, float Value);
+    bool setHoldingRegisterValue(int registerNumber, uint32_t Value);
 
     bool setInputRegisterValue(int registerNumber, uint16_t Value);
     bool setInputRegisterValue(int registerNumber, float Value);
+    bool setInputRegisterValue(int registerNumber, uint32_t Value);
 
 private:
     std::string m_host;
@@ -73,10 +76,12 @@ private:
     int m_numInputBits {0};
     int m_numRegisters {0};
     int m_numInputRegisters {0};
+    bool _running = false;
 
 public:
     void run();
     bool ok() { return ctx && mapping; }
+    void stop() { _running = false;}
 };
 
 

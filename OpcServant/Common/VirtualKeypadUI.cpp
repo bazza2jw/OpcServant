@@ -1068,14 +1068,14 @@ VTextEntryDialogBase::VTextEntryDialogBase(wxWindow* parent, wxWindowID id, cons
     
     boxSizer711->Add(boxSizer752, 1, wxALL|wxEXPAND, WXC_FROM_DIP(5));
     
-    m_textEntry = new wxTextCtrl(this, wxID_ANY, wxT(""), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), wxTE_READONLY);
+    m_textEntry = new wxTextCtrl(this, wxID_ANY, wxT(""), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), 0);
     #if wxVERSION_NUMBER >= 3000
     m_textEntry->SetHint(wxT(""));
     #endif
     
     boxSizer752->Add(m_textEntry, 1, wxALL|wxEXPAND, WXC_FROM_DIP(5));
     
-    m_button814 = new wxButton(this, wxID_DELETE, _("Del"), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), 0);
+    m_button814 = new wxButton(this, wxID_DELETE, _("<-"), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), 0);
     
     boxSizer752->Add(m_button814, 0, wxALL|wxEXPAND, WXC_FROM_DIP(5));
     
@@ -1247,9 +1247,20 @@ VTextEntryDialogBase::VTextEntryDialogBase(wxWindow* parent, wxWindowID id, cons
     
     boxSizer711->Add(gridSizer22746, 1, wxALL|wxEXPAND, WXC_FROM_DIP(5));
     
+    m_capsLock = new wxToggleButton(this, wxID_ANY, _("CAPS"), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), 0);
+    m_capsLock->SetValue(true);
+    
+    gridSizer22746->Add(m_capsLock, 0, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    
     m_space47 = new wxButton(this, 20040, _("Space"), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), 0);
     
     gridSizer22746->Add(m_space47, 1, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    
+    m_button541 = new wxButton(this, wxID_ANY, _("Clear"), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), 0);
+    
+    gridSizer22746->Add(m_button541, 0, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    
+    gridSizer22746->Add(0, 0, 1, wxALL, WXC_FROM_DIP(5));
     
     m_button460 = new wxButton(this, wxID_CANCEL, _("Cancel"), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), 0);
     
@@ -1260,7 +1271,7 @@ VTextEntryDialogBase::VTextEntryDialogBase(wxWindow* parent, wxWindowID id, cons
     gridSizer22746->Add(m_button462, 1, wxALL|wxEXPAND, WXC_FROM_DIP(5));
     
     SetName(wxT("VTextEntryDialogBase"));
-    SetSize(wxDLG_UNIT(this, wxSize(500,300)));
+    SetSize(wxDLG_UNIT(this, wxSize(500,500)));
     if (GetSizer()) {
          GetSizer()->Fit(this);
     }
@@ -1318,6 +1329,7 @@ VTextEntryDialogBase::VTextEntryDialogBase(wxWindow* parent, wxWindowID id, cons
     m_keyMinus43->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
     m_keyUS44->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
     m_keySlash45->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
+    m_capsLock->Connect(wxEVT_COMMAND_TOGGLEBUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onCapsLock), NULL, this);
     m_space47->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
     m_button460->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onCancel), NULL, this);
     m_button462->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onOK), NULL, this);
@@ -1367,6 +1379,7 @@ VTextEntryDialogBase::~VTextEntryDialogBase()
     m_keyMinus43->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
     m_keyUS44->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
     m_keySlash45->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
+    m_capsLock->Disconnect(wxEVT_COMMAND_TOGGLEBUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onCapsLock), NULL, this);
     m_space47->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
     m_button460->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onCancel), NULL, this);
     m_button462->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onOK), NULL, this);

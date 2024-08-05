@@ -73,21 +73,25 @@ MRL::ModbusServer::~ModbusServer()
  */
 void MRL::ModbusServer::run()
 {
-    std::thread loop([this]()
+    if(!_running)
     {
-        while (true)
+        _running = true;
+        std::thread loop([this]()
         {
-            if (m_initialized)
+            while (_running)
             {
-                recieveMessages();
+                if (m_initialized)
+                {
+                    recieveMessages();
+                }
+                else
+                {
+                    m_initialized = true;
+                }
             }
-            else
-            {
-                m_initialized = true;
-            }
-        }
-    });
-    loop.detach();
+        });
+        loop.detach();
+    }
     return;
 }
 /*!
@@ -122,6 +126,18 @@ bool MRL::ModbusServer::setInputRegisterValue(int registerStartaddress, uint16_t
     slavemutex.unlock();
     return true;
 }
+
+/*!
+ * \brief MRL::ModbusServer::setInputRegisterValue
+ * \param registerStartaddress
+ * \param Value
+ * \return
+ */
+bool MRL::ModbusServer::setInputRegisterValue(int registerStartaddress, uint32_t Value)
+{
+    return setInputRegisterValue(registerStartaddress++, uint16_t(Value >> 16)) &&
+    setInputRegisterValue(registerStartaddress, uint16_t(Value & 0xFFFF));
+}
 /*!
  * \brief MRL::ModbusServer::setHoldingRegisterValue
  * \param registerStartaddress
@@ -139,6 +155,13 @@ bool MRL::ModbusServer::setHoldingRegisterValue(int registerStartaddress, uint16
     slavemutex.unlock();
     return true;
 }
+
+bool MRL::ModbusServer::setHoldingRegisterValue(int registerStartaddress, uint32_t Value)
+{
+    return setHoldingRegisterValue(registerStartaddress++, uint16_t(Value >> 16)) &&  setHoldingRegisterValue(registerStartaddress, uint16_t(Value & 0xFFFF));
+}
+
+
 /*!
  * \brief MRL::ModbusServer::getHoldingRegisterValue
  * \param registerStartaddress
@@ -232,6 +255,18 @@ float MRL::ModbusServer::getHoldingRegisterFloatValue(int registerStartaddress)
     }
     return modbus_get_float_badc(&mapping->tab_registers[registerStartaddress]);
 }
+
+uint32_t MRL::ModbusServer::getHoldingRegisterLongValue(int registerStartaddress)
+{
+    if (!mapping || !m_initialized)
+    {
+        return 0;
+    }
+    uint32_t ret = (uint32_t(mapping->tab_registers[registerStartaddress]) << 16) | (uint32_t(mapping->tab_registers[registerStartaddress + 1]));
+    return ret;
+}
+
+
 /*!
  * \brief MRL::ModbusServer::recieveMessages
  */
