@@ -98,7 +98,7 @@ void Mainframe::OnPopupClick(wxCommandEvent &evt) {
                         r.get()->start();
                     }
                 }
-               // if(_reportPanel) _reportPanel->setValueList();
+                // if(_reportPanel) _reportPanel->setValueList();
                 wxLogDebug("Added");
             }
         }
@@ -114,9 +114,21 @@ void Mainframe::OnPopupClick(wxCommandEvent &evt) {
                 if (id > 0) {
                     MRL::RtObjectRef &r =  MRL::Common::daq().objects()[id];
                     if (r) r.get()->stop();
+
                 }
                 o->remove(_currentPath);
                 //if(_reportPanel) _reportPanel->setValueList();
+                //
+                // remove the tab - if any
+                wxWindow *w = MRL::Common::daq().tabWindows()[id];
+                if (w) {
+                    int n = GetNotebook()->FindPage(w);
+                    if (n > 0) {
+                        GetNotebook()->DeletePage(n);
+                    }
+                    MRL::Common::daq().tabWindows().erase(id);
+                }
+
             }
         }
     }
@@ -453,23 +465,31 @@ bool Mainframe::processQueueItem(const MRL::Message &msg) {
             case MESSAGEID::CreateTabView: { // add a tab view for the given object or poke it to refresh
                 unsigned id;
                 m.data().get(PARAMETERID::ObjectId, id);
-                auto *rw = MRL::Common::daq().tabWindows()[id];
+                MRL::RtObjectRef &r =  MRL::Common::daq().objects()[id];
+                if (r) {
 
-                if (!rw) {
-                    // find the object manager for this object
-                    MRL::RtObjectRef &r =  MRL::Common::daq().objects()[id];
-                    if (r) {
-
-                        unsigned t = MRL::Common::configuration().typeId(r->path()); // get item type
-                        auto o = MRL::ObjectManager::find(t);
-                        if (o) {
-                            wxWindow *w = o->createTabWindow(GetNotebook(), id);
-                            if(w)
-                            {
-                                MRL::Common::daq().tabWindows()[id] = w;
-                                GetNotebook()->AddPage(w, r->path().back(), false, 0);
-                                setMainTab();
+                    auto *rw = MRL::Common::daq().tabWindows()[id];
+                    if(rw)
+                    {
+                        if (rw) {
+                            int n = GetNotebook()->FindPage(rw);
+                            if (n > 0) {
+                                GetNotebook()->DeletePage(n);
                             }
+                            MRL::Common::daq().tabWindows().erase(id);
+                        }
+
+                    }
+
+                    unsigned t = MRL::Common::configuration().typeId(r->path()); // get item type
+                    auto o = MRL::ObjectManager::find(t);
+                    if (o) {
+                        wxWindow *w = o->createTabWindow(GetNotebook(), id);
+                        if(w)
+                        {
+                            MRL::Common::daq().tabWindows()[id] = w;
+                            GetNotebook()->AddPage(w, r->path().back(), false, 0);
+                            setMainTab();
                         }
                     }
                 }
@@ -562,7 +582,7 @@ bool Mainframe::adminPassword()
     if (dlg.ShowModal() == wxID_OK) {
         std::string pw = dlg.GetValue().ToStdString();
         if (MRL::Common::checkUser("Admin",pw)) {
-                 return true;
+            return true;
         }
     }
     return false;

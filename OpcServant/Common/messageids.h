@@ -36,6 +36,8 @@ namespace MESSAGEID
         // View creation
         CreateTabView,
         CreateTopView,
+        // Delete a tab view (if any) and restart it
+        ReloadTabView,
         //
         // Define the stock DAQ ids - these are mesages to the DAQ thread
         Daq_Write_Value = 0x100, // set a value in an object - OPC write value
