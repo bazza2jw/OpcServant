@@ -73,6 +73,11 @@ public:
         SetValue(wxString::Format("%02d:%02d:%02d",_time.GetHour(),_time.GetMinute(),_time.GetSecond()));
     }
 
+    wxTimeSpan GetSpan()
+    {
+        wxTimeSpan t(_time.GetHour(),_time.GetMinute(),_time.GetSecond());
+        return t;
+    }
     wxDateTime & GetTime() { return _time;}
     virtual bool openKeyPad();
 };

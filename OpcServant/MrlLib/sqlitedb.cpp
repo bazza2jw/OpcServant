@@ -69,9 +69,12 @@ void MRL::SQLiteDB::getErrString() {
  */
 void MRL::SQLiteDB::CloseConnection()
 {
-    WriteLock m(pSQLiteConn->_mutex);
+    Release();
     if(pSQLiteConn->pCon)
+    {
+        WriteLock m(pSQLiteConn->_mutex);
         sqlite3_close(pSQLiteConn->pCon);
+    }
 }
 
 /*!
@@ -253,7 +256,11 @@ const char*  MRL::SQLiteDB::ColumnData(int clmNum)
 void MRL::SQLiteDB::Release()
 {
     WriteLock m(pSQLiteConn->_mutex);
-    sqlite3_finalize(pSQLiteConn->pRes);
+    if(pSQLiteConn->pRes)
+    {
+        sqlite3_finalize(pSQLiteConn->pRes);
+        pSQLiteConn->pRes = nullptr;
+    }
     m_iColumnCount=0;
     m_strLastError="";
 }
