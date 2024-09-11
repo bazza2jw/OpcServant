@@ -101,6 +101,8 @@ set(LIB_SOURCES
     VTextEntryDialog.cpp
     SliderEntry.cpp
     Daq/tcpserver.cpp
+    Daq/min.c
+    Daq/minp2pserial.cpp
         )
 
 set(PROJECT_LIB_FLAGS  MrlLib)
