@@ -15,9 +15,11 @@
 #include <wx/artprov.h>
 #include <wx/sizer.h>
 #include <wx/panel.h>
-#include <Common/TextEntry.h>
-#include <Common/TextSpin.h>
+#include <wx/choice.h>
+#include <wx/arrstr.h>
+#include <wx/textctrl.h>
 #include <wx/button.h>
+#include <wx/timer.h>
 #if wxVERSION_NUMBER >= 2900
 #include <wx/persist.h>
 #include <wx/persist/toplevel.h>
@@ -41,30 +43,34 @@ protected:
     wxBoxSizer* boxSizer3;
     wxPanel* m_panel5;
     wxBoxSizer* boxSizer15;
-    DateEntry* dateF;
-    DoubleEntry* doubleF;
-    IntEntry* intF;
-    TextEntry* textF;
-    TimeEntry* timeF;
-    TextSpin* m_textSpin;
-    NumberSpin* m_numberSpin;
+    wxChoice* m_port;
+    wxTextCtrl* m_sendText;
+    wxTextCtrl* m_responseText;
+    wxTextCtrl* m_notifyText;
+    wxGridSizer* gridSizer29;
+    wxButton* m_button23;
+    wxButton* m_button31;
     wxStdDialogButtonSizer* m_stdBtnSizer9;
     wxButton* m_button11;
     wxButton* m_button13;
+    wxTimer* m_timer25;
 
 protected:
+    virtual void onSend(wxCommandEvent& event) { event.Skip(); }
+    virtual void onConnect(wxCommandEvent& event) { event.Skip(); }
     virtual void onOk(wxCommandEvent& event) { event.Skip(); }
     virtual void onCancel(wxCommandEvent& event) { event.Skip(); }
+    virtual void onTick(wxTimerEvent& event) { event.Skip(); }
 
 public:
-    DateEntry* GetDateF() { return dateF; }
-    DoubleEntry* GetDoubleF() { return doubleF; }
-    IntEntry* GetIntF() { return intF; }
-    TextEntry* GetTextF() { return textF; }
-    TimeEntry* GetTimeF() { return timeF; }
-    TextSpin* GetTextSpin() { return m_textSpin; }
-    NumberSpin* GetNumberSpin() { return m_numberSpin; }
+    wxChoice* GetPort() { return m_port; }
+    wxTextCtrl* GetSendText() { return m_sendText; }
+    wxTextCtrl* GetResponseText() { return m_responseText; }
+    wxTextCtrl* GetNotifyText() { return m_notifyText; }
+    wxButton* GetButton23() { return m_button23; }
+    wxButton* GetButton31() { return m_button31; }
     wxPanel* GetPanel5() { return m_panel5; }
+    wxTimer* GetTimer25() { return m_timer25; }
     HarnessTestDialogBase(wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Harness"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize(800,600), long style = wxDEFAULT_DIALOG_STYLE);
     virtual ~HarnessTestDialogBase();
 };

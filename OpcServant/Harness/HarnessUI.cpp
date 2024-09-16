@@ -33,26 +33,43 @@ HarnessTestDialogBase::HarnessTestDialogBase(wxWindow* parent, wxWindowID id, co
     boxSizer15 = new wxBoxSizer(wxVERTICAL);
     m_panel5->SetSizer(boxSizer15);
     
-    dateF = new DateEntry(m_panel5,wxID_ANY);
-    boxSizer15->Add(dateF, 1, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    wxArrayString m_portArr;
+    m_port = new wxChoice(m_panel5, wxID_ANY, wxDefaultPosition, wxDLG_UNIT(m_panel5, wxSize(-1,-1)), m_portArr, 0);
     
-    doubleF = new DoubleEntry(m_panel5,wxID_ANY);
-    boxSizer15->Add(doubleF, 1, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    boxSizer15->Add(m_port, 0, wxALL, WXC_FROM_DIP(5));
     
-    intF = new IntEntry(m_panel5,wxID_ANY);
-    boxSizer15->Add(intF, 1, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    m_sendText = new wxTextCtrl(m_panel5, wxID_ANY, wxT(""), wxDefaultPosition, wxDLG_UNIT(m_panel5, wxSize(-1,-1)), 0);
+    #if wxVERSION_NUMBER >= 3000
+    m_sendText->SetHint(wxT(""));
+    #endif
     
-    textF=new TextEntry(m_panel5,wxID_ANY);
-    boxSizer15->Add(textF, 1, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    boxSizer15->Add(m_sendText, 0, wxALL|wxEXPAND, WXC_FROM_DIP(5));
     
-    timeF = new TimeEntry(m_panel5,wxID_ANY);
-    boxSizer15->Add(timeF, 1, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    m_responseText = new wxTextCtrl(m_panel5, wxID_ANY, wxT(""), wxDefaultPosition, wxDLG_UNIT(m_panel5, wxSize(-1,-1)), 0);
+    #if wxVERSION_NUMBER >= 3000
+    m_responseText->SetHint(wxT(""));
+    #endif
     
-    m_textSpin = new TextSpin(m_panel5,wxID_ANY);
-    boxSizer15->Add(m_textSpin, 1, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    boxSizer15->Add(m_responseText, 0, wxALL|wxEXPAND, WXC_FROM_DIP(5));
     
-    m_numberSpin = new NumberSpin(m_panel5, wxID_ANY);
-    boxSizer15->Add(m_numberSpin, 1, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    m_notifyText = new wxTextCtrl(m_panel5, wxID_ANY, wxT(""), wxDefaultPosition, wxDLG_UNIT(m_panel5, wxSize(-1,-1)), 0);
+    #if wxVERSION_NUMBER >= 3000
+    m_notifyText->SetHint(wxT(""));
+    #endif
+    
+    boxSizer15->Add(m_notifyText, 0, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    
+    gridSizer29 = new wxGridSizer(0, 2, 0, 0);
+    
+    boxSizer15->Add(gridSizer29, 1, wxALL|wxEXPAND, WXC_FROM_DIP(5));
+    
+    m_button23 = new wxButton(m_panel5, wxID_ANY, _("Send"), wxDefaultPosition, wxDLG_UNIT(m_panel5, wxSize(-1,-1)), 0);
+    
+    gridSizer29->Add(m_button23, 0, wxALL, WXC_FROM_DIP(5));
+    
+    m_button31 = new wxButton(m_panel5, wxID_ANY, _("Connect"), wxDefaultPosition, wxDLG_UNIT(m_panel5, wxSize(-1,-1)), 0);
+    
+    gridSizer29->Add(m_button31, 0, wxALL, WXC_FROM_DIP(5));
     
     m_stdBtnSizer9 = new wxStdDialogButtonSizer();
     
@@ -64,6 +81,9 @@ HarnessTestDialogBase::HarnessTestDialogBase(wxWindow* parent, wxWindowID id, co
     m_button13 = new wxButton(this, wxID_CANCEL, wxT(""), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1, -1)), 0);
     m_stdBtnSizer9->AddButton(m_button13);
     m_stdBtnSizer9->Realize();
+    
+    m_timer25 = new wxTimer;
+    m_timer25->Start(20, false);
     
     SetName(wxT("HarnessTestDialogBase"));
     SetMinClientSize(wxSize(500,300));
@@ -84,14 +104,23 @@ HarnessTestDialogBase::HarnessTestDialogBase(wxWindow* parent, wxWindowID id, co
     }
 #endif
     // Connect events
+    m_button23->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(HarnessTestDialogBase::onSend), NULL, this);
+    m_button31->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(HarnessTestDialogBase::onConnect), NULL, this);
     m_button11->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(HarnessTestDialogBase::onOk), NULL, this);
     m_button13->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(HarnessTestDialogBase::onCancel), NULL, this);
+    m_timer25->Connect(wxEVT_TIMER, wxTimerEventHandler(HarnessTestDialogBase::onTick), NULL, this);
     
 }
 
 HarnessTestDialogBase::~HarnessTestDialogBase()
 {
+    m_button23->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(HarnessTestDialogBase::onSend), NULL, this);
+    m_button31->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(HarnessTestDialogBase::onConnect), NULL, this);
     m_button11->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(HarnessTestDialogBase::onOk), NULL, this);
     m_button13->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(HarnessTestDialogBase::onCancel), NULL, this);
+    m_timer25->Disconnect(wxEVT_TIMER, wxTimerEventHandler(HarnessTestDialogBase::onTick), NULL, this);
     
+    m_timer25->Stop();
+    wxDELETE( m_timer25 );
+
 }
