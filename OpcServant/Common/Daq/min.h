@@ -72,11 +72,11 @@
 #endif
 
 // keep memory use down - for the target microcontroller - TBD convert to C++ to avoid fixed constants
-#define MAX_PAYLOAD (127)
+#define MAX_PAYLOAD (255)
 // 16 frames in FIFO
 #define TRANSPORT_FIFO_SIZE_FRAMES_BITS (4)
 // no more than 256 bytes in frame
-#define TRANSPORT_FIFO_SIZE_FRAME_DATA_BITS (8)
+#define TRANSPORT_FIFO_SIZE_FRAME_DATA_BITS (10)
 
 #ifndef MAX_PAYLOAD
 #define MAX_PAYLOAD (255U)

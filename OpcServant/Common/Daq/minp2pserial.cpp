@@ -75,6 +75,7 @@ MRL::MinP2PSerial::MinP2PSerial(const std::string &port)
 {
     if(port.size() > 2) open(port);
     min_init_context(&_context, (void *)(this));
+    _pollTimer.Start();
     if(!_timerInit)
     {
         _timer.Start();
@@ -145,7 +146,19 @@ void MRL::MinP2PSerial::poll( )
     {
         uint8_t buf[MAX_PAYLOAD];
         uint8_t n =  (uint8_t)read(buf,sizeof(buf));
-        min_poll(context(), buf, n);
+        if(n > 0)
+        {
+            min_poll(context(), buf, n);
+            _pollTimer.Start();
+        }
+        else
+        {
+            if(_pollTimer.Time() > 50)
+            {
+                min_poll(context(), buf, 0);
+                _pollTimer.Start();
+            }
+        }
     }
 }
 

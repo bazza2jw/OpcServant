@@ -5,7 +5,7 @@
 // the
 enum
 {
-    CHAN_GUI = 1, // messages for the GUI object - handled by AerisPanel
+    CHAN_NONE = 0,
     CHAN_DATA,  // messages for the data object
     CHAN_NOTIFY, // notifications - route to data object for handling
     CHAN_TRACE // trace channel

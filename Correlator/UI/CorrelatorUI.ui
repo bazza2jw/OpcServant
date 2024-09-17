@@ -1,0 +1,457 @@
+<ui version="4.0" >
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1272</width>
+    <height>942</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget" >
+   <widget class="QTabWidget" name="tabWidget" >
+    <property name="geometry" >
+     <rect>
+      <x>20</x>
+      <y>30</y>
+      <width>1211</width>
+      <height>811</height>
+     </rect>
+    </property>
+    <property name="currentIndex" >
+     <number>0</number>
+    </property>
+    <widget class="QWidget" name="taRunTab" >
+     <attribute name="title" >
+      <string>Run</string>
+     </attribute>
+     <widget class="QGroupBox" name="groupBox" >
+      <property name="geometry" >
+       <rect>
+        <x>20</x>
+        <y>570</y>
+        <width>631</width>
+        <height>201</height>
+       </rect>
+      </property>
+      <property name="title" >
+       <string>Configuration</string>
+      </property>
+      <widget class="QWidget" name="layoutWidget" >
+       <property name="geometry" >
+        <rect>
+         <x>40</x>
+         <y>40</y>
+         <width>571</width>
+         <height>151</height>
+        </rect>
+       </property>
+       <layout class="QGridLayout" >
+        <item row="0" column="0" >
+         <widget class="QLabel" name="label_2" >
+          <property name="text" >
+           <string>Serial Port</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1" >
+         <widget class="QComboBox" name="SerialPort" />
+        </item>
+        <item row="0" column="2" >
+         <widget class="QLabel" name="label_5" >
+          <property name="text" >
+           <string>Wavelength(nm)</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="3" >
+         <widget class="QSpinBox" name="Wavelength" >
+          <property name="minimum" >
+           <number>400</number>
+          </property>
+          <property name="maximum" >
+           <number>1000</number>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0" >
+         <widget class="QLabel" name="label" >
+          <property name="text" >
+           <string>Sample Time (us)</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1" >
+         <widget class="QSpinBox" name="SampleTime" >
+          <property name="minimum" >
+           <number>4</number>
+          </property>
+          <property name="maximum" >
+           <number>1000</number>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="0" >
+         <widget class="QLabel" name="label_3" >
+          <property name="text" >
+           <string>Run Time (s)</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="1" >
+         <widget class="QSpinBox" name="RunTime" >
+          <property name="minimum" >
+           <number>1</number>
+          </property>
+          <property name="maximum" >
+           <number>600</number>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+     <widget class="QwtPlot" name="Plot" >
+      <property name="geometry" >
+       <rect>
+        <x>20</x>
+        <y>20</y>
+        <width>1141</width>
+        <height>301</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QwtPlot" name="SemiLogPlot" >
+      <property name="geometry" >
+       <rect>
+        <x>40</x>
+        <y>340</y>
+        <width>571</width>
+        <height>200</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QWidget" name="layoutWidget" >
+      <property name="geometry" >
+       <rect>
+        <x>710</x>
+        <y>580</y>
+        <width>471</width>
+        <height>44</height>
+       </rect>
+      </property>
+      <layout class="QHBoxLayout" >
+       <item>
+        <widget class="QLabel" name="label_4" >
+         <property name="font" >
+          <font>
+           <pointsize>20</pointsize>
+          </font>
+         </property>
+         <property name="text" >
+          <string>Count Rate</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLCDNumber" name="CountRate" >
+         <property name="palette" >
+          <palette>
+           <active>
+            <colorrole role="Text" >
+             <brush brushstyle="SolidPattern" >
+              <color alpha="255" >
+               <red>0</red>
+               <green>255</green>
+               <blue>0</blue>
+              </color>
+             </brush>
+            </colorrole>
+           </active>
+           <inactive>
+            <colorrole role="Text" >
+             <brush brushstyle="SolidPattern" >
+              <color alpha="255" >
+               <red>0</red>
+               <green>255</green>
+               <blue>0</blue>
+              </color>
+             </brush>
+            </colorrole>
+           </inactive>
+           <disabled>
+            <colorrole role="Text" >
+             <brush brushstyle="SolidPattern" >
+              <color alpha="255" >
+               <red>119</red>
+               <green>119</green>
+               <blue>119</blue>
+              </color>
+             </brush>
+            </colorrole>
+           </disabled>
+          </palette>
+         </property>
+         <property name="numDigits" >
+          <number>8</number>
+         </property>
+         <property name="segmentStyle" >
+          <enum>QLCDNumber::Filled</enum>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="" >
+      <property name="geometry" >
+       <rect>
+        <x>660</x>
+        <y>340</y>
+        <width>351</width>
+        <height>56</height>
+       </rect>
+      </property>
+      <layout class="QGridLayout" >
+       <item row="0" column="0" >
+        <widget class="QLabel" name="label_6" >
+         <property name="text" >
+          <string>Number Baseline Channels</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1" >
+        <widget class="QSpinBox" name="NumberBaselineChannels" >
+         <property name="minimum" >
+          <number>5</number>
+         </property>
+         <property name="maximum" >
+          <number>20</number>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0" >
+        <widget class="QLabel" name="label_7" >
+         <property name="text" >
+          <string>Baseline</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1" >
+        <widget class="QLabel" name="Baseline" >
+         <property name="frameShape" >
+          <enum>QFrame::Box</enum>
+         </property>
+         <property name="text" >
+          <string>0</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="" >
+      <property name="geometry" >
+       <rect>
+        <x>660</x>
+        <y>410</y>
+        <width>351</width>
+        <height>24</height>
+       </rect>
+      </property>
+      <layout class="QHBoxLayout" >
+       <item>
+        <widget class="QLabel" name="label_8" >
+         <property name="text" >
+          <string>Slope</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="Slope" >
+         <property name="frameShape" >
+          <enum>QFrame::Box</enum>
+         </property>
+         <property name="text" >
+          <string>1.0</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="tab_2" >
+     <attribute name="title" >
+      <string>Tab 2</string>
+     </attribute>
+    </widget>
+    <widget class="QWidget" name="TraceTab" >
+     <attribute name="title" >
+      <string>Trace</string>
+     </attribute>
+     <widget class="QListWidget" name="Trace" >
+      <property name="geometry" >
+       <rect>
+        <x>30</x>
+        <y>60</y>
+        <width>751</width>
+        <height>681</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton" >
+      <property name="geometry" >
+       <rect>
+        <x>810</x>
+        <y>60</y>
+        <width>92</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="text" >
+       <string>Clear</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="ResultsTab" >
+     <attribute name="title" >
+      <string>Results</string>
+     </attribute>
+     <widget class="QTextEdit" name="Results" >
+      <property name="geometry" >
+       <rect>
+        <x>20</x>
+        <y>30</y>
+        <width>741</width>
+        <height>721</height>
+       </rect>
+      </property>
+     </widget>
+    </widget>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menubar" >
+   <property name="geometry" >
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1272</width>
+     <height>32</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menu_File" >
+    <property name="title" >
+     <string>&amp;File</string>
+    </property>
+    <addaction name="actionExit" />
+   </widget>
+   <widget class="QMenu" name="menuAction" >
+    <property name="title" >
+     <string>Action</string>
+    </property>
+    <addaction name="actionStart" />
+    <addaction name="actionStop" />
+    <addaction name="actionCount_Rate" />
+    <addaction name="actionClear" />
+   </widget>
+   <addaction name="menu_File" />
+   <addaction name="menuAction" />
+  </widget>
+  <widget class="QStatusBar" name="statusbar" />
+  <widget class="QToolBar" name="toolBar" >
+   <property name="windowTitle" >
+    <string>toolBar</string>
+   </property>
+   <attribute name="toolBarArea" >
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak" >
+    <bool>false</bool>
+   </attribute>
+   <addaction name="actionExit" />
+   <addaction name="actionStart" />
+   <addaction name="actionStop" />
+   <addaction name="actionConfigure" />
+   <addaction name="actionCount_Rate" />
+   <addaction name="actionClear" />
+  </widget>
+  <action name="actionExit" >
+   <property name="icon" >
+    <iconset resource="Correlator.qrc" >:/Icons/icons/exit.png</iconset>
+   </property>
+   <property name="text" >
+    <string>E&amp;xit</string>
+   </property>
+  </action>
+  <action name="actionStart" >
+   <property name="icon" >
+    <iconset resource="Correlator.qrc" >:/Icons/icons/start.png</iconset>
+   </property>
+   <property name="text" >
+    <string>&amp;Start</string>
+   </property>
+  </action>
+  <action name="actionStop" >
+   <property name="icon" >
+    <iconset resource="Correlator.qrc" >:/Icons/icons/stop.png</iconset>
+   </property>
+   <property name="text" >
+    <string>S&amp;top</string>
+   </property>
+  </action>
+  <action name="actionCount_Rate" >
+   <property name="icon" >
+    <iconset resource="Correlator.qrc" >:/Icons/icons/Float.png</iconset>
+   </property>
+   <property name="text" >
+    <string>&amp;Count Rate</string>
+   </property>
+  </action>
+  <action name="actionConfigure" >
+   <property name="icon" >
+    <iconset resource="Correlator.qrc" >:/Icons/icons/configure.png</iconset>
+   </property>
+   <property name="text" >
+    <string>C&amp;onfigure...</string>
+   </property>
+  </action>
+  <action name="actionClear" >
+   <property name="icon" >
+    <iconset resource="Correlator.qrc" >:/Icons/icons/filenew.png</iconset>
+   </property>
+   <property name="text" >
+    <string>Clear</string>
+   </property>
+  </action>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>QwtPlot</class>
+   <extends>QFrame</extends>
+   <header>qwt_plot.h</header>
+  </customwidget>
+ </customwidgets>
+ <resources>
+  <include location="Correlator.qrc" />
+ </resources>
+ <connections>
+  <connection>
+   <sender>pushButton</sender>
+   <signal>clicked()</signal>
+   <receiver>Trace</receiver>
+   <slot>clear()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>857</x>
+     <y>200</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>747</x>
+     <y>222</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

@@ -1,0 +1,109 @@
+
+//
+// for a 256 channel correlator 20 instructions
+//
+#include <stdio.h>
+#include <stdlib.h>
+
+int main(int ac, char **av)
+{
+	if(ac == 3)
+	{
+		//
+		int nchan = atoi(av[1]); // get the number of channels - must be divisable by 16
+		int bits_per_int = atoi(av[2]);
+		int nword = nchan / bits_per_int;
+		//
+		printf("#define BITS_PER_INT %d\n",bits_per_int);
+		//
+		printf("typedef unsigned int CVAL;/" "* basic integer type *" "/\n"); // the basic int type
+		printf("typedef unsigned int RVAL;/" "*  Counter type    *" "/\n"); // the type of the counters
+		//
+		printf("typedef struct\n{\n");
+		for(int i = 0; i < nword; i++) // generate the shift register
+		{
+			printf("\tCVAL Shift%02d;\n",i);
+		};
+		//
+		// now generate the bitmaps
+		//
+		for(int i = 0; i < 8; i++) // 8 bits
+		{
+			for(int j = 0; j < nword; j++)
+			{
+				printf("\tCVAL Bit%d_%02d;\n",i,j);
+			};
+		};
+		//
+		printf("RVAL Counts[%d];\n",nchan); // where to put the counts
+		printf("\n} CORRELATOR;\n");
+		printf("CORRELATOR CC;\n"); // we call the correlator CC (for clipped correlator)
+		//
+		printf("int Run = 0;\n"); // run flag - set to zero to finish
+		//
+		printf(" // ********************* FUNCTION *************************************\n");
+		//
+		// we unwind everything
+		//
+		printf("\nvoid Correlate()\n{\n");
+		printf("\nwhile(Run)\n{\n");
+		printf("\nif(getClipped())\n{\n");
+		//
+		// generate the ripple counter code
+		printf("CVAL R;\n");
+		printf("CVAL C;\n");
+		//
+		//
+		// we ripple each bank one at a time
+		for(int i = 0; i < nword; i++)
+		{
+			printf("R = CC.Bit0_%02d ^ CC.Shift%02d;\n",i,i);
+			printf("C = CC.Bit0_%02d & CC.Shift%02d;\n",i,i,i); 
+			printf("CC.Bit0_%02d = R;\n",i);
+			//
+			for(int j = 0; j < 8; j++)
+			{
+				printf("\nif(!C)goto End%02d;\n",i);
+				printf("R = CC.Bit%d_%02d ^ C;\n",j,i);
+				printf("C = CC.Bit%d_%02d & C;\n",j,i);
+				printf("CC.Bit%d_%02d = R;\n",j,i);
+			};
+			//
+			// bit 7 has rippled over
+			// accumulate to counters
+			printf("if(C)\n{\n");
+			
+			int m = 1;
+			for(int k = 0; k < bits_per_int; k++, m <<= 1)
+			{
+				printf("if(C & 0x%X) CC.Counts[%d]++;\n",m,k + i * bits_per_int);
+			};
+			printf("\n};\nEnd%02d:;\n",i);
+		};
+		//
+		// Generate the shift register code
+		//
+		for(int i = (nword - 1); i >= 0; i--)
+		{
+			printf("CC.Shift%02d <<= 1;\n", i);
+			if(i) printf("\nif(CC.Shift%02d & 0x%X) CC.Shift%02d |= 1;\n", 
+			i - 1, (unsigned)(1 << (bits_per_int - 1)),i);
+		};
+		//
+		//
+		printf("CC.Shift00  |= 1;\n");
+		printf("}\nelse\n{\n"); // close
+		//
+		//
+		for(int i = (nword - 1); i >= 0; i--)
+		{
+			printf("\t\tCC.Shift%02d <<= 1;\n", i);
+			if(i) printf("\nif(CC.Shift%02d & 0x%X) CC.Shift%02d |= 1;\n", 
+			i - 1,(unsigned)(1 << (bits_per_int - 1)),i);
+		};
+		printf("};\n"); // close the if
+		printf("};\n"); // close the while
+		printf("};\n"); // close the function
+	};
+	return 0;
+};

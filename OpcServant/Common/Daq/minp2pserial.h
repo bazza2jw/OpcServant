@@ -21,6 +21,7 @@ class MinP2PSerial : public MRL::SerialConnect, public BObject
     static bool _timerInit;
     std::map<uint8_t,RECEIVEFN> _callbacks;
     mutable ReadWriteMutex _mutex;
+    wxStopWatch _pollTimer;
 
 public:
     MinP2PSerial(const std::string &port = "");
@@ -30,10 +31,8 @@ public:
     void addCallback(uint8_t b, const RECEIVEFN &f) { if(!hasCallback(b)) _callbacks[b] = f;}
     void removeCallback(uint8_t b) { _callbacks.erase(b);}
     ReadWriteMutex & mutex() { return  _mutex;}
-
     //
     min_context *context() { return &_context;}
-
     // space in output buffer
     virtual uint16_t tx_space();
     // CALLBACK. Send a byte on the given line.
@@ -85,6 +84,7 @@ public:
     static void pollAll();
 
 
+    // these interface to microcontroller with assumed low memory
     struct P2PMSG
     {
         uint8_t _op; // the opcode

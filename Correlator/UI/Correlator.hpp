@@ -1,0 +1,173 @@
+#ifndef CORRELATOR_HPP
+#define CORRELATOR_HPP
+//
+// Purpose: this si the UI to us the Pic based correlator
+// (c) B. J. Hill 2008-
+// $Id$
+//
+#include <QtCore>
+#include <QtGui>
+#include <QtXml>
+//
+#include <math.h>
+#include <stdio.h>
+// get the serial port interface
+#include "serial.hpp"
+// get graphing routines
+#include <qwt_plot.h>
+#include <qwt_plot_marker.h>
+#include <qwt_plot_curve.h>
+#include <qwt_legend.h>
+#include <qwt_data.h>
+#include <qwt_text.h>
+#include <qwt_symbol.h>
+// get the 
+#include "ui_CorrelatorUI.h"
+
+// runs the interface to the correlator
+// via a serial port
+//
+// number of correlator channels
+//
+#define N_CHANNELS 256
+//
+class CorrelatorThread : public QThread
+{
+	Q_OBJECT
+	SerialConnect Serial; // serial interface
+private:
+	bool Exit; // request exit flag
+public:
+	bool getExit() const {return Exit;};
+	void setExit(bool s) { Exit = s;msleep(1000);};
+
+
+private:
+	bool Started;
+public:
+	bool getStarted() const {return Started;};
+	void setStarted(bool s) { Started = s;};
+
+private:
+	QString SerialPort; // serial port to use (may be USB)
+public:
+	QString getSerialPort() const {return SerialPort;};
+	void setSerialPort(QString s) { SerialPort = s;};
+
+private:
+	unsigned SampleTime; // the correlator sample time
+public:
+	unsigned getSampleTime() const {return SampleTime;};
+	void setSampleTime(unsigned s) { SampleTime = s;};
+
+
+private:
+	unsigned RunTime; // how long the experiment runs for
+public:
+	unsigned getRunTime() const {return RunTime;};
+	void setRunTime(unsigned s) { RunTime = s;};
+
+private:
+	unsigned Mode; // current task 
+public:
+	unsigned getMode() const {return Mode;};
+	void setMode(unsigned s) { Mode = s;};
+
+
+private:
+	unsigned LastError;
+public:
+	unsigned getLastError() const {return LastError;};
+	void setLastError(unsigned s) { LastError = s;};
+
+
+
+	private:
+		void run(); // run the thread
+	
+	private:
+		unsigned long Channels[N_CHANNELS];
+	public:
+		unsigned long * getChannels() { return Channels;};
+		
+	public:
+		
+		// actions
+		enum
+		{
+			IDLE = 0,
+			CLEAR,
+			STOP,
+			COUNTRATE,
+			CORRELATE,
+			GETRESULTS
+		};
+		
+		// error codes
+		enum
+		{
+			OK = 0,
+			ERROR,
+			SERIALPORT
+		};
+		
+		CorrelatorThread();
+		~CorrelatorThread();
+		bool OpenSerial();
+	public Q_SLOTS:
+		void Clear(); // clear / init the correlator
+		void Start(); // start correlating
+		void Stop();  // stop correlating
+		void CountRate(); // count rate mode
+		void GetResults(); // get the results
+	Q_SIGNALS:
+	void CurrentCounts(unsigned); // the current count rate
+	void HaveResults(); // results retrived
+	void Fault(unsigned, QString);
+};
+
+class CorrelatorMain : public QMainWindow
+{
+	
+	Q_OBJECT
+	Ui_MainWindow Data;
+	CorrelatorThread *worker; // the interface thread
+	//
+	// data with the channel data 
+	//
+	QwtPlotCurve *SampleCurve; // the curve data
+	double ChannelCounts[N_CHANNELS]; // Y Data
+	double ChannelNumber[N_CHANNELS]; // X Data
+	QwtPlotCurve *SemiCurve; // the curve data
+	double SemiLog[N_CHANNELS]; // semi-log fit data
+	//
+	void DoPlot()
+	{
+		Data.Plot->setAxisScale ( QwtPlot::xBottom, 0, N_CHANNELS);
+		SampleCurve->setRawData(ChannelNumber,ChannelCounts,N_CHANNELS);
+		Data.Plot->replot();	
+		//
+		Data.SemiLogPlot->setAxisScale ( QwtPlot::xBottom, 0, N_CHANNELS);
+		SemiCurve->setRawData(SemiLog,ChannelCounts,N_CHANNELS);
+		Data.SemiLogPlot->replot();	
+		//
+	};
+	
+	public:
+		CorrelatorMain(QWidget *p = 0);
+		~CorrelatorMain();
+			
+	public Q_SLOTS:
+		void Start();
+		void Stop();
+		void Exit();
+		void Tick();
+		void Clear();
+		void CountRate();
+		void CurrentCounts(unsigned);
+		void HaveResults();
+		void Fault(unsigned, QString);
+};
+
+
+#endif
