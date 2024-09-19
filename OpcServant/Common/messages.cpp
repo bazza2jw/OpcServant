@@ -9,9 +9,9 @@
  * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
  * A PARTICULAR PURPOSE.
  */
-#include "messages.h"
-#include "messageids.h"
-#include "parameterids.h"
+#include <Common/messages.h>
+#include <Common/messageids.h>
+#include <Common/parameterids.h>
 #include <MrlLib/trace.hpp>
 int MRL::Message::_messageId = MESSAGEID::Last;
 int MRL::Message::_parameterId = PARAMETERID::UserFirst;
