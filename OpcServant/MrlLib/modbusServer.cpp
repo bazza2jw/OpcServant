@@ -5,6 +5,10 @@
 typedef int socklen_t;
 #endif
 
+// map of modbus servers
+std::map<uint16_t,MRL::ModbusServer *> MRL::ModbusServer::_map;
+
+
 
 /*!
  * \brief MRL::ModbusServer::initModbus
@@ -49,6 +53,7 @@ MRL::ModbusServer::ModbusServer(std::string host, uint16_t port, int numBits, in
     m_numRegisters(numRegisters),
     m_numInputRegisters(numInputRegisters)
 {
+    _map[m_port] = this;
 }
 /*!
  * \brief MRL::ModbusServer::~ModbusServer
@@ -66,6 +71,7 @@ MRL::ModbusServer::~ModbusServer()
         modbus_free(ctx);
         ctx = nullptr;
     }
+    _map.erase(m_port);
 }
 
 /*!

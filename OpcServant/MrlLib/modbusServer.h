@@ -9,6 +9,7 @@
 #include <mutex>
 #include <string>
 #include <memory>
+#include <map>
 #ifdef _WIN32
 #define _WINSOCK_DEPRECATED_NO_WARNINGS
 #include <winsock2.h>
@@ -38,6 +39,7 @@ namespace MRL
  */
 class ModbusServer
 {
+    static std::map<uint16_t ,ModbusServer *> _map;
 public:
     ModbusServer(std::string host="0.0.0.0", uint16_t port=502,int numBits = 100, int numInputBits = 100, int numRegisters = 100, int numInputRegisters = 100);
     ~ModbusServer();
@@ -61,7 +63,16 @@ public:
     bool setInputRegisterValue(int registerNumber, uint16_t Value);
     bool setInputRegisterValue(int registerNumber, float Value);
     bool setInputRegisterValue(int registerNumber, uint32_t Value);
-
+    //
+    static ModbusServer * find(uint16_t i) { return _map[i];}
+    static void pollAll()
+    {
+        for(auto const &i : _map)
+        {
+            ModbusServer *p = const_cast<ModbusServer *>(i.second);
+            p->recieveMessages();
+        }
+    }
 private:
     std::string m_host;
     uint16_t m_port = 5000; // not a privileged socket

@@ -38,20 +38,12 @@ void HarnessTestDialog::onSend(wxCommandEvent& event)
 {
     static uint32_t idCount = 5;
     std::string s = GetSendText()->GetValue().ToStdString();
-    int l = 6 + s.size();
-    uint8_t b[256];
-    MRL::MinP2PSerial::P2PMSG msg;
-    msg._op = 1;
-    msg._len = s.size();
-    msg._id = idCount++;
-    memcpy(&msg._payload[0],s.c_str(),s.size());
-    MRL::MinP2PSerial::packP2PMsg(msg,b);
     //
-    MRL::MinP2PSerial *p = MRL::MinP2PSerial::find(_port);
-    if(p)
-    {
-        p->send_frame(CHAN_DATA,b,l);
-    }
+//    MRL::MinP2PSerial *p = MRL::MinP2PSerial::find(_port);
+//    if(p)
+//    {
+//        p->send(CHAN_DATA,b,l,1);
+//    }
 
 }
 void HarnessTestDialog::onTick(wxTimerEvent& event)
@@ -63,7 +55,7 @@ void HarnessTestDialog::onTick(wxTimerEvent& event)
 void HarnessTestDialog::onConnect(wxCommandEvent& event)
 {
     _port = MRL::GetChoice(GetPort());
-    MRL::MinP2PSerial::addConnection(_port,false);
+    MRL::MinP2PSerial::addConnection(_port);
     MRL::MinP2PSerial *p = MRL::MinP2PSerial::find(_port);
     if(p)
     {
@@ -76,8 +68,14 @@ void HarnessTestDialog::onConnect(wxCommandEvent& event)
         auto g = [this](uint8_t const *data, uint8_t len) {
             this->handleDataFrame(data,len);
         };
-        p->addCallback(CHAN_DATA,g);
-        p->addCallback(CHAN_NOTIFY, f);
+        p->addSession(1);
+        p->removeSession(1);
+        MRL::Session *s = p->findSession(1);
+        if(s)
+        {
+            s->addCallback(CHAN_DATA,g);
+            s->addCallback(CHAN_NOTIFY, f);
+        }
     }
     else
     {
@@ -92,9 +90,7 @@ void HarnessTestDialog::onConnect(wxCommandEvent& event)
  */
 void  HarnessTestDialog::handleDataFrame(uint8_t const *data, uint8_t len)
 {
-    MRL::MinP2PSerial::P2PMSG msg;
-    MRL::MinP2PSerial::unpackP2PMsg(msg,data);
-    GetResponseText()->SetValue(wxString::Format("%02X %08X %02X",msg._op,msg._id,msg._len));
+    //GetResponseText()->SetValue(wxString::Format("%02X %08X %02X",msg._op,msg._id,msg._len));
 }
 /*!
  * \brief handleNotifyFrame
@@ -103,7 +99,5 @@ void  HarnessTestDialog::handleDataFrame(uint8_t const *data, uint8_t len)
  */
 void  HarnessTestDialog::handleNotifyFrame(uint8_t const *data, uint8_t len)
 {
-    MRL::MinP2PSerial::P2PMSG msg;
-    MRL::MinP2PSerial::unpackP2PMsg(msg,data);
-    GetNotifyText()->SetValue(wxString::Format("%02X %08X %02X",msg._op,msg._id,msg._len));
+   // GetNotifyText()->SetValue(wxString::Format("%02X %08X %02X",msg._op,msg._id,msg._len));
 }

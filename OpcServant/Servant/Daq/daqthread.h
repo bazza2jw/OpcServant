@@ -15,11 +15,34 @@
 #include <Common/Daq/daq.h>
 
 namespace MRL {
+
+// drive communications
+class CommsThread : public wxThreadHelper {
+         bool _stopThread = false;
+    public:
+         CommsThread() {}
+        /*!
+         * \brief Entry
+         * \return exit code
+         */
+        wxThread::ExitCode Entry();
+        /*!
+         * \brief OnKill
+         */
+        void OnKill() { stop();}
+        void stop() { _stopThread = true;}
+        void start();
+
+};
+
+
+
 /*!
      * \brief The DaqThread class
      */
     class DaqThread : public wxThreadHelper {
              std::unique_ptr<Daq> _daq;
+             std::unique_ptr<CommsThread> _comms;
              bool _stopThread = false;
         public:
             DaqThread();
@@ -43,5 +66,8 @@ namespace MRL {
              */
             void stop();
     };
+
+
+
 }
 #endif // DAQTHREAD_H

@@ -28,7 +28,7 @@ void MRL::MinP2PSerial::pollAll()
  * \param ptr
  * \return
  */
-bool MRL::MinP2PSerial::addConnection(const std::string &s,   bool attachToDaq)
+bool MRL::MinP2PSerial::addConnection(const std::string &s)
 {
     //
     // add a MinP2P connection to the set and attach for polling. There is no timing contention with other DAQ objects
@@ -37,16 +37,6 @@ bool MRL::MinP2PSerial::addConnection(const std::string &s,   bool attachToDaq)
     if(!exists(s))
     {
         _connections[s] = std::make_unique<MRL::MinP2PSerial>(s); // transfer ownership to this object
-        MRL::MinP2PSerial *m = find(s);
-        if(m)
-        {
-            if(attachToDaq)
-            {
-                Daq *p = Daq::instance(); // attach to the daq object process (20ms tick)
-                wxASSERT(p != nullptr);
-                p->processTimer().connect(m, &MRL::MinP2PSerial::poll);
-            }
-        }
         return true;
     }
     return false; // already exists
@@ -132,8 +122,8 @@ bool MRL::MinP2PSerial::queue_has_space_for_frame(uint8_t payload_len)
  */
 void MRL::MinP2PSerial::send_frame(uint8_t min_id, uint8_t const *payload, uint8_t payload_len)
 {
-    WriteLock l(mutex());
     // Send a non-transport frame MIN frame from session layer
+    WriteLock l(mutex());
     min_send_frame(context(),  min_id, payload, payload_len);
 }
 
@@ -145,6 +135,9 @@ void MRL::MinP2PSerial::poll( )
     if(isOpen())
     {
         uint8_t buf[MAX_PAYLOAD];
+        //
+        // Drive Receive
+        //
         uint8_t n =  (uint8_t)read(buf,sizeof(buf));
         if(n > 0)
         {
@@ -157,6 +150,21 @@ void MRL::MinP2PSerial::poll( )
             {
                 min_poll(context(), buf, 0);
                 _pollTimer.Start();
+            }
+        }
+        //
+        // can we send a pending message(s)
+        //
+        while(!_out.empty())
+        {
+            FrameElement &e = _out.front();
+            if(queue_has_space_for_frame(e._data.size()))
+            {
+                send_frame(e._id, e._data.data(), e._data.size());
+                {
+                    WriteLock l(mutex());
+                    _out.pop();
+                }
             }
         }
     }

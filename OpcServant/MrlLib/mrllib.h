@@ -267,7 +267,7 @@ int getSerialPortList(std::list<std::string> &sp);
 
 
 
-
+// string dictionary
 typedef std::map<std::string, std::string> StringMap;
 
 // separator used to separate path and input
