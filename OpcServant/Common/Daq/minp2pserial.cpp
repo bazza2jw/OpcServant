@@ -18,7 +18,10 @@ void MRL::MinP2PSerial::pollAll()
     for(auto const &i : _connections)
     {
         const PTR &p = i.second;
-        if(p) p->poll();
+        if(p)
+        {
+            p->poll();
+        }
     }
 }
 
@@ -28,7 +31,7 @@ void MRL::MinP2PSerial::pollAll()
  * \param ptr
  * \return
  */
-bool MRL::MinP2PSerial::addConnection(const std::string &s)
+bool MRL::MinP2PSerial::addConnection(const std::string &s, unsigned baud_rate)
 {
     //
     // add a MinP2P connection to the set and attach for polling. There is no timing contention with other DAQ objects
@@ -36,7 +39,7 @@ bool MRL::MinP2PSerial::addConnection(const std::string &s)
     //
     if(!exists(s))
     {
-        _connections[s] = std::make_unique<MRL::MinP2PSerial>(s); // transfer ownership to this object
+        _connections[s] = std::make_unique<MRL::MinP2PSerial>(s,baud_rate); // transfer ownership to this object
         return true;
     }
     return false; // already exists
@@ -61,9 +64,15 @@ MRL::MinP2PSerial * MRL::MinP2PSerial::find(const std::string &s)
  * \param serial
  * \param id
  */
-MRL::MinP2PSerial::MinP2PSerial(const std::string &port)
+MRL::MinP2PSerial::MinP2PSerial(const std::string &port, unsigned baud_rate)
 {
-    if(port.size() > 2) open(port);
+    if(port.size() > 2)
+    {
+        if(open(port))
+        {
+            configure(baud_rate);
+        }
+    }
     min_init_context(&_context, (void *)(this));
     _pollTimer.Start();
     if(!_timerInit)

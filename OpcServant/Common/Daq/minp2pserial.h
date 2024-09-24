@@ -81,9 +81,11 @@ public:
         return _callbacks.find(b) != _callbacks.end();
     }
     void addCallback(uint8_t b, const RECEIVEFN &f) {
+        WriteLock l(_mutex);
         if(!hasCallback(b)) _callbacks[b] = f;
     }
     void removeCallback(uint8_t b) {
+        WriteLock l(_mutex);
         _callbacks.erase(b);
     }
     //
@@ -110,14 +112,7 @@ public:
 typedef std::unique_ptr<Session> SESSIONPTR;
 typedef std::map<uint8_t,SESSIONPTR > SESSIONMAP; // the application end has a set of sessions
 
-// helper for packing data
-typedef union {
-    uint8_t b[4];
-    uint16_t w[2];
-    uint32_t l;
-    float f;
-} VALUE;
-typedef std::vector<VALUE> VALUELIST;
+
 
 /*!
  * \brief The MinP2PSerial class
@@ -134,7 +129,7 @@ class MinP2PSerial : public MRL::SerialConnect, public BObject
     SESSIONMAP _sessions; // set of session
 
 public:
-    MinP2PSerial(const std::string &port = "");
+    MinP2PSerial(const std::string &port = "", unsigned baud_rate = 115200);
     virtual ~MinP2PSerial();
     //
     /*!
@@ -146,6 +141,14 @@ public:
         WriteLock l(mutex());
         if(!findSession(id))
         {
+            if(_sessions.size() == 0)
+            {
+                if(!isOpen())
+                {
+                    reset(); // no sessions - so reopen
+                    transport_reset(true);
+                }
+            }
             _sessions[id] = std::make_unique<MRL::Session>(id);
         }
         SESSIONPTR &p = _sessions[id];
@@ -159,8 +162,23 @@ public:
     {
         WriteLock l(mutex());
         _sessions.erase(id);
+        if(_sessions.size() == 0)
+        {
+            transport_reset(true);
+            wxMilliSleep(100);
+            close(); // shut the port
+        }
     }
 
+    SESSIONMAP & sessions() { return _sessions;}
+
+    /*!
+     * \brief send
+     * \param channel
+     * \param data
+     * \param len
+     * \param session
+     */
     void send(uint8_t channel, uint8_t *data, int len, uint8_t session = 0)
     {
         FrameElement e(channel | (session << 4),data,len); // add session id
@@ -207,11 +225,24 @@ public:
     // CALLBACK. Handle incoming MIN frame
     virtual void application_handler(uint8_t min_id, uint8_t const *min_payload, uint8_t len_payload)
     {
-        Session *s =  findSession(min_id >> 4);
-        if(s)
+        if(min_id)
         {
-            FrameElement e(min_id & CHANNEL_MASK, min_payload, len_payload);
-            s->receive(e); // pass up to the session layer
+            Session *s =  findSession(min_id >> 4);
+            if(s)
+            {
+                FrameElement e(min_id & CHANNEL_MASK, min_payload, len_payload);
+                s->receive(e); // pass up to the session layer
+            }
+        }
+        else
+        {
+            // broadcast is id zero
+            for(auto const &i : _sessions )
+            {
+               SESSIONPTR &p = const_cast<SESSIONPTR &>(i.second);
+               FrameElement e(0, min_payload, len_payload);
+               p->receive(e);
+            }
         }
     }
     //
@@ -238,7 +269,7 @@ public:
     typedef std::unique_ptr<MinP2PSerial> PTR;
     static std::map<std::string,PTR > _connections;
 
-    static bool addConnection(const std::string &s);
+    static bool addConnection(const std::string &s, unsigned baud_rate = 115200);
     static MinP2PSerial * find(const std::string &s);
     static bool exists(const std::string &s) {
         return _connections.find(s) != _connections.end();

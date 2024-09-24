@@ -196,6 +196,7 @@ namespace MRL {
                 return (_fd != SC_INVALID_FD);
             }
             //
+
             int baudrate() const {
                 return _baudrate;   // baud rate index
             }
