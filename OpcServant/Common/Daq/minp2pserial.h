@@ -81,8 +81,11 @@ public:
         return _callbacks.find(b) != _callbacks.end();
     }
     void addCallback(uint8_t b, const RECEIVEFN &f) {
-        WriteLock l(_mutex);
-        if(!hasCallback(b)) _callbacks[b] = f;
+         if(!hasCallback(b))
+         {
+             WriteLock l(_mutex);
+             _callbacks[b] = f;
+         }
     }
     void removeCallback(uint8_t b) {
         WriteLock l(_mutex);
@@ -138,7 +141,6 @@ public:
      */
     Session * addSession(uint8_t id)
     {
-        WriteLock l(mutex());
         if(!findSession(id))
         {
             if(_sessions.size() == 0)
@@ -146,10 +148,14 @@ public:
                 if(!isOpen())
                 {
                     reset(); // no sessions - so reopen
-                    transport_reset(true);
                 }
+                transport_reset(true);
             }
+            {
+            WriteLock l(mutex());
+
             _sessions[id] = std::make_unique<MRL::Session>(id);
+            }
         }
         SESSIONPTR &p = _sessions[id];
         return p.get();
@@ -160,8 +166,10 @@ public:
      */
     void removeSession(uint8_t id)
     {
-        WriteLock l(mutex());
-        _sessions.erase(id);
+        {
+            WriteLock l(mutex());
+            _sessions.erase(id);
+        }
         if(_sessions.size() == 0)
         {
             transport_reset(true);
