@@ -66,17 +66,17 @@
 #ifdef ASSERTION_CHECKING
 #include <assert.h>
 #endif
-
+#define NO_TRANSPORT_PROTOCOL
 #ifndef NO_TRANSPORT_PROTOCOL
 #define TRANSPORT_PROTOCOL
 #endif
 
 // keep memory use down - for the target microcontroller - TBD convert to C++ to avoid fixed constants
 #define MAX_PAYLOAD (250)
-// 16 frames in FIFO
-#define TRANSPORT_FIFO_SIZE_FRAMES_BITS (4)
+// 256 frames in FIFO
+#define TRANSPORT_FIFO_SIZE_FRAMES_BITS (6)
 // no more than 256 bytes in frame
-#define TRANSPORT_FIFO_SIZE_FRAME_DATA_BITS (10)
+#define TRANSPORT_FIFO_SIZE_FRAME_DATA_BITS (12)
 
 #ifndef MAX_PAYLOAD
 #define MAX_PAYLOAD (255U)
@@ -220,7 +220,8 @@ void min_init_context(struct min_context *self, void * context);
 // Debug print
 void min_debug_print(const char *msg, ...);
 #else
-#define min_debug_print(...) printf(__VA_ARGS__)
+#define min_debug_print(...)
+//printf(__VA_ARGS__)
 #endif
 
 

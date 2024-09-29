@@ -12,58 +12,12 @@
 #include "daqthread.h"
 #include "../serverobject.h"
 #include <Common/plugin.h>
-#include <Common/Daq/minp2pserial.h>
-#include <MrlLib/modbusServer.h>
-//
-wxThread::ExitCode MRL::CommsThread::Entry()
-{
-    try
-    {
-        while( !GetThread()->TestDestroy() && !_stopThread)
-        {
-            // Drive the comms layers
-            MRL::MinP2PSerial::pollAll(); // this is the Point to point serial networking for talking to microcontroller boards
-            MRL::ModbusServer::pollAll(); // drive any Modbus servers
-            wxThread::Sleep(5); // let other stuff run
-        }
-    }
-    catch(std::exception &e)
-    {
-        EXCEPT_TRC;
-    }
-    catch (...) {
-        EXCEPT_DEF;
-    }
-    wxLogDebug("Exit Comms Thread");
-    return wxThread::ExitCode(nullptr);
-}
-
-
-void MRL::CommsThread::start()
-{
-    wxLogDebug("Start DAQ Thread");
-    try
-    {
-        _stopThread = false;
-        CreateThread();
-        GetThread()->SetPriority(wxPRIORITY_DEFAULT / 2); // this thread is not event driven
-        GetThread()->Run();
-    }
-    catch(std::exception &e)
-    {
-        EXCEPT_TRC;
-    }
-    catch (...) {
-        EXCEPT_DEF;
-    }
-}
 
 
 
 MRL::DaqThread::DaqThread()
 {
     _daq = std::make_unique<Daq>(); //!< create the daq object
-    _comms = std::make_unique<CommsThread>();
     Plugin::initialiseAllDaq(); //!< create objects that connect to the Daq thread
 }
 /*!
@@ -119,11 +73,9 @@ void MRL::DaqThread::start()
     {
         _stopThread = false;
         _daq->start();
-
         CreateThread();
         GetThread()->SetPriority(wxPRIORITY_DEFAULT / 2); // this thread is not event driven
         GetThread()->Run();
-        _comms->start(); // start the comms thread
     }
     catch(std::exception &e)
     {
@@ -142,5 +94,4 @@ void MRL::DaqThread::stop()
 {
     wxLogDebug("Stop DAQ Thread");
     _stopThread = true;
-    _comms->stop();
 }

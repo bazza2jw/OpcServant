@@ -15,6 +15,7 @@
 #include <Common/Opc/opccommon.h>
 #include <Common/Daq/localdb.h>
 #include <Common/Gui/UserConfigurationDialog.h>
+#include <Common/Daq/commsthread.h>
 /*!
     \brief SystemPropertiesDialog::SystemPropertiesDialog
     \param parent
@@ -53,6 +54,9 @@ void SystemPropertiesDialog::setup()
     m_autoPurge->SetValue(_settings.getValue<bool>(p, "AutoPurge"));
     m_showUrlToolbar->SetValue(_settings.getValue<bool>(p, "ShowUrlToolbar"));
     m_dataDirectory->SetValue(_settings.getValue<std::string>(p, "DataDirectory"));
+    m_enableMODBUSTCP->SetValue(_settings.getValue<bool>(p, "EnableModbusTcp"));
+    m_enableP2Pserial->SetValue(_settings.getValue<bool>(p, "EnableP2pSerial"));
+
 
 }
 /*!
@@ -89,6 +93,8 @@ void SystemPropertiesDialog::OnOK(wxCommandEvent & /*event*/) {
     _settings.setValue(p, "OpcPassword", m_opcPassword->GetValueAsString().ToStdString());
     _settings.setValue(p, "ShowUrlToolbar",  m_showUrlToolbar->GetValue().GetBool());
     _settings.setValue(p, "DataDirectory", m_dataDirectory->GetValueAsString().ToStdString());
+    _settings.setValue(p,"EnableModbusTcp",m_enableMODBUSTCP->GetValue().GetBool());
+    _settings.setValue(p,"EnableP2pSerial",m_enableP2Pserial->GetValue().GetBool());
     //
     _settings.save(MRL::Common::instance()->configFileName());
     EndModal(wxID_OK);
@@ -108,6 +114,7 @@ void SystemPropertiesDialog::onFactoryReset(wxCommandEvent &/* event*/) {
         MRL::Common::opc().server().stop(); // get the OPC to stop
         wxThread::Sleep(1000);
         MRL::Daq::instance()->stop(); // stop data collection
+        MRL::CommsThread::stop();
         wxThread::Sleep(1000);
         // reset the database
         MRL::Common::configuration().resetDatabase();

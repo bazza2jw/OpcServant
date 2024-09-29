@@ -23,6 +23,7 @@
 #include "serverobject.h"
 #include <Common/Daq/daq.h>
 #include <Common/Daq/daqcommon.h>
+#include <Common/Daq/commsthread.h>
 //
 #include <Wt/Auth/AuthModel.h>
 #include <Wt/Auth/PasswordService.h>
@@ -47,7 +48,7 @@ bool MRL::BuiApp::OnInit() {
 #endif
         // comment out to enable error message from wx - esp load library errors
 #ifndef TRACE_ON
-       if(!_enableErrorLog) _nullLog.reset(new wxLogNull()); // switches off warning dialogs
+        if(!_enableErrorLog) _nullLog.reset(new wxLogNull()); // switches off warning dialogs
 #endif
 
         STATES::States::initialiseStates();
@@ -127,7 +128,7 @@ bool MRL::BuiApp::OnInit() {
                 // Note if the certificates fail then the server fails and there may be a crash
                 //
                 static const char *avSsl[] = {"OpcServant",
-                                     "--docroot=.;/resources",
+                                              "--docroot=.;/resources",
                                               "--https-address=0.0.0.0",
                                               "--https-port=8082",
                                               "--ssl-certificate=./ssl/server.pem",
@@ -207,6 +208,13 @@ bool MRL::BuiApp::OnInit() {
             //
             // Start the DAQ thread
             TRC("Starting DAQ")
+            {
+                MRL::PropertyPath p;
+                p.push_back("System");
+                bool m =  SETTINGS().getValue<bool>(p,"EnableModbusTcp");
+                bool s =  SETTINGS().getValue<bool>(p,"EnableP2pSerial");
+                MRL::CommsThread::start(s,m);
+            }
             _daqThread->start();
             wxThread::Sleep(100);
             //
@@ -298,12 +306,11 @@ int  MRL::BuiApp::OnExit() {
         }
 
 
-
+        MRL::CommsThread::stop();
         if (_daqThread && _daqThread->GetThread()->IsAlive()) {
+
             _daqThread->stop(); // deletes active objects
-            while (_daqThread->GetThread()->IsRunning()) {
-                wxThread::Sleep(200);
-            }
+            wxThread::Sleep(2000);
         }
         // give a chance for all threads to finish
 
@@ -313,6 +320,7 @@ int  MRL::BuiApp::OnExit() {
         _webThread.reset(nullptr);
         _opcThread.reset(nullptr);
         _daqThread.reset(nullptr);
+
         //
         //
         // close and delete any open top level windows

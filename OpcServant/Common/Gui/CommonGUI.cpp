@@ -76,6 +76,12 @@ SystemPropertiesDialogBase::SystemPropertiesDialogBase(wxWindow* parent, wxWindo
     m_dataDirectory = m_properties->Append(  new wxDirProperty( _("Data Directory"), wxPG_LABEL, _("/usr/local/OpcServant/data")) );
     m_dataDirectory->SetHelpString(wxT(""));
     
+    m_enableP2Pserial = m_properties->Append(  new wxBoolProperty( _("Enable P2P Serial"), wxPG_LABEL, 0) );
+    m_enableP2Pserial->SetHelpString(wxT(""));
+    
+    m_enableMODBUSTCP = m_properties->Append(  new wxBoolProperty( _("Enable MODBUS TCP"), wxPG_LABEL, 0) );
+    m_enableMODBUSTCP->SetHelpString(wxT(""));
+    
     m_pgProp87 = m_properties->Append(  new wxPropertyCategory( _("OPC") ) );
     m_pgProp87->SetHelpString(wxT(""));
     

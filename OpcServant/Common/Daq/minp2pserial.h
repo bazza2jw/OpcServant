@@ -283,6 +283,10 @@ public:
         return _connections.find(s) != _connections.end();
     }
     static void pollAll();
+    static void clear() // clear all data
+    {
+        _connections.clear();
+    }
 
 };
 }

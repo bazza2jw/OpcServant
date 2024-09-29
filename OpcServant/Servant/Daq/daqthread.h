@@ -16,25 +16,6 @@
 
 namespace MRL {
 
-// drive communications
-class CommsThread : public wxThreadHelper {
-         bool _stopThread = false;
-    public:
-         CommsThread() {}
-        /*!
-         * \brief Entry
-         * \return exit code
-         */
-        wxThread::ExitCode Entry();
-        /*!
-         * \brief OnKill
-         */
-        void OnKill() { stop();}
-        void stop() { _stopThread = true;}
-        void start();
-
-};
-
 
 
 /*!
@@ -42,7 +23,6 @@ class CommsThread : public wxThreadHelper {
      */
     class DaqThread : public wxThreadHelper {
              std::unique_ptr<Daq> _daq;
-             std::unique_ptr<CommsThread> _comms;
              bool _stopThread = false;
         public:
             DaqThread();

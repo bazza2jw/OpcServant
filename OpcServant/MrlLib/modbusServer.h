@@ -73,6 +73,12 @@ public:
             p->recieveMessages();
         }
     }
+
+    // close everything
+    static void clear()
+    {
+        _map.clear();
+    }
 private:
     std::string m_host;
     uint16_t m_port = 5000; // not a privileged socket

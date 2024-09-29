@@ -9,7 +9,7 @@ bool MRL::MinP2PSerial::_timerInit = false;
 
 
 
-// map of connections
+// map of connections - do not squirrel pointers. Always fetch by name!
 std::map<std::string,MRL::MinP2PSerial::PTR > MRL::MinP2PSerial::_connections;
 
 void MRL::MinP2PSerial::pollAll()
@@ -106,10 +106,14 @@ uint16_t MRL::MinP2PSerial::tx_space()
  */
 bool MRL::MinP2PSerial::queue_frame(uint8_t min_id, uint8_t const *payload, uint8_t payload_len)
 {
+#ifdef TRANSPORT_PROTOCOL
     WriteLock l(mutex());
 
     // Queue a MIN frame in the transport queue from session layer
     return min_queue_frame(context(), min_id, payload, payload_len);
+#else
+    return false;
+#endif
 }
 
 // Determine if MIN has space to queue a transport frame
@@ -120,8 +124,12 @@ bool MRL::MinP2PSerial::queue_frame(uint8_t min_id, uint8_t const *payload, uint
  */
 bool MRL::MinP2PSerial::queue_has_space_for_frame(uint8_t payload_len)
 {
+#ifdef TRANSPORT_PROTOCOL
     WriteLock l(mutex());
     return min_queue_has_space_for_frame(context(), payload_len);
+#else
+    return false;
+#endif
 }
 /*!
  * \brief send_frame
@@ -147,19 +155,14 @@ void MRL::MinP2PSerial::poll( )
         //
         // Drive Receive
         //
-        uint8_t n =  (uint8_t)read(buf,sizeof(buf));
+        int n =  read(buf,sizeof(buf));
         if(n > 0)
         {
-            min_poll(context(), buf, n);
-            _pollTimer.Start();
+            min_poll(context(), buf, uint8_t(n));
         }
         else
         {
-            if(_pollTimer.Time() > 50)
-            {
-                min_poll(context(), buf, 0);
-                _pollTimer.Start();
-            }
+            min_poll(context(), buf, 0);
         }
         //
         // can we send a pending message(s)
@@ -167,14 +170,25 @@ void MRL::MinP2PSerial::poll( )
         while(!_out.empty())
         {
             FrameElement &e = _out.front();
+#ifdef TRANSPORT_PROTOCOL
+
             if(queue_has_space_for_frame(e._data.size()))
             {
-                send_frame(e._id, e._data.data(), e._data.size());
+                queue_frame(e._id, e._data.data(), e._data.size());
                 {
                     WriteLock l(mutex());
                     _out.pop();
                 }
             }
+
+#else
+            send_frame(e._id, e._data.data(), e._data.size());
+            {
+                WriteLock l(mutex());
+                _out.pop();
+            }
+
+#endif
         }
     }
 }
@@ -182,8 +196,11 @@ void MRL::MinP2PSerial::poll( )
 // Reset the state machine and (optionally) tell the other side that we have done so
 void MRL::MinP2PSerial::transport_reset( bool inform_other_side)
 {
+#ifdef TRANSPORT_PROTOCOL
+
     WriteLock l(mutex());
     min_transport_reset(context(), inform_other_side);
+#endif
 }
 
 

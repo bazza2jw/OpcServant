@@ -40,6 +40,7 @@ set(LIB_SOURCES
     Daq/serialinterface.cpp
     Daq/serialpacket.cpp 
     Daq/localdb.cpp
+    Daq/commsthread.cpp
     MQTT/mqttconnection.cpp 
     togglebutton.cpp 
     VirtualKeypad.cpp
