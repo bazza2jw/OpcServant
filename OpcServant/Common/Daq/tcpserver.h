@@ -4,6 +4,8 @@
 #include <MrlLib/mrllib.h>
 #include <wx/socket.h>
 #include <wx/event.h>
+#include <functional>
+
 namespace MRL {
 
 /*!
@@ -11,11 +13,15 @@ namespace MRL {
  */
 class TCPServer :  public wxSocketServer
 {
+public:
+    typedef std::function<void (wxSocketBase *)> HANDLER;
+private:
     wxEvtHandler * _handler = nullptr;
     wxIPV4address _address;
+    HANDLER _processInput;
+    HANDLER _outputDone;
 public:
     wxEvtHandler * handler() { return _handler;}
-
     /*!
      * \brief The Connection class
      */
@@ -24,7 +30,6 @@ public:
         TCPServer * _parent;
         wxIPV4address _peer;
         wxSocketBase * _socket;
-
     public:
         /*!
          * \brief Connection
@@ -53,10 +58,12 @@ public:
          * \brief onSocketEvent
          * \param pEvent
          */
-        void onSocketEvent(wxSocketEvent& pEvent);
+        virtual void onSocketEvent(wxSocketEvent& pEvent);
     };
 
     std::map<wxSocketBase *,Connection *> _connections;
+    void setProcessInput(HANDLER &f) {_processInput = f;}
+    void setOutputDone(HANDLER &f) { _outputDone = f;}
 
 
     /*!
@@ -82,10 +89,10 @@ public:
      * \brief bind
      * \param handler
      */
-    void bind(wxEvtHandler *h)
+    void bind(wxEvtHandler *h, int id = wxID_ANY)
     {
         _handler = h;
-        SetEventHandler(*_handler);
+        SetEventHandler(*_handler,id);
         SetNotify(wxSOCKET_CONNECTION_FLAG);
         Notify(true);
     }
@@ -93,7 +100,7 @@ public:
      * \brief OnSocketEvent
      * \param pEvent
      */
-    void OnSocketEvent(wxSocketEvent& pEvent);
+    virtual void OnSocketEvent(wxSocketEvent& pEvent);
     /*!
      * \brief remove
      * \param c

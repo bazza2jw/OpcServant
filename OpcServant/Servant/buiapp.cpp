@@ -307,7 +307,7 @@ int  MRL::BuiApp::OnExit() {
 
 
         MRL::CommsThread::stop();
-        if (_daqThread && _daqThread->GetThread()->IsAlive()) {
+        if (_daqThread) {
 
             _daqThread->stop(); // deletes active objects
             wxThread::Sleep(2000);

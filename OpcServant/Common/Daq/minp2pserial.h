@@ -104,6 +104,7 @@ public:
                 RECEIVEFN &f = _callbacks[e._id];
                 f(e._data.data(),e._data.size()); // invoke callback
             }
+            if( _received.size() > 0)
             {
                 WriteLock l(_mutex);
                 _received.pop();

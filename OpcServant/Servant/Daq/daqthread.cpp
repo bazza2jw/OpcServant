@@ -35,7 +35,7 @@ wxThread::ExitCode MRL::DaqThread::Entry()
             {
                 timer.Start();
                 _daq->process();
-                while(timer.Time() < 20) // aim for a 20ms step
+                while((timer.Time() < 20) && !_stopThread) // aim for a 20ms step
                 {
                     wxThread::Sleep(5); // let other stuff run
                 }
@@ -94,4 +94,5 @@ void MRL::DaqThread::stop()
 {
     wxLogDebug("Stop DAQ Thread");
     _stopThread = true;
+    GetThread()->Pause();
 }

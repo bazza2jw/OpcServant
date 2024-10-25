@@ -52,6 +52,7 @@ void MRL::TCPServer::OnSocketEvent(wxSocketEvent& pEvent)
         switch(pEvent.GetSocketEvent())
         {
         case wxSOCKET_INPUT:
+            if()
             wxLogError("Unexpected wxSOCKET_INPUT in wxSocketServer");
             break;
         case wxSOCKET_OUTPUT:
@@ -105,8 +106,10 @@ void MRL::TCPServer::Connection::onSocketEvent(wxSocketEvent& pEvent)
     {
     case wxSOCKET_INPUT:
         // process input
+        if(_parent->_processInput) _parent->_processInput(_socket);
         break;
     case wxSOCKET_OUTPUT:
+        if(_parent->_outputDone) _parent->_outputDone(_socket);
         break;
     case wxSOCKET_CONNECTION:
         break;
