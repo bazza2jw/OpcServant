@@ -24,6 +24,7 @@
 #include <Common/Daq/daq.h>
 #include <Common/Daq/daqcommon.h>
 #include <Common/Daq/commsthread.h>
+#include <wx/socket.h>
 //
 #include <Wt/Auth/AuthModel.h>
 #include <Wt/Auth/PasswordService.h>
@@ -51,6 +52,7 @@ bool MRL::BuiApp::OnInit() {
         if(!_enableErrorLog) _nullLog.reset(new wxLogNull()); // switches off warning dialogs
 #endif
 
+        wxSocketBase::Initialize();
         STATES::States::initialiseStates();
         //
         if (Common::initialise())
@@ -213,7 +215,11 @@ bool MRL::BuiApp::OnInit() {
                 p.push_back("System");
                 bool m =  SETTINGS().getValue<bool>(p,"EnableModbusTcp");
                 bool s =  SETTINGS().getValue<bool>(p,"EnableP2pSerial");
-                MRL::CommsThread::start(s,m);
+                if(m || s)
+                {
+                    _commsThread = std::make_unique<MRL::CommsThread>(s,m);
+                    _commsThread->start();
+                }
             }
             _daqThread->start();
             wxThread::Sleep(100);
@@ -289,38 +295,20 @@ bool MRL::BuiApp::OnCmdLineParsed(wxCmdLineParser &parser) {
 int  MRL::BuiApp::OnExit() {
     wxLogDebug("OnExit()");
     try {
+        //
+        // Stop all threads
+        //
         // Shutdown Web
         if (_webThread && _webThread->isRunning()) {
             _webThread->stop();
             while (_webThread->isRunning()) {
-                wxThread::Sleep(100);
+                wxMilliSleep(100);
             }
         }
-
-
-        if (_opcThread && _opcThread->GetThread()->IsAlive()) {
-            _opcThread->stop();
-            while (_opcThread->GetThread()->IsRunning()) {
-                wxThread::Sleep(100);
-            }
-        }
-
-
-        MRL::CommsThread::stop();
-        if (_daqThread) {
-
-            _daqThread->stop(); // deletes active objects
-            wxThread::Sleep(2000);
-        }
-        // give a chance for all threads to finish
-
         //
-        // dead threads should not be deleted on exit
-        //
-        _webThread.reset(nullptr);
-        _opcThread.reset(nullptr);
-        _daqThread.reset(nullptr);
-
+        _opcThread->stop();
+        _daqThread->stop(); // deletes active objects
+        _commsThread->stop();
         //
         //
         // close and delete any open top level windows
@@ -342,6 +330,13 @@ int  MRL::BuiApp::OnExit() {
         Plugin::terminateAll(); // unload plugins
         Plugin::clear(); // release plugins
         //Common::clear(); // delete all singletons
+        //
+        // dead threads should not be deleted on exit
+        //
+        _webThread.reset(nullptr);
+        _opcThread.reset(nullptr);
+        _commsThread.reset(nullptr);
+        _daqThread.reset(nullptr);
     }
     catch (std::exception &e) {
         EXCEPT_TRC;
@@ -351,6 +346,7 @@ int  MRL::BuiApp::OnExit() {
     }
 
     //
+    wxSocketBase::Shutdown();
     //
     if(_shutdownOnExit) wxShutdown();
     //

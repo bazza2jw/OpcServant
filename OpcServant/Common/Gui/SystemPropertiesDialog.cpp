@@ -114,7 +114,6 @@ void SystemPropertiesDialog::onFactoryReset(wxCommandEvent &/* event*/) {
         MRL::Common::opc().server().stop(); // get the OPC to stop
         wxThread::Sleep(1000);
         MRL::Daq::instance()->stop(); // stop data collection
-        MRL::CommsThread::stop();
         wxThread::Sleep(1000);
         // reset the database
         MRL::Common::configuration().resetDatabase();

@@ -23,6 +23,7 @@ set(LIB_SOURCES
     scaleoffset.cpp
     luascript.cpp
     modbusServer.cpp
+    threadHelper.cpp
         )
 
 add_library(${MODULE} SHARED ${LIB_SOURCES})

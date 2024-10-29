@@ -74,7 +74,7 @@ set(Boost_USE_STATIC_LIBS OFF)
 set(Boost_USE_MULTITHREADED ON)  
 set(Boost_USE_STATIC_RUNTIME OFF) 
 
-find_package(Boost REQUIRED COMPONENTS system thread program_options)
+find_package(Boost REQUIRED COMPONENTS  system thread program_options)
 
 # add boost to target
 if(Boost_FOUND)
@@ -112,7 +112,7 @@ include_directories(/usr/local/include/open62541cpp)
 # Enable the GUI build
 add_definitions(-DUSE_GUI )
 add_definitions(-DUSE_WT)
-set(EXTRA_LIB_FLAGS open62541cpp sqlite3 mysqlpp modbus mosquittopp socket++ atomic pthread rt m lua5.3)
+set(EXTRA_LIB_FLAGS open62541cpp sqlite3 mysqlpp modbus mosquittopp socket++ atomic pthread rt m lua5.3 )
 
 
 

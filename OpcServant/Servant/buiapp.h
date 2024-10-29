@@ -21,6 +21,7 @@
 #include "Opc/opcthread.h"
 #include "Daq/daqthread.h"
 #include "serverobject.h"
+#include "Common/Daq/commsthread.h"
 
 class Mainframe;
 namespace MRL {
@@ -72,6 +73,7 @@ namespace MRL {
             std::unique_ptr<Wt::WServer> _webThread; //! Web server thread
             std::unique_ptr<OpcThread> _opcThread;  //! OPC server thread
             std::unique_ptr<DaqThread> _daqThread;  //! Data collection / control thread
+            std::unique_ptr<CommsThread> _commsThread; // P2P and MODBUS comms
             std::unique_ptr<wxLogNull> _nullLog;
             std::unique_ptr<LastActivityTimeDetector> _inactivity; // detect keystokes and mouse presses
             Mainframe *_mainFrame = nullptr;

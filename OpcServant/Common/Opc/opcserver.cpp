@@ -22,10 +22,9 @@
     \param p
     \param certificate
 */
-MRL::OpcServer::OpcServer(int port, wxThreadHelper *thread) :
+MRL::OpcServer::OpcServer(int port) :
     Open62541::Server(port),
     _handler(*this),
-    _thread(thread),
     _historian(nullptr) { // not enabled
     MRL::PropertyPath p;
     p.push_back("System");
@@ -96,14 +95,7 @@ void MRL::OpcServer::initialise() {
     \brief MRL::OpcServer::process
 */
 void MRL::OpcServer::process() {
-    if (running()) {
-        if (_thread && _thread->GetThread()->TestDestroy()) {
-            stop();
-        }
-        else {
             _handler.process(); // process message queue
-        }
-    }
 }
 
 /*!

@@ -1,123 +1,27 @@
 #include "tcpserver.h"
 
-#include <MrlLib/mrllib.h>
-#include "wx/wx.h"
-#include "wx/socket.h"
-#include "wx/event.h"
 
-const char *GetSocketErrorMsg(int pSockError)
+
+void MRL::TcpConnectionBase::process()
 {
-    switch(pSockError)
+    if(socket()->IsConnected())
     {
-    case wxSOCKET_NOERROR:
-        return "wxSOCKET_NOERROR";
-
-    case wxSOCKET_INVOP:
-        return "wxSOCKET_INVOP";
-
-    case wxSOCKET_IOERR:
-        return "wxSOCKET_IOERR";
-
-    case wxSOCKET_INVADDR:
-        return "wxSOCKET_INVADDR";
-
-    case wxSOCKET_NOHOST:
-        return "wxSOCKET_NOHOST";
-
-    case wxSOCKET_INVPORT:
-        return "wxSOCKET_INVPORT";
-
-    case wxSOCKET_WOULDBLOCK:
-        return "wxSOCKET_WOULDBLOCK";
-
-    case wxSOCKET_TIMEDOUT:
-        return "wxSOCKET_TIMEDOUT";
-
-    case wxSOCKET_MEMERR:
-        return "wxSOCKET_MEMERR";
-
-    default:
-        return "Unknown";
-    }
-}
-
-/*!
- * \brief MRL::TCPServer::OnSocketEvent
- * \param pEvent
- */
-void MRL::TCPServer::OnSocketEvent(wxSocketEvent& pEvent)
-{
-    if(pEvent.GetSocket() == this)
-    {
-        switch(pEvent.GetSocketEvent())
+        uint8_t b[256]; // read a chunk
+        socket()->Read(b,(sizeof(b) - 1));
+        wxUint32 n = socket()->LastReadCount();
+        if(n > 0)
         {
-        case wxSOCKET_INPUT:
-            if()
-            wxLogError("Unexpected wxSOCKET_INPUT in wxSocketServer");
-            break;
-        case wxSOCKET_OUTPUT:
-            wxLogError("Unexpected wxSOCKET_OUTPUT in wxSocketServer");
-            break;
-        case wxSOCKET_CONNECTION:
-        {
-            wxSocketBase* sock = Accept();
-            wxIPV4address addr;
-            if (sock && sock->GetPeer(addr))
-            {
-                wxLogMessage("Got connection from %s:%d",addr.IPAddress(), addr.Service());
-                _connections[sock] = new Connection(this,sock);
-            }
-            else
-            {
-                wxLogMessage("Connect Socket Error");
-            }
-        }
-        break;
-        case wxSOCKET_LOST:
-            wxLogError("Unexpected wxSOCKET_LOST in wxSocketServer");
-            break;
+            b[n] = 0;
+            dataReady(b, uint32_t(n));
         }
     }
     else
     {
-        Connection *c = _connections[pEvent.GetSocket()];
-        if(c)
+        if(! _disconnected)
         {
-            if(pEvent.GetSocketEvent() == wxSOCKET_LOST)
-            {
-                _connections.erase(pEvent.GetSocket());
-                delete c;
-            }
-            else
-            {
-                c->onSocketEvent(pEvent);
-            }
+            _disconnected = true;
+            disconnect(); // call the disconnect event handler
+            parent()->remove(socket()); // queue delete the handler
         }
     }
 }
-
-/*!
- * \brief MRL::TCPServer::OnConnectionEvent
- * \param pEvent
- */
-void MRL::TCPServer::Connection::onSocketEvent(wxSocketEvent& pEvent)
-{
-    switch(pEvent.GetSocketEvent())
-    {
-    case wxSOCKET_INPUT:
-        // process input
-        if(_parent->_processInput) _parent->_processInput(_socket);
-        break;
-    case wxSOCKET_OUTPUT:
-        if(_parent->_outputDone) _parent->_outputDone(_socket);
-        break;
-    case wxSOCKET_CONNECTION:
-        break;
-    case wxSOCKET_LOST:
-        // request delete
-        delete this; // self delete - removes from parent
-        break;
-    }
-}
-
-

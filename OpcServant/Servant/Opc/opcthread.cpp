@@ -22,7 +22,7 @@ MRL::OpcThread::OpcThread()
     p.push_back("System");
 
     std::string port = MRL::SETTINGS().getValue<std::string>(p, "OpcPort");
-    _opc = std::make_unique<OpcServer>(std::atoi(port.c_str()), this);
+    _opc = std::make_unique<OpcServer>(std::atoi(port.c_str()));
     Common::opc().setServer(_opc.get());
 }
 
@@ -34,56 +34,5 @@ MRL::OpcThread::~OpcThread()
     Common::opc().setServer(nullptr);
 }
 
-/*!
- * \brief Entry
- * \return exit code
- */
-wxThread::ExitCode MRL::OpcThread::Entry()
-{
-    try
-    {
-        if(_opc)
-        {
-            // get the OPC configuration
-            _opc->start(); // run the OPC server
-        }
-    }
-    catch(std::exception &e)
-    {
-        EXCEPT_TRC;
-    }
-    catch (...) {
-        EXCEPT_DEF;
-    }
 
-    return wxThread::ExitCode(0);
-}
 
-/*!
- * \brief OnKill
- */
-void MRL::OpcThread::OnKill()
-{
-    stop();
-}
-
-/*!
- * \brief start
- * Start the thread
- */
-void MRL::OpcThread::start()
-{
-   TRC("Start OPC Thread");
-    CreateThread();
-    GetThread()->Run();
-}
-
-/*!
- * \brief stop
- * Stop the thread
- */
-void MRL::OpcThread::stop()
-{
-    TRC("Stop OPC Thread");
-    _opc->stop();
-}

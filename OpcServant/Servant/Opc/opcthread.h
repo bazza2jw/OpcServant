@@ -11,38 +11,32 @@
  */
 #ifndef OPCTHREAD_H
 #define OPCTHREAD_H
-
-#include <MrlLib/mrllib.h>
 #include <Common/Opc/opcserver.h>
+#include <MrlLib/threadHelper.h>
+
 namespace MRL {
 /*!
      * \brief The OpcThread class
      */
-    class OpcThread : public wxThreadHelper {
+    class OpcThread : public ThreadHelper {
             std::unique_ptr<OpcServer> _opc; //!< opc server
         public:
             OpcThread();
             ~OpcThread();
+            virtual void begin()
+            {
+                if(_opc) _opc->start(); // runs the OPC loop in the thread
+            }
+            virtual void end()
+            {
+                if(_opc) _opc->stop();
+            }
+            virtual void stop()
+            {
+                if(_opc) _opc->stop(); // mark to stop OPC
+                ThreadHelper::stop(); // stop thread and join
+            }
 
-            /*!
-             * \brief Entry
-             * \return exit code
-             */
-            wxThread::ExitCode Entry();
-            /*!
-             * \brief OnKill
-             */
-            void OnKill();
-            /*!
-             * \brief start
-             * Start the thread
-             */
-            void start();
-            /*!
-             * \brief stop
-             * Stop the thread
-             */
-            void stop();
     };
 }
 #endif // OPCTHREAD_H

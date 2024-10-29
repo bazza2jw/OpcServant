@@ -13,7 +13,8 @@
 #define DAQTHREAD_H
 #include <MrlLib/mrllib.h>
 #include <Common/Daq/daq.h>
-
+#include <MrlLib/threadHelper.h>
+#include <Common/plugin.h>
 namespace MRL {
 
 
@@ -21,30 +22,26 @@ namespace MRL {
 /*!
      * \brief The DaqThread class
      */
-    class DaqThread : public wxThreadHelper {
+    class DaqThread : public ThreadHelper {
              std::unique_ptr<Daq> _daq;
-             bool _stopThread = false;
         public:
-            DaqThread();
-            /*!
-             * \brief Entry
-             * \return exit code
-             */
-            wxThread::ExitCode Entry();
-            /*!
-             * \brief OnKill
-             */
-            void OnKill();
-            /*!
-             * \brief start
-             * Start the thread
-             */
-            void start();
-            /*!
-             * \brief stop
-             * Stop the thread
-             */
-            void stop();
+            DaqThread()
+            {
+                _daq = std::make_unique<Daq>(); //!< create the daq object
+                Plugin::initialiseAllDaq(); //!< create objects that connect to the Daq thread
+            }
+
+            //
+            virtual void begin()
+            {
+                if(_daq) _daq->start();
+            }
+            virtual void end()
+            {
+                if(_daq) _daq->stop();
+            }
+            virtual void process(); // sleep
+
     };
 
 

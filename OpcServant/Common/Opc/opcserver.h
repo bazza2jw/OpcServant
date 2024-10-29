@@ -4,6 +4,7 @@
 #include <Common/messages.h>
 #include <Common/bobject.h>
 #include <open62541cpp/historydatabase.h>
+#include <MrlLib/threadHelper.h>
 
 namespace MRL {
     class OpcServer;
@@ -49,8 +50,6 @@ namespace MRL {
             //
             OpcServerHandler _handler; // message handler
             //
-            wxThreadHelper * _thread = nullptr; // the owning thread
-            //
             std::unique_ptr<Open62541::MemoryHistorian> _historian; // the history database
             //
             int _port = 4840;
@@ -64,7 +63,7 @@ namespace MRL {
              * \brief OpcServer
              * \param thread
              */
-            OpcServer(int port = 4840, wxThreadHelper * thread = nullptr);
+            OpcServer(int port = 4840);
             // destructor
             ~OpcServer();
 
@@ -115,14 +114,6 @@ namespace MRL {
                 return _handler;
             }
 
-            /*!
-             * \brief setThread
-             * \param t
-             */
-            void setThread(wxThreadHelper *t)
-            {
-                _thread = t;
-            }
 
             /*!
              * \brief historian
