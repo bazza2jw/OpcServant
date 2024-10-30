@@ -6,9 +6,13 @@
 #include <functional>
 
 namespace MRL {
+/*!
+ * \brief The ThreadHelper class
+ * This is thread wrapper class - threads are created with start()
+ */
 class ThreadHelper
 {
-    bool _run = false;
+    volatile bool _run = false;
     std::unique_ptr<std::thread> _thread;
 public:
     ThreadHelper() {}
@@ -23,14 +27,19 @@ public:
     virtual void begin() {}
     virtual void end() {}
     virtual void process();
+    virtual bool running() const { return _run;}
     //
+    /*!
+     * \brief run
+     * This is the thread function code
+     */
     void run()
     {
         try
         {
-            begin();
-            while(_run) process();
-            end();
+            begin(); // call once on starting in thread context
+            while(running()) process(); // process must return so the thread can be killed cleanly or it must query _run
+            end(); // call once on finish in thread context
         }
         catch(std::exception &e)
         {
@@ -45,11 +54,11 @@ public:
     {
         try
         {
-            if(!_run)
+            if(!running())
             {
                 _run = true;
                 auto f = [this] { run();};
-                _thread.reset(0);
+                _thread.reset(0); // delete old thread, if any
                 _thread = std::make_unique<std::thread>(f);
             }
         }
@@ -66,10 +75,10 @@ public:
     {
         try
         {
-            if(_run)
+            if(running())
             {
                 _run = false;
-                this->sleep(10);
+                this->sleep(1);
                 if(_thread && _thread->joinable())
                 {
                     _thread->join();

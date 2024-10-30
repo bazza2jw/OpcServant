@@ -1,13 +1,10 @@
 #ifndef TCPSERVER_H
 #define TCPSERVER_H
-#include <MrlLib/mrllib.h>
 #include <MrlLib/threadHelper.h>
-#include <iostream>
-#include <functional>
 #include <wx/socket.h>
 #include <queue>
 
-// Based on github.com/alejandrofsevilla/boost-tcp-server-client
+
 namespace MRL {
 
 class TcpServer;
@@ -29,7 +26,7 @@ class TcpConnectionBase  {
 
   TcpServer * parent() const { return _parent;}
 
-  wxUint32 write(void *data, wxUint32 len)
+  wxUint32 write(const void *data, wxUint32 len)
   {
       wxUint32 ret = 0;
       if(socket())
@@ -98,6 +95,8 @@ public:
     _connections.clear();
   }
 
+  wxIPV4address &address() { return  _address;}
+
   void start()
   {
       _server.reset(0);
@@ -128,7 +127,7 @@ public:
   }
 
 
-  void process()
+  virtual void process()
   {
       // is there anything to accept
       wxSocketBase *s = _server->Accept(false); // do not block
