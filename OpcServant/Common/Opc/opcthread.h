@@ -22,7 +22,7 @@ namespace MRL {
             std::unique_ptr<OpcServer> _opc; //!< opc server
         public:
             OpcThread();
-            ~OpcThread();
+            virtual ~OpcThread();
             virtual void begin()
             {
                 if(_opc) _opc->start(); // runs the OPC loop in the thread

@@ -6,7 +6,6 @@ set(CMAKE_CXX_STANDARD 17)
 set(LIB_SOURCES
     main.cpp 
     buiapp.cpp 
-    Opc/opcthread.cpp 
     Web/buiwebapplication.cpp 
     Web/buiwebmessagepane.cpp 
     Web/bwebnavigationtree.cpp 
@@ -14,7 +13,6 @@ set(LIB_SOURCES
     Web/websystempropertiesdialog.cpp
     Web/bwebadminpane.cpp
     Web/buiwebuserpage.cpp
-    Daq/daqthread.cpp 
     serverobject.cpp
     Gui/BUI.cpp 
     Gui/BUI_bui_bitmaps.cpp 

@@ -215,14 +215,19 @@ bool MRL::BuiApp::OnInit() {
                 p.push_back("System");
                 bool m =  SETTINGS().getValue<bool>(p,"EnableModbusTcp");
                 bool s =  SETTINGS().getValue<bool>(p,"EnableP2pSerial");
-                if(m || s)
+                if( s)
                 {
-                    _commsThread = std::make_unique<MRL::CommsThread>(s,m);
+                    _commsThread = std::make_unique<MRL::CommsThread>();
                     _commsThread->start();
+                }
+                if(m)
+                {
+                    _modbusThread = std::make_unique<MRL::ModbusThread>();
+                    _modbusThread->start();
                 }
             }
             _daqThread->start();
-            wxThread::Sleep(100);
+            wxMilliSleep(100);
             //
             MRL::Common::display().syncWithDatabase(MRL::Common::configuration()); // initial set up of models from configuration
             //
@@ -306,9 +311,10 @@ int  MRL::BuiApp::OnExit() {
             }
         }
         //
-        _opcThread->stop();
-        _daqThread->stop(); // deletes active objects
-        _commsThread->stop();
+        if(_opcThread) _opcThread->stop();
+        if(_daqThread) _daqThread->stop(); // deletes active objects
+        if(_commsThread)  _commsThread->stop();
+        if(_modbusThread) _modbusThread->stop();
         //
         //
         // close and delete any open top level windows
@@ -329,13 +335,14 @@ int  MRL::BuiApp::OnExit() {
         ObjectManager::imageList().RemoveAll();
         Plugin::terminateAll(); // unload plugins
         Plugin::clear(); // release plugins
+        //
         //Common::clear(); // delete all singletons
         //
-        // dead threads should not be deleted on exit
         //
         _webThread.reset(nullptr);
         _opcThread.reset(nullptr);
         _commsThread.reset(nullptr);
+        _modbusThread.reset(nullptr);
         _daqThread.reset(nullptr);
     }
     catch (std::exception &e) {

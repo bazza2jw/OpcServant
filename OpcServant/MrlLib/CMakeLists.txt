@@ -22,7 +22,6 @@ set(LIB_SOURCES
     i2cinterface.cpp
     scaleoffset.cpp
     luascript.cpp
-    modbusServer.cpp
     threadHelper.cpp
         )
 

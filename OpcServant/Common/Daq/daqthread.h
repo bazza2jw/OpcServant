@@ -11,9 +11,8 @@
  */
 #ifndef DAQTHREAD_H
 #define DAQTHREAD_H
-#include <MrlLib/mrllib.h>
-#include <Common/Daq/daq.h>
 #include <MrlLib/threadHelper.h>
+#include <Common/Daq/daq.h>
 #include <Common/plugin.h>
 namespace MRL {
 
@@ -38,7 +37,7 @@ namespace MRL {
             }
             virtual void end()
             {
-                if(_daq) _daq->stop();
+
             }
             virtual void process(); // sleep
 

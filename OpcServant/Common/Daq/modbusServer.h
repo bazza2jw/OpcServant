@@ -1,7 +1,7 @@
 #ifndef MODBUSSERVER_H
 #define MODBUSSERVER_H
 
-
+#include <MrlLib/mrlmutex.h>
 #include <iostream>
 #include <thread>
 #include <stdlib.h>
@@ -25,7 +25,7 @@
 #include <arpa/inet.h>
 #include <sys/socket.h>
 #include <sys/time.h>
-#include <sys/select.h>
+#include <poll.h>
 #endif
 
 
@@ -39,13 +39,16 @@ namespace MRL
  */
 class ModbusServer
 {
-    static std::map<uint16_t ,ModbusServer *> _map;
+    static std::map<uint16_t,ModbusServer *> _map;
+    static MRL::ReadWriteMutex _mutex;
+
+
 public:
     ModbusServer(std::string host="0.0.0.0", uint16_t port=502,int numBits = 100, int numInputBits = 100, int numRegisters = 100, int numInputRegisters = 100);
     ~ModbusServer();
 
 public:
-    void recieveMessages();
+    void receiveMessages();
     bool modbus_set_slave_id(int id);
     bool initModbus(bool debugging = false);
 
@@ -64,25 +67,32 @@ public:
     bool setInputRegisterValue(int registerNumber, float Value);
     bool setInputRegisterValue(int registerNumber, uint32_t Value);
     //
-    static ModbusServer * find(uint16_t i) { return _map[i];}
+    static ModbusServer * find(uint16_t i) {
+        return _map[i];
+    }
     static void pollAll()
     {
-        for(auto const &i : _map)
+        ReadLock l(_mutex);
         {
-            ModbusServer *p = const_cast<ModbusServer *>(i.second);
-            p->recieveMessages();
+            for(auto const &i : _map)
+            {
+                ModbusServer *p;
+                p = const_cast<ModbusServer *>(i.second);
+                if(p ) p->run();
+            }
         }
     }
 
     // close everything
     static void clear()
     {
+        WriteLock l(_mutex);
         _map.clear();
     }
 private:
     std::string m_host;
     uint16_t m_port = 5000; // not a privileged socket
-    std::mutex slavemutex;
+    MRL::ReadWriteMutex slavemutex;
     int m_errCount{ 0 };
     int m_modbusSocket{ -1 };
     bool m_initialized{ false };
@@ -94,11 +104,27 @@ private:
     int m_numRegisters {0};
     int m_numInputRegisters {0};
     bool _running = false;
+    //
+    // Used in the receive loop
+    bool _debugging = false;
+    std::set<int> _fdSet; // set of fds
 
 public:
     void run();
-    bool ok() { return ctx && mapping; }
-    void stop() { _running = false;}
+    bool running() const {
+        return _running;
+    }
+    bool ok() {
+        return ctx && mapping;
+    }
+    void stop()
+    {
+        _running = false;
+    }
+    void start()
+    {
+        _running = true;
+    }
 };
 
 

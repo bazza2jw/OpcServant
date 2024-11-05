@@ -78,7 +78,7 @@ public:
             if(running())
             {
                 _run = false;
-                this->sleep(1);
+                this->sleep(10);
                 if(_thread && _thread->joinable())
                 {
                     _thread->join();

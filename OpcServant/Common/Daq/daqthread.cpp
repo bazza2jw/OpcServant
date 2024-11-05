@@ -10,14 +10,15 @@
  * A PARTICULAR PURPOSE.
  */
 #include "daqthread.h"
-#include "../serverobject.h"
-#include <Common/plugin.h>
 
 
 void MRL::DaqThread::process()
 {
-    _daq->process();
-    this->sleep(5.0);
+    if(running() && _daq->started())
+    {
+        _daq->process();
+        this->sleep(5.0);
+    }
 }
 
 

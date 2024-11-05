@@ -3,18 +3,47 @@
 
 #include <MrlLib/threadHelper.h>
 #include <Common/Daq/daq.h>
+#include <Common/Daq/minp2pserial.h>
+#include <Common/Daq/modbusServer.h>
 
 
 namespace MRL
 {
-// drive communications
+
+
+// drive P2P communication
 class CommsThread : public ThreadHelper {
-    bool _runP2p = false; // do we run these interfaces
-    bool _runModbus = false;
 public:
-    CommsThread(bool runP2P = false, bool runModbus = false) : _runP2p(runP2P),_runModbus(runModbus) {}
-    virtual void process();
+    CommsThread()  {}
+    virtual void process()
+    {
+        try
+        {
+            MRL::MinP2PSerial::pollAll();
+            this->sleep(5.0);
+        }
+        CATCH_DEF
+
+    }
 };
+
+// drive modbus comms
+class ModbusThread : public ThreadHelper {
+public:
+    ModbusThread() {}
+    virtual void process()
+    {
+        try
+        {
+            MRL::ModbusServer::pollAll();
+        }
+        CATCH_DEF
+
+    }
+};
+
+
+
 
 }
 

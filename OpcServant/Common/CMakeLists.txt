@@ -104,6 +104,9 @@ set(LIB_SOURCES
     Daq/tcpserver.cpp
     Daq/min.c
     Daq/minp2pserial.cpp
+    Daq/daqthread.cpp
+    Opc/opcthread.cpp
+    Daq/modbusServer.cpp
         )
 
 set(PROJECT_LIB_FLAGS  MrlLib)

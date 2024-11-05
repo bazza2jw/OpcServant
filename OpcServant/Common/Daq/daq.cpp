@@ -128,7 +128,7 @@ void MRL::Daq::start() {
 */
 void MRL::Daq::stop() {
     BObject::stop();
-    wxThread::Sleep(1); // allow the DAQ thread to finish
+    wxMilliSleep(100); // allow the DAQ thread to finish
     try {
         DataNodeIdMap &m = Common::configuration().idMap(); // get the configuration
         for (auto i = m.begin(); i != m.end(); i++) {

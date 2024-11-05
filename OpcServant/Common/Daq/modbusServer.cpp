@@ -7,6 +7,7 @@ typedef int socklen_t;
 
 // map of modbus servers
 std::map<uint16_t,MRL::ModbusServer *> MRL::ModbusServer::_map;
+MRL::ReadWriteMutex MRL::ModbusServer::_mutex;
 
 
 
@@ -19,24 +20,31 @@ std::map<uint16_t,MRL::ModbusServer *> MRL::ModbusServer::_map;
  */
 bool MRL::ModbusServer::initModbus(bool debugging )
 {
+    WriteLock l(slavemutex);
+    m_initialized = false;
+    _debugging = debugging;
     ctx = modbus_new_tcp(m_host.c_str(), m_port);
-    if (ctx)
+    if (!ctx)
     {
         throw std::runtime_error("There was an error allocating the modbus" );
     }
     modbus_set_debug(ctx, debugging);
     m_modbusSocket = modbus_tcp_listen(ctx, 1);
+    if(m_modbusSocket < 1)
+    {
+        throw std::runtime_error("Failed to create listening socket" );
+    }
+    _fdSet.clear();
 
-    mapping = modbus_mapping_new(m_numBits, m_numInputBits, m_numInputRegisters, m_numRegisters);
+    mapping = modbus_mapping_new(m_numBits, m_numInputBits,m_numRegisters, m_numInputRegisters );
     if (mapping == NULL)
     {
-        std::cerr << "Unable to assign mapping：" <<  modbus_strerror(errno) << std::endl;
         modbus_free(ctx);
         //
-        m_initialized = false;
         throw std::runtime_error("There was an error allocating the mapping" );
-        return false;
     }
+    //
+    //
     m_initialized = true;
     return true;
 }
@@ -53,13 +61,17 @@ MRL::ModbusServer::ModbusServer(std::string host, uint16_t port, int numBits, in
     m_numRegisters(numRegisters),
     m_numInputRegisters(numInputRegisters)
 {
-    _map[m_port] = this;
+    {
+        WriteLock l(_mutex);
+        _map[m_port] = this;
+    }
 }
 /*!
  * \brief MRL::ModbusServer::~ModbusServer
  */
 MRL::ModbusServer::~ModbusServer()
 {
+    WriteLock l(slavemutex);
     if(mapping)
     {
         modbus_mapping_free(mapping);
@@ -71,34 +83,22 @@ MRL::ModbusServer::~ModbusServer()
         modbus_free(ctx);
         ctx = nullptr;
     }
-    _map.erase(m_port);
+    {
+        WriteLock l(_mutex);
+        _map.erase(m_port);
+    }
 }
 
 /*!
  * \brief MRL::ModbusServer::run
+ *  The loop - wrap with a thread for a
  */
 void MRL::ModbusServer::run()
 {
-    if(!_running)
+    if (m_initialized)
     {
-        _running = true;
-        std::thread loop([this]()
-        {
-            while (_running)
-            {
-                if (m_initialized)
-                {
-                    recieveMessages();
-                }
-                else
-                {
-                    m_initialized = true;
-                }
-            }
-        });
-        loop.detach();
+        receiveMessages();
     }
-    return;
 }
 /*!
  * \brief MRL::ModbusServer::modbus_set_slave_id
@@ -107,6 +107,7 @@ void MRL::ModbusServer::run()
  */
 bool MRL::ModbusServer::modbus_set_slave_id(int id)
 {
+    WriteLock l(slavemutex);
     int rc = modbus_set_slave(ctx, id);
     if (rc == -1)
     {
@@ -123,13 +124,12 @@ bool MRL::ModbusServer::modbus_set_slave_id(int id)
  */
 bool MRL::ModbusServer::setInputRegisterValue(int registerStartaddress, uint16_t Value)
 {
+    WriteLock l(slavemutex);
     if (!mapping || (registerStartaddress > (m_numRegisters - 1)))
     {
         return false;
     }
-    slavemutex.lock();
     mapping->tab_input_registers[registerStartaddress] = Value;
-    slavemutex.unlock();
     return true;
 }
 
@@ -142,7 +142,7 @@ bool MRL::ModbusServer::setInputRegisterValue(int registerStartaddress, uint16_t
 bool MRL::ModbusServer::setInputRegisterValue(int registerStartaddress, uint32_t Value)
 {
     return setInputRegisterValue(registerStartaddress++, uint16_t(Value >> 16)) &&
-    setInputRegisterValue(registerStartaddress, uint16_t(Value & 0xFFFF));
+           setInputRegisterValue(registerStartaddress, uint16_t(Value & 0xFFFF));
 }
 /*!
  * \brief MRL::ModbusServer::setHoldingRegisterValue
@@ -156,9 +156,8 @@ bool MRL::ModbusServer::setHoldingRegisterValue(int registerStartaddress, uint16
     {
         return false;
     }
-    slavemutex.lock();
+    WriteLock l(slavemutex);
     mapping->tab_registers[registerStartaddress] = Value;
-    slavemutex.unlock();
     return true;
 }
 
@@ -179,6 +178,7 @@ uint16_t MRL::ModbusServer::getHoldingRegisterValue(int registerStartaddress)
     {
         return -1;
     }
+    ReadLock l(slavemutex);
     return mapping->tab_registers[registerStartaddress];
 }
 /*!
@@ -193,9 +193,8 @@ bool MRL::ModbusServer::setTab_Input_Bits(int NumBit, uint8_t Value)
     {
         return false;
     }
-    slavemutex.lock();
+    WriteLock l(slavemutex);
     mapping->tab_input_bits[NumBit] = Value;
-    slavemutex.unlock();
     return true;
 }
 /*!
@@ -209,6 +208,7 @@ uint8_t MRL::ModbusServer::getTab_Input_Bits(int NumBit)
     {
         return -1;
     }
+    ReadLock l(slavemutex);
     return mapping->tab_input_bits[NumBit];
 }
 /*!
@@ -223,9 +223,8 @@ bool MRL::ModbusServer::setHoldingRegisterValue(int registerStartaddress, float 
     {
         return false;
     }
-    slavemutex.lock();
+    WriteLock l(slavemutex);
     modbus_set_float(Value, &mapping->tab_registers[registerStartaddress]);
-    slavemutex.unlock();
     return true;
 }
 
@@ -241,9 +240,8 @@ bool MRL::ModbusServer::setInputRegisterValue(int registerStartaddress, float Va
     {
         return false;
     }
-    slavemutex.lock();
+    WriteLock l(slavemutex);
     modbus_set_float(Value, &mapping->tab_input_registers[registerStartaddress]);
-    slavemutex.unlock();
     return true;
 }
 
@@ -259,6 +257,7 @@ float MRL::ModbusServer::getHoldingRegisterFloatValue(int registerStartaddress)
     {
         return -1.0f;
     }
+    ReadLock l(slavemutex);
     return modbus_get_float_badc(&mapping->tab_registers[registerStartaddress]);
 }
 
@@ -268,6 +267,7 @@ uint32_t MRL::ModbusServer::getHoldingRegisterLongValue(int registerStartaddress
     {
         return 0;
     }
+    ReadLock l(slavemutex);
     uint32_t ret = (uint32_t(mapping->tab_registers[registerStartaddress]) << 16) | (uint32_t(mapping->tab_registers[registerStartaddress + 1]));
     return ret;
 }
@@ -276,96 +276,56 @@ uint32_t MRL::ModbusServer::getHoldingRegisterLongValue(int registerStartaddress
 /*!
  * \brief MRL::ModbusServer::recieveMessages
  */
-void MRL::ModbusServer::recieveMessages()
+void MRL::ModbusServer::receiveMessages()
 {
-    uint8_t query[MODBUS_TCP_MAX_ADU_LENGTH];
-    int master_socket;
-    int rc;
-    fd_set refset;
-    fd_set rdset;
-    /* Maximum file descriptor number */
-    int fdmax;
-    /* Clear the reference set of socket */
-    FD_ZERO(&refset);
-    /* Add the server socket */
-    FD_SET(m_modbusSocket, &refset);
-
-    /* Keep track of the max file descriptor */
-    fdmax = m_modbusSocket;
-
-    while( true )
+    WriteLock l(slavemutex);
+    if(m_initialized)
     {
-        rdset = refset;
-        if (select(fdmax+1, &rdset, NULL, NULL, NULL) == -1)
+        // handle pending accepts
+        struct pollfd pfd = {m_modbusSocket, POLLIN,0};
+        if(poll(&pfd,1,0) > 0)
         {
-            std::cerr << "Server select() failure." << std::endl;
-            break;
+            // pending accept
+            socklen_t addrlen;
+            struct sockaddr_in clientaddr;
+            int newfd = 0;
+
+            /* Handle new connections */
+            addrlen = sizeof(clientaddr);
+            memset(&clientaddr, 0, sizeof(clientaddr));
+            newfd = accept(m_modbusSocket, (struct sockaddr *)&clientaddr, &addrlen);
+            if (newfd > 0)
+            {
+                if(_debugging) std::cerr << __FUNCTION__ << " New Connection " << newfd << std::endl;
+                _fdSet.insert(newfd);
+            }
         }
 
-        /* Run through the existing connections looking for data to be
-         * read */
-        for (master_socket = 0; master_socket <= fdmax; master_socket++)
+        // handle requests
+        if(_fdSet.size() > 0)
         {
-            if (!FD_ISSET(master_socket, &rdset))
+            for(const int &i : _fdSet)
             {
-                continue;
-            }
-
-            if (master_socket == m_modbusSocket)
-            {
-                /* A client is asking a new connection */
-                socklen_t addrlen;
-                struct sockaddr_in clientaddr;
-                int newfd;
-
-                /* Handle new connections */
-                addrlen = sizeof(clientaddr);
-                memset(&clientaddr, 0, sizeof(clientaddr));
-                newfd = accept(m_modbusSocket, (struct sockaddr *)&clientaddr, &addrlen);
-                if (newfd == -1)
+                struct pollfd dfd = {i,POLLIN,0};
+                if(poll(&dfd,1,0) > 0)
                 {
-                    std::cerr << "Server accept() error" << std::endl;
-                }
-                else
-                {
-                    FD_SET(newfd, &refset);
-
-                    if (newfd > fdmax)
+                    uint8_t query[MODBUS_TCP_MAX_ADU_LENGTH];
+                    modbus_set_socket(ctx, i);
+                    int rc = modbus_receive(ctx, query);
+                    if (rc > 0)
                     {
-                        /* Keep track of the maximum */
-                        fdmax = newfd;
+
+                        modbus_reply(ctx, query, rc, mapping);
                     }
-                    std::cerr << "New connection from " <<  inet_ntoa(clientaddr.sin_addr) << " on "  << clientaddr.sin_port << " fd " << newfd << std::endl;
-                }
-            }
-            else if (ok())
-            {
-                modbus_set_socket(ctx, master_socket);
-                rc = modbus_receive(ctx, query);
-                if (rc > 0)
-                {
-                    modbus_reply(ctx, query, rc, mapping);
-                }
-                else if (rc == -1)
-                {
-                    /* This example server in ended on connection closing or
-                     * any errors. */
-                    std::cerr << "Connection closed on socket " <<  master_socket << std::endl;
-#ifdef _WIN32
-                    closesocket(master_socket);
-#else
-                    close(master_socket);
-#endif
-                    /* Remove from reference set */
-                    FD_CLR(master_socket, &refset);
-
-                    if (master_socket == fdmax)
+                    else if (rc == -1)
                     {
-                        fdmax--;
+                        if(_debugging) std::cerr << __FUNCTION__ << " Connection closed on socket " <<  i << std::endl;
+                        close(i);
+                        _fdSet.erase(i);
+                        break;
                     }
                 }
             }
         }
     }
-    m_initialized = false;
 }
