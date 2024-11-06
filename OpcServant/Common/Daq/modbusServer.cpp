@@ -125,7 +125,7 @@ bool MRL::ModbusServer::modbus_set_slave_id(int id)
 bool MRL::ModbusServer::setInputRegisterValue(int registerStartaddress, uint16_t Value)
 {
     WriteLock l(slavemutex);
-    if (!mapping || (registerStartaddress > (m_numRegisters - 1)))
+    if (!mapping || (registerStartaddress > (m_numInputRegisters - 1)))
     {
         return false;
     }
@@ -139,7 +139,7 @@ bool MRL::ModbusServer::setInputRegisterValue(int registerStartaddress, uint16_t
  * \param Value
  * \return
  */
-bool MRL::ModbusServer::setInputRegisterValue(int registerStartaddress, uint32_t Value)
+bool MRL::ModbusServer::setInputRegisterLongValue(int registerStartaddress, uint32_t Value)
 {
     return setInputRegisterValue(registerStartaddress++, uint16_t(Value >> 16)) &&
            setInputRegisterValue(registerStartaddress, uint16_t(Value & 0xFFFF));
@@ -161,7 +161,7 @@ bool MRL::ModbusServer::setHoldingRegisterValue(int registerStartaddress, uint16
     return true;
 }
 
-bool MRL::ModbusServer::setHoldingRegisterValue(int registerStartaddress, uint32_t Value)
+bool MRL::ModbusServer::setHoldingRegisterLongValue(int registerStartaddress, uint32_t Value)
 {
     return setHoldingRegisterValue(registerStartaddress++, uint16_t(Value >> 16)) &&  setHoldingRegisterValue(registerStartaddress, uint16_t(Value & 0xFFFF));
 }
@@ -236,7 +236,7 @@ bool MRL::ModbusServer::setHoldingRegisterValue(int registerStartaddress, float 
  */
 bool MRL::ModbusServer::setInputRegisterValue(int registerStartaddress, float Value)
 {
-    if (!mapping || (registerStartaddress > (m_numRegisters - 2)))
+    if (!mapping || (registerStartaddress > (m_numInputRegisters - 2)))
     {
         return false;
     }

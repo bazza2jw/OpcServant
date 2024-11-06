@@ -61,11 +61,11 @@ public:
 
     bool setHoldingRegisterValue(int registerNumber, uint16_t Value);
     bool setHoldingRegisterValue(int registerNumber, float Value);
-    bool setHoldingRegisterValue(int registerNumber, uint32_t Value);
+    bool setHoldingRegisterLongValue(int registerNumber, uint32_t Value);
 
     bool setInputRegisterValue(int registerNumber, uint16_t Value);
     bool setInputRegisterValue(int registerNumber, float Value);
-    bool setInputRegisterValue(int registerNumber, uint32_t Value);
+    bool setInputRegisterLongValue(int registerNumber, uint32_t Value);
     //
     static ModbusServer * find(uint16_t i) {
         return _map[i];
