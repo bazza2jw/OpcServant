@@ -29,9 +29,9 @@ struct FrameElement
     uint8_t _id = 0;
     std::vector<uint8_t> _data;
     FrameElement() = default;
-    FrameElement(uint8_t id, const uint8_t *data, size_t len) : _id(id),_data(len)
+    FrameElement(uint8_t id, const uint8_t *data, size_t len)
     {
-        memcpy(_data.data(),data,_data.size());
+        set(id,data,len);
     }
     void set(uint8_t id, const uint8_t *data, int len )
     {
@@ -39,7 +39,10 @@ struct FrameElement
         _data.resize(len);
         memcpy(_data.data(),data,_data.size());
     }
-    FrameElement(const FrameElement &) = default;
+    FrameElement(const FrameElement &e)
+    {
+        if(e._data.size() > 0) set(e._id,e._data.data(),e._data.size());
+    }
 };
 
 typedef std::queue<FrameElement> FRAMEELEMENTQUEUE;
@@ -81,11 +84,11 @@ public:
         return _callbacks.find(b) != _callbacks.end();
     }
     void addCallback(uint8_t b, const RECEIVEFN &f) {
-         if(!hasCallback(b))
-         {
-             WriteLock l(_mutex);
-             _callbacks[b] = f;
-         }
+        if(!hasCallback(b))
+        {
+            WriteLock l(_mutex);
+            _callbacks[b] = f;
+        }
     }
     void removeCallback(uint8_t b) {
         WriteLock l(_mutex);
@@ -97,14 +100,13 @@ public:
     {
         while(!_received.empty())
         {
-
             FrameElement &e = _received.front();
             if(_callbacks.find(e._id) != _callbacks.end())
             {
                 RECEIVEFN &f = _callbacks[e._id];
                 f(e._data.data(),e._data.size()); // invoke callback
             }
-            if( _received.size() > 0)
+            if( !_received.empty())
             {
                 WriteLock l(_mutex);
                 _received.pop();
@@ -153,9 +155,8 @@ public:
                 transport_reset(true);
             }
             {
-            WriteLock l(mutex());
-
-            _sessions[id] = std::make_unique<MRL::Session>(id);
+                WriteLock l(mutex());
+                _sessions[id] = std::make_unique<MRL::Session>(id);
             }
         }
         SESSIONPTR &p = _sessions[id];
@@ -179,7 +180,9 @@ public:
         }
     }
 
-    SESSIONMAP & sessions() { return _sessions;}
+    SESSIONMAP & sessions() {
+        return _sessions;
+    }
 
     /*!
      * \brief send
@@ -191,7 +194,10 @@ public:
     void send(uint8_t channel, uint8_t *data, int len, uint8_t session = 0)
     {
         FrameElement e(channel | (session << 4),data,len); // add session id
-        _out.push(e);
+        {
+            WriteLock l(mutex());
+            _out.push(e);
+        }
     }
     /*!
      * \brief findSession
@@ -248,9 +254,9 @@ public:
             // broadcast is id zero
             for(auto const &i : _sessions )
             {
-               SESSIONPTR &p = const_cast<SESSIONPTR &>(i.second);
-               FrameElement e(0, min_payload, len_payload);
-               p->receive(e);
+                SESSIONPTR &p = const_cast<SESSIONPTR &>(i.second);
+                FrameElement e(0, min_payload, len_payload);
+                p->receive(e);
             }
         }
     }

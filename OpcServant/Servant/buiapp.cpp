@@ -312,9 +312,9 @@ int  MRL::BuiApp::OnExit() {
         }
         //
         if(_opcThread) _opcThread->stop();
-        if(_daqThread) _daqThread->stop(); // deletes active objects
         if(_commsThread)  _commsThread->stop();
         if(_modbusThread) _modbusThread->stop();
+        if(_daqThread) _daqThread->stop(); // deletes active objects
         //
         //
         // close and delete any open top level windows

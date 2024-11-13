@@ -37,7 +37,9 @@ namespace MRL {
             }
             virtual void end()
             {
-
+                wxLogDebug("DaqThread end() Enter\n");
+                if(_daq) _daq->stop();
+                wxLogDebug("DaqThread end() Exit\n");
             }
             virtual void process(); // sleep
 

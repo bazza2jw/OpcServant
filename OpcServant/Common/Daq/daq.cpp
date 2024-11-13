@@ -45,7 +45,6 @@ void MRL::Daq::addObject(unsigned id) {
         auto o =  ObjectManager::find(d->data().type());
         if (o && o->canRun()) {
             RtObjectRef r;
-            wxLogDebug("Starting Object %d", id);
             if (o->createRtObject(id, r)) { // create daq object instance
                 removeObject(id); // if it exists remove it
                 auto p = r.get();
