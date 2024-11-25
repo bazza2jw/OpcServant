@@ -10,6 +10,7 @@
 #include <string>
 #include <memory>
 #include <map>
+#include <set>
 #ifdef _WIN32
 #define _WINSOCK_DEPRECATED_NO_WARNINGS
 #include <winsock2.h>

@@ -17,6 +17,7 @@
 #include <stdio.h>
 #include <string>
 #include <stdlib.h>
+#include <stdint.h>
 #include <unistd.h>
 #include <vector>
 #include <sys/ioctl.h>			//Needed for SPI port
