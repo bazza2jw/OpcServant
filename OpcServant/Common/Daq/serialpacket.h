@@ -11,107 +11,153 @@
  */
 #ifndef SERIALPACKET_H
 #define SERIALPACKET_H
-#include <Common/Daq/serial.hpp>
+#include <libserial/SerialPort.h>
 #include <Common/Daq/serialinterface.h>
 
 namespace MRL {
+/*!
+    \brief The SerialPacket class
+*/
+
+LibSerial::BaudRate fromIntBaudRate(int b);
+
+class SerialPacket : public LibSerial::SerialPort,public SerialInterface {
+    std::string _port;
+    LibSerial::BaudRate      _baudRate        = LibSerial::BaudRate::BAUD_DEFAULT;
+    LibSerial::CharacterSize _characterSize   = LibSerial::CharacterSize::CHAR_SIZE_DEFAULT;
+    LibSerial::FlowControl   _flowControlType = LibSerial::FlowControl::FLOW_CONTROL_DEFAULT;
+    LibSerial::Parity        _parityType      = LibSerial::Parity::PARITY_DEFAULT;
+    LibSerial::StopBits      _stopBits        = LibSerial::StopBits::STOP_BITS_DEFAULT;
+
+public:
     /*!
-        \brief The SerialPacket class
+     * \brief SerialPacket
+     */
+    SerialPacket() {}
+    /*!
     */
-    class SerialPacket : public SerialInterface, public SerialConnect {
+    ~SerialPacket() {
+    }
 
-        public:
-            /*!
-             * \brief SerialPacket
-             */
-            SerialPacket() {}
-            /*!
-            */
-            ~SerialPacket() {
+
+
+    /*!
+        \brief openSerial
+        \param port
+        \param baud
+        \param data
+        \param stopbits
+        \param parity
+        \return true if serial port opened
+    */
+    bool openSerial(const std::string &port,
+                    const LibSerial::BaudRate&      baudRate        = LibSerial::BaudRate::BAUD_DEFAULT,
+                    const LibSerial::CharacterSize& characterSize   = LibSerial::CharacterSize::CHAR_SIZE_DEFAULT,
+                    const LibSerial::FlowControl&   flowControlType = LibSerial::FlowControl::FLOW_CONTROL_DEFAULT,
+                    const LibSerial::Parity&        parityType      = LibSerial::Parity::PARITY_DEFAULT,
+                    const LibSerial::StopBits&      stopBits        = LibSerial::StopBits::STOP_BITS_DEFAULT)
+
+    {
+        bool ret = false;
+        //
+        _port =  port;
+        _baudRate = baudRate;
+        _characterSize = characterSize;
+        _flowControlType = flowControlType;
+        _parityType = parityType;
+        _stopBits = stopBits;
+        //
+        try
+        {
+            if (!IsOpen()) {
+                Open(_port);
+                SetBaudRate(_baudRate);
+                SetParity(_parityType);
+                SetFlowControl(_flowControlType);
+                SetCharacterSize(_characterSize);
+                SetStopBits(_stopBits);
+                setLocked(false);
             }
-
-
-
-            /*!
-                \brief openSerial
-                \param port
-                \param baud
-                \param data
-                \param stopbits
-                \param parity
-                \return true if serial port opened
-            */
-            bool openSerial(const std::string port, int baud, int data = SC_8DATA, int stopbits = SC_1STOP, int parity = SC_NOPARITY) {
-                bool ret = false;
-                if (!isOpen()) {
-                    ret = open(port);
-                    if (ret) {
-                        ret = configure(baud, data, stopbits, parity);
-                    }
-                    setLocked(false);
-                }
-                else {
-                    ret = true;
-                }
-                return ret;
+            else {
+                ret = true;
             }
+        }
+        catch(...)
+        {
+            ret = false;
+        }
+        return ret;
+    }
 
 
-            /*!
-                \brief getChar
-                \return character or -1
-            */
-            int getChar() {
-                int ret = -1;
+    /*!
+        \brief getChar
+        \return character or -1
+    */
+    int getChar() {
+        int ret = -1;
+        try
+        {
+            if(IsDataAvailable())
+            {
                 char c = 0;
-                if (read(&c, 1) == 1)   ret = int(c);
-                return ret;
+                ReadByte(c);
+                ret = int(c);
             }
+        }
+        catch(...)
+        {
+            ret = -1;
+        }
+
+        return ret;
+    }
 
 
-            /*!
-                \brief flush
-            */
-            void flush() {
-                clearBuffer();
-                flushReceive();
-                flushTransmit();
-            }
+    /*!
+        \brief flush
+    */
+    void flush() {
+        clearBuffer();
+        FlushInputBuffer() ;
+        FlushOutputBuffer() ;
+    }
 
-            /*!
-                \brief write
-                \param buf
-            */
-            void writeString(const std::string &buf) {
-                write(buf.c_str(), buf.size());
-            }
+    /*!
+        \brief isOk
+        \return true if ok
+    */
+    bool isOk() {
+        return IsOpen();
+    }
+    /*!
+        \brief reopen
+    */
+    void reopen() {
+        try
+        {
+            if(IsOpen()) Close();
+            Open(_port);
+            SetBaudRate(_baudRate);
+            SetParity(_parityType);
+            SetFlowControl(_flowControlType);
+            SetCharacterSize(_characterSize);
+            SetStopBits(_stopBits);
+        }
+        catch(...)
+        {
 
+        }
+    }
 
+    void writeString(const std::string &s)
+    {
+        Write(s);
+    }
 
-            /*!
-                \brief isOk
-                \return true if ok
-            */
-            bool isOk() {
-                return isOpen();
-            }
-            /*!
-                \brief reopen
-            */
-            void reopen() {
-                reset();
-            }
+};
 
-            /*!
-                \brief closePort
-            */
-            void closePort() {
-                SerialConnect::close();
-            }
-            //
-    };
-
-    typedef std::unique_ptr<SerialPacket> SerialPacketRef;
+typedef std::unique_ptr<SerialPacket> SerialPacketRef;
 }
 
 #endif // SERIALPACKET_H

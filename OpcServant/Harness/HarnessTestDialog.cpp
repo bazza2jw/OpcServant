@@ -1,6 +1,5 @@
 #include "HarnessTestDialog.h"
 #include "buiapp.h"
-#include <Common/Daq/serial.hpp>
 
 // the
 enum
@@ -59,7 +58,6 @@ void HarnessTestDialog::onConnect(wxCommandEvent& event)
     MRL::MinP2PSerial *p = MRL::MinP2PSerial::find(_port);
     if(p)
     {
-        p->configure(115200);
         // resync the other side
         p->transport_reset(true);
         // define functors

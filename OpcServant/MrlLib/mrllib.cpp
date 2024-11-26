@@ -104,7 +104,8 @@ int MRL::getSerialPortList(wxArrayString &sp)
         // if no udev rules for WC4A boards
         if (d.GetFirst(&f, "ttyUSB*", wxDIR_FILES)) {
             do {
-                sp.Add(f);
+
+                sp.Add(f.Prepend("/dev/"));
                 res++;
             }
             while (d.GetNext(&f));
@@ -112,17 +113,17 @@ int MRL::getSerialPortList(wxArrayString &sp)
 
         if (d.GetFirst(&f, "ttyACM*", wxDIR_FILES)) {
             do {
-                sp.Add(f);
+                sp.Add(f.Prepend("/dev/"));
                 res++;
             }
             while (d.GetNext(&f));
         }
 
 
-        // udev rules will map board serial ports
+        // udev rules can map board serial ports
         if (d.GetFirst(&f, "ttyFixed*", wxDIR_FILES)) {
             do {
-                sp.Add(f);
+                sp.Add(f.Prepend("/dev/"));
                 res++;
             }
             while (d.GetNext(&f));
@@ -142,18 +143,28 @@ int MRL::getSerialPortList(std::list<std::string> &sp)
     int res = 0;
     if (d.IsOpened()) {
         wxString f;
-        // if no udev rules for WC4A boards
+        // if no udev rules
         if (d.GetFirst(&f, "ttyUSB*", wxDIR_FILES)) {
             do {
-                sp.push_back(f.ToStdString());
+                sp.push_back(f.Prepend("/dev/").ToStdString());
                 res++;
             }
             while (d.GetNext(&f));
         }
-        // udev rules will map board serial ports
-        if (d.GetFirst(&f, "ttyWC4A*", wxDIR_FILES)) {
+
+        if (d.GetFirst(&f, "ttyACM*", wxDIR_FILES)) {
             do {
-                sp.push_back(f.ToStdString());
+                sp.push_back(f.Prepend("/dev/").ToStdString());
+                res++;
+            }
+            while (d.GetNext(&f));
+        }
+
+
+        // udev rules can map board serial ports
+        if (d.GetFirst(&f, "ttyFixed*", wxDIR_FILES)) {
+            do {
+                sp.push_back(f.Prepend("/dev/").ToStdString());
                 res++;
             }
             while (d.GetNext(&f));

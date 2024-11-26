@@ -81,7 +81,7 @@ void MRL::ICPCON7065RT::process() {
             SerialPacketRef &r = MRL::Common::daq().serial(_port);
             if (r->claim()) {
                 // open port
-                if (r->openSerial(_port, _baudRate, SC_8DATA, SC_1STOP, SC_NOPARITY)) {
+                if (r->openSerial(_port, fromIntBaudRate(_baudRate))) {
                     // send the module request
                     _nodeOk = true;
                     std::string m = r->doPacket(moduleList);
@@ -92,7 +92,7 @@ void MRL::ICPCON7065RT::process() {
                     else {
                         setFault("Not a 7065");
                     }
-                    r->close();
+                    r->Close();
                 }
                 else {
                     setFault("Serial 7065");
@@ -104,7 +104,7 @@ void MRL::ICPCON7065RT::process() {
         case STATE_SEND: { // send the channel read request
             SerialPacketRef &r = MRL::Common::daq().serial(_port);
             if (_secondFlag && r->claim()) {
-                if (r->openSerial(_port, _baudRate, SC_8DATA, SC_1STOP, SC_NOPARITY)) {
+                if (r->openSerial(_port, fromIntBaudRate(_baudRate))) {
                     //
                     unsigned v = 0;
                     int j = 1;
@@ -139,7 +139,7 @@ void MRL::ICPCON7065RT::process() {
             SerialPacketRef &r = MRL::Common::daq().serial(_port);
             if (r->packetDrive()) { // drive the packet
                 // process packets
-                r->close();
+                r->Close();
                 r->release();
                 _state = STATE_SEND;
 
@@ -147,7 +147,7 @@ void MRL::ICPCON7065RT::process() {
             else if (r->timedOut()) {
                 setFault("7065 Serial Timed Out");
                 r->release();
-                r->close();
+                r->Close();
             }
         }
         break;

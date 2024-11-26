@@ -31,7 +31,7 @@ void MRL::MinP2PSerial::pollAll()
  * \param ptr
  * \return
  */
-bool MRL::MinP2PSerial::addConnection(const std::string &s, unsigned baud_rate)
+bool MRL::MinP2PSerial::addConnection(const std::string &s,  LibSerial::BaudRate  baudRate)
 {
     //
     // add a MinP2P connection to the set and attach for polling. There is no timing contention with other DAQ objects
@@ -39,7 +39,7 @@ bool MRL::MinP2PSerial::addConnection(const std::string &s, unsigned baud_rate)
     //
     if(!exists(s))
     {
-        _connections[s] = std::make_unique<MRL::MinP2PSerial>(s,baud_rate); // transfer ownership to this object
+        _connections[s] = std::make_unique<MRL::MinP2PSerial>(s,baudRate); // transfer ownership to this object
         return true;
     }
     return false; // already exists
@@ -64,13 +64,20 @@ MRL::MinP2PSerial * MRL::MinP2PSerial::find(const std::string &s)
  * \param serial
  * \param id
  */
-MRL::MinP2PSerial::MinP2PSerial(const std::string &port, unsigned baud_rate)
+MRL::MinP2PSerial::MinP2PSerial(const std::string &port, LibSerial::BaudRate  baudRate) :
+    _port(port),
+    _baudRate(baudRate)
 {
     if(port.size() > 2)
     {
-        if(open(port))
+        try
         {
-            configure(baud_rate);
+            Open(port);
+            SetBaudRate(baudRate);
+        }
+        catch(...)
+        {
+            std::cerr << "Invalid Serial Port " << port << std::endl;
         }
     }
     min_init_context(&_context, (void *)(this));
@@ -149,20 +156,20 @@ void MRL::MinP2PSerial::send_frame(uint8_t min_id, uint8_t const *payload, uint8
 // this call must still be made in order to drive the state machine for retransmits.
 void MRL::MinP2PSerial::poll( )
 {
-    if(isOpen())
+    if(IsOpen())
     {
-        uint8_t buf[MAX_PAYLOAD];
         //
         // Drive Receive
         //
-        int n =  read(buf,sizeof(buf));
-        if(n > 0)
+        LibSerial::DataBuffer buf;
+        if(IsDataAvailable())
         {
-            min_poll(context(), buf, uint8_t(n));
+            Read(buf,GetNumberOfBytesAvailable());
+            min_poll(context(), buf.data(), buf.size());
         }
         else
         {
-            min_poll(context(), buf, 0);
+            min_poll(context(), buf.data(), 0);
         }
         //
         // can we send a pending message(s)

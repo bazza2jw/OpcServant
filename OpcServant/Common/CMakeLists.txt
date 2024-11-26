@@ -33,7 +33,6 @@ set(LIB_SOURCES
     Opc/readwritecontext.cpp
     Daq/daqcommon.cpp
     Daq/rtobject.cpp
-    Daq/serial.cpp
     Daq/daq.cpp 
     messages.cpp
     storagedatabase.cpp 
@@ -109,7 +108,7 @@ set(LIB_SOURCES
     Daq/modbusServer.cpp
         )
 
-set(PROJECT_LIB_FLAGS  MrlLib)
+set(PROJECT_LIB_FLAGS  MrlLib serial)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
 

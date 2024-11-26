@@ -6,7 +6,7 @@
 //
 #include <MrlLib/mrllib.h>
 #include <wx/stopwatch.h>
-#include "serial.hpp"
+#include <libserial/SerialPort.h>
 #include "min.h"
 #include <functional>
 #include <Common/bobject.h>
@@ -123,8 +123,11 @@ typedef std::map<uint8_t,SESSIONPTR > SESSIONMAP; // the application end has a s
 /*!
  * \brief The MinP2PSerial class
  */
-class MinP2PSerial : public MRL::SerialConnect, public BObject
+class MinP2PSerial : public LibSerial::SerialPort, public BObject
 {
+    std::string _port;
+    LibSerial::BaudRate  _baudRate = LibSerial::BaudRate::BAUD_DEFAULT;
+
     min_context _context;
     static bool _timerInit;
     mutable ReadWriteMutex _mutex;
@@ -135,7 +138,8 @@ class MinP2PSerial : public MRL::SerialConnect, public BObject
     SESSIONMAP _sessions; // set of session
 
 public:
-    MinP2PSerial(const std::string &port = "", unsigned baud_rate = 115200);
+    MinP2PSerial(const std::string &port = "",
+                 LibSerial::BaudRate  baudRate  = LibSerial::BaudRate::BAUD_DEFAULT);
     virtual ~MinP2PSerial();
     //
     /*!
@@ -148,9 +152,17 @@ public:
         {
             if(_sessions.size() == 0)
             {
-                if(!isOpen())
+                if(!IsOpen())
                 {
-                    reset(); // no sessions - so reopen
+                    try
+                    {
+                        Open(_port);
+                        SetBaudRate(_baudRate);
+                    }
+                    catch(...)
+                    {
+                        std::cerr << __FUNCTION__ << ": Open Fail" << std::endl;
+                    }
                 }
                 transport_reset(true);
             }
@@ -176,7 +188,7 @@ public:
         {
             transport_reset(true);
             wxMilliSleep(100);
-            close(); // shut the port
+            Close(); // shut the port
         }
     }
 
@@ -230,7 +242,7 @@ public:
     // CALLBACK. Send a byte on the given line.
     virtual void tx_byte(uint8_t byte)
     {
-        write((void *)&byte,1);
+        WriteByte(byte);
     }
 
     // CALLBACK. Indcates when frame transmission is finished; useful for buffering bytes into a single serial call.
@@ -284,7 +296,7 @@ public:
     typedef std::unique_ptr<MinP2PSerial> PTR;
     static std::map<std::string,PTR > _connections;
 
-    static bool addConnection(const std::string &s, unsigned baud_rate = 115200);
+    static bool addConnection(const std::string &s, LibSerial::BaudRate baudRate = LibSerial::BaudRate::BAUD_115200);
     static MinP2PSerial * find(const std::string &s);
     static bool exists(const std::string &s) {
         return _connections.find(s) != _connections.end();
