@@ -11,12 +11,15 @@
  */
 #ifndef SQLITEDB_H
 #define SQLITEDB_H
+#include <memory>
 #include "mrllib_global.h"
 #include <wx/thread.h>
 #include <wx/datetime.h>
 #include <wx/log.h>
 #include <string>
 #include <sqlite3.h>
+#include <vector>
+#include <list>
 
 namespace MRL {
 //SQLite Header and library
@@ -247,7 +250,17 @@ public:
     bool ok() {
         return _db && _stmt;
     }
-
+    //
+    //
+    std::string getString(int i) { return std::string(data(i)); }
+    int getInt(int i)    {  return atoi(data(i));}
+    double getDouble(int i) { return atof(data(i));}
+    bool getDateTime(int i, wxDateTime &dt)
+    {
+        wxString s(data(i));
+        return dt.ParseISOCombined(s);
+    }
+    //
     /*!
         \brief bindText
         \param i
@@ -341,6 +354,190 @@ public:
     }
 
 };
+//
+// this emulates a scrolling database cursor
+// Requires index to have been created on key fields
+// in the select the scroll key field must be first in the list
+// There are two variables, the key and the record count
+// All SQLITE data is stored as strings
+/*
+To Scroll Down
+ SELECT title FROM tracks
+     WHERE singer='Madonna' <--- Fixed key field
+       AND title>:lasttitle <--- variable key field
+     ORDER BY title
+     LIMIT 5;
+To scroll up, run this query:
+
+    SELECT title FROM tracks
+     WHERE singer='Madonna'
+       AND title<:firsttitle
+     ORDER BY title DESC
+     LIMIT 5;
+*/
+
+class SqliteRecord : public std::vector<std::string>
+{
+public:
+    SqliteRecord(size_t n = 1) : std::vector<std::string>(n) {}
+    virtual ~SqliteRecord(){ clear();}
+    SqliteRecord(const SqliteRecord &) = default;
+    //
+    void fetch(SqlLiteStatement *s)
+    {
+        if(s && (s->columnCount() > 0))
+        {
+            if(size() != s->columnCount())
+            {
+                resize(s->columnCount()); // set record size
+            }
+            for(int i = 0; i < s->columnCount(); i++)
+            {
+                at(i) = std::string(s->data(i));
+            }
+        }
+        else
+        {
+            clear();
+        }
+    }
+
+};
+//
+// a set of records pulled into memory
+// use with scrolling
+//
+class SqliteRecordSet : public std::list<SqliteRecord>
+{
+public:
+    SqliteRecordSet() {}
+    virtual ~SqliteRecordSet() {}
+    void fetch(SqlLiteStatement *s, bool reverse = false)
+    {
+        clear();
+        while(s->next())
+        {
+            SqliteRecord r(s->columnCount());
+            r.fetch(s);
+            if(reverse)
+            {
+                push_front(r);
+            }
+            else
+            {
+                push_back(r);
+            }
+        }
+    }
+};
+
+
+
+class SqliteScroll
+{
+    SQLiteDB * _db = nullptr;
+    std::unique_ptr<SqlLiteStatement> _forward;
+    std::unique_ptr<SqlLiteStatement> _backward;
+    //
+    std::string _first;
+    std::string _last;
+    //
+    std::string _key;
+    //
+    SqliteRecordSet _records;
+    //
+
+public:
+    /*!
+     * \brief SqliteScroll
+     * \param db
+     */
+    SqliteScroll(SQLiteDB *db = nullptr) : _db(db)
+    {
+
+    }
+    /*!
+     * \brief ~SqliteScroll
+     */
+    virtual ~SqliteScroll()
+    {
+
+    }
+
+    /*!
+     * \brief records
+     * \return
+     */
+    SqliteRecordSet & records() { return _records;}
+
+    /*!
+     * \brief setCursors
+     * \param k
+     * \param s
+     */
+    void setCursors(const std::string &k, const std::string &s)
+    {
+        // configure cursors
+        if(_db)
+        {
+            _key = k;
+            std::string f = s + " AND " + k + " > ? ORDER BY " + k + " LIMIT ?;"; // build the queries
+            std::string b = s + " AND " + k + " < ? ORDER BY " + k + " DESC LIMIT ?;";
+            _forward = std::make_unique<SqlLiteStatement>(_db,f);
+            _backward = std::make_unique<SqlLiteStatement>(_db,b);
+        }
+    }
+
+    /*!
+     * \brief scrollForwards
+     * \param key
+     * \param count
+     * \return result set
+     */
+    bool  scrollForwards(const std::string &key, int count = 10)
+    {
+        _forward->clear();
+        _forward->bindString(0,key);
+        _forward->bindInt(1,count);
+        //
+        bool ret =  _forward->exec();
+        if(ret)
+        {
+            _records.fetch(_forward.get());
+        }
+        else
+        {
+            _records.clear();
+        }
+        _forward->reset();
+        return ret;
+    }
+
+    /*!
+     * \brief scrollBackwards
+     * \param key
+     * \param count
+     * \return
+     */
+    bool scrollBackwards(const std::string &key, int count = 10)
+    {
+        _backward->clear();
+        _backward->bindString(0,key);
+        _backward->bindInt(1,count);
+        bool ret = _backward->exec();
+        if(ret)
+        {
+            _records.fetch(_backward.get());
+        }
+        else
+        {
+            _records.clear();
+        }
+        _backward->reset();
+        return ret;
+    }
+};
+
 }
 
 #endif // SQLITEDB_H
