@@ -459,10 +459,18 @@ public:
     /*!
      * \brief ~SqliteScroll
      */
-    virtual ~SqliteScroll()
-    {
+    virtual ~SqliteScroll() { }
 
-    }
+    /*!
+     * \brief first
+     * \return
+     */
+    const std::string & first() const { return _first;}
+    /*!
+     * \brief last
+     * \return
+     */
+    const std::string & last() const { return _last;}
 
     /*!
      * \brief records
@@ -481,8 +489,8 @@ public:
         if(_db)
         {
             _key = k;
-            std::string f = s + " AND " + k + " > ? ORDER BY " + k + " LIMIT ?;"; // build the queries
-            std::string b = s + " AND " + k + " < ? ORDER BY " + k + " DESC LIMIT ?;";
+            std::string f = s + " AND (" + k + " > ? ) ORDER BY " + k + " LIMIT ?;"; // build the queries
+            std::string b = s + " AND (" + k + " < ? )  ORDER BY " + k + " DESC LIMIT ?;";
             _forward = std::make_unique<SqlLiteStatement>(_db,f);
             _backward = std::make_unique<SqlLiteStatement>(_db,b);
         }
@@ -501,14 +509,23 @@ public:
         _forward->bindInt(1,count);
         //
         bool ret =  _forward->exec();
+        _first = _last = "";
         if(ret)
         {
             _records.fetch(_forward.get());
+            if(_records.size() > 0)
+            {
+                SqliteRecord &f = _records.front();
+                SqliteRecord &b = _records.back();
+                _first = f[0];
+                _last = b[0];
+            }
         }
         else
         {
             _records.clear();
         }
+
         _forward->reset();
         return ret;
     }
@@ -527,11 +544,19 @@ public:
         bool ret = _backward->exec();
         if(ret)
         {
-            _records.fetch(_backward.get());
+            _records.fetch(_backward.get(),true);
+            if(_records.size() > 0)
+            {
+                SqliteRecord &f = _records.front();
+                SqliteRecord &b = _records.back();
+                _first = f[0];
+                _last = b[0];
+            }
         }
         else
         {
             _records.clear();
+            _first = _last = "";
         }
         _backward->reset();
         return ret;
