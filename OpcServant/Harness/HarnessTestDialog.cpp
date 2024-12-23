@@ -1,101 +1,102 @@
 #include "HarnessTestDialog.h"
+#include <wx/filename.h>
 #include "buiapp.h"
 
-// the
-enum
-{
-    CHAN_NONE = 0,
-    CHAN_DATA,  // messages for the data object
-    CHAN_NOTIFY, // notifications - route to data object for handling
-    CHAN_TRACE // trace channel
-};
-
-
-
-
+/*!
+ * \brief HarnessTestDialog::HarnessTestDialog
+ * \param parent
+ */
 HarnessTestDialog::HarnessTestDialog(wxWindow* parent)
     : HarnessTestDialogBase(parent)
 {
-    wxArrayString sp;
-    MRL::getSerialPortList(sp);
-    GetPort()->Set(sp);
-}
 
+}
+/*!
+ * \brief HarnessTestDialog::~HarnessTestDialog
+ */
 HarnessTestDialog::~HarnessTestDialog()
 {
 }
-
+/*!
+ * \brief HarnessTestDialog::onCancel
+ * \param event
+ */
 void HarnessTestDialog::onCancel(wxCommandEvent& event)
 {
     BuiApp::GetInstance()->Exit();
 }
+/*!
+ * \brief HarnessTestDialog::onOk
+ * \param event
+ */
 void HarnessTestDialog::onOk(wxCommandEvent& event)
 {
     BuiApp::GetInstance()->Exit();
 }
-void HarnessTestDialog::onSend(wxCommandEvent& event)
-{
-    static uint32_t idCount = 5;
-    std::string s = GetSendText()->GetValue().ToStdString();
-    //
-//    MRL::MinP2PSerial *p = MRL::MinP2PSerial::find(_port);
-//    if(p)
-//    {
-//        p->send(CHAN_DATA,b,l,1);
-//    }
 
-}
-void HarnessTestDialog::onTick(wxTimerEvent& event)
+/*!
+ * \brief HarnessTestDialog::onBackwards
+ * \param event
+ */
+void HarnessTestDialog::onBackwards(wxCommandEvent& event)
 {
-    // drive the MinP2P layer
-     MRL::MinP2PSerial::pollAll();
-
-}
-void HarnessTestDialog::onConnect(wxCommandEvent& event)
-{
-    _port = MRL::GetChoice(GetPort());
-    MRL::MinP2PSerial::addConnection(_port);
-    MRL::MinP2PSerial *p = MRL::MinP2PSerial::find(_port);
-    if(p)
+    if(_db && _scroll)
     {
-        // resync the other side
-        p->transport_reset(true);
-        // define functors
-        auto f = [this](uint8_t const *data, uint8_t len) {
-            this->handleNotifyFrame(data,len);};
-        auto g = [this](uint8_t const *data, uint8_t len) {
-            this->handleDataFrame(data,len);
-        };
-        p->addSession(1);
-        p->removeSession(1);
-        MRL::Session *s = p->findSession(1);
-        if(s)
+        _scroll->scrollBackwards(_scroll->first());
+        _scroll->records().print(std::cerr);
+    }
+}
+/*!
+ * \brief HarnessTestDialog::onForwards
+ * \param event
+ */
+void HarnessTestDialog::onForwards(wxCommandEvent& event)
+{
+    if(_db && _scroll)
+    {
+        _scroll->scrollForwards(_scroll->last());
+        _scroll->records().print(std::cerr);
+    }
+}
+/*!
+ * \brief HarnessTestDialog::onFileSelected
+ * \param event
+ */
+void HarnessTestDialog::onFileSelected(wxFileDirPickerEvent& event)
+{
+    // create the Sqlite object
+    wxFileName f (event.GetPath());
+    _dbDir = f.GetPath().ToStdString();
+    //
+    _dbName = f.GetFullName().ToStdString();
+    //
+    if(_db)
+    {
+        _db->CloseConnection();
+        delete _db;
+        _db = nullptr;
+    }
+    //
+    if(_scroll)
+    {
+        delete _scroll;
+        _scroll = nullptr;
+    }
+    //
+    _db = new MRL::SQLiteDB;
+    if(_db)
+    {
+        if(_db->OpenConnection(_dbName,_dbDir))
         {
-            s->addCallback(CHAN_DATA,g);
-            s->addCallback(CHAN_NOTIFY, f);
+            _scroll = new MRL::SqliteScroll(_db);
+            _scroll->setCursors("F_TIMESTAMP","SELECT F_TIMESTAMP,F_SAMPLE_CONC FROM CONC_TABLE WHERE F_MODULE=1 ");
+             std::cerr << " Opened Database " << _dbDir << " " << _dbName << std::endl;
+            _scroll->scrollForwards("2024-12-01T00:00:00");
+             _scroll->records().print(std::cerr);
+        }
+        else
+        {
+            std::cerr << "Failed to open db " << _dbDir << " " << _dbName << std::endl;
         }
     }
-    else
-    {
-        std::cerr << "NULL Object" << std::endl;
-    }
-}
-
-/*!
- * \brief handleDataFrame
- * \param data
- * \param len
- */
-void  HarnessTestDialog::handleDataFrame(uint8_t const *data, uint8_t len)
-{
-    //GetResponseText()->SetValue(wxString::Format("%02X %08X %02X",msg._op,msg._id,msg._len));
-}
-/*!
- * \brief handleNotifyFrame
- * \param data
- * \param len
- */
-void  HarnessTestDialog::handleNotifyFrame(uint8_t const *data, uint8_t len)
-{
-   // GetNotifyText()->SetValue(wxString::Format("%02X %08X %02X",msg._op,msg._id,msg._len));
 }

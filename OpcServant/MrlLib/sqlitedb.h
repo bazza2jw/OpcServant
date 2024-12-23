@@ -252,9 +252,15 @@ public:
     }
     //
     //
-    std::string getString(int i) { return std::string(data(i)); }
-    int getInt(int i)    {  return atoi(data(i));}
-    double getDouble(int i) { return atof(data(i));}
+    std::string getString(int i) {
+        return std::string(data(i));
+    }
+    int getInt(int i)    {
+        return atoi(data(i));
+    }
+    double getDouble(int i) {
+        return atof(data(i));
+    }
     bool getDateTime(int i, wxDateTime &dt)
     {
         wxString s(data(i));
@@ -380,7 +386,9 @@ class SqliteRecord : public std::vector<std::string>
 {
 public:
     SqliteRecord(size_t n = 1) : std::vector<std::string>(n) {}
-    virtual ~SqliteRecord(){ clear();}
+    virtual ~SqliteRecord() {
+        clear();
+    }
     SqliteRecord(const SqliteRecord &) = default;
     //
     void fetch(SqlLiteStatement *s)
@@ -399,6 +407,14 @@ public:
         else
         {
             clear();
+        }
+    }
+
+    void print(std::ostream &os) const
+    {
+        for(int i = 0; i < size(); i++)
+        {
+            os << at(i) << " ";
         }
     }
 
@@ -427,6 +443,21 @@ public:
             {
                 push_back(r);
             }
+        }
+    }
+
+    void print(std::ostream &os) const
+    {
+        if(size() > 0)
+        {
+            for (auto const& i : *this) {
+                i.print(os);
+                os << std::endl;
+            }
+        }
+        else
+        {
+            os << "Empty Set" << std::endl;
         }
     }
 };
@@ -465,18 +496,35 @@ public:
      * \brief first
      * \return
      */
-    const std::string & first() const { return _first;}
+    const std::string & first() const {
+        return _first;
+    }
     /*!
      * \brief last
      * \return
      */
-    const std::string & last() const { return _last;}
+    const std::string & last() const {
+        return _last;
+    }
 
     /*!
      * \brief records
      * \return
      */
-    SqliteRecordSet & records() { return _records;}
+    SqliteRecordSet & records() {
+        return _records;
+    }
+
+    /*!
+     * \brief db
+     * \return
+     */
+    MRL::SQLiteDB * db() const { return _db;}
+    /*!
+     * \brief setDb
+     * \param d
+     */
+    void setDb(MRL::SQLiteDB *d) { _db = d;}
 
     /*!
      * \brief setCursors
@@ -496,6 +544,7 @@ public:
         }
     }
 
+
     /*!
      * \brief scrollForwards
      * \param key
@@ -504,26 +553,18 @@ public:
      */
     bool  scrollForwards(const std::string &key, int count = 10)
     {
+        bool ret = true;
         _forward->clear();
-        _forward->bindString(0,key);
-        _forward->bindInt(1,count);
+        _forward->bindString(1,key);
+        _forward->bindInt(2,count);
         //
-        bool ret =  _forward->exec();
-        _first = _last = "";
-        if(ret)
+        _records.fetch(_forward.get());
+        if(_records.size() > 0)
         {
-            _records.fetch(_forward.get());
-            if(_records.size() > 0)
-            {
-                SqliteRecord &f = _records.front();
-                SqliteRecord &b = _records.back();
-                _first = f[0];
-                _last = b[0];
-            }
-        }
-        else
-        {
-            _records.clear();
+            SqliteRecord &f = _records.front();
+            SqliteRecord &b = _records.back();
+            _first = f[0];
+            _last = b[0];
         }
 
         _forward->reset();
@@ -538,25 +579,17 @@ public:
      */
     bool scrollBackwards(const std::string &key, int count = 10)
     {
+        bool ret = true;
         _backward->clear();
-        _backward->bindString(0,key);
-        _backward->bindInt(1,count);
-        bool ret = _backward->exec();
-        if(ret)
+        _backward->bindString(1,key);
+        _backward->bindInt(2,count);
+        _records.fetch(_backward.get(),true);
+        if(_records.size() > 0)
         {
-            _records.fetch(_backward.get(),true);
-            if(_records.size() > 0)
-            {
-                SqliteRecord &f = _records.front();
-                SqliteRecord &b = _records.back();
-                _first = f[0];
-                _last = b[0];
-            }
-        }
-        else
-        {
-            _records.clear();
-            _first = _last = "";
+            SqliteRecord &f = _records.front();
+            SqliteRecord &b = _records.back();
+            _first = f[0];
+            _last = b[0];
         }
         _backward->reset();
         return ret;

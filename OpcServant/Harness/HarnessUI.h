@@ -15,11 +15,9 @@
 #include <wx/artprov.h>
 #include <wx/sizer.h>
 #include <wx/panel.h>
-#include <wx/choice.h>
-#include <wx/arrstr.h>
-#include <wx/textctrl.h>
+#include <wx/filepicker.h>
 #include <wx/button.h>
-#include <wx/timer.h>
+#include <wx/listbox.h>
 #if wxVERSION_NUMBER >= 2900
 #include <wx/persist.h>
 #include <wx/persist/toplevel.h>
@@ -43,34 +41,28 @@ protected:
     wxBoxSizer* boxSizer3;
     wxPanel* m_panel5;
     wxBoxSizer* boxSizer15;
-    wxChoice* m_port;
-    wxTextCtrl* m_sendText;
-    wxTextCtrl* m_responseText;
-    wxTextCtrl* m_notifyText;
+    wxFilePickerCtrl* m_filePicker;
     wxGridSizer* gridSizer29;
     wxButton* m_button23;
     wxButton* m_button31;
+    wxListBox* m_list;
     wxStdDialogButtonSizer* m_stdBtnSizer9;
     wxButton* m_button11;
     wxButton* m_button13;
-    wxTimer* m_timer25;
 
 protected:
-    virtual void onSend(wxCommandEvent& event) { event.Skip(); }
-    virtual void onConnect(wxCommandEvent& event) { event.Skip(); }
+    virtual void onFileSelected(wxFileDirPickerEvent& event) { event.Skip(); }
+    virtual void onForwards(wxCommandEvent& event) { event.Skip(); }
+    virtual void onBackwards(wxCommandEvent& event) { event.Skip(); }
     virtual void onOk(wxCommandEvent& event) { event.Skip(); }
     virtual void onCancel(wxCommandEvent& event) { event.Skip(); }
-    virtual void onTick(wxTimerEvent& event) { event.Skip(); }
 
 public:
-    wxChoice* GetPort() { return m_port; }
-    wxTextCtrl* GetSendText() { return m_sendText; }
-    wxTextCtrl* GetResponseText() { return m_responseText; }
-    wxTextCtrl* GetNotifyText() { return m_notifyText; }
+    wxFilePickerCtrl* GetFilePicker() { return m_filePicker; }
     wxButton* GetButton23() { return m_button23; }
     wxButton* GetButton31() { return m_button31; }
+    wxListBox* GetList() { return m_list; }
     wxPanel* GetPanel5() { return m_panel5; }
-    wxTimer* GetTimer25() { return m_timer25; }
     HarnessTestDialogBase(wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Harness"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize(800,600), long style = wxDEFAULT_DIALOG_STYLE);
     virtual ~HarnessTestDialogBase();
 };

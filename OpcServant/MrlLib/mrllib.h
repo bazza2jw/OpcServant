@@ -78,7 +78,7 @@ inline bool isType(boost::any &a) {
     \param s
     \return true on success
 */
-MRLLIBSHARED_EXPORT bool stringToBool(const std::string &s);
+bool stringToBool(const std::string &s);
 /*!
  * \brief boolToString
  * \param f
