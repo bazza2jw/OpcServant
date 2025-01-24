@@ -203,7 +203,7 @@ public:
      * \param len
      * \param session
      */
-    void send(uint8_t channel, uint8_t *data, int len, uint8_t session = 0)
+    void send(uint8_t channel, const uint8_t *data, int len, uint8_t session = 0)
     {
         FrameElement e(channel | (session << 4),data,len); // add session id
         {
