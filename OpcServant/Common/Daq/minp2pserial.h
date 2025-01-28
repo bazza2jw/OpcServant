@@ -104,7 +104,18 @@ public:
             if(_callbacks.find(e._id) != _callbacks.end())
             {
                 RECEIVEFN &f = _callbacks[e._id];
-                f(e._data.data(),e._data.size()); // invoke callback
+                if(f)
+                {
+                    f(e._data.data(),e._data.size()); // invoke callback
+                }
+                else
+                {
+                    std::cerr << "Function Empty " << int(e._id) << std::endl;
+                }
+            }
+            else
+            {
+                std::cerr << "Failed to find channel handler " << int(e._id) << std::endl;
             }
             if( !_received.empty())
             {
@@ -226,6 +237,8 @@ public:
         return nullptr;
     }
 
+
+
     /*!
      * \brief mutex
      * \return
@@ -259,6 +272,10 @@ public:
             {
                 FrameElement e(min_id & CHANNEL_MASK, min_payload, len_payload);
                 s->receive(e); // pass up to the session layer
+            }
+            else
+            {
+                std::cerr << "Failed to find session " << int(min_id) << std::endl;
             }
         }
         else
@@ -305,6 +322,20 @@ public:
     static void clear() // clear all data
     {
         _connections.clear();
+    }
+
+    // helper for processing session
+    static void processSession(const std::string &port, uint8_t session)
+    {
+        MRL::MinP2PSerial *ch = MRL::MinP2PSerial::find(port);
+        if(ch)
+        {
+            MRL::Session *s = ch->findSession(session);
+            if(s)
+            {
+                s->processReceived();
+            }
+        }
     }
 
 };
