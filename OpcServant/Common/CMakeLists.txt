@@ -106,6 +106,16 @@ set(LIB_SOURCES
     Daq/daqthread.cpp
     Opc/opcthread.cpp
     Daq/modbusServer.cpp
+    TerminalWx/terminalinputevent.cpp
+    TerminalWx/terminalwx.cpp
+    TerminalWx/GTerm/actions.cpp
+    TerminalWx/GTerm/gterm.cpp
+    TerminalWx/GTerm/keytrans.cpp
+    TerminalWx/GTerm/states.cpp
+    TerminalWx/GTerm/utils.cpp
+    TerminalWx/GTerm/vt52_states.cpp
+    TerminalWx/taTelnet/wxterm.cpp
+
         )
 
 set(PROJECT_LIB_FLAGS  MrlLib serial)
@@ -137,6 +147,15 @@ install(FILES ${OPC_HEADERS} DESTINATION ${COMMON_INCLUDE}/Opc)
 
 file(GLOB WEB_HEADERS "Web/*.h")
 install(FILES ${WEB_HEADERS} DESTINATION ${COMMON_INCLUDE}/Web)
+
+file(GLOB TERMINAL_HEADERS "TerminalWx/*.h")
+install(FILES ${TERMINAL_HEADERS} DESTINATION ${COMMON_INCLUDE}/TerminalWx)
+
+file(GLOB TERMINAL_TATELNET_HEADERS "TerminalWx/taTelnet/*.h")
+install(FILES ${TERMINAL_HEADERS} DESTINATION ${COMMON_INCLUDE}/TerminalWx/taTelnet)
+
+file(GLOB TERMINAL_GTERM_HEADERS "TerminalWx/GTerm/*.h")
+install(FILES ${TERMINAL_HEADERS} DESTINATION ${COMMON_INCLUDE}/TerminalWx/GTerm)
 
 
 install(TARGETS Common DESTINATION ${LIB_DIR})
