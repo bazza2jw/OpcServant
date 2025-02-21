@@ -44,6 +44,7 @@ void SystemPropertiesDialog::setup()
     m_screenLock->SetValue(_settings.getValue<bool>(p, "ScreenLock"));
     m_screenLockPin->SetValue(_settings.getValue<std::string>(p, "ScreenLockPin"));
     m_homePage->SetValue(_settings.getValue<std::string>(p, "HomePage"));
+    m_shellProgram->SetValue(_settings.getValue<std::string>(p, "ShellProgram"));
     //
     m_mainTab->SetValue(_settings.getValue<std::string>(p, "MainTab"));
     m_opcPort->SetValue(_settings.getValue<std::string>(p, "OpcPort"));
@@ -84,6 +85,8 @@ void SystemPropertiesDialog::OnOK(wxCommandEvent & /*event*/) {
     _settings.setValue(p, "ScreenLock", m_screenLock->GetValue().GetBool());
     _settings.setValue(p, "ScreenLockPin", m_screenLockPin->GetValueAsString().ToStdString());
     _settings.setValue(p, "HomePage", m_homePage->GetValueAsString().ToStdString());
+    _settings.setValue(p, "ShellProgram", m_shellProgram->GetValueAsString().ToStdString());
+
     //
     _settings.setValue(p, "MainTab", m_mainTab->GetValueAsString().ToStdString());
     _settings.setValue(p, "OpcPort", m_opcPort->GetValueAsString().ToStdString());
