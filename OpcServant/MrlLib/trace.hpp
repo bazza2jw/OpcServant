@@ -23,7 +23,11 @@
 #define TOSTRING(x) STRINGIFY(x)
 //
 // use wxLogDebug - change to suit GUI and app framework
+#ifdef TRACE_ON
 #define TRC_LINE(s) { std::stringstream ss; ss << __FILE__ << ":" << __FUNCTION__ << "," << __LINE__ << "," << s ; wxLogDebug("%s",ss.str().c_str());}
+#else
+#define TRC_LINE(s)
+#endif
 
 #ifdef TRACE_ON
 #define TRC(s) TRC_LINE(s)

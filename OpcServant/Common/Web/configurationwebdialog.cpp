@@ -18,7 +18,7 @@
 #include <Wt/WPushButton.h>
 #include <Wt/WCheckBox.h>
 /*!
- * \brief MRL::i2cConfigurationWebForm::setup
+ * \brief MRL::ConfigurationWebForm::setup
  * Basic config form for an i2c based device
  * Assume the I2C address is fixed as is timing etc
  */
@@ -43,7 +43,7 @@ void MRL::ConfigurationWebForm::setup() {
 }
 
 /*!
- * \brief MRL::i2cConfigurationWebForm::onOk
+ * \brief MRL::ConfigurationWebForm::onOk
  */
 void MRL::ConfigurationWebForm::onOk() {
     Json::Value v;
@@ -52,7 +52,7 @@ void MRL::ConfigurationWebForm::onOk() {
 }
 
 /*!
- * \brief MRL::i2cConfigurationWebForm::addFields
+ * \brief MRL::ConfigurationWebForm::addFields
  * \param layout
  * \return next row to use
  */
@@ -68,7 +68,7 @@ int MRL::ConfigurationWebForm::addFields(Wt::WGridLayout *layout, int row)
 }
 
 /*!
- * \brief MRL::i2cConfigurationWebForm::setFields
+ * \brief MRL::ConfigurationWebForm::setFields
  */
 void MRL::ConfigurationWebForm::setFields()
 {
@@ -79,7 +79,7 @@ void MRL::ConfigurationWebForm::setFields()
 }
 
 /*!
- * \brief MRL::i2cConfigurationWebForm::getFields
+ * \brief MRL::ConfigurationWebForm::getFields
  * save fields to configuration
  */
 void MRL::ConfigurationWebForm::getFields()

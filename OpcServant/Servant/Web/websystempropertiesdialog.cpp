@@ -31,6 +31,7 @@ void MRL::WebSystemPropertiesDialog::setup()
     //
     resize(500,400);
     //
+    setWindowTitle("System Properties");
     auto layout = std::make_unique<Wt::WGridLayout>();
     layout->addWidget(std::make_unique<Wt::WLabel>("Site Name"),0,0);
     _siteName  = layout->addWidget(std::make_unique<Wt::WLineEdit>("SITE"),0,1);
