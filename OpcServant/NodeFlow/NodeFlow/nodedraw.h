@@ -65,7 +65,7 @@ public:
     {
         wxPoint pts[4];
         int dx = end.x - beg.x ;
-        int dy = end.y - beg.y;
+        //int dy = end.y - beg.y;
         wxPoint dp(dx/2,0);
         wxPoint cc(0,CONNECTION_SIZE/2);
         pts[0] = beg + cc;
@@ -82,8 +82,8 @@ public:
  */
 class NodeDrawBitmap : public NodeDrawWx
 {
-    wxSize                              _size;
     wxBitmap                            _bitmap;
+    wxSize                              _size;
     //
     static unsigned _gSession;
     unsigned _session = 100;

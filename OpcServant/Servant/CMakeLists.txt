@@ -31,7 +31,7 @@ set(PROJECT_LIB_FLAGS  MrlLib Common NodeFlow)
 target_link_libraries(Servant ${wxWidgets_LIBRARIES} ${WTLIBS} ${Boost_LIBRARIES} ${EXTRA_LIB_FLAGS} ${PROJECT_LIB_FLAGS}  )
 
 IF( DEFINED CROSSBUILD )
-target_link_libraries(Servant ${PIROOT}/opt/vc/lib/libvchiq_arm.so ${PIROOT}/opt/vc/lib/libvcos.so)
+#target_link_libraries(Servant ${PIROOT}/opt/vc/lib/libvchiq_arm.so ${PIROOT}/opt/vc/lib/libvcos.so)
 ENDIF( DEFINED CROSSBUILD )
 
 

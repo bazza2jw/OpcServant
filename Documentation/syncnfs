@@ -1,0 +1,7 @@
+#mkdir sysroot sysroot/usr sysroot/opt
+rsync -avz /Development/sysroot.nfs/lib  /Development/sysroot.local
+rsync -avz /Development/sysroot.nfs/usr/include /Development/sysroot.local/usr
+rsync -avz /Development/sysroot.nfs/usr/lib /Development/sysroot.local/usr
+rsync -avz /Development/sysroot.nfs/opt/vc /Development/sysroot.local/opt
+rsync -avz /Development/sysroot.nfs/usr/local/lib /Development/sysroot.local
+rsync -avz /Development/sysroot.nfs/usr/local/include /Development/sysroot.local

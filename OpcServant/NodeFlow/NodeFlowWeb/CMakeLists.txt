@@ -5,10 +5,6 @@ cmake_minimum_required(VERSION 3.10)
 set(MODULE NodeFlowWeb)
 project(${MODULE})
 
-set(wxWidgets_USE_UNICODE ON)
-set(wxWidgets_CONFIGURATION gtk3u)
-find_package(wxWidgets REQUIRED html net core base xrc  xml )
-include(${wxWidgets_USE_FILE})
 
 set(CMAKE_CXX_STANDARD 17)
 

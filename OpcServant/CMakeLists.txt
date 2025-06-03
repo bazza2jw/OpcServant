@@ -13,16 +13,22 @@
 cmake_minimum_required(VERSION 3.10)
 project(OpcServant)
 include (Common.cmake)
+message("MRLLIB")
 add_subdirectory(MrlLib)
+message("ReportDocument")
 add_subdirectory(reportdocument)
+message("Common")
 add_subdirectory(Common)
+message("NodeFlow")
 add_subdirectory(NodeFlow)
+message("Mimic")
 add_subdirectory(Mimic)
+message("Modules")
 add_subdirectory(Modules)
-
+message("Servant")
 add_subdirectory(Servant)
 # The test harness for UI components etc - enable as required
-add_subdirectory(Harness)
+#add_subdirectory(Harness)
 #
 
 

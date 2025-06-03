@@ -1790,7 +1790,7 @@ wxTerm::MapKeyCode(int keyCode)
 ///  @author Derry Bryson @date 04-22-2004
 //////////////////////////////////////////////////////////////////////////////
 void
-wxTerm::SelectPrinter(char *PrinterName)
+wxTerm::SelectPrinter(const char *PrinterName)
 {
   if(m_printerFN)
   {

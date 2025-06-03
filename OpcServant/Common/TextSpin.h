@@ -27,7 +27,7 @@ public:
     void SetValue(int i)
     {
         if(i < 0) i = 0;
-        if(i >= _items.GetCount()) i = _items.GetCount() - 1;
+        if(i >= int(_items.GetCount())) i = int(_items.GetCount()) - 1;
         _current = i;
         setCurrent();
     }

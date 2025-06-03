@@ -1,0 +1,6 @@
+# Set up OpcServant directories for initial install
+ROOT=/usr/local
+mkdir $ROOT/OpcServant
+cd $ROOT/OpcServant
+mkdir bin lib modules icons modules data import include mimic scripts sets
+

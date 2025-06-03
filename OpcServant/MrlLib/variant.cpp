@@ -185,7 +185,7 @@ wxDataOutputStream &operator << (wxDataOutputStream &os, const wxTimeSpan &t) {
     return os;
 }
 
-
+#if 0
 /*!
     \brief operator >>
     \return
@@ -203,7 +203,7 @@ wxDataOutputStream &operator << (wxDataOutputStream &os, const size_t t) {
     os << wxLongLong(t);
     return os;
 }
-
+#endif
 
 
 // The default type set

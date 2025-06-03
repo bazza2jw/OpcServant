@@ -264,7 +264,7 @@ void GTerm::cursor_position()
 
 void GTerm::device_attrib()
 {
-	char *str = "\033[?1;2c";
+    const char *str = "\033[?1;2c";
         ProcessOutput(strlen(str), (unsigned char *)str);
 }
 
@@ -353,9 +353,9 @@ void GTerm::delete_line()
 
 void GTerm::status_report()
 {
-	char str[20];
+    char str[32];
 	if (param[0] == 5) {
-		char *str = "\033[0n";
+        const char *str = "\033[0n";
                 ProcessOutput(strlen(str), (unsigned char *)str);
 	} else if (param[0] == 6) {
 		sprintf(str, "\033[%d;%dR", cursor_y+1, cursor_x+1);
@@ -511,7 +511,7 @@ void GTerm::vt52_cursorx()
 
 void GTerm::vt52_ident()
 {
-	char *str = "\033/Z";
+    const char *str = "\033/Z";
         ProcessOutput(strlen(str), (unsigned char *)str);
 }
 

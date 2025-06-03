@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 13.0.0, 2025-03-07T06:17:17. -->
+<!-- Written by QtCreator 13.0.0, 2025-06-03T07:55:14. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
@@ -425,25 +425,7 @@
     <value type="QString" key="RunConfiguration.WorkingDirectory">/usr/local/OpcServant/bin</value>
     <value type="QString" key="RunConfiguration.WorkingDirectory.default">/Development/Projects/MRL/OpcServant/build-OpcServant-Desktop-Debug/Servant</value>
    </valuemap>
-   <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.5">
-    <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
-    <value type="bool" key="Analyzer.QmlProfiler.Settings.UseGlobalSettings">true</value>
-    <value type="bool" key="Analyzer.Valgrind.Settings.UseGlobalSettings">true</value>
-    <valuelist type="QVariantList" key="CustomOutputParsers"/>
-    <value type="int" key="PE.EnvironmentAspect.Base">2</value>
-    <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
-    <value type="bool" key="PE.EnvironmentAspect.PrintOnRun">false</value>
-    <value type="QString" key="PerfRecordArgsId">-e cpu-cycles --call-graph dwarf,4096 -F 250</value>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">Harness</value>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">CMakeProjectManager.CMakeRunConfiguration.Harness</value>
-    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">Harness</value>
-    <value type="bool" key="ProjectExplorer.RunConfiguration.Customized">false</value>
-    <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
-    <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
-    <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">/Development/Projects/MRL/OpcServant/build-OpcServant-Desktop-Debug/Harness</value>
-   </valuemap>
-   <value type="qlonglong" key="ProjectExplorer.Target.RunConfigurationCount">6</value>
+   <value type="qlonglong" key="ProjectExplorer.Target.RunConfigurationCount">5</value>
   </valuemap>
  </data>
  <data>

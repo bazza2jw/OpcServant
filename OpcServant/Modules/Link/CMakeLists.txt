@@ -14,7 +14,7 @@ set(LIB_SOURCES
     LinkUI.cpp
 )
 
-set(PROJECT_LIB_FLAGS Common MrlLib /usr/local/lib/libsocket++.a /usr/local/lib/libsocket.a)
+set(PROJECT_LIB_FLAGS Common MrlLib socket++ socket)
 add_library(${MODULE} SHARED ${LIB_SOURCES})
 target_link_libraries(${MODULE} ${wxWidgets_LIBRARIES} ${WTLIBS} ${Boost_LIBRARIES} ${EXTRA_LIB_FLAGS} ${PROJECT_LIB_FLAGS})
 

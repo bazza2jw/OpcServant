@@ -395,7 +395,7 @@ public:
     {
         if(s && (s->columnCount() > 0))
         {
-            if(size() != s->columnCount())
+            if(size() != unsigned(s->columnCount()))
             {
                 resize(s->columnCount()); // set record size
             }
@@ -412,7 +412,7 @@ public:
 
     void print(std::ostream &os) const
     {
-        for(int i = 0; i < size(); i++)
+        for(int i = 0; i < int(size()); i++)
         {
             os << at(i) << " ";
         }

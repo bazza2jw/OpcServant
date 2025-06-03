@@ -173,7 +173,7 @@ public:
   virtual void ProcessInput(int len, unsigned char *data);
 //  virtual void ProcessOutput(int len, unsigned char *data);
 
-  virtual void SelectPrinter(char *PrinterName);
+  virtual void SelectPrinter(const char *PrinterName);
   virtual void PrintChars(int len, unsigned char *data);
 
   virtual void UpdateRemoteSize(int width, int height);

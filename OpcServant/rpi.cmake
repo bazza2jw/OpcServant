@@ -17,8 +17,8 @@ SET(PIROOT /Development/sysroot)
 SET(PITOOLS /usr/bin)
 #
 # Define the cross compiler locations
-SET(CMAKE_C_COMPILER   ${PITOOLS}/arm-linux-gnueabihf-gcc-8)
-SET(CMAKE_CXX_COMPILER ${PITOOLS}/arm-linux-gnueabihf-g++-8)
+SET(CMAKE_C_COMPILER   ${PITOOLS}/arm-linux-gnueabihf-gcc-12)
+SET(CMAKE_CXX_COMPILER ${PITOOLS}/arm-linux-gnueabihf-g++-12)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)

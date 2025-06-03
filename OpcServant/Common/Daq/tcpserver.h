@@ -10,8 +10,8 @@ namespace MRL {
 class TcpServer;
 // A connection
 class TcpConnectionBase  {
-    wxSocketBase *_sock = nullptr;
     TcpServer * _parent = nullptr;
+    wxSocketBase *_sock = nullptr;
     bool _disconnected = false;
  public:
 

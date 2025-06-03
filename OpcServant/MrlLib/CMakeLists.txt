@@ -27,6 +27,7 @@ set(LIB_SOURCES
 
 add_library(${MODULE} SHARED ${LIB_SOURCES})
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
+
 target_link_libraries(${MODULE} ${wxWidgets_LIBRARIES} ${WTLIBS} ${Boost_LIBRARIES} ${EXTRA_LIB_FLAGS} ${PROJECT_LIB_FLAGS})
 install(TARGETS ${MODULE} DESTINATION MRL/lib)
 
@@ -37,4 +38,6 @@ install(FILES ${MRLLIB_HEADERS} ${MRLLIB_HEADERS_CPP} trace.hpp DESTINATION MRL/
 file(GLOB JSON_HEADERS "json/*.h")
 install(FILES ${JSON_HEADERS} DESTINATION MRL/include/MrlLib/json)
 
+file(GLOB SELENE_HEADERS "selene/*.h")
+install(FILES ${SELENE_HEADERS} DESTINATION MRL/include/MrlLib/selene)
 

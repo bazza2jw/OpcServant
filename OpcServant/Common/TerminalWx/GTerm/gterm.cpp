@@ -116,7 +116,7 @@ GTerm::~GTerm()
 
 #ifdef GTERM_PC
 void
-GTerm::SetMachineName(char *machinename)
+GTerm::SetMachineName(const char *machinename)
 {
   if(pc_machinename)
     delete pc_machinename;

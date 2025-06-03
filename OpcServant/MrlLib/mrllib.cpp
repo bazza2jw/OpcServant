@@ -120,6 +120,15 @@ int MRL::getSerialPortList(wxArrayString &sp)
         }
 
 
+        if (d.GetFirst(&f, "ttyS*", wxDIR_FILES)) {
+            do {
+                sp.Add(f.Prepend("/dev/"));
+                res++;
+            }
+            while (d.GetNext(&f));
+        }
+
+
         // udev rules can map board serial ports
         if (d.GetFirst(&f, "ttyFixed*", wxDIR_FILES)) {
             do {

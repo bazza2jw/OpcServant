@@ -1,0 +1,8 @@
+export RSYNC_PASSWORD=m1tt3ns
+REMOTE=pi@rpi1
+mkdir sysroot sysroot/usr sysroot/opt
+rsync -avz $REMOTE:/usr/include sysroot/usr
+rsync -avz $REMOTE:/usr/lib sysroot/usr
+rsync -avz $REMOTE:/usr/local/lib sysroot/usr
+rsync -avz $REMOTE:/usr/local/include sysroot/usr
+rsync -avz $REMOTE:/opt/vc sysroot/opt

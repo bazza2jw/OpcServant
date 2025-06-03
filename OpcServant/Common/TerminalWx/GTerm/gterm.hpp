@@ -159,7 +159,7 @@ private:
           int
             keyCode;
 
-          char
+          const char
             *seq;
         } VTKeySeq;
 
@@ -340,10 +340,10 @@ public:
                                      int shift = 0, int ctrl = 0, int alt = 0);
 
 #ifdef GTERM_PC
-        virtual void SelectPrinter(char *PrinterName) {}
+        virtual void SelectPrinter(const char *PrinterName) {}
         virtual void PrintChars(int len, unsigned char *data) {}
 
-        void SetMachineName(char *machinename);
+        void SetMachineName(const char *machinename);
         char *GetMachineName(void) { return pc_machinename; }
 #endif // GTERM_PC
 
