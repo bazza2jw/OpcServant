@@ -30,6 +30,8 @@ public:
       start_time = t;
    }
 
+   time_pt startTime() const { return start_time;}
+
    template<TimeFormat fmt = TimeFormat::MILLISECONDS>
    std::uint64_t elapsed(){
       const auto end_time = std::chrono::high_resolution_clock::now();
@@ -70,6 +72,7 @@ public:
 
 private:
    time_pt start_time;
+public:
    //
    template<TimeFormat fmt = TimeFormat::MILLISECONDS>
    static std::uint64_t ticks( const time_pt& start_time, const time_pt& end_time){
@@ -133,7 +136,7 @@ public:
           lap_times.push_back( ticks<fmt_lap>(lap_start, lap_end) );
        }
 
-       return { ticks<fmt_total>(start_time, laps.back()), lap_times };
+       return { ticks<fmt_total>(startTime(), laps.back()), lap_times };
     }
 
 };

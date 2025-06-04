@@ -66,6 +66,7 @@ public:
             wxString s = v.As<wxString>();
             return s.ToStdString();
         }
+        return std::string();
     }
     //
     wxPGProperty * addProp( const wxString &label, const wxString &name, int v ) { return addIntProperty(label,name, v);}
