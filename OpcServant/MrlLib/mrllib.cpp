@@ -169,6 +169,14 @@ int MRL::getSerialPortList(std::list<std::string> &sp)
             while (d.GetNext(&f));
         }
 
+        if (d.GetFirst(&f, "ttyS*", wxDIR_FILES)) {
+            do {
+                sp.push_back(f.Prepend("/dev/").ToStdString());
+                res++;
+            }
+            while (d.GetNext(&f));
+        }
+
 
         // udev rules can map board serial ports
         if (d.GetFirst(&f, "ttyFixed*", wxDIR_FILES)) {
@@ -379,7 +387,6 @@ void MRL::jsonToProperties(wxPropertyGridManager *manager, Json::Value &v)
             }
         }
     }
-
 }
 /*!
  * \brief clearProperties

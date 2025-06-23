@@ -27,6 +27,9 @@ namespace MRL {
 #define  _TR(s)  (s)
 //Wt::WString::tr(s)
 
+// Known problem - playing videos (eg Youtube, VLC) on the same platform as the UI will lock web based configuration
+// This appears to interfer with the Magik library
+//
 
       #define SCROLL_TABLE_CSS ".tableFixHead {overflow-y: auto; height: 106px; }" \
       ".tableFixHead thead th { position: sticky; top: 0; }"\

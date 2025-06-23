@@ -28,3 +28,5 @@ Wordpress is another option for web based interface.
 
 Hopefully this is useful. If only as a range of examples for the use of wxWidgets, Wt and open62541 (OPC UA)
 
+Known problem - playing videos (eg Youtube, VLC) on the same platform as the UI will lock web based configuration. This appears to interfer with the Magik library.
+
