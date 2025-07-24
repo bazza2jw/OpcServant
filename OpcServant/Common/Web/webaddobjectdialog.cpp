@@ -17,6 +17,7 @@
     \param path parent object path
 */
 void MRL::WebAddObjectForm::setup() {
+
     auto layout = contents()->setLayout(std::make_unique<Wt::WGridLayout>()); // a bag grid layout
     // add the items to the grid
     layout->addWidget(std::make_unique<Wt::WLabel>(_TR("Name")), 0, 0);
@@ -24,7 +25,7 @@ void MRL::WebAddObjectForm::setup() {
     layout->addWidget(std::make_unique<Wt::WLabel>(_TR("Type")), 1, 0);
     _type = layout->addWidget(std::make_unique<Wt::WComboBox>(), 1, 1);
     // Set up the name validation handler
-
+    setWindowTitle("Add Object");
     unsigned t = Common::configuration().typeId(_path);
     auto pobj = ObjectManager::find(t);
     if (pobj) {

@@ -28,6 +28,7 @@ void MRL::WebUserConfigurationDialog::setup()
     _toolBar = boxLayout->addWidget(std::make_unique<Wt::WToolBar>()); // add the tool bar
     auto layout = boxLayout->addLayout(std::make_unique<Wt::WGridLayout>());
     //
+    setWindowTitle("User Configuration");
     // add the buttons to the tool bar
     //
     (_add = createColorButton(_toolBar, "btn-primary", _TR("Add")))->clicked().connect(this,&MRL::WebUserConfigurationDialog::add);

@@ -338,6 +338,7 @@ void MRL::ConfigureI2cWebPanel::onI2cTypeSet()
 void MRL::ConfigurationWebDialog::setup()
 {
     auto layout = contents()->setLayout(std::make_unique<Wt::WVBoxLayout>());
+    setWindowTitle("Configuration");
     // create the pages on collapsable panels
     // create a list of panels
     _panelList =  layout->addWidget(std::make_unique<PanelList>());
@@ -535,6 +536,7 @@ void MRL::WebGetFile::setup()
     setVerticalAlignment (Wt::AlignmentFlag::Middle);
     Wt::WPushButton *ok = footer()->addWidget(std::make_unique<Wt::WPushButton>(_TR("OK")));
     ok->setDefault(true);
+    setWindowTitle("Select File");
     //if (wApp->environment().ajax())
     //    ok->disable();
     Wt::WPushButton *cancel = footer()->addWidget(std::make_unique<Wt::WPushButton>(_TR("Cancel")));

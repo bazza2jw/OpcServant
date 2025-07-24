@@ -30,6 +30,7 @@ void MRL::WebAliasConfigurationDialog::WebAddAliasDialog::onOk()
 void MRL::WebAliasConfigurationDialog::WebAddAliasDialog::setup()
 {
     auto layout = std::make_unique<Wt::WGridLayout>();
+    setWindowTitle(("Add Alias"));
 
     layout->addWidget(std::make_unique<Wt::WLabel>("Alias"),0,0);
     _alias  = layout->addWidget(std::make_unique<Wt::WLineEdit>(alias),0,1);
@@ -84,6 +85,7 @@ void MRL::WebAliasConfigurationDialog::setup()
     _toolBar = boxLayout->addWidget(std::make_unique<Wt::WToolBar>()); // add the tool bar
     _model = std::make_shared<Wt::WStandardItemModel>(MRL::Common::aliasMap().size(),2);
     //
+    setWindowTitle("Alias Configuration");
     // load up the aliases
     int j = 0;
     for(auto i = MRL::Common::aliasMap().begin(); i != MRL::Common::aliasMap().end(); i++, j++)
