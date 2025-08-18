@@ -407,10 +407,10 @@ wxTerm::wxTerm(wxWindow* parent, wxWindowID id,
   SetBackgroundColour(m_colors[0]);
 
   for(i = 0; i < 16; i++)
-    m_vt_colorPens[i] = wxPen(m_vt_colors[i], 1, wxSOLID);
+    m_vt_colorPens[i] = wxPen(m_vt_colors[i], 1, wxPENSTYLE_SOLID);
 
   for(i = 0; i < 16; i++)
-    m_pc_colorPens[i] = wxPen(m_pc_colors[i], 1, wxSOLID);
+    m_pc_colorPens[i] = wxPen(m_pc_colors[i], 1, wxPENSTYLE_SOLID);
 
   m_colorPens = m_vt_colorPens;
 
@@ -426,7 +426,7 @@ wxTerm::wxTerm(wxWindow* parent, wxWindowID id,
   m_underlinedFont = GetFont();
   m_underlinedFont.SetUnderlined(TRUE);
   m_boldFont = GetFont();
-  m_boldFont.SetWeight(wxBOLD);
+  m_boldFont.SetWeight(wxFONTWEIGHT_BOLD);
   m_boldUnderlinedFont = m_boldFont;
   m_boldUnderlinedFont.SetUnderlined(TRUE);
 
@@ -443,7 +443,7 @@ wxTerm::wxTerm(wxWindow* parent, wxWindowID id,
 
   SetCursor(wxCursor(wxCURSOR_IBEAM));
 
-  wxFont monospacedFont(10, wxMODERN, wxNORMAL, wxNORMAL, false, "Courier New");
+  wxFont monospacedFont(10, wxMODERN, wxFONTWEIGHT_NORMAL, wxFONTWEIGHT_NORMAL, false, "Courier New");
 
   SetFont(monospacedFont);
 
@@ -506,7 +506,7 @@ wxTerm::SetFont(const wxFont& font)
   m_underlinedFont = font;
   m_underlinedFont.SetUnderlined(TRUE);
   m_boldFont = GetFont();
-  m_boldFont.SetWeight(wxBOLD);
+  m_boldFont.SetWeight(wxFONTWEIGHT_BOLD);
   m_boldUnderlinedFont = m_boldFont;
   m_boldUnderlinedFont.SetUnderlined(TRUE);
   m_init = 0;
@@ -630,7 +630,7 @@ wxTerm::SetVTColors(wxColour colors[16])
     SetBackgroundColour(m_vt_colors[0]);
 
   for(i = 0; i < 16; i++)
-    m_vt_colorPens[i] = wxPen(m_vt_colors[i], 1, wxSOLID);
+    m_vt_colorPens[i] = wxPen(m_vt_colors[i], 1, wxPENSTYLE_SOLID);
   m_init = 0;
 
   Refresh();
@@ -747,7 +747,7 @@ wxTerm::SetPCColors(wxColour colors[16])
     SetBackgroundColour(m_pc_colors[0]);
 
   for(i = 0; i < 16; i++)
-    m_pc_colorPens[i] = wxPen(m_pc_colors[i], 1, wxSOLID);
+    m_pc_colorPens[i] = wxPen(m_pc_colors[i], 1, wxPENSTYLE_SOLID);
   m_init = 0;
 
   Refresh();
@@ -1522,7 +1522,7 @@ wxTerm::ClearChars(int bg_color, int x, int y, int w, int h)
 	  deleteDC = true;
   }
   m_curDC->SetPen(m_colorPens[bg_color]);
-  m_curDC->SetBrush(wxBrush(m_colors[bg_color], wxSOLID));
+  m_curDC->SetBrush(wxBrush(m_colors[bg_color], wxBRUSHSTYLE_SOLID));
   m_curDC->DrawRectangle(x, y, w /* + 1*/, h /*+ 1*/);
 
   if(deleteDC)

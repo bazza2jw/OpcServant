@@ -272,6 +272,8 @@ public:
             {
                 FrameElement e(min_id & CHANNEL_MASK, min_payload, len_payload);
                 s->receive(e); // pass up to the session layer
+                //std::cerr << "Rx id " << e._id << " len_payload " << len_payload << std::hex << " min_id " << min_id << std::endl;
+
             }
             else
             {
