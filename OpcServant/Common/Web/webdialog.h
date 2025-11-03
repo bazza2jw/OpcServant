@@ -100,6 +100,8 @@ protected:
              */
             bool doExec()
             {
+                try
+                {
                 setClosable(true);
                 setResizable(true);
                 setTitleBarEnabled(true);
@@ -115,6 +117,9 @@ protected:
                 bool res = (exec() == Wt::DialogCode::Accepted); // use of exec
                 if(res) onOk(); // read from fields to class
                 return res;
+                }
+                CATCH_DEF;
+                return false;
              }
 
 

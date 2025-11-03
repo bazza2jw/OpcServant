@@ -30,8 +30,7 @@ MRL::BuiWebApplication::BuiWebApplication(UI_TYPE t, const Wt::WEnvironment& env
 {
     setTitle(_TR("OPC Servant User Interface"));
     // Get the boot strap theme for the navigation bar
-    _theme = std::make_shared<Wt::WBootstrapTheme>();
-    _theme->setVersion(Wt::BootstrapVersion::v3);
+    _theme = std::make_shared<Wt::WBootstrap5Theme>();
     setTheme(_theme);
     //
     // Set up the model for the configuration

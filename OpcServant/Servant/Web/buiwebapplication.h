@@ -49,7 +49,7 @@ namespace MRL
         //
         Wt::Auth::Login _login;
         Wt::WContainerWidget * _topContainer = nullptr;
-        std::shared_ptr<Wt::WBootstrapTheme> _theme;
+        std::shared_ptr<Wt::WBootstrap5Theme> _theme;
         UI_TYPE _type = UI_NONE;
     public:
         BuiWebApplication(UI_TYPE t, const Wt::WEnvironment& env);

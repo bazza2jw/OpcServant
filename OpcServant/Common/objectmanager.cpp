@@ -46,7 +46,7 @@ MRL::ObjectManager::ObjectManager(const std::string &n) : _name(n) {
     _map.insert(std::make_pair(n, std::move(ptr)));
     _type = fast_crc32(n[0], (unsigned char *)n.c_str(), n.size()); // set the type id
     _idmap[_type] = this; // map id to type
-    _webIconName =    std::string("/resources/objectIcons/") + _name + ".png";
+    _webIconName =    std::string(OPCSERVANT_WT_RESOURCE_DIR "objectIcons/") + _name + ".png";
     //
     #ifdef USE_GUI
     _iconFileName =   Common::baseDir() + "/icons/" + _name + ".png";

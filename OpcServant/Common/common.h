@@ -27,7 +27,9 @@
 //
 #define OPCSERVANT_DEF_APP_DIR "/usr/local/OpcServant"
 #endif
-
+// Where the Wt resources are
+#define OPCSERVANT_WT_RESOURCE_DIR "/usr/local/share/Wt"
+//
 namespace MRL {
 
     class DaqCommon;

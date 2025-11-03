@@ -67,6 +67,9 @@ namespace MRL {
             //
             int _measureInterval = 60; // seconds between value measures
             int _publishInterval = 60; // seconds between value publish
+            time_t _nextMeasure = 0;
+            time_t _nextPublish = 0;
+
             //
             VariantPropertyTree _configuration; // tree of configuration values
             VariantPropertyTree _runtime; // tree of runtime values
@@ -219,11 +222,13 @@ namespace MRL {
             */
             virtual void onOneSecond(time_t t) {
                 if (enabled() && started()) {
-                    if (_measureInterval && !(t % _measureInterval)) { // get data from source
+                    if (_measureInterval && (t >= _nextMeasure)) { // get data from source
                         measure();
+                        _nextMeasure = t + _measureInterval;
                     }
-                    if (_publishInterval && !(t % _publishInterval)) { // push data to destination
+                    if (_publishInterval && (t >= _nextPublish)) { // push data to destination
                         publish();
+                        _nextPublish = t + _publishInterval;
                     }
                 }
             }
