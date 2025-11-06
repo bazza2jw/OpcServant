@@ -30,6 +30,10 @@
 // Where the Wt resources are
 #define OPCSERVANT_WT_RESOURCE_DIR "/usr/local/share/Wt"
 //
+// the Wt HTTPD port
+#define OPCSERVANT_WT_HTTPD_PORT "8082"
+
+//
 namespace MRL {
 
     class DaqCommon;

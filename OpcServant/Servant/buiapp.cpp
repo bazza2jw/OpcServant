@@ -125,18 +125,18 @@ bool MRL::BuiApp::OnInit() {
                 // start the web interface
                 // Now start the web thread
                 static const char *av[] = {"OpcServant",
-                                           "--docroot=" OPCSERVANT_WT_RESOURCE_DIR,
+                                           "--docroot=" OPCSERVANT_DEF_APP_DIR "/data/;" OPCSERVANT_WT_RESOURCE_DIR "/",
                                            "--http-address=0.0.0.0",
-                                           "--http-port=8082",
+                                           "--http-port=" OPCSERVANT_WT_HTTPD_PORT,
                                            "--resources-dir=/resources"};
                 //
                 // the ssl sub-directory has all the SSL files for this application
                 // Note if the certificates fail then the server fails and there may be a crash
                 //
                 static const char *avSsl[] = {"OpcServant",
-                                              "--docroot=" OPCSERVANT_WT_RESOURCE_DIR,
+                                              "--docroot=" OPCSERVANT_DEF_APP_DIR "/data/;" OPCSERVANT_WT_RESOURCE_DIR "/",
                                               "--https-address=0.0.0.0",
-                                              "--https-port=8082",
+                                              "--https-port=" OPCSERVANT_WT_HTTPD_PORT,
                                               "--ssl-certificate=./ssl/server.pem",
                                               "--ssl-private-key=./ssl/server.key",
                                               "--ssl-tmp-dh=./ssl/dh2048.pem",
