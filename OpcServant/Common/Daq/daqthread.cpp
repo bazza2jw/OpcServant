@@ -14,11 +14,15 @@
 
 void MRL::DaqThread::process()
 {
-    if(running() && _daq->started())
+    try
     {
-        _daq->process();
-        this->sleep(5.0);
+        if(running() && _daq->started())
+        {
+            _daq->process();
+            this->sleep(5.0);
+        }
     }
+    CATCH_DEF;
 }
 
 

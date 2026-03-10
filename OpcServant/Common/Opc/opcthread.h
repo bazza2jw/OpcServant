@@ -25,7 +25,11 @@ namespace MRL {
             virtual ~OpcThread();
             virtual void begin()
             {
-                if(_opc) _opc->start(); // runs the OPC loop in the thread
+                try
+                {
+                    if(_opc) _opc->start(); // runs the OPC loop in the thread
+                }
+                CATCH_DEF;
             }
             virtual void end()
             {
@@ -33,8 +37,12 @@ namespace MRL {
             }
             virtual void stop()
             {
-                if(_opc) _opc->stop(); // mark to stop OPC
-                ThreadHelper::stop(); // stop thread and join
+                try
+                {
+                    if(_opc) _opc->stop(); // mark to stop OPC
+                    ThreadHelper::stop(); // stop thread and join
+                }
+                CATCH_DEF;
             }
 
     };

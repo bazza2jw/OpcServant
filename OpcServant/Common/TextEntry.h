@@ -41,7 +41,7 @@ class DateEntry : public TextEntry
 public:
     DateEntry(wxWindow* parent, wxWindowID id = wxID_ANY) : TextEntry(parent,id)
     {
-        _date = wxDateTime::Now();
+        SetDate(wxDateTime::Now());
     }
     virtual void SetDate(const wxDateTime &dt)
     {
@@ -65,7 +65,7 @@ class TimeEntry : public TextEntry
 public:
     TimeEntry(wxWindow* parent, wxWindowID id = wxID_ANY) : TextEntry(parent,id)
     {
-        _time = wxDateTime::Now();
+        SetTime(wxDateTime::Now());
     }
     virtual void SetTime(const wxDateTime &dt)
     {

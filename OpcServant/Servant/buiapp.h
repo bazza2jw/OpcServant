@@ -134,6 +134,8 @@ namespace MRL {
             }
 
             void setShutdownOnExit(bool f = true) {_shutdownOnExit = f;}
+            virtual bool 	OnExceptionInMainLoop ();
+            virtual void 	OnUnhandledException ();
 
     };
 }

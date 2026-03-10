@@ -39,6 +39,12 @@
 bool MRL::BuiApp::OnInit() {
     try {
         // Building without GUI means smaller executable and smaller wx libraries
+        std::set_terminate([]()
+         {
+           std::cerr << "Unknown exception caught\n";
+            wxTrap();
+        });
+
 #ifdef USE_GUI
         wxApp::OnInit(); // parse the command line
         wxInitAllImageHandlers();
@@ -367,4 +373,24 @@ int  MRL::BuiApp::OnExit() {
     return wxAppConsole::OnExit();
 #endif
 }
+
+/*!
+ * \brief MRL::BuiApp::OnExceptionInMainLoop
+ * \return
+ */
+bool 	MRL::BuiApp::OnExceptionInMainLoop ()
+{
+    std::cerr << "OnExceptionInMainLoop" << std::endl;
+    wxTrap(); // Break point
+}
+
+/*!
+ * \brief MRL::BuiApp::OnUnhandledException
+ */
+void 	MRL::BuiApp::OnUnhandledException ()
+{
+    std::cerr << "OnUnhandledException" << std::endl;
+    wxTrap(); // breakpoint
+}
+
 
