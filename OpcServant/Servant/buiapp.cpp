@@ -382,6 +382,7 @@ bool 	MRL::BuiApp::OnExceptionInMainLoop ()
 {
     std::cerr << "OnExceptionInMainLoop" << std::endl;
     wxTrap(); // Break point
+    return true;
 }
 
 /*!

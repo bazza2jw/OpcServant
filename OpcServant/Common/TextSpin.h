@@ -50,6 +50,7 @@ public:
 
 
 protected:
+    void onUp(wxCommandEvent& event) override;
     void setCurrent()
     {
         if(_items.GetCount() > 0)

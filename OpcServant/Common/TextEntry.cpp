@@ -3,7 +3,7 @@
 #include "virtualkeypaddate.h"
 #include "virtualkeypadtime.h"
 #include "VirtualKeypad.h"
-
+#include "wx/caret.h"
 
 wxDEFINE_EVENT(wxEVT_FIELD_UPDATED, wxCommandEvent);
 /*!
@@ -14,6 +14,7 @@ TextEntry::TextEntry(wxWindow* parent, wxWindowID id)
     : wxTextCtrl(parent,id)
 {
     Connect(wxEVT_LEFT_DOWN, wxMouseEventHandler(TextEntry::onClick), NULL, this);
+
 }
 
 /*!

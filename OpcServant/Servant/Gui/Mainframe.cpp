@@ -140,10 +140,15 @@ void Mainframe::OnPopupClick(wxCommandEvent &evt) {
             int id = MRL::Common::configuration().find(_currentPath);
             if (id > 0) {
                 if (o->edit(this, _currentPath)) {
+
                     MRL::RtObjectRef &r =  MRL::Common::daq().objects()[id];
+
                     if (r) {
-                        r.get()->stop();
-                        r.get()->start();
+                        if(r.get()->restartOnEdit())
+                        {
+                            r.get()->stop();
+                            r.get()->start();
+                        }
                     }
                 }
             }

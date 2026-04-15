@@ -9,3 +9,6 @@ TextSpin::~TextSpin()
 {
 }
 
+void TextSpin::onUp(wxCommandEvent& event)
+{
+}

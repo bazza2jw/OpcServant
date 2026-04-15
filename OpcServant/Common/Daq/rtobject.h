@@ -168,6 +168,10 @@ namespace MRL {
                 return false;   // used to drive timeouts and house keeping
             }
 
+            virtual bool restartOnEdit()
+            {
+                return true; // after edit do a stop - start. Not always correct when operations are slow.
+            }
             /*!
              * \brief loadConfiguration
              */

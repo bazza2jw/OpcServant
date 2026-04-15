@@ -7,6 +7,7 @@
 #ifndef _OPCSERVANT_COMMON_VIRTUALKEYPADUI_BASE_CLASSES_H
 #define _OPCSERVANT_COMMON_VIRTUALKEYPADUI_BASE_CLASSES_H
 
+// clang-format off
 #include <wx/settings.h>
 #include <wx/xrc/xmlres.h>
 #include <wx/xrc/xh_bmp.h>
@@ -42,15 +43,13 @@
 #define WXC_FROM_DIP(x) x
 #endif
 
+// clang-format on
 
 class VirtualKeypadBase : public wxDialog
 {
 protected:
-    wxBoxSizer* boxSizer3;
-    wxFlexGridSizer* flexGridSizer7;
     wxTextCtrl* m_textEntry;
     wxButton* m_button13;
-    wxGridSizer* gridSizer5;
     wxButton* m_button37123;
     wxButton* m_button3712;
     wxButton* m_button371;
@@ -63,7 +62,6 @@ protected:
     wxButton* m_button37711;
     wxButton* m_button377;
     wxButton* m_button37;
-    wxGridSizer* gridSizer9;
     wxButton* m_button50;
     wxButton* m_button54;
 
@@ -101,7 +99,7 @@ public:
     wxButton* GetButton37() { return m_button37; }
     wxButton* GetButton50() { return m_button50; }
     wxButton* GetButton54() { return m_button54; }
-    VirtualKeypadBase(wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Keypad"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize(500,500), long style = wxCAPTION|wxRESIZE_BORDER|wxCLOSE_BOX|wxBORDER_SIMPLE);
+    VirtualKeypadBase(wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Keypad"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize(500,500), long style = wxCAPTION|wxRESIZE_BORDER|wxCLOSE_BOX|wxBORDER_STATIC);
     virtual ~VirtualKeypadBase();
 };
 
@@ -138,7 +136,6 @@ public:
 class VkTextControlBase : public wxPanel
 {
 protected:
-    wxFlexGridSizer* flexGridSizer63;
     wxTextCtrl* m_text;
     wxButton* m_button67;
 
@@ -156,11 +153,8 @@ public:
 class VKeyboardPanelBase : public wxPanel
 {
 protected:
-    wxBoxSizer* boxSizer71;
-    wxBoxSizer* boxSizer75;
     wxTextCtrl* m_textEntry;
     wxButton* m_button81;
-    wxGridSizer* gridSizer77;
     wxButton* n_key1;
     wxButton* m_key2;
     wxButton* m_key3;
@@ -201,7 +195,6 @@ protected:
     wxButton* m_keyMinus;
     wxButton* m_keyUS;
     wxButton* m_keySlash;
-    wxGridSizer* gridSizer227;
     wxButton* m_space;
 
 protected:
@@ -260,7 +253,6 @@ public:
 class TextSpinBase : public wxPanel
 {
 protected:
-    wxBoxSizer* boxSizer499;
     wxTextCtrl* m_text;
     wxButton* m_up;
     wxButton* m_down;
@@ -281,7 +273,6 @@ public:
 class ToggleOptionBase : public wxPanel
 {
 protected:
-    wxFlexGridSizer* flexGridSizer257;
     wxStaticText* m_label;
     SliderSwitch* m_button;
 
@@ -298,14 +289,11 @@ public:
 class VirtualKeypadTimeBase : public wxDialog
 {
 protected:
-    wxBoxSizer* boxSizer31;
-    wxFlexGridSizer* flexGridSizer72;
     wxTextCtrl* m_hour;
     wxStaticText* m_staticText324;
     wxTextCtrl* m_minute;
     wxStaticText* m_staticText328;
     wxTextCtrl* m_second;
-    wxFlexGridSizer* flexGridSizer482;
     wxButton* m_buttonHoursUp;
     wxButton* m_buttonHoursDown;
     wxStaticText* m_staticText488;
@@ -314,7 +302,6 @@ protected:
     wxStaticText* m_staticText494;
     wxButton* m_buttonSecUp;
     wxButton* m_buttonSecDown;
-    wxGridSizer* gridSizer918;
     wxButton* m_button5019;
     wxButton* m_button5421;
 
@@ -342,7 +329,7 @@ public:
     wxButton* GetButtonSecDown() { return m_buttonSecDown; }
     wxButton* GetButton5019() { return m_button5019; }
     wxButton* GetButton5421() { return m_button5421; }
-    VirtualKeypadTimeBase(wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Time Entry"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize(800,600), long style = wxCAPTION|wxRESIZE_BORDER|wxCLOSE_BOX|wxBORDER_SIMPLE);
+    VirtualKeypadTimeBase(wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Time Entry"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize(800,600), long style = wxCAPTION|wxRESIZE_BORDER|wxCLOSE_BOX|wxBORDER_STATIC);
     virtual ~VirtualKeypadTimeBase();
 };
 
@@ -350,8 +337,6 @@ public:
 class VirtualKeypadDateBase : public wxDialog
 {
 protected:
-    wxBoxSizer* boxSizer3122;
-    wxFlexGridSizer* flexGridSizer7223;
     wxTextCtrl* m_year;
     wxStaticText* m_staticText330;
     wxTextCtrl* m_month;
@@ -360,7 +345,6 @@ protected:
     wxStaticText* m_staticText334;
     wxStaticText* m_staticText336;
     wxStaticText* m_staticText338;
-    wxFlexGridSizer* flexGridSizer464;
     wxButton* m_buttonYearUp;
     wxButton* m_buttonYearDown;
     wxStaticText* m_staticText470;
@@ -369,7 +353,6 @@ protected:
     wxStaticText* m_staticText476;
     wxButton* m_buttonDayUp;
     wxButton* m_buttonDayDown;
-    wxGridSizer* gridSizer91838;
     wxButton* m_button501939;
     wxButton* m_button542141;
 
@@ -400,7 +383,7 @@ public:
     wxButton* GetButtonDayDown() { return m_buttonDayDown; }
     wxButton* GetButton501939() { return m_button501939; }
     wxButton* GetButton542141() { return m_button542141; }
-    VirtualKeypadDateBase(wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Date Entry"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize(800,600), long style = wxCAPTION|wxRESIZE_BORDER|wxCLOSE_BOX|wxBORDER_SIMPLE);
+    VirtualKeypadDateBase(wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Date Entry"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize(800,600), long style = wxCAPTION|wxRESIZE_BORDER|wxCLOSE_BOX|wxBORDER_STATIC);
     virtual ~VirtualKeypadDateBase();
 };
 
@@ -408,11 +391,8 @@ public:
 class VTextEntryDialogBase : public wxDialog
 {
 protected:
-    wxBoxSizer* boxSizer711;
-    wxBoxSizer* boxSizer752;
     wxTextCtrl* m_textEntry;
     wxButton* m_button814;
-    wxGridSizer* gridSizer775;
     wxButton* n_key16;
     wxButton* m_key27;
     wxButton* m_key38;
@@ -453,7 +433,6 @@ protected:
     wxButton* m_keyMinus43;
     wxButton* m_keyUS44;
     wxButton* m_keySlash45;
-    wxGridSizer* gridSizer22746;
     wxToggleButton* m_capsLock;
     wxButton* m_space47;
     wxButton* m_button541;
@@ -523,7 +502,6 @@ public:
 class SliderEntryBase : public wxPanel
 {
 protected:
-    wxBoxSizer* boxSizer503;
     wxTextCtrl* m_text;
     wxSlider* m_slider;
 
@@ -541,7 +519,6 @@ public:
 class TextChoiceBase : public wxDialog
 {
 protected:
-    wxBoxSizer* boxSizer511;
     wxListBox* m_listBox;
     wxStdDialogButtonSizer* m_stdBtnSizer517;
     wxButton* m_button519;

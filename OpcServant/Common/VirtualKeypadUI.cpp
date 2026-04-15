@@ -10,8 +10,19 @@
 // Declare the bitmap loading function
 extern void wxCrafter7TPDlEInitBitmapResources();
 
-static bool bBitmapLoaded = false;
 
+namespace {
+// return the wxBORDER_SIMPLE that matches the current application theme
+[[maybe_unused]]
+wxBorder get_border_simple_theme_aware_bit() {
+#if wxVERSION_NUMBER >= 3300 && defined(__WXMSW__)
+    return wxSystemSettings::GetAppearance().IsDark() ? wxBORDER_SIMPLE : wxBORDER_DEFAULT;
+#else
+    return wxBORDER_DEFAULT;
+#endif
+} // get_border_simple_theme_aware_bit
+bool bBitmapLoaded = false;
+} // namespace
 
 VirtualKeypadBase::VirtualKeypadBase(wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style)
     : wxDialog(parent, id, title, pos, size, style)
@@ -23,10 +34,10 @@ VirtualKeypadBase::VirtualKeypadBase(wxWindow* parent, wxWindowID id, const wxSt
         bBitmapLoaded = true;
     }
     
-    boxSizer3 = new wxBoxSizer(wxVERTICAL);
+    wxBoxSizer* boxSizer3 = new wxBoxSizer(wxVERTICAL);
     this->SetSizer(boxSizer3);
     
-    flexGridSizer7 = new wxFlexGridSizer(0, 2, 0, 0);
+    wxFlexGridSizer* flexGridSizer7 = new wxFlexGridSizer(0, 2, 0, 0);
     flexGridSizer7->SetFlexibleDirection( wxBOTH );
     flexGridSizer7->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
     flexGridSizer7->AddGrowableCol(0);
@@ -48,7 +59,7 @@ VirtualKeypadBase::VirtualKeypadBase(wxWindow* parent, wxWindowID id, const wxSt
     
     flexGridSizer7->Add(m_button13, 1, wxALL, WXC_FROM_DIP(5));
     
-    gridSizer5 = new wxGridSizer(0, 3, 0, 0);
+    wxGridSizer* gridSizer5 = new wxGridSizer(0, 3, 0, 0);
     
     boxSizer3->Add(gridSizer5, 1, wxALL|wxEXPAND, WXC_FROM_DIP(5));
     
@@ -124,7 +135,7 @@ VirtualKeypadBase::VirtualKeypadBase(wxWindow* parent, wxWindowID id, const wxSt
     
     gridSizer5->Add(m_button37, 1, wxALL|wxEXPAND, WXC_FROM_DIP(5));
     
-    gridSizer9 = new wxGridSizer(0, 3, 0, 0);
+    wxGridSizer* gridSizer9 = new wxGridSizer(0, 3, 0, 0);
     
     boxSizer3->Add(gridSizer9, 1, wxALL|wxEXPAND, WXC_FROM_DIP(5));
     
@@ -153,41 +164,41 @@ VirtualKeypadBase::VirtualKeypadBase(wxWindow* parent, wxWindowID id, const wxSt
         CentreOnScreen(wxHORIZONTAL);
     }
     // Connect events
-    m_button13->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VirtualKeypadBase::onBack), NULL, this);
-    m_button37123->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VirtualKeypadBase::on_1), NULL, this);
-    m_button3712->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VirtualKeypadBase::on_2), NULL, this);
-    m_button371->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VirtualKeypadBase::on_3), NULL, this);
-    m_button37456->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VirtualKeypadBase::on_4), NULL, this);
-    m_button3745->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VirtualKeypadBase::on_5), NULL, this);
-    m_button374->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VirtualKeypadBase::on_6), NULL, this);
-    m_button3778910->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VirtualKeypadBase::on_7), NULL, this);
-    m_button37789->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VirtualKeypadBase::on_8), NULL, this);
-    m_button3778->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VirtualKeypadBase::on_9), NULL, this);
-    m_button37711->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VirtualKeypadBase::on_dp), NULL, this);
-    m_button377->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VirtualKeypadBase::on_0), NULL, this);
-    m_button37->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VirtualKeypadBase::on_minus), NULL, this);
-    m_button50->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VirtualKeypadBase::onOK), NULL, this);
-    m_button54->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VirtualKeypadBase::onCancel), NULL, this);
+    m_button13->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &VirtualKeypadBase::onBack, this);
+    m_button37123->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &VirtualKeypadBase::on_1, this);
+    m_button3712->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &VirtualKeypadBase::on_2, this);
+    m_button371->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &VirtualKeypadBase::on_3, this);
+    m_button37456->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &VirtualKeypadBase::on_4, this);
+    m_button3745->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &VirtualKeypadBase::on_5, this);
+    m_button374->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &VirtualKeypadBase::on_6, this);
+    m_button3778910->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &VirtualKeypadBase::on_7, this);
+    m_button37789->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &VirtualKeypadBase::on_8, this);
+    m_button3778->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &VirtualKeypadBase::on_9, this);
+    m_button37711->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &VirtualKeypadBase::on_dp, this);
+    m_button377->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &VirtualKeypadBase::on_0, this);
+    m_button37->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &VirtualKeypadBase::on_minus, this);
+    m_button50->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &VirtualKeypadBase::onOK, this);
+    m_button54->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &VirtualKeypadBase::onCancel, this);
     
 }
 
 VirtualKeypadBase::~VirtualKeypadBase()
 {
-    m_button13->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VirtualKeypadBase::onBack), NULL, this);
-    m_button37123->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VirtualKeypadBase::on_1), NULL, this);
-    m_button3712->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VirtualKeypadBase::on_2), NULL, this);
-    m_button371->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VirtualKeypadBase::on_3), NULL, this);
-    m_button37456->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VirtualKeypadBase::on_4), NULL, this);
-    m_button3745->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VirtualKeypadBase::on_5), NULL, this);
-    m_button374->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VirtualKeypadBase::on_6), NULL, this);
-    m_button3778910->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VirtualKeypadBase::on_7), NULL, this);
-    m_button37789->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VirtualKeypadBase::on_8), NULL, this);
-    m_button3778->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VirtualKeypadBase::on_9), NULL, this);
-    m_button37711->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VirtualKeypadBase::on_dp), NULL, this);
-    m_button377->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VirtualKeypadBase::on_0), NULL, this);
-    m_button37->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VirtualKeypadBase::on_minus), NULL, this);
-    m_button50->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VirtualKeypadBase::onOK), NULL, this);
-    m_button54->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VirtualKeypadBase::onCancel), NULL, this);
+    m_button13->Unbind(wxEVT_COMMAND_BUTTON_CLICKED, &VirtualKeypadBase::onBack, this);
+    m_button37123->Unbind(wxEVT_COMMAND_BUTTON_CLICKED, &VirtualKeypadBase::on_1, this);
+    m_button3712->Unbind(wxEVT_COMMAND_BUTTON_CLICKED, &VirtualKeypadBase::on_2, this);
+    m_button371->Unbind(wxEVT_COMMAND_BUTTON_CLICKED, &VirtualKeypadBase::on_3, this);
+    m_button37456->Unbind(wxEVT_COMMAND_BUTTON_CLICKED, &VirtualKeypadBase::on_4, this);
+    m_button3745->Unbind(wxEVT_COMMAND_BUTTON_CLICKED, &VirtualKeypadBase::on_5, this);
+    m_button374->Unbind(wxEVT_COMMAND_BUTTON_CLICKED, &VirtualKeypadBase::on_6, this);
+    m_button3778910->Unbind(wxEVT_COMMAND_BUTTON_CLICKED, &VirtualKeypadBase::on_7, this);
+    m_button37789->Unbind(wxEVT_COMMAND_BUTTON_CLICKED, &VirtualKeypadBase::on_8, this);
+    m_button3778->Unbind(wxEVT_COMMAND_BUTTON_CLICKED, &VirtualKeypadBase::on_9, this);
+    m_button37711->Unbind(wxEVT_COMMAND_BUTTON_CLICKED, &VirtualKeypadBase::on_dp, this);
+    m_button377->Unbind(wxEVT_COMMAND_BUTTON_CLICKED, &VirtualKeypadBase::on_0, this);
+    m_button37->Unbind(wxEVT_COMMAND_BUTTON_CLICKED, &VirtualKeypadBase::on_minus, this);
+    m_button50->Unbind(wxEVT_COMMAND_BUTTON_CLICKED, &VirtualKeypadBase::onOK, this);
+    m_button54->Unbind(wxEVT_COMMAND_BUTTON_CLICKED, &VirtualKeypadBase::onCancel, this);
     
 }
 
@@ -245,7 +256,7 @@ VkTextControlBase::VkTextControlBase(wxWindow* parent, wxWindowID id, const wxPo
         bBitmapLoaded = true;
     }
     
-    flexGridSizer63 = new wxFlexGridSizer(0, 2, 0, 0);
+    wxFlexGridSizer* flexGridSizer63 = new wxFlexGridSizer(0, 2, 0, 0);
     flexGridSizer63->SetFlexibleDirection( wxBOTH );
     flexGridSizer63->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
     flexGridSizer63->AddGrowableCol(0);
@@ -269,13 +280,13 @@ VkTextControlBase::VkTextControlBase(wxWindow* parent, wxWindowID id, const wxPo
          GetSizer()->Fit(this);
     }
     // Connect events
-    m_button67->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VkTextControlBase::onOpen), NULL, this);
+    m_button67->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &VkTextControlBase::onOpen, this);
     
 }
 
 VkTextControlBase::~VkTextControlBase()
 {
-    m_button67->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VkTextControlBase::onOpen), NULL, this);
+    m_button67->Unbind(wxEVT_COMMAND_BUTTON_CLICKED, &VkTextControlBase::onOpen, this);
     
 }
 
@@ -289,10 +300,10 @@ VKeyboardPanelBase::VKeyboardPanelBase(wxWindow* parent, wxWindowID id, const wx
         bBitmapLoaded = true;
     }
     
-    boxSizer71 = new wxBoxSizer(wxVERTICAL);
+    wxBoxSizer* boxSizer71 = new wxBoxSizer(wxVERTICAL);
     this->SetSizer(boxSizer71);
     
-    boxSizer75 = new wxBoxSizer(wxHORIZONTAL);
+    wxBoxSizer* boxSizer75 = new wxBoxSizer(wxHORIZONTAL);
     
     boxSizer71->Add(boxSizer75, 1, wxALL|wxEXPAND, WXC_FROM_DIP(5));
     
@@ -307,7 +318,7 @@ VKeyboardPanelBase::VKeyboardPanelBase(wxWindow* parent, wxWindowID id, const wx
     
     boxSizer75->Add(m_button81, 0, wxALL|wxEXPAND, WXC_FROM_DIP(5));
     
-    gridSizer77 = new wxGridSizer(0, 10, 0, 0);
+    wxGridSizer* gridSizer77 = new wxGridSizer(0, 10, 0, 0);
     
     boxSizer71->Add(gridSizer77, 3, wxALL|wxEXPAND, WXC_FROM_DIP(5));
     
@@ -471,7 +482,7 @@ VKeyboardPanelBase::VKeyboardPanelBase(wxWindow* parent, wxWindowID id, const wx
     
     gridSizer77->Add(m_keySlash, 0, wxALL|wxEXPAND, WXC_FROM_DIP(5));
     
-    gridSizer227 = new wxGridSizer(0, 3, 0, 0);
+    wxGridSizer* gridSizer227 = new wxGridSizer(0, 3, 0, 0);
     
     boxSizer71->Add(gridSizer227, 1, wxALL|wxEXPAND, WXC_FROM_DIP(5));
     
@@ -485,95 +496,95 @@ VKeyboardPanelBase::VKeyboardPanelBase(wxWindow* parent, wxWindowID id, const wx
          GetSizer()->Fit(this);
     }
     // Connect events
-    m_button81->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VKeyboardPanelBase::onDelete), NULL, this);
-    n_key1->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VKeyboardPanelBase::onChar), NULL, this);
-    m_key2->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VKeyboardPanelBase::onChar), NULL, this);
-    m_key3->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VKeyboardPanelBase::onChar), NULL, this);
-    m_key4->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VKeyboardPanelBase::onChar), NULL, this);
-    m_key5->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VKeyboardPanelBase::onChar), NULL, this);
-    m_key6->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VKeyboardPanelBase::onChar), NULL, this);
-    m_key7->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VKeyboardPanelBase::onChar), NULL, this);
-    m_key8->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VKeyboardPanelBase::onChar), NULL, this);
-    m_key9->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VKeyboardPanelBase::onChar), NULL, this);
-    m_key0->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VKeyboardPanelBase::onChar), NULL, this);
-    m_keyA->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VKeyboardPanelBase::onChar), NULL, this);
-    m_keyB->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VKeyboardPanelBase::onChar), NULL, this);
-    m_keyC->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VKeyboardPanelBase::onChar), NULL, this);
-    m_keyD->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VKeyboardPanelBase::onChar), NULL, this);
-    m_keyE->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VKeyboardPanelBase::onChar), NULL, this);
-    m_keyF->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VKeyboardPanelBase::onChar), NULL, this);
-    m_keyG->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VKeyboardPanelBase::onChar), NULL, this);
-    m_keyH->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VKeyboardPanelBase::onChar), NULL, this);
-    m_keyI->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VKeyboardPanelBase::onChar), NULL, this);
-    m_keyJ->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VKeyboardPanelBase::onChar), NULL, this);
-    m_keyK->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VKeyboardPanelBase::onChar), NULL, this);
-    m_keyL->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VKeyboardPanelBase::onChar), NULL, this);
-    m_keyM->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VKeyboardPanelBase::onChar), NULL, this);
-    m_keyN->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VKeyboardPanelBase::onChar), NULL, this);
-    m_keyO->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VKeyboardPanelBase::onChar), NULL, this);
-    m_keyP->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VKeyboardPanelBase::onChar), NULL, this);
-    m_keyQ->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VKeyboardPanelBase::onChar), NULL, this);
-    m_keyR->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VKeyboardPanelBase::onChar), NULL, this);
-    m_keyS->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VKeyboardPanelBase::onChar), NULL, this);
-    m_keyT->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VKeyboardPanelBase::onChar), NULL, this);
-    m_keyU->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VKeyboardPanelBase::onChar), NULL, this);
-    m_keyV->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VKeyboardPanelBase::onChar), NULL, this);
-    m_keyW->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VKeyboardPanelBase::onChar), NULL, this);
-    m_keyX->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VKeyboardPanelBase::onChar), NULL, this);
-    m_keyY->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VKeyboardPanelBase::onChar), NULL, this);
-    m_keyZ->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VKeyboardPanelBase::onChar), NULL, this);
-    m_keyDot->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VKeyboardPanelBase::onChar), NULL, this);
-    m_keyMinus->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VKeyboardPanelBase::onChar), NULL, this);
-    m_keyUS->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VKeyboardPanelBase::onChar), NULL, this);
-    m_keySlash->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VKeyboardPanelBase::onChar), NULL, this);
-    m_space->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VKeyboardPanelBase::onChar), NULL, this);
+    m_button81->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &VKeyboardPanelBase::onDelete, this);
+    n_key1->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &VKeyboardPanelBase::onChar, this);
+    m_key2->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &VKeyboardPanelBase::onChar, this);
+    m_key3->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &VKeyboardPanelBase::onChar, this);
+    m_key4->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &VKeyboardPanelBase::onChar, this);
+    m_key5->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &VKeyboardPanelBase::onChar, this);
+    m_key6->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &VKeyboardPanelBase::onChar, this);
+    m_key7->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &VKeyboardPanelBase::onChar, this);
+    m_key8->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &VKeyboardPanelBase::onChar, this);
+    m_key9->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &VKeyboardPanelBase::onChar, this);
+    m_key0->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &VKeyboardPanelBase::onChar, this);
+    m_keyA->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &VKeyboardPanelBase::onChar, this);
+    m_keyB->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &VKeyboardPanelBase::onChar, this);
+    m_keyC->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &VKeyboardPanelBase::onChar, this);
+    m_keyD->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &VKeyboardPanelBase::onChar, this);
+    m_keyE->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &VKeyboardPanelBase::onChar, this);
+    m_keyF->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &VKeyboardPanelBase::onChar, this);
+    m_keyG->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &VKeyboardPanelBase::onChar, this);
+    m_keyH->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &VKeyboardPanelBase::onChar, this);
+    m_keyI->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &VKeyboardPanelBase::onChar, this);
+    m_keyJ->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &VKeyboardPanelBase::onChar, this);
+    m_keyK->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &VKeyboardPanelBase::onChar, this);
+    m_keyL->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &VKeyboardPanelBase::onChar, this);
+    m_keyM->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &VKeyboardPanelBase::onChar, this);
+    m_keyN->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &VKeyboardPanelBase::onChar, this);
+    m_keyO->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &VKeyboardPanelBase::onChar, this);
+    m_keyP->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &VKeyboardPanelBase::onChar, this);
+    m_keyQ->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &VKeyboardPanelBase::onChar, this);
+    m_keyR->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &VKeyboardPanelBase::onChar, this);
+    m_keyS->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &VKeyboardPanelBase::onChar, this);
+    m_keyT->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &VKeyboardPanelBase::onChar, this);
+    m_keyU->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &VKeyboardPanelBase::onChar, this);
+    m_keyV->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &VKeyboardPanelBase::onChar, this);
+    m_keyW->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &VKeyboardPanelBase::onChar, this);
+    m_keyX->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &VKeyboardPanelBase::onChar, this);
+    m_keyY->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &VKeyboardPanelBase::onChar, this);
+    m_keyZ->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &VKeyboardPanelBase::onChar, this);
+    m_keyDot->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &VKeyboardPanelBase::onChar, this);
+    m_keyMinus->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &VKeyboardPanelBase::onChar, this);
+    m_keyUS->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &VKeyboardPanelBase::onChar, this);
+    m_keySlash->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &VKeyboardPanelBase::onChar, this);
+    m_space->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &VKeyboardPanelBase::onChar, this);
     
 }
 
 VKeyboardPanelBase::~VKeyboardPanelBase()
 {
-    m_button81->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VKeyboardPanelBase::onDelete), NULL, this);
-    n_key1->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VKeyboardPanelBase::onChar), NULL, this);
-    m_key2->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VKeyboardPanelBase::onChar), NULL, this);
-    m_key3->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VKeyboardPanelBase::onChar), NULL, this);
-    m_key4->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VKeyboardPanelBase::onChar), NULL, this);
-    m_key5->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VKeyboardPanelBase::onChar), NULL, this);
-    m_key6->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VKeyboardPanelBase::onChar), NULL, this);
-    m_key7->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VKeyboardPanelBase::onChar), NULL, this);
-    m_key8->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VKeyboardPanelBase::onChar), NULL, this);
-    m_key9->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VKeyboardPanelBase::onChar), NULL, this);
-    m_key0->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VKeyboardPanelBase::onChar), NULL, this);
-    m_keyA->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VKeyboardPanelBase::onChar), NULL, this);
-    m_keyB->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VKeyboardPanelBase::onChar), NULL, this);
-    m_keyC->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VKeyboardPanelBase::onChar), NULL, this);
-    m_keyD->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VKeyboardPanelBase::onChar), NULL, this);
-    m_keyE->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VKeyboardPanelBase::onChar), NULL, this);
-    m_keyF->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VKeyboardPanelBase::onChar), NULL, this);
-    m_keyG->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VKeyboardPanelBase::onChar), NULL, this);
-    m_keyH->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VKeyboardPanelBase::onChar), NULL, this);
-    m_keyI->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VKeyboardPanelBase::onChar), NULL, this);
-    m_keyJ->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VKeyboardPanelBase::onChar), NULL, this);
-    m_keyK->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VKeyboardPanelBase::onChar), NULL, this);
-    m_keyL->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VKeyboardPanelBase::onChar), NULL, this);
-    m_keyM->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VKeyboardPanelBase::onChar), NULL, this);
-    m_keyN->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VKeyboardPanelBase::onChar), NULL, this);
-    m_keyO->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VKeyboardPanelBase::onChar), NULL, this);
-    m_keyP->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VKeyboardPanelBase::onChar), NULL, this);
-    m_keyQ->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VKeyboardPanelBase::onChar), NULL, this);
-    m_keyR->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VKeyboardPanelBase::onChar), NULL, this);
-    m_keyS->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VKeyboardPanelBase::onChar), NULL, this);
-    m_keyT->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VKeyboardPanelBase::onChar), NULL, this);
-    m_keyU->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VKeyboardPanelBase::onChar), NULL, this);
-    m_keyV->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VKeyboardPanelBase::onChar), NULL, this);
-    m_keyW->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VKeyboardPanelBase::onChar), NULL, this);
-    m_keyX->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VKeyboardPanelBase::onChar), NULL, this);
-    m_keyY->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VKeyboardPanelBase::onChar), NULL, this);
-    m_keyZ->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VKeyboardPanelBase::onChar), NULL, this);
-    m_keyDot->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VKeyboardPanelBase::onChar), NULL, this);
-    m_keyMinus->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VKeyboardPanelBase::onChar), NULL, this);
-    m_keyUS->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VKeyboardPanelBase::onChar), NULL, this);
-    m_keySlash->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VKeyboardPanelBase::onChar), NULL, this);
-    m_space->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VKeyboardPanelBase::onChar), NULL, this);
+    m_button81->Unbind(wxEVT_COMMAND_BUTTON_CLICKED, &VKeyboardPanelBase::onDelete, this);
+    n_key1->Unbind(wxEVT_COMMAND_BUTTON_CLICKED, &VKeyboardPanelBase::onChar, this);
+    m_key2->Unbind(wxEVT_COMMAND_BUTTON_CLICKED, &VKeyboardPanelBase::onChar, this);
+    m_key3->Unbind(wxEVT_COMMAND_BUTTON_CLICKED, &VKeyboardPanelBase::onChar, this);
+    m_key4->Unbind(wxEVT_COMMAND_BUTTON_CLICKED, &VKeyboardPanelBase::onChar, this);
+    m_key5->Unbind(wxEVT_COMMAND_BUTTON_CLICKED, &VKeyboardPanelBase::onChar, this);
+    m_key6->Unbind(wxEVT_COMMAND_BUTTON_CLICKED, &VKeyboardPanelBase::onChar, this);
+    m_key7->Unbind(wxEVT_COMMAND_BUTTON_CLICKED, &VKeyboardPanelBase::onChar, this);
+    m_key8->Unbind(wxEVT_COMMAND_BUTTON_CLICKED, &VKeyboardPanelBase::onChar, this);
+    m_key9->Unbind(wxEVT_COMMAND_BUTTON_CLICKED, &VKeyboardPanelBase::onChar, this);
+    m_key0->Unbind(wxEVT_COMMAND_BUTTON_CLICKED, &VKeyboardPanelBase::onChar, this);
+    m_keyA->Unbind(wxEVT_COMMAND_BUTTON_CLICKED, &VKeyboardPanelBase::onChar, this);
+    m_keyB->Unbind(wxEVT_COMMAND_BUTTON_CLICKED, &VKeyboardPanelBase::onChar, this);
+    m_keyC->Unbind(wxEVT_COMMAND_BUTTON_CLICKED, &VKeyboardPanelBase::onChar, this);
+    m_keyD->Unbind(wxEVT_COMMAND_BUTTON_CLICKED, &VKeyboardPanelBase::onChar, this);
+    m_keyE->Unbind(wxEVT_COMMAND_BUTTON_CLICKED, &VKeyboardPanelBase::onChar, this);
+    m_keyF->Unbind(wxEVT_COMMAND_BUTTON_CLICKED, &VKeyboardPanelBase::onChar, this);
+    m_keyG->Unbind(wxEVT_COMMAND_BUTTON_CLICKED, &VKeyboardPanelBase::onChar, this);
+    m_keyH->Unbind(wxEVT_COMMAND_BUTTON_CLICKED, &VKeyboardPanelBase::onChar, this);
+    m_keyI->Unbind(wxEVT_COMMAND_BUTTON_CLICKED, &VKeyboardPanelBase::onChar, this);
+    m_keyJ->Unbind(wxEVT_COMMAND_BUTTON_CLICKED, &VKeyboardPanelBase::onChar, this);
+    m_keyK->Unbind(wxEVT_COMMAND_BUTTON_CLICKED, &VKeyboardPanelBase::onChar, this);
+    m_keyL->Unbind(wxEVT_COMMAND_BUTTON_CLICKED, &VKeyboardPanelBase::onChar, this);
+    m_keyM->Unbind(wxEVT_COMMAND_BUTTON_CLICKED, &VKeyboardPanelBase::onChar, this);
+    m_keyN->Unbind(wxEVT_COMMAND_BUTTON_CLICKED, &VKeyboardPanelBase::onChar, this);
+    m_keyO->Unbind(wxEVT_COMMAND_BUTTON_CLICKED, &VKeyboardPanelBase::onChar, this);
+    m_keyP->Unbind(wxEVT_COMMAND_BUTTON_CLICKED, &VKeyboardPanelBase::onChar, this);
+    m_keyQ->Unbind(wxEVT_COMMAND_BUTTON_CLICKED, &VKeyboardPanelBase::onChar, this);
+    m_keyR->Unbind(wxEVT_COMMAND_BUTTON_CLICKED, &VKeyboardPanelBase::onChar, this);
+    m_keyS->Unbind(wxEVT_COMMAND_BUTTON_CLICKED, &VKeyboardPanelBase::onChar, this);
+    m_keyT->Unbind(wxEVT_COMMAND_BUTTON_CLICKED, &VKeyboardPanelBase::onChar, this);
+    m_keyU->Unbind(wxEVT_COMMAND_BUTTON_CLICKED, &VKeyboardPanelBase::onChar, this);
+    m_keyV->Unbind(wxEVT_COMMAND_BUTTON_CLICKED, &VKeyboardPanelBase::onChar, this);
+    m_keyW->Unbind(wxEVT_COMMAND_BUTTON_CLICKED, &VKeyboardPanelBase::onChar, this);
+    m_keyX->Unbind(wxEVT_COMMAND_BUTTON_CLICKED, &VKeyboardPanelBase::onChar, this);
+    m_keyY->Unbind(wxEVT_COMMAND_BUTTON_CLICKED, &VKeyboardPanelBase::onChar, this);
+    m_keyZ->Unbind(wxEVT_COMMAND_BUTTON_CLICKED, &VKeyboardPanelBase::onChar, this);
+    m_keyDot->Unbind(wxEVT_COMMAND_BUTTON_CLICKED, &VKeyboardPanelBase::onChar, this);
+    m_keyMinus->Unbind(wxEVT_COMMAND_BUTTON_CLICKED, &VKeyboardPanelBase::onChar, this);
+    m_keyUS->Unbind(wxEVT_COMMAND_BUTTON_CLICKED, &VKeyboardPanelBase::onChar, this);
+    m_keySlash->Unbind(wxEVT_COMMAND_BUTTON_CLICKED, &VKeyboardPanelBase::onChar, this);
+    m_space->Unbind(wxEVT_COMMAND_BUTTON_CLICKED, &VKeyboardPanelBase::onChar, this);
     
 }
 
@@ -587,10 +598,10 @@ TextSpinBase::TextSpinBase(wxWindow* parent, wxWindowID id, const wxPoint& pos, 
         bBitmapLoaded = true;
     }
     
-    boxSizer499 = new wxBoxSizer(wxHORIZONTAL);
+    wxBoxSizer* boxSizer499 = new wxBoxSizer(wxHORIZONTAL);
     this->SetSizer(boxSizer499);
     
-    m_text = new wxTextCtrl(this, wxID_ANY, wxT(""), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), 0);
+    m_text = new wxTextCtrl(this, wxID_ANY, wxT(""), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), wxTE_READONLY);
     #if wxVERSION_NUMBER >= 3000
     m_text->SetHint(wxT(""));
     #endif
@@ -619,15 +630,15 @@ TextSpinBase::TextSpinBase(wxWindow* parent, wxWindowID id, const wxPoint& pos, 
          GetSizer()->Fit(this);
     }
     // Connect events
-    m_up->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(TextSpinBase::onUp), NULL, this);
-    m_down->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(TextSpinBase::onDown), NULL, this);
+    m_up->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &TextSpinBase::onUp, this);
+    m_down->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &TextSpinBase::onDown, this);
     
 }
 
 TextSpinBase::~TextSpinBase()
 {
-    m_up->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(TextSpinBase::onUp), NULL, this);
-    m_down->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(TextSpinBase::onDown), NULL, this);
+    m_up->Unbind(wxEVT_COMMAND_BUTTON_CLICKED, &TextSpinBase::onUp, this);
+    m_down->Unbind(wxEVT_COMMAND_BUTTON_CLICKED, &TextSpinBase::onDown, this);
     
 }
 
@@ -641,7 +652,7 @@ ToggleOptionBase::ToggleOptionBase(wxWindow* parent, wxWindowID id, const wxPoin
         bBitmapLoaded = true;
     }
     
-    flexGridSizer257 = new wxFlexGridSizer(0, 2, 0, 0);
+    wxFlexGridSizer* flexGridSizer257 = new wxFlexGridSizer(0, 2, 0, 0);
     flexGridSizer257->SetFlexibleDirection( wxBOTH );
     flexGridSizer257->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
     flexGridSizer257->AddGrowableCol(1);
@@ -681,10 +692,10 @@ VirtualKeypadTimeBase::VirtualKeypadTimeBase(wxWindow* parent, wxWindowID id, co
     }
     this->Hide();
     
-    boxSizer31 = new wxBoxSizer(wxVERTICAL);
+    wxBoxSizer* boxSizer31 = new wxBoxSizer(wxVERTICAL);
     this->SetSizer(boxSizer31);
     
-    flexGridSizer72 = new wxFlexGridSizer(0, 5, 0, 0);
+    wxFlexGridSizer* flexGridSizer72 = new wxFlexGridSizer(0, 5, 0, 0);
     flexGridSizer72->SetFlexibleDirection( wxBOTH );
     flexGridSizer72->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
     flexGridSizer72->AddGrowableCol(0);
@@ -733,7 +744,7 @@ VirtualKeypadTimeBase::VirtualKeypadTimeBase(wxWindow* parent, wxWindowID id, co
     
     flexGridSizer72->Add(m_second, 0, wxALL|wxEXPAND, WXC_FROM_DIP(5));
     
-    flexGridSizer482 = new wxFlexGridSizer(0, 8, 0, 0);
+    wxFlexGridSizer* flexGridSizer482 = new wxFlexGridSizer(0, 8, 0, 0);
     flexGridSizer482->SetFlexibleDirection( wxBOTH );
     flexGridSizer482->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
     flexGridSizer482->AddGrowableCol(0);
@@ -802,7 +813,7 @@ VirtualKeypadTimeBase::VirtualKeypadTimeBase(wxWindow* parent, wxWindowID id, co
     
     flexGridSizer482->Add(m_buttonSecDown, 0, wxALL|wxEXPAND, WXC_FROM_DIP(5));
     
-    gridSizer918 = new wxGridSizer(0, 3, 0, 0);
+    wxGridSizer* gridSizer918 = new wxGridSizer(0, 3, 0, 0);
     
     boxSizer31->Add(gridSizer918, 1, wxALL|wxEXPAND, WXC_FROM_DIP(5));
     
@@ -831,23 +842,23 @@ VirtualKeypadTimeBase::VirtualKeypadTimeBase(wxWindow* parent, wxWindowID id, co
         CentreOnScreen(wxHORIZONTAL);
     }
     // Connect events
-    m_buttonHoursUp->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VirtualKeypadTimeBase::onHourUp), NULL, this);
-    m_buttonHoursDown->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VirtualKeypadTimeBase::onHourDown), NULL, this);
-    m_buttonMinUp->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VirtualKeypadTimeBase::onMinUp), NULL, this);
-    m_buttonMinDown->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VirtualKeypadTimeBase::onMinDown), NULL, this);
-    m_buttonSecUp->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VirtualKeypadTimeBase::onSecUp), NULL, this);
-    m_buttonSecDown->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VirtualKeypadTimeBase::onSecDown), NULL, this);
+    m_buttonHoursUp->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &VirtualKeypadTimeBase::onHourUp, this);
+    m_buttonHoursDown->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &VirtualKeypadTimeBase::onHourDown, this);
+    m_buttonMinUp->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &VirtualKeypadTimeBase::onMinUp, this);
+    m_buttonMinDown->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &VirtualKeypadTimeBase::onMinDown, this);
+    m_buttonSecUp->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &VirtualKeypadTimeBase::onSecUp, this);
+    m_buttonSecDown->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &VirtualKeypadTimeBase::onSecDown, this);
     
 }
 
 VirtualKeypadTimeBase::~VirtualKeypadTimeBase()
 {
-    m_buttonHoursUp->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VirtualKeypadTimeBase::onHourUp), NULL, this);
-    m_buttonHoursDown->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VirtualKeypadTimeBase::onHourDown), NULL, this);
-    m_buttonMinUp->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VirtualKeypadTimeBase::onMinUp), NULL, this);
-    m_buttonMinDown->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VirtualKeypadTimeBase::onMinDown), NULL, this);
-    m_buttonSecUp->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VirtualKeypadTimeBase::onSecUp), NULL, this);
-    m_buttonSecDown->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VirtualKeypadTimeBase::onSecDown), NULL, this);
+    m_buttonHoursUp->Unbind(wxEVT_COMMAND_BUTTON_CLICKED, &VirtualKeypadTimeBase::onHourUp, this);
+    m_buttonHoursDown->Unbind(wxEVT_COMMAND_BUTTON_CLICKED, &VirtualKeypadTimeBase::onHourDown, this);
+    m_buttonMinUp->Unbind(wxEVT_COMMAND_BUTTON_CLICKED, &VirtualKeypadTimeBase::onMinUp, this);
+    m_buttonMinDown->Unbind(wxEVT_COMMAND_BUTTON_CLICKED, &VirtualKeypadTimeBase::onMinDown, this);
+    m_buttonSecUp->Unbind(wxEVT_COMMAND_BUTTON_CLICKED, &VirtualKeypadTimeBase::onSecUp, this);
+    m_buttonSecDown->Unbind(wxEVT_COMMAND_BUTTON_CLICKED, &VirtualKeypadTimeBase::onSecDown, this);
     
 }
 
@@ -862,10 +873,10 @@ VirtualKeypadDateBase::VirtualKeypadDateBase(wxWindow* parent, wxWindowID id, co
     }
     this->Hide();
     
-    boxSizer3122 = new wxBoxSizer(wxVERTICAL);
+    wxBoxSizer* boxSizer3122 = new wxBoxSizer(wxVERTICAL);
     this->SetSizer(boxSizer3122);
     
-    flexGridSizer7223 = new wxFlexGridSizer(0, 5, 0, 0);
+    wxFlexGridSizer* flexGridSizer7223 = new wxFlexGridSizer(0, 5, 0, 0);
     flexGridSizer7223->SetFlexibleDirection( wxBOTH );
     flexGridSizer7223->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
     flexGridSizer7223->AddGrowableCol(0);
@@ -933,7 +944,7 @@ VirtualKeypadDateBase::VirtualKeypadDateBase(wxWindow* parent, wxWindowID id, co
     
     flexGridSizer7223->Add(m_staticText338, 0, wxALL|wxEXPAND|wxALIGN_CENTER_HORIZONTAL, WXC_FROM_DIP(5));
     
-    flexGridSizer464 = new wxFlexGridSizer(0, 8, 0, 0);
+    wxFlexGridSizer* flexGridSizer464 = new wxFlexGridSizer(0, 8, 0, 0);
     flexGridSizer464->SetFlexibleDirection( wxBOTH );
     flexGridSizer464->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
     flexGridSizer464->AddGrowableCol(0);
@@ -1002,7 +1013,7 @@ VirtualKeypadDateBase::VirtualKeypadDateBase(wxWindow* parent, wxWindowID id, co
     
     flexGridSizer464->Add(m_buttonDayDown, 0, wxALL|wxEXPAND, WXC_FROM_DIP(5));
     
-    gridSizer91838 = new wxGridSizer(0, 3, 0, 0);
+    wxGridSizer* gridSizer91838 = new wxGridSizer(0, 3, 0, 0);
     
     boxSizer3122->Add(gridSizer91838, 1, wxEXPAND, WXC_FROM_DIP(5));
     
@@ -1031,23 +1042,23 @@ VirtualKeypadDateBase::VirtualKeypadDateBase(wxWindow* parent, wxWindowID id, co
         CentreOnScreen(wxHORIZONTAL);
     }
     // Connect events
-    m_buttonYearUp->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VirtualKeypadDateBase::onYearUp), NULL, this);
-    m_buttonYearDown->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VirtualKeypadDateBase::onYearDown), NULL, this);
-    m_buttonMonthUp->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VirtualKeypadDateBase::onMonthUp), NULL, this);
-    m_buttonMonthDown->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VirtualKeypadDateBase::onMonthDown), NULL, this);
-    m_buttonDayUp->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VirtualKeypadDateBase::onDayUp), NULL, this);
-    m_buttonDayDown->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VirtualKeypadDateBase::onDayDown), NULL, this);
+    m_buttonYearUp->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &VirtualKeypadDateBase::onYearUp, this);
+    m_buttonYearDown->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &VirtualKeypadDateBase::onYearDown, this);
+    m_buttonMonthUp->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &VirtualKeypadDateBase::onMonthUp, this);
+    m_buttonMonthDown->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &VirtualKeypadDateBase::onMonthDown, this);
+    m_buttonDayUp->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &VirtualKeypadDateBase::onDayUp, this);
+    m_buttonDayDown->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &VirtualKeypadDateBase::onDayDown, this);
     
 }
 
 VirtualKeypadDateBase::~VirtualKeypadDateBase()
 {
-    m_buttonYearUp->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VirtualKeypadDateBase::onYearUp), NULL, this);
-    m_buttonYearDown->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VirtualKeypadDateBase::onYearDown), NULL, this);
-    m_buttonMonthUp->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VirtualKeypadDateBase::onMonthUp), NULL, this);
-    m_buttonMonthDown->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VirtualKeypadDateBase::onMonthDown), NULL, this);
-    m_buttonDayUp->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VirtualKeypadDateBase::onDayUp), NULL, this);
-    m_buttonDayDown->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VirtualKeypadDateBase::onDayDown), NULL, this);
+    m_buttonYearUp->Unbind(wxEVT_COMMAND_BUTTON_CLICKED, &VirtualKeypadDateBase::onYearUp, this);
+    m_buttonYearDown->Unbind(wxEVT_COMMAND_BUTTON_CLICKED, &VirtualKeypadDateBase::onYearDown, this);
+    m_buttonMonthUp->Unbind(wxEVT_COMMAND_BUTTON_CLICKED, &VirtualKeypadDateBase::onMonthUp, this);
+    m_buttonMonthDown->Unbind(wxEVT_COMMAND_BUTTON_CLICKED, &VirtualKeypadDateBase::onMonthDown, this);
+    m_buttonDayUp->Unbind(wxEVT_COMMAND_BUTTON_CLICKED, &VirtualKeypadDateBase::onDayUp, this);
+    m_buttonDayDown->Unbind(wxEVT_COMMAND_BUTTON_CLICKED, &VirtualKeypadDateBase::onDayDown, this);
     
 }
 
@@ -1061,10 +1072,10 @@ VTextEntryDialogBase::VTextEntryDialogBase(wxWindow* parent, wxWindowID id, cons
         bBitmapLoaded = true;
     }
     
-    boxSizer711 = new wxBoxSizer(wxVERTICAL);
+    wxBoxSizer* boxSizer711 = new wxBoxSizer(wxVERTICAL);
     this->SetSizer(boxSizer711);
     
-    boxSizer752 = new wxBoxSizer(wxHORIZONTAL);
+    wxBoxSizer* boxSizer752 = new wxBoxSizer(wxHORIZONTAL);
     
     boxSizer711->Add(boxSizer752, 1, wxALL|wxEXPAND, WXC_FROM_DIP(5));
     
@@ -1079,7 +1090,7 @@ VTextEntryDialogBase::VTextEntryDialogBase(wxWindow* parent, wxWindowID id, cons
     
     boxSizer752->Add(m_button814, 0, wxALL|wxEXPAND, WXC_FROM_DIP(5));
     
-    gridSizer775 = new wxGridSizer(0, 10, 0, 0);
+    wxGridSizer* gridSizer775 = new wxGridSizer(0, 10, 0, 0);
     
     boxSizer711->Add(gridSizer775, 3, wxALL|wxEXPAND, WXC_FROM_DIP(5));
     
@@ -1243,7 +1254,7 @@ VTextEntryDialogBase::VTextEntryDialogBase(wxWindow* parent, wxWindowID id, cons
     
     gridSizer775->Add(m_keySlash45, 0, wxALL|wxEXPAND, WXC_FROM_DIP(5));
     
-    gridSizer22746 = new wxGridSizer(0, 3, 0, 0);
+    wxGridSizer* gridSizer22746 = new wxGridSizer(0, 3, 0, 0);
     
     boxSizer711->Add(gridSizer22746, 1, wxALL|wxEXPAND, WXC_FROM_DIP(5));
     
@@ -1280,109 +1291,107 @@ VTextEntryDialogBase::VTextEntryDialogBase(wxWindow* parent, wxWindowID id, cons
     } else {
         CentreOnScreen(wxBOTH);
     }
-#if wxVERSION_NUMBER >= 2900
     if(!wxPersistenceManager::Get().Find(this)) {
         wxPersistenceManager::Get().RegisterAndRestore(this);
     } else {
         wxPersistenceManager::Get().Restore(this);
     }
-#endif
     // Connect events
-    m_button814->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onDelete), NULL, this);
-    n_key16->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
-    m_key27->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
-    m_key38->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
-    m_key49->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
-    m_key510->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
-    m_key611->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
-    m_key712->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
-    m_key813->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
-    m_key914->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
-    m_key015->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
-    m_keyA16->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
-    m_keyB17->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
-    m_keyC18->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
-    m_keyD19->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
-    m_keyE20->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
-    m_keyF21->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
-    m_keyG22->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
-    m_keyH23->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
-    m_keyI24->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
-    m_keyJ25->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
-    m_keyK26->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
-    m_keyL27->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
-    m_keyM28->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
-    m_keyN29->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
-    m_keyO30->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
-    m_keyP31->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
-    m_keyQ32->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
-    m_keyR33->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
-    m_keyS34->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
-    m_keyT35->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
-    m_keyU36->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
-    m_keyV37->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
-    m_keyW38->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
-    m_keyX39->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
-    m_keyY40->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
-    m_keyZ41->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
-    m_keyDot42->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
-    m_keyMinus43->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
-    m_keyUS44->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
-    m_keySlash45->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
-    m_capsLock->Connect(wxEVT_COMMAND_TOGGLEBUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onCapsLock), NULL, this);
-    m_space47->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
-    m_button460->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onCancel), NULL, this);
-    m_button462->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onOK), NULL, this);
+    m_button814->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &VTextEntryDialogBase::onDelete, this);
+    n_key16->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &VTextEntryDialogBase::onChar, this);
+    m_key27->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &VTextEntryDialogBase::onChar, this);
+    m_key38->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &VTextEntryDialogBase::onChar, this);
+    m_key49->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &VTextEntryDialogBase::onChar, this);
+    m_key510->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &VTextEntryDialogBase::onChar, this);
+    m_key611->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &VTextEntryDialogBase::onChar, this);
+    m_key712->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &VTextEntryDialogBase::onChar, this);
+    m_key813->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &VTextEntryDialogBase::onChar, this);
+    m_key914->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &VTextEntryDialogBase::onChar, this);
+    m_key015->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &VTextEntryDialogBase::onChar, this);
+    m_keyA16->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &VTextEntryDialogBase::onChar, this);
+    m_keyB17->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &VTextEntryDialogBase::onChar, this);
+    m_keyC18->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &VTextEntryDialogBase::onChar, this);
+    m_keyD19->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &VTextEntryDialogBase::onChar, this);
+    m_keyE20->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &VTextEntryDialogBase::onChar, this);
+    m_keyF21->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &VTextEntryDialogBase::onChar, this);
+    m_keyG22->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &VTextEntryDialogBase::onChar, this);
+    m_keyH23->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &VTextEntryDialogBase::onChar, this);
+    m_keyI24->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &VTextEntryDialogBase::onChar, this);
+    m_keyJ25->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &VTextEntryDialogBase::onChar, this);
+    m_keyK26->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &VTextEntryDialogBase::onChar, this);
+    m_keyL27->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &VTextEntryDialogBase::onChar, this);
+    m_keyM28->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &VTextEntryDialogBase::onChar, this);
+    m_keyN29->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &VTextEntryDialogBase::onChar, this);
+    m_keyO30->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &VTextEntryDialogBase::onChar, this);
+    m_keyP31->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &VTextEntryDialogBase::onChar, this);
+    m_keyQ32->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &VTextEntryDialogBase::onChar, this);
+    m_keyR33->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &VTextEntryDialogBase::onChar, this);
+    m_keyS34->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &VTextEntryDialogBase::onChar, this);
+    m_keyT35->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &VTextEntryDialogBase::onChar, this);
+    m_keyU36->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &VTextEntryDialogBase::onChar, this);
+    m_keyV37->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &VTextEntryDialogBase::onChar, this);
+    m_keyW38->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &VTextEntryDialogBase::onChar, this);
+    m_keyX39->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &VTextEntryDialogBase::onChar, this);
+    m_keyY40->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &VTextEntryDialogBase::onChar, this);
+    m_keyZ41->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &VTextEntryDialogBase::onChar, this);
+    m_keyDot42->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &VTextEntryDialogBase::onChar, this);
+    m_keyMinus43->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &VTextEntryDialogBase::onChar, this);
+    m_keyUS44->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &VTextEntryDialogBase::onChar, this);
+    m_keySlash45->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &VTextEntryDialogBase::onChar, this);
+    m_capsLock->Bind(wxEVT_COMMAND_TOGGLEBUTTON_CLICKED, &VTextEntryDialogBase::onCapsLock, this);
+    m_space47->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &VTextEntryDialogBase::onChar, this);
+    m_button460->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &VTextEntryDialogBase::onCancel, this);
+    m_button462->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &VTextEntryDialogBase::onOK, this);
     
 }
 
 VTextEntryDialogBase::~VTextEntryDialogBase()
 {
-    m_button814->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onDelete), NULL, this);
-    n_key16->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
-    m_key27->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
-    m_key38->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
-    m_key49->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
-    m_key510->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
-    m_key611->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
-    m_key712->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
-    m_key813->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
-    m_key914->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
-    m_key015->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
-    m_keyA16->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
-    m_keyB17->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
-    m_keyC18->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
-    m_keyD19->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
-    m_keyE20->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
-    m_keyF21->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
-    m_keyG22->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
-    m_keyH23->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
-    m_keyI24->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
-    m_keyJ25->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
-    m_keyK26->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
-    m_keyL27->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
-    m_keyM28->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
-    m_keyN29->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
-    m_keyO30->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
-    m_keyP31->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
-    m_keyQ32->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
-    m_keyR33->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
-    m_keyS34->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
-    m_keyT35->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
-    m_keyU36->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
-    m_keyV37->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
-    m_keyW38->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
-    m_keyX39->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
-    m_keyY40->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
-    m_keyZ41->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
-    m_keyDot42->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
-    m_keyMinus43->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
-    m_keyUS44->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
-    m_keySlash45->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
-    m_capsLock->Disconnect(wxEVT_COMMAND_TOGGLEBUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onCapsLock), NULL, this);
-    m_space47->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onChar), NULL, this);
-    m_button460->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onCancel), NULL, this);
-    m_button462->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(VTextEntryDialogBase::onOK), NULL, this);
+    m_button814->Unbind(wxEVT_COMMAND_BUTTON_CLICKED, &VTextEntryDialogBase::onDelete, this);
+    n_key16->Unbind(wxEVT_COMMAND_BUTTON_CLICKED, &VTextEntryDialogBase::onChar, this);
+    m_key27->Unbind(wxEVT_COMMAND_BUTTON_CLICKED, &VTextEntryDialogBase::onChar, this);
+    m_key38->Unbind(wxEVT_COMMAND_BUTTON_CLICKED, &VTextEntryDialogBase::onChar, this);
+    m_key49->Unbind(wxEVT_COMMAND_BUTTON_CLICKED, &VTextEntryDialogBase::onChar, this);
+    m_key510->Unbind(wxEVT_COMMAND_BUTTON_CLICKED, &VTextEntryDialogBase::onChar, this);
+    m_key611->Unbind(wxEVT_COMMAND_BUTTON_CLICKED, &VTextEntryDialogBase::onChar, this);
+    m_key712->Unbind(wxEVT_COMMAND_BUTTON_CLICKED, &VTextEntryDialogBase::onChar, this);
+    m_key813->Unbind(wxEVT_COMMAND_BUTTON_CLICKED, &VTextEntryDialogBase::onChar, this);
+    m_key914->Unbind(wxEVT_COMMAND_BUTTON_CLICKED, &VTextEntryDialogBase::onChar, this);
+    m_key015->Unbind(wxEVT_COMMAND_BUTTON_CLICKED, &VTextEntryDialogBase::onChar, this);
+    m_keyA16->Unbind(wxEVT_COMMAND_BUTTON_CLICKED, &VTextEntryDialogBase::onChar, this);
+    m_keyB17->Unbind(wxEVT_COMMAND_BUTTON_CLICKED, &VTextEntryDialogBase::onChar, this);
+    m_keyC18->Unbind(wxEVT_COMMAND_BUTTON_CLICKED, &VTextEntryDialogBase::onChar, this);
+    m_keyD19->Unbind(wxEVT_COMMAND_BUTTON_CLICKED, &VTextEntryDialogBase::onChar, this);
+    m_keyE20->Unbind(wxEVT_COMMAND_BUTTON_CLICKED, &VTextEntryDialogBase::onChar, this);
+    m_keyF21->Unbind(wxEVT_COMMAND_BUTTON_CLICKED, &VTextEntryDialogBase::onChar, this);
+    m_keyG22->Unbind(wxEVT_COMMAND_BUTTON_CLICKED, &VTextEntryDialogBase::onChar, this);
+    m_keyH23->Unbind(wxEVT_COMMAND_BUTTON_CLICKED, &VTextEntryDialogBase::onChar, this);
+    m_keyI24->Unbind(wxEVT_COMMAND_BUTTON_CLICKED, &VTextEntryDialogBase::onChar, this);
+    m_keyJ25->Unbind(wxEVT_COMMAND_BUTTON_CLICKED, &VTextEntryDialogBase::onChar, this);
+    m_keyK26->Unbind(wxEVT_COMMAND_BUTTON_CLICKED, &VTextEntryDialogBase::onChar, this);
+    m_keyL27->Unbind(wxEVT_COMMAND_BUTTON_CLICKED, &VTextEntryDialogBase::onChar, this);
+    m_keyM28->Unbind(wxEVT_COMMAND_BUTTON_CLICKED, &VTextEntryDialogBase::onChar, this);
+    m_keyN29->Unbind(wxEVT_COMMAND_BUTTON_CLICKED, &VTextEntryDialogBase::onChar, this);
+    m_keyO30->Unbind(wxEVT_COMMAND_BUTTON_CLICKED, &VTextEntryDialogBase::onChar, this);
+    m_keyP31->Unbind(wxEVT_COMMAND_BUTTON_CLICKED, &VTextEntryDialogBase::onChar, this);
+    m_keyQ32->Unbind(wxEVT_COMMAND_BUTTON_CLICKED, &VTextEntryDialogBase::onChar, this);
+    m_keyR33->Unbind(wxEVT_COMMAND_BUTTON_CLICKED, &VTextEntryDialogBase::onChar, this);
+    m_keyS34->Unbind(wxEVT_COMMAND_BUTTON_CLICKED, &VTextEntryDialogBase::onChar, this);
+    m_keyT35->Unbind(wxEVT_COMMAND_BUTTON_CLICKED, &VTextEntryDialogBase::onChar, this);
+    m_keyU36->Unbind(wxEVT_COMMAND_BUTTON_CLICKED, &VTextEntryDialogBase::onChar, this);
+    m_keyV37->Unbind(wxEVT_COMMAND_BUTTON_CLICKED, &VTextEntryDialogBase::onChar, this);
+    m_keyW38->Unbind(wxEVT_COMMAND_BUTTON_CLICKED, &VTextEntryDialogBase::onChar, this);
+    m_keyX39->Unbind(wxEVT_COMMAND_BUTTON_CLICKED, &VTextEntryDialogBase::onChar, this);
+    m_keyY40->Unbind(wxEVT_COMMAND_BUTTON_CLICKED, &VTextEntryDialogBase::onChar, this);
+    m_keyZ41->Unbind(wxEVT_COMMAND_BUTTON_CLICKED, &VTextEntryDialogBase::onChar, this);
+    m_keyDot42->Unbind(wxEVT_COMMAND_BUTTON_CLICKED, &VTextEntryDialogBase::onChar, this);
+    m_keyMinus43->Unbind(wxEVT_COMMAND_BUTTON_CLICKED, &VTextEntryDialogBase::onChar, this);
+    m_keyUS44->Unbind(wxEVT_COMMAND_BUTTON_CLICKED, &VTextEntryDialogBase::onChar, this);
+    m_keySlash45->Unbind(wxEVT_COMMAND_BUTTON_CLICKED, &VTextEntryDialogBase::onChar, this);
+    m_capsLock->Unbind(wxEVT_COMMAND_TOGGLEBUTTON_CLICKED, &VTextEntryDialogBase::onCapsLock, this);
+    m_space47->Unbind(wxEVT_COMMAND_BUTTON_CLICKED, &VTextEntryDialogBase::onChar, this);
+    m_button460->Unbind(wxEVT_COMMAND_BUTTON_CLICKED, &VTextEntryDialogBase::onCancel, this);
+    m_button462->Unbind(wxEVT_COMMAND_BUTTON_CLICKED, &VTextEntryDialogBase::onOK, this);
     
 }
 
@@ -1396,7 +1405,7 @@ SliderEntryBase::SliderEntryBase(wxWindow* parent, wxWindowID id, const wxPoint&
         bBitmapLoaded = true;
     }
     
-    boxSizer503 = new wxBoxSizer(wxVERTICAL);
+    wxBoxSizer* boxSizer503 = new wxBoxSizer(wxVERTICAL);
     this->SetSizer(boxSizer503);
     
     m_text = new wxTextCtrl(this, wxID_ANY, wxT("0.0"), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), wxTE_READONLY);
@@ -1419,13 +1428,13 @@ SliderEntryBase::SliderEntryBase(wxWindow* parent, wxWindowID id, const wxPoint&
          GetSizer()->Fit(this);
     }
     // Connect events
-    m_slider->Connect(wxEVT_SCROLL_CHANGED, wxScrollEventHandler(SliderEntryBase::onChanged), NULL, this);
+    m_slider->Bind(wxEVT_SCROLL_CHANGED, &SliderEntryBase::onChanged, this);
     
 }
 
 SliderEntryBase::~SliderEntryBase()
 {
-    m_slider->Disconnect(wxEVT_SCROLL_CHANGED, wxScrollEventHandler(SliderEntryBase::onChanged), NULL, this);
+    m_slider->Unbind(wxEVT_SCROLL_CHANGED, &SliderEntryBase::onChanged, this);
     
 }
 
@@ -1439,7 +1448,7 @@ TextChoiceBase::TextChoiceBase(wxWindow* parent, wxWindowID id, const wxString& 
         bBitmapLoaded = true;
     }
     
-    boxSizer511 = new wxBoxSizer(wxVERTICAL);
+    wxBoxSizer* boxSizer511 = new wxBoxSizer(wxVERTICAL);
     this->SetSizer(boxSizer511);
     
     wxArrayString m_listBoxArr;
@@ -1468,20 +1477,18 @@ TextChoiceBase::TextChoiceBase(wxWindow* parent, wxWindowID id, const wxString& 
     } else {
         CentreOnScreen(wxBOTH);
     }
-#if wxVERSION_NUMBER >= 2900
     if(!wxPersistenceManager::Get().Find(this)) {
         wxPersistenceManager::Get().RegisterAndRestore(this);
     } else {
         wxPersistenceManager::Get().Restore(this);
     }
-#endif
     // Connect events
-    m_button519->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(TextChoiceBase::onOK), NULL, this);
+    m_button519->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &TextChoiceBase::onOK, this);
     
 }
 
 TextChoiceBase::~TextChoiceBase()
 {
-    m_button519->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(TextChoiceBase::onOK), NULL, this);
+    m_button519->Unbind(wxEVT_COMMAND_BUTTON_CLICKED, &TextChoiceBase::onOK, this);
     
 }
